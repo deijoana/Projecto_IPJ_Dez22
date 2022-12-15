@@ -2,19 +2,40 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Calendar;
 
-public class GUI extends JFrame {
-    GUI() {
+public class GUI {
+    JFrame janela;
 
-        //Criar janela, torná-la visível e determinar que programa pára de executar ao fechar a janela
-        setTitle("Empresa AoR Autocarros");
-        setLayout(new CardLayout ());
+   // JPanel cardsPanel;
 
-        setSize(450, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        PainelLogin p = new PainelLogin();
+    CardLayout layout;
+    public GUI() {
 
-        getContentPane().add(p);
-        setVisible(true);
+        // Criar e definir a janela
+
+        JFrame janela = new JFrame("Empresa AoR Autocarros");
+
+        // Define e fixa o tamanho da janela
+        janela.setSize(450, 700);
+        janela.setResizable(false);
+        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        layout = new CardLayout();
+
+        Login pL = new Login();
+        janela.add(pL);
+
+        /*
+        cardsPanel = new JPanel(layout);
+        cal.add(new Login(),"Login");
+*/
+
+      /*  janela.getContentPane().add(cardsPanel);*/
+        janela.setVisible(true);
     }
+
+
+
 }
+
