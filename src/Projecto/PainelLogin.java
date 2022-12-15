@@ -6,31 +6,35 @@ import java.awt.*;
 public class PainelLogin extends JPanel {
 
     JLabel welcome, pagInicial, iniciarSessao, email, palavraPasse;
+    protected JPanel p;
 
     PainelLogin(){
         setLayout(new BorderLayout());
-        setBackground(Color.white);
+        setBackground(Color.lightGray);
 
-        welcome = new JLabel("Bem-vindo a AoR-Autocarros");
-        welcome.setFont(new Font("Arial", 1, 20));
-        this.add(welcome, "Center");
+        p = new JPanel();
+        p.setLayout(new BorderLayout());
 
-        pagInicial = new JLabel("Página Inicial");
-        pagInicial.setFont(new Font("Arial", 1, 8));
-        this.add(pagInicial, "North");
+        pagInicial = new JLabel("Página Inicial", JLabel.RIGHT);
+        pagInicial.setFont(new Font("Arial", 1, 12));
+        p.add(pagInicial,"North");
 
-        iniciarSessao = new JLabel("Inicie a sua  sessão:");
+        welcome = new JLabel("Bem-vindo a AoR-Autocarros", JLabel.CENTER);
+        welcome.setFont(new Font("Arial", 1, 30));
+        p.add(welcome,"South");
+
+        iniciarSessao = new JLabel("Inicie a sua  sessão:", JLabel.LEFT);
         iniciarSessao.setFont(new Font ("Arial", 1, 10));
-        this.add(iniciarSessao);
+        this.add(iniciarSessao,"South");
 
+        this.add(p,"North");
         email = new JLabel("Email");
         email.setFont(new Font("Arial", 1, 10));
-        this.add(email);
+        this.add(email,"Center");
 
         palavraPasse = new JLabel("Palavra-Passe:");
         palavraPasse.setFont(new Font("Arial", 1, 10));
         this.add(palavraPasse, "South");
-
 
     }
 
