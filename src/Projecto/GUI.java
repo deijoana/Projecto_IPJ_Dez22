@@ -2,39 +2,36 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Calendar;
 
-public class GUI {
-    JFrame janela;
+public class GUI{
 
-   // JPanel cardsPanel;
+    JFrame f;
+
+    JPanel cardsPanel;
 
     CardLayout layout;
-    public GUI() {
+    GUI() {
+        f = new JFrame();
+        //Criar janela, torná-la visível e determinar que programa pára de executar ao fechar a janela
+        f.setTitle("Empresa AoR Autocarros");
 
-        // Criar e definir a janela
-
-        JFrame janela = new JFrame("Empresa AoR Autocarros");
-
-        // Define e fixa o tamanho da janela
-        janela.setSize(450, 700);
-        janela.setResizable(false);
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(800, 600);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         layout = new CardLayout();
-
-        Login pL = new Login();
-        janela.add(pL);
-
-        /*
         cardsPanel = new JPanel(layout);
-        cal.add(new Login(),"Login");
-*/
+        cardsPanel.add(new Login1(this), "Login");
+        cardsPanel.add(new PainelLogin(this), "Painel");
+        f.getContentPane().add(cardsPanel);
 
-      /*  janela.getContentPane().add(cardsPanel);*/
-        janela.setVisible(true);
+        layout.show(cardsPanel, "Login");
+
+        f.setVisible(true);
     }
 
+    public void mudaEcra(String ecra){
+        layout.show (cardsPanel, ecra);
+    }
 
 
 }
