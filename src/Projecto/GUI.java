@@ -20,7 +20,7 @@ public class GUI{
 
         layout = new CardLayout();
         cardsPanel = new JPanel(layout);
-        cardsPanel.add(new Login1(this), "Login");
+        cardsPanel.add(new Login(this), "Login");
         cardsPanel.add(new PainelLogin(this), "Painel");
         f.getContentPane().add(cardsPanel);
 
@@ -35,4 +35,3 @@ public class GUI{
 
 
 }
-
