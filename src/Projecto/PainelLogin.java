@@ -8,9 +8,13 @@ public class PainelLogin extends JPanel {
     JLabel welcome, pagInicial, iniciarSessao, email, palavraPasse;
     protected JPanel p;
 
-    PainelLogin(){
-        setLayout(new BorderLayout());
-        setBackground(Color.lightGray);
+    GUI janela;
+
+    PainelLogin(GUI janela){
+        this.janela = janela;
+
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.lightGray);
 
         p = new JPanel();
         p.setLayout(new BorderLayout());
