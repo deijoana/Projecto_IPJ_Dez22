@@ -77,14 +77,24 @@ public class Login extends JPanel implements ActionListener{
         c.gridy = 5;
         this.add(entrar, c);
 
-        entrar.addActionListener(this);
+        entrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                janela.mudaEcra("Painel");
+            }
+        });
+        criarRegisto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                JOptionPane.showMessageDialog(null, "mensagem");
+            }
+        });
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        janela.mudaEcra("Painel");
 
     }
 }

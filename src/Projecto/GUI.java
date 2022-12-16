@@ -15,7 +15,7 @@ public class GUI{
         //Criar janela, torná-la visível e determinar que programa pára de executar ao fechar a janela
         f.setTitle("Empresa AoR Autocarros");
 
-        f.setSize(800, 600);
+        f.setSize(1600, 800);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         layout = new CardLayout();
