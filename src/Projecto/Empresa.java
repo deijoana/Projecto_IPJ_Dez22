@@ -93,9 +93,8 @@ public class Empresa implements Serializable {
                modoDePagamento
        );
 
-
-
-        this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores.add(novoCliente));
+        this.listaUtilizadores.add(novoCliente);
+        this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
 
         return novoCliente;
     }
