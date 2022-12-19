@@ -3,7 +3,7 @@ package Projecto;
 import javax.swing.*;
 import java.awt.*;
 
-public class Login extends JPanel{
+public class Login extends JPanel {
 
     JLabel welcome, pagInicial, iniciarSessao, email, palavraPasse;
 
@@ -13,7 +13,7 @@ public class Login extends JPanel{
     GUI janela;
 
 
-    Login(GUI janela){
+    Login(GUI janela) {
         this.janela = janela;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -40,15 +40,15 @@ public class Login extends JPanel{
 
         email = new JLabel("Email");
         email.setFont(new Font("Arial", 1, 14));
-        c.insets= new Insets(0,0,0,10);
+        c.insets = new Insets(0, 0, 0, 10);
         c.ipady = 0;
         c.gridx = 1;
         c.gridy = 4;
         this.add(email, c);
 
         palavraPasse = new JLabel("Palavra-passe");
-        palavraPasse.setFont(new Font("Arial", 1,14));
-        c.insets= new Insets(0,0,0,10);
+        palavraPasse.setFont(new Font("Arial", 1, 14));
+        c.insets = new Insets(10, 0, 0, 0);
         c.ipady = 0;
         c.gridx = 1;
         c.gridy = 5;
@@ -61,13 +61,14 @@ public class Login extends JPanel{
         this.add(emailT, c);
 
         passwordF = new JPasswordField(50);
+        c.insets = new Insets(10, 0, 0, 0);
         c.ipady = 0;
         c.gridx = 3;
         c.gridy = 5;
         this.add(passwordF, c);
 
         entrar = new JButton("Entrar");
-        c.insets= new Insets(10,0,0,0);
+        c.insets = new Insets(10, 0, 0, 0);
         c.ipady = 0;
         c.gridx = 3;
         c.gridy = 7;
@@ -75,21 +76,12 @@ public class Login extends JPanel{
         entrar.addActionListener(new GerirEventos(1, this.janela));
 
         criarRegisto = new JButton("Criar Registo");
-        c.insets= new Insets(40,0,0,0);
+        c.insets = new Insets(40, 0, 0, 0);
         c.ipady = 0;
         c.gridx = 3;
         c.gridy = 9;
         this.add(criarRegisto, c);
         criarRegisto.addActionListener(new GerirEventos(2, this.janela));
 
-/*
-
     }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        janela.mudaEcra("NovoRegisto");
-
-    }*/
-}}
+}

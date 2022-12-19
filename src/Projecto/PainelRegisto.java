@@ -3,18 +3,17 @@ package Projecto;
 import javax.swing.*;
 import java.awt.*;
 
-public class Registo extends JPanel {
+public class PainelRegisto extends JPanel {
 
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, tipoSubscricaoL, pagamentoSubscricaoL;
     JTextField nomeT, nifT, moradaT, telefoneT, emailT;
     JPasswordField passwordF;
     JComboBox tipoSubscricaoB, pagamentoSubscricaoB;
-
     JButton pagInicial,guardarRegisto;
 
     GUI janela;
 
-    Registo(GUI janela) {
+    PainelRegisto(GUI janela) {
         this.janela = janela;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();

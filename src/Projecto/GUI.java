@@ -15,14 +15,15 @@ public class GUI{
         //Criar janela, torná-la visível e determinar que programa pára de executar ao fechar a janela
         f.setTitle("Empresa AoR Autocarros");
 
-        f.setSize(800, 600);
+        f.setSize(1600, 1000);
        // f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         layout = new CardLayout();
         cardsPanel = new JPanel(layout);
         cardsPanel.add(new Login(this), "Login");
-        cardsPanel.add(new Registo(this), "NovoRegisto");
+        cardsPanel.add(new PainelRegisto(this), "NovoRegisto");
+        cardsPanel.add(new PainelAdmin(this), "PainelAdmin");
         f.getContentPane().add(cardsPanel);
 
         layout.show(cardsPanel, "Login");

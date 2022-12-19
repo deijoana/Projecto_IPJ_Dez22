@@ -15,7 +15,7 @@ public class GerirEventos implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (num){
-            case 1: janela.mudaEcra("");break;
+            case 1: janela.mudaEcra("PainelAdmin");break;
             case 2 : janela.mudaEcra("NovoRegisto");break;
             case 3: janela.mudaEcra("Login");
         }
