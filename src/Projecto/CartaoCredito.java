@@ -1,8 +1,9 @@
 package Projecto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CartaoCredito extends Pagamento{
+public class CartaoCredito extends Pagamento implements Serializable {
 
     private long numCartao;
     private String nomeCartao;

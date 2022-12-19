@@ -1,20 +1,108 @@
 package Projecto;
 
-public class Utilizador {
+import java.io.Serializable;
+import java.util.UUID;
 
-    protected String nomeUtilizador;
+public class Utilizador implements Serializable {
+
+    protected String nome;
     protected long nif;
     protected String morada;
-    protected int telefone;
-    protected String emailUtilizador;
-    protected int id;
+    protected String telefone;
+    protected String email;
+    protected String tipoUtilizador;
+    protected String palavraPasse;
+    protected String id;
 
-    public Utilizador(String nomeUtilizador, long nif, String morada, int telefone, String emailUtilizador, int id) {
-        this.nomeUtilizador = nomeUtilizador;
+    public Utilizador(String nome, long nif, String morada,
+                      String telefone, String email, String tipoUtilizador, String palavraPasse) {
+        this.nome = nome;
         this.nif = nif;
         this.morada = morada;
         this.telefone = telefone;
-        this.emailUtilizador = emailUtilizador;
+        this.email = email;
+        this.tipoUtilizador = tipoUtilizador;
+        this.palavraPasse = palavraPasse;
+        this.id = UUID.randomUUID().toString();
+    }
+
+
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public long getNif() {
+        return nif;
+    }
+
+    public void setNif(long nif) {
+        this.nif = nif;
+    }
+
+    public String getMorada() {
+        return morada;
+    }
+
+    public void setMorada(String morada) {
+        this.morada = morada;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTipoUtilizador() {
+        return tipoUtilizador;
+    }
+
+    public void setTipoUtilizador(String tipoUtilizador) {
+        this.tipoUtilizador = tipoUtilizador;
+    }
+
+    public String getPalavraPasse() {
+        return palavraPasse;
+    }
+
+    public void setPalavraPasse(String palavraPasse) {
+        this.palavraPasse = palavraPasse;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Utilizador{" +
+                "nome='" + nome + '\'' +
+                ", nif=" + nif +
+                ", morada='" + morada + '\'' +
+                ", telefone=" + telefone +
+                ", email='" + email + '\'' +
+                ", tipoUtilizador='" + tipoUtilizador + '\'' +
+                ", palavraPasse='" + palavraPasse + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

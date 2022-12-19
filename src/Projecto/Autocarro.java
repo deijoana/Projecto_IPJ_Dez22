@@ -1,6 +1,8 @@
 package Projecto;
 
-public class Autocarro {
+import java.io.Serializable;
+
+public class Autocarro implements Serializable {
 
     private String matricula;
     private String marca;

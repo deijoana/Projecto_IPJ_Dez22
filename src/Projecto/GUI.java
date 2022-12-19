@@ -3,14 +3,17 @@ package Projecto;
 import javax.swing.*;
 import java.awt.*;
 
-public class GUI{
+public class GUI {
 
+    Empresa empresa;
     JFrame f;
 
     JPanel cardsPanel;
 
     CardLayout layout;
-    GUI() {
+    GUI(Empresa empresa) {
+        this.empresa = empresa;
+
         f = new JFrame();
         //Criar janela, torná-la visível e determinar que programa pára de executar ao fechar a janela
         f.setTitle("Empresa AoR Autocarros");
@@ -21,8 +24,8 @@ public class GUI{
 
         layout = new CardLayout();
         cardsPanel = new JPanel(layout);
-        cardsPanel.add(new Login(this), "Login");
-        cardsPanel.add(new PainelRegisto(this), "NovoRegisto");
+        cardsPanel.add(new Login(this, empresa), "Login");
+        cardsPanel.add(new PainelRegisto(this, empresa), "NovoRegisto");
         cardsPanel.add(new PainelAdmin(this), "PainelAdmin");
         f.getContentPane().add(cardsPanel);
 

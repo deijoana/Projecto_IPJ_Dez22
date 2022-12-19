@@ -1,8 +1,9 @@
 package Projecto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PayPal extends Pagamento{
+public class PayPal extends Pagamento implements Serializable {
 
     private String emailPayPal;
     private String PalavraPassePayPal;

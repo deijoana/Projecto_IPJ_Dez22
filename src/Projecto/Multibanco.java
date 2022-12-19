@@ -1,8 +1,10 @@
 package Projecto;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Multibanco extends Pagamento{
+public class Multibanco extends Pagamento implements Serializable {
 
     private long entidade;
     private long referencia;

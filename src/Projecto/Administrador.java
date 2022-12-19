@@ -1,12 +1,14 @@
 package Projecto;
 
-public class Administrador extends Utilizador{
+import java.io.Serializable;
 
-    private String palavraPasseAdmin;
-
-    public Administrador(String nomeUtilizador, long nif, String morada, int telefone, String emailUtilizador, int id, String palavraPasseAdmin) {
-        super(nomeUtilizador, nif, morada, telefone, emailUtilizador, id);
-        this.palavraPasseAdmin = palavraPasseAdmin;
+public class Administrador extends Utilizador implements Serializable {
+    public Administrador(String nome, long nif, String morada, String telefone,
+                         String email, String tipoUtilizador, String palavraPasse) {
+        super(nome, nif, morada, telefone, email, tipoUtilizador, palavraPasse);
     }
 
+
 }
+
+

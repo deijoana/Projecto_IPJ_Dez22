@@ -2,8 +2,11 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PainelRegisto extends JPanel {
+    Empresa empresa;
 
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, tipoSubscricaoL, pagamentoSubscricaoL;
     JTextField nomeT, nifT, moradaT, telefoneT, emailT;
@@ -13,7 +16,9 @@ public class PainelRegisto extends JPanel {
 
     GUI janela;
 
-    PainelRegisto(GUI janela) {
+    PainelRegisto(GUI janela, Empresa empresa) {
+        this.empresa = empresa;
+
         this.janela = janela;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -131,6 +136,36 @@ public class PainelRegisto extends JPanel {
         c.gridx = 2;
         c.gridy = 11;
         this.add(guardarRegisto, c);
+        guardarRegisto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String email = emailT.getText();
+                String password = passwordF.getText();
+                String nome = nomeT.getText();
+                String nif = nifT.getText();
+                String telefone = telefoneT.getText();
+                String tipoDeSubscricao = tipoSubscricaoB.getToolTipText();
+                String morada = moradaT.getText();
+                String modoDePagamento = pagamentoSubscricaoB.getToolTipText();
+
+
+                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, Long.valueOf(nif), morada, tipoDeSubscricao, modoDePagamento, password);
+
+                if (novoRegisto == null) {
+                    emailT.setText("");
+                    passwordF.setText("");
+                    JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                }
+
+                if (novoRegisto instanceof Administrador) {
+                    JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoRegisto.nome + " autenticado com sucesso");
+                    janela.mudaEcra("Login");
+                } else if (novoRegisto instanceof Cliente) {
+                    JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
+                    janela.mudaEcra("Login");
+                }
+            }
+        });
 
     }
 }

@@ -2,8 +2,12 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Login extends JPanel {
+
+    Empresa empresa;
 
     JLabel welcome, pagInicial, iniciarSessao, email, palavraPasse;
 
@@ -13,7 +17,9 @@ public class Login extends JPanel {
     GUI janela;
 
 
-    Login(GUI janela) {
+    Login(GUI janela, Empresa empresa) {
+        this.empresa = empresa;
+
         this.janela = janela;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -73,7 +79,29 @@ public class Login extends JPanel {
         c.gridx = 3;
         c.gridy = 7;
         this.add(entrar, c);
-        entrar.addActionListener(new GerirEventos(1, this.janela));
+        entrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String email = emailT.getText();
+                String password = passwordF.getText();
+
+                Utilizador loggado = empresa.login(email, password);
+
+                if (loggado == null) {
+                    emailT.setText("");
+                    passwordF.setText("");
+                    JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                }
+
+                if (loggado instanceof Administrador) {
+                    JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), loggado.nome + " autenticado com sucesso");
+                    janela.mudaEcra("PainelAdmin");
+                } else if (loggado instanceof Cliente) {
+                    JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), loggado.nome + " autenticado com sucesso");
+                    janela.mudaEcra("PainelCliente");
+                }
+            }
+        });
 
         criarRegisto = new JButton("Criar Registo");
         c.insets = new Insets(40, 0, 0, 0);
@@ -81,6 +109,9 @@ public class Login extends JPanel {
         c.gridx = 3;
         c.gridy = 9;
         this.add(criarRegisto, c);
+
+        // fazer login
+        // verificar se é admin? Se for cliente //
         criarRegisto.addActionListener(new GerirEventos(2, this.janela));
 
     }

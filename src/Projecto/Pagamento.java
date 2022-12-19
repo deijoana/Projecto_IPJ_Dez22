@@ -1,8 +1,9 @@
 package Projecto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Pagamento {
+public class Pagamento implements Serializable {
 
     protected LocalDate data;
     protected double valor;

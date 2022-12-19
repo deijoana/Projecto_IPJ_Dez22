@@ -1,19 +1,35 @@
 package Projecto;
 
-public class Cliente extends Utilizador{
+import java.io.Serializable;
 
-    private String palavraPasse;
+public class Cliente extends Utilizador implements Serializable {
     private String tipoSubscricao;
     private String modoPagamento;
 
-    public Cliente(String nomeUtilizador, long nif, String morada, int telefone, String emailUtilizador, int id, String palavraPasse, String tipoSubscricao, String modoPagamento) {
-        super(nomeUtilizador, nif, morada, telefone, emailUtilizador, id);
-        this.palavraPasse = palavraPasse;
+    public Cliente(String nome, long nif, String morada, String telefone, String email, String tipoUtilizador,
+                   String palavraPasse, String tipoSubscricao, String modoPagamento) {
+        super(nome, nif, morada, telefone, email, tipoUtilizador, palavraPasse);
         this.tipoSubscricao = tipoSubscricao;
         this.modoPagamento = modoPagamento;
+    }
+
+    public String getTipoSubscricao() {
+        return tipoSubscricao;
     }
 
     public void setTipoSubscricao(String tipoSubscricao) {
         this.tipoSubscricao = tipoSubscricao;
     }
+
+    public String getModoPagamento() {
+        return modoPagamento;
+    }
+
+    public void setModoPagamento(String modoPagamento) {
+        this.modoPagamento = modoPagamento;
+    }
+
+
 }
+
+

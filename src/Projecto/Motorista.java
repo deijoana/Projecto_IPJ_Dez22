@@ -1,6 +1,8 @@
 package Projecto;
 
-public class Motorista {
+import java.io.Serializable;
+
+public class Motorista implements Serializable {
 
     private String nomeMotorista;
     private String emailMotorista;
