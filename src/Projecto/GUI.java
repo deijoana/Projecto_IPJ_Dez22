@@ -16,12 +16,13 @@ public class GUI{
         f.setTitle("Empresa AoR Autocarros");
 
         f.setSize(800, 600);
+       // f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         layout = new CardLayout();
         cardsPanel = new JPanel(layout);
         cardsPanel.add(new Login(this), "Login");
-        cardsPanel.add(new PainelLogin(this), "Painel");
+        cardsPanel.add(new Registo(this), "NovoRegisto");
         f.getContentPane().add(cardsPanel);
 
         layout.show(cardsPanel, "Login");
