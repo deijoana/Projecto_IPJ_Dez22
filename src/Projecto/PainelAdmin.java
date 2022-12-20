@@ -467,7 +467,7 @@ public class PainelAdmin extends JPanel {
         addC.add(nome, c8);
 
         nomeT = new JTextField(50);
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 1;
         addC.add(nomeT, c8);
@@ -480,7 +480,7 @@ public class PainelAdmin extends JPanel {
         addC.add(nif, c8);
 
         nifT = new JTextField(50);
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 2;
         addC.add(nifT, c8);
@@ -493,7 +493,7 @@ public class PainelAdmin extends JPanel {
         addC.add(morada, c8);
 
         moradaT = new JTextField(50);
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 3;
         addC.add(moradaT, c8);
@@ -506,7 +506,7 @@ public class PainelAdmin extends JPanel {
         addC.add(telefone, c8);
 
         telefoneT = new JTextField(50);
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 4;
         addC.add(telefoneT, c8);
@@ -519,7 +519,7 @@ public class PainelAdmin extends JPanel {
         addC.add(email, c8);
 
         emailT = new JTextField(50);
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 5;
         addC.add(emailT, c8);
@@ -532,7 +532,7 @@ public class PainelAdmin extends JPanel {
         addC.add(palavraPasse, c8);
 
         passwordF = new JPasswordField(50);
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 6;
         addC.add(passwordF, c8);
@@ -546,7 +546,7 @@ public class PainelAdmin extends JPanel {
 
         String tiposSubscricao[] = {"Normal", "Premium"};
         tipoSubscricaoB = new JComboBox<>(tiposSubscricao);
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.gridx = 2;
         c8.gridy = 7;
@@ -562,14 +562,14 @@ public class PainelAdmin extends JPanel {
         String modosPagSubscricao[] = {"Paypal", "Cartão de Crédito", "Multibanco"};
         pagamentoSubscricaoB = new JComboBox<>(modosPagSubscricao);
         c8.fill = GridBagConstraints.HORIZONTAL;
-        c8.insets = new Insets(10, 0, 0, 0);
+        c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 8;
         addC.add(pagamentoSubscricaoB, c8);
 
         guardarRegisto = new JButton("Guardar registo de novo cliente");
         c8.fill = GridBagConstraints.HORIZONTAL;
-        c8.insets = new Insets(20, 0, 20, 0);
+        c8.insets = new Insets(20, 0, 20, 20);
         c8.gridx = 2;
         c8.gridy = 10;
         addC.add(guardarRegisto, c8);
