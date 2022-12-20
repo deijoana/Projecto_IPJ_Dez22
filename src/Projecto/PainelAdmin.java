@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PainelAdmin extends JPanel {
+    Empresa empresa;
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus;
@@ -15,7 +16,8 @@ public class PainelAdmin extends JPanel {
     JPasswordField passwordF;
 
 
-    PainelAdmin(GUI janela) {
+    PainelAdmin(GUI janela, Empresa empresa) {
+        this.empresa = empresa;
         this.janela = janela;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -24,7 +26,6 @@ public class PainelAdmin extends JPanel {
         painelAd.setFont(new Font("Arial", 1, 12));
 
         panel1 = new JPanel();
-        panel1.setPreferredSize(new Dimension(1000, 800));
         painelAd.addTab("Adicionar Administrador", panel1);
 
         panel1.setLayout(new GridBagLayout());
@@ -123,7 +124,6 @@ public class PainelAdmin extends JPanel {
 
 
         panel2 = new JPanel();
-        panel2.setPreferredSize(new Dimension(1000, 800));
         painelAd.addTab("Motoristas", panel2);
         panel2.setLayout(new GridLayout());
 
@@ -270,7 +270,6 @@ public class PainelAdmin extends JPanel {
 
 
         panel3 = new JPanel();
-        panel3.setPreferredSize(new Dimension(1000, 800));
         painelAd.addTab("Autocarros", panel3);
         panel3.setLayout(new GridLayout());
 

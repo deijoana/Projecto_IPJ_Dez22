@@ -26,7 +26,7 @@ public class GUI {
         cardsPanel = new JPanel(layout);
         cardsPanel.add(new Login(this, empresa), "Login");
         cardsPanel.add(new PainelRegisto(this, empresa), "NovoRegisto");
-        cardsPanel.add(new PainelAdmin(this), "PainelAdmin");
+        cardsPanel.add(new PainelAdmin(this, empresa), "PainelAdmin");
         f.getContentPane().add(cardsPanel);
 
         layout.show(cardsPanel, "Login");
