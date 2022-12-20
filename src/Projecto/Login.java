@@ -90,7 +90,7 @@ public class Login extends JPanel {
                 if (loggado == null) {
                     emailT.setText("");
                     passwordF.setText("");
-                    JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                    JOptionPane.showMessageDialog(new JFrame("Autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
                 }
 
                 if (loggado instanceof Administrador) {

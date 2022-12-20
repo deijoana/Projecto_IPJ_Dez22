@@ -7,6 +7,7 @@ public class Main {
         Empresa empresa = new Empresa();
 
         GUI frame = new GUI(empresa);
+
     }
 
 }
