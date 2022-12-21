@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 public class PainelRegisto extends JPanel {
     Empresa empresa;
-
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, tipoSubscricaoL, pagamentoSubscricaoL;
     JTextField nomeT, nifT, moradaT, telefoneT, emailT;
     JPasswordField passwordF;
@@ -139,6 +138,7 @@ public class PainelRegisto extends JPanel {
         guardarRegisto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String email = emailT.getText();
                 String password = String.valueOf(passwordF.getPassword());
                 String nome = nomeT.getText();
@@ -152,13 +152,13 @@ public class PainelRegisto extends JPanel {
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada, tipoDeSubscricao, modoDePagamento, password, empresa);
 
                     if (novoRegisto == null) {
-
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
                     }
 
                     if (novoRegisto instanceof Administrador) {
                         JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoRegisto.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
+
                     } else if (novoRegisto instanceof Cliente) {
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");

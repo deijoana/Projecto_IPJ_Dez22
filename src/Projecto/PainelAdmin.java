@@ -129,6 +129,7 @@ public class PainelAdmin extends JPanel {
 
         guardarRegisto.addActionListener(new ActionListener() {
             @Override
+
             public void actionPerformed(ActionEvent e) {
                 String email = emailT.getText();
                 String password = String.valueOf(passwordF.getPassword());
@@ -142,13 +143,13 @@ public class PainelAdmin extends JPanel {
                 if (empresa.validarEmail(email)) {
 
                     if (novoAdmin == null) {
-
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
                     }
 
                     if (novoAdmin instanceof Administrador) {
                         JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoAdmin.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
+
                     } else if (novoAdmin instanceof Cliente) {
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoAdmin.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");

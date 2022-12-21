@@ -23,7 +23,7 @@ public class Utilizador implements Serializable {
         this.email = email;
         this.tipoUtilizador = tipoUtilizador;
         this.palavraPasse = palavraPasse;
-        this.id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString(); // define um valor único para ID de cada utilizador
     }
 
 

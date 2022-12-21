@@ -6,16 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Empresa implements Serializable {
+
+    // atributo que especifica a versão do documento/ficheiro de objectos para prevenir que ocorra InvalidClassException
     private static final long serialVersionUID = 2877785672008532764L;
     private List<Utilizador> listaUtilizadores;
-    private List<Autocarro> listaAutocarros = new ArrayList<>();
-    private List<Motorista> listaMotoristas = new ArrayList<>();
-    private List listaAdministradores = new ArrayList<Administrador>();
+    private List<Autocarro> listaAutocarros;
+    private List<Motorista> listaMotoristas;
+    private List listaNegraClientes;
+    private List listaReservas;
+    private List listaPreReservas;
 
-    private List listaNegraClientes = new ArrayList<Cliente>();
-    private List listaReservas = new ArrayList<Reserva>();
-    private List listaPreReservas = new ArrayList<Reserva>();
-
+    //Instância de Administrador "sénior" para poder entrar na aplicação ao iniciar a execução do programa.
+    //Definiu-se como static porque esta instância é de importância máxima e não deverá ser alterada em qualquer circunstância
     static final Administrador administrador = new Administrador(
             "Tiago Sousa",
             "228923824",
@@ -26,14 +28,17 @@ public class Empresa implements Serializable {
             "12345"
     );
 
+    // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
+    // Definiu-se como static porque este dado não deverá nunca ser alterado
     static final String AUTOCARROS_AOR = "autocarros_aor";
-
-    public Empresa(List<Utilizador> utilizadores) {
-        this.listaUtilizadores = utilizadores;
-    }
 
     public Empresa() {
         this.listaUtilizadores = new ArrayList<>();
+        this.listaMotoristas = new ArrayList<>();
+        this.listaAutocarros = new ArrayList<>();
+        this.listaNegraClientes = new ArrayList<Cliente>();
+        this.listaReservas = new ArrayList<Reserva>();
+        this.listaPreReservas = new ArrayList<Reserva>();
     }
 
     public List getListaUtilizadores() {
@@ -42,17 +47,12 @@ public class Empresa implements Serializable {
 
     public void setListaUtilizadores(List listaUtilizadores) {
         this.listaUtilizadores = listaUtilizadores;
+
     }
 
-    public List getListaAdministradores() {
-        return listaAdministradores;
-    }
-
-    public void setListaAdministradores(List listaAdministradores) {
-        this.listaAdministradores = listaAdministradores;
-    }
-
+    // método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula
     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
+        // código que substitui numa linha um ciclo for:each
         if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
             return null;
         }
@@ -65,12 +65,14 @@ public class Empresa implements Serializable {
 
         Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
         empresa.listaAutocarros.add(novoAutocarro);
-
+        // guarda as alterações no ficheiro de objectos
         escreveFicheiro(AUTOCARROS_AOR, empresa);
 
         return novoAutocarro;
     }
 
+    // método que adiciona um novo cliente à lista de utilizadores ao fazer um novo registo
+    // só adiciona se não houver nenhuma instância com o mesmo email
     public Utilizador registarCliente(
             String email,
             String nome,
@@ -106,6 +108,7 @@ public class Empresa implements Serializable {
         return novoCliente;
     }
 
+    // método que percorre a lista de utilizadores e filtra todos os que são clientes
     public List<Utilizador> listaDeClientes(Empresa empresa) {
         return empresa.listaUtilizadores.stream().filter(
                         user -> user.tipoUtilizador.equals("Cliente")
@@ -113,7 +116,8 @@ public class Empresa implements Serializable {
                 .toList();
     }
 
-    public Utilizador login(String emailUtilizador, String palavraPasse, Empresa empresa) {
+    // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
+    public Utilizador fazerLogin(String emailUtilizador, String palavraPasse, Empresa empresa) {
         for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getEmail().equals(emailUtilizador) && u.getPalavraPasse().equals(palavraPasse)) {
                 return u;
@@ -122,6 +126,7 @@ public class Empresa implements Serializable {
         return null;
     }
 
+    //método usado para escrever o ficheiro de objectos
     private static void escreveFicheiro(String nome, Object objecto) {
         FicheiroDeObjetos fdo = new FicheiroDeObjetos();
 
@@ -134,6 +139,7 @@ public class Empresa implements Serializable {
         }
     }
 
+    // método usado para ler o ficheiro de objectos. Não havendo, cria o ficheiro e adiciona o administrador "sénior" definido por default
     public static Empresa leFicheiro(String nomeDoFicheiro) throws IOException, ClassNotFoundException {
         Empresa empresa = new Empresa();
 
@@ -153,6 +159,7 @@ public class Empresa implements Serializable {
         return empresa;
     }
 
+    // método que valida se o email inserido é válido
     public boolean validarEmail(String email) {
         int count = 0;
 
@@ -165,6 +172,8 @@ public class Empresa implements Serializable {
 
     }
 
+    // método que adiciona um novo administrador à lista de utilizadores ao fazer um novo registo
+    // só adiciona se não houver nenhuma instância com o mesmo email
     public Utilizador registarAdministrador(
             String email,
             String nome,

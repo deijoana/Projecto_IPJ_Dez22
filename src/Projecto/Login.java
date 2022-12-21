@@ -8,9 +8,7 @@ import java.awt.event.ActionListener;
 public class Login extends JPanel {
 
     Empresa empresa;
-
     JLabel welcome, pagInicial, iniciarSessao, email, palavraPasse;
-
     JTextField emailT;
     JPasswordField passwordF;
     JButton criarRegisto, entrar;
@@ -20,6 +18,7 @@ public class Login extends JPanel {
     Login(GUI janela, Empresa empresa) {
         this.empresa = empresa;
 
+        // define o layout do painel de login como sendo do tipo GridBagLayout, para adicionar os diversos componentes a uma célula específica
         this.janela = janela;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -81,29 +80,30 @@ public class Login extends JPanel {
         this.add(entrar, c);
         entrar.addActionListener(new ActionListener() {
             @Override
+
+            // define que painel será tornado visível consoante os dados inseridos pelo utilizador
             public void actionPerformed(ActionEvent e) {
                 String email = emailT.getText();
                 String password = String.valueOf(passwordF.getPassword());
 
-                Utilizador loggado = empresa.login(email, password, empresa);
+                // guarda o utilizador correspondente aos dados inseridos ou null se não houver correspondência na lista de utilizadores
+                Utilizador logado = empresa.fazerLogin(email, password, empresa);
 
-                if (loggado == null) {
-                    emailT.setText("");
-                    passwordF.setText("");
+                if (logado == null) {
                     JOptionPane.showMessageDialog(new JFrame("Autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
                 }
 
-                if (loggado instanceof Administrador) {
-                    JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), loggado.nome + " autenticado com sucesso");
-                    emailT.setText("");
-                    passwordF.setText("");
+                if (logado instanceof Administrador) {
+                    JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), logado.nome + " autenticado com sucesso");
+
                     janela.mudaEcra("PainelAdmin");
-                } else if (loggado instanceof Cliente) {
-                    emailT.setText("");
-                    passwordF.setText("");
-                    JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), loggado.nome + " autenticado com sucesso");
+                } else if (logado instanceof Cliente) {
+
+                    JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
                     janela.mudaEcra("PainelCliente");
                 }
+                emailT.setText("");
+                passwordF.setText("");
             }
         });
 

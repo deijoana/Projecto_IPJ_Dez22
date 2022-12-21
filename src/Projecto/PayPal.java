@@ -11,6 +11,6 @@ public class PayPal extends Pagamento implements Serializable {
     public PayPal(LocalDate data, double valor, boolean confirmacaoPag, String emailPayPal, String palavraPassePayPal) {
         super(data, valor, confirmacaoPag);
         this.emailPayPal = emailPayPal;
-        PalavraPassePayPal = palavraPassePayPal;
+        this.PalavraPassePayPal = palavraPassePayPal;
     }
 }
