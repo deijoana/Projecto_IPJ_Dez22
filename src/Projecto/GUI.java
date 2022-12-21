@@ -19,7 +19,7 @@ public class GUI {
         f.setTitle("Empresa AoR Autocarros");
 
         f.setSize(1600, 1000);
-       // f.setResizable(false);
+        // f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         layout = new CardLayout();

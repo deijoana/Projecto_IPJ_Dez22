@@ -6,7 +6,7 @@ import java.util.UUID;
 public class Utilizador implements Serializable {
 
     protected String nome;
-    protected long nif;
+    protected String nif;
     protected String morada;
     protected String telefone;
     protected String email;
@@ -14,7 +14,7 @@ public class Utilizador implements Serializable {
     protected String palavraPasse;
     protected String id;
 
-    public Utilizador(String nome, long nif, String morada,
+    public Utilizador(String nome, String nif, String morada,
                       String telefone, String email, String tipoUtilizador, String palavraPasse) {
         this.nome = nome;
         this.nif = nif;
@@ -36,11 +36,11 @@ public class Utilizador implements Serializable {
         this.nome = nome;
     }
 
-    public long getNif() {
+    public String getNif() {
         return nif;
     }
 
-    public void setNif(long nif) {
+    public void setNif(String nif) {
         this.nif = nif;
     }
 

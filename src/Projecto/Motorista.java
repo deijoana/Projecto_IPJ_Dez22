@@ -6,9 +6,9 @@ public class Motorista implements Serializable {
 
     private String nomeMotorista;
     private String emailMotorista;
-    private long nifMotorista;
+    private String nifMotorista;
 
-    public Motorista(String nomeMotorista, String emailMotorista, long nifMotorista) {
+    public Motorista(String nomeMotorista, String emailMotorista, String nifMotorista) {
         this.nomeMotorista = nomeMotorista;
         this.emailMotorista = emailMotorista;
         this.nifMotorista = nifMotorista;
