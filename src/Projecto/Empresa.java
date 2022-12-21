@@ -108,9 +108,6 @@ public class Empresa implements Serializable {
         return null;
     }
 
-    public void addAutocarro(Autocarro bus) {
-        listaAutocarros.add(bus);
-    }
 
     private void escreveFicheiro(String nome, Object objecto) {
         FicheiroDeObjetos fdo = new FicheiroDeObjetos();

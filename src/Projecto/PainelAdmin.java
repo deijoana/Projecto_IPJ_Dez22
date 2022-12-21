@@ -126,11 +126,11 @@ public class PainelAdmin extends JPanel {
         panel1.add(guardarRegisto, c1);
 
 
-        panel2 = new JPanel();
+        panel2 = new JPanel(); //2º painel -> Motoristas, até à linha 269
         painelAd.addTab("Motoristas", panel2);
         panel2.setLayout(new GridLayout());
 
-        painelM = new JTabbedPane();
+        painelM = new JTabbedPane(); //adiciona-se tabpane dentro de um painel que já está num tabpane
         painelM.setFont(new Font("Arial", 1, 12));
 
         addM = new JPanel();
@@ -272,11 +272,11 @@ public class PainelAdmin extends JPanel {
         panel2.add(painelM);
 
 
-        panel3 = new JPanel();
+        panel3 = new JPanel(); //novo painel
         painelAd.addTab("Autocarros", panel3);
         panel3.setLayout(new GridLayout());
 
-        painelAutocarro = new JTabbedPane();
+        painelAutocarro = new JTabbedPane(); //tabbpane
         painelAutocarro.setFont(new Font("Arial", 1, 12));
 
         addBus = new JPanel();
@@ -879,6 +879,7 @@ public class PainelAdmin extends JPanel {
         c12.gridx = 2;
         c12.gridy = 5;
         panel8.add(guardarRegisto, c12);
+
 
 
         c.gridx = 1;
