@@ -151,7 +151,7 @@ public class PainelRegisto extends JPanel {
 
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada, tipoDeSubscricao, modoDePagamento, password);
 
-                if (empresa.validarEmail(email)) {
+             //   if (empresa.validarEmail(email)) {
 
                     if (novoRegisto == null) {
 
@@ -165,16 +165,15 @@ public class PainelRegisto extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
                     }
-                } else
+              /*  } else
                     JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
-
+*/
                 emailT.setText("");
                 passwordF.setText("");
                 nomeT.setText("");
                 nifT.setText("");
                 moradaT.setText("");
                 telefoneT.setText("");
-
 
             }});
 

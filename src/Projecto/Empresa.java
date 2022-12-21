@@ -81,17 +81,17 @@ public class Empresa implements Serializable {
             }
         }
 
-       Cliente novoCliente = new Cliente(
-               nome,
-               nif,
-               morada,
-               telefone,
-               email,
-               "Cliente",
-               palavraPasse,
-               tipoDeSubscricao,
-               modoDePagamento
-       );
+        Cliente novoCliente = new Cliente(
+                nome,
+                nif,
+                morada,
+                telefone,
+                email,
+                "Cliente",
+                palavraPasse,
+                tipoDeSubscricao,
+                modoDePagamento
+        );
 
         this.listaUtilizadores.add(novoCliente);
         this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
@@ -134,17 +134,17 @@ public class Empresa implements Serializable {
         return objeto;
     }
 
-      public boolean validarEmail(String email) {
-          int count = 0;
+    public boolean validarEmail(String email) {
+        int count = 0;
 
-          for (int i = 0; i < email.length(); i++) {
-              if (email.charAt(i) == '@') count++;
-          }
-          if (count == 1) {
-              return true;
-          } else return false;
+        for (int i = 0; i < email.length(); i++) {
+            if (email.charAt(i) == '@') count++;
+        }
+        if (count == 1) {
+            return true;
+        } else return false;
 
-      }
+    }
 
     public Utilizador registarAdministrador(
             String email,
@@ -176,5 +176,4 @@ public class Empresa implements Serializable {
         this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
 
         return novoAdministrador;
-    }
-}
+}}

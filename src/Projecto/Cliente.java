@@ -31,5 +31,3 @@ public class Cliente extends Utilizador implements Serializable {
 
 
 }
-
-

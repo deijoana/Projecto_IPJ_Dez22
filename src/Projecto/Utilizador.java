@@ -92,7 +92,6 @@ public class Utilizador implements Serializable {
         this.id = id;
     }
 
-
     @Override
     public String toString() {
         return "Utilizador{" +

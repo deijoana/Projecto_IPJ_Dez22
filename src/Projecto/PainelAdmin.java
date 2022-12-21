@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 public class PainelAdmin extends JPanel {
     Empresa empresa;
-
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
@@ -127,7 +126,8 @@ public class PainelAdmin extends JPanel {
         c1.gridx = 2;
         c1.gridy = 8;
         panel1.add(guardarRegisto, c1);
-       /* guardarRegisto.addActionListener(new ActionListener() {
+
+        guardarRegisto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = emailT.getText();
@@ -136,7 +136,6 @@ public class PainelAdmin extends JPanel {
                 String nif = nifT.getText();
                 String telefone = telefoneT.getText();
                 String morada = moradaT.getText();
-
 
                 Utilizador novoAdmin = empresa.registarAdministrador(email, nome, telefone, nif, morada, password);
 
@@ -147,9 +146,13 @@ public class PainelAdmin extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
                     }
 
-                    else if (novoAdmin instanceof Administrador) {
+                    if (novoAdmin instanceof Administrador) {
                         JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoAdmin.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
+                    } else if (novoAdmin instanceof Cliente) {
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoAdmin.nome + " autenticado com sucesso");
+                        janela.mudaEcra("Login");
+                    }
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
 
@@ -160,12 +163,9 @@ public class PainelAdmin extends JPanel {
                 moradaT.setText("");
                 telefoneT.setText("");
 
+            }});
 
-            }}
 
-        });
-
-*/
         panel2 = new JPanel(); //2º painel -> Motoristas, até à linha 269
         painelAd.addTab("Motoristas", panel2);
         panel2.setLayout(new GridLayout());

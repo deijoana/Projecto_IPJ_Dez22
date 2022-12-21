@@ -87,26 +87,23 @@ public class Login extends JPanel {
 
                 Utilizador loggado = empresa.login(email, password);
 
+                if (loggado == null) {
+                    emailT.setText("");
+                    passwordF.setText("");
+                    JOptionPane.showMessageDialog(new JFrame("Autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                }
 
-
-                    if (loggado == null) {
-                        emailT.setText("");
-                        passwordF.setText("");
-                        JOptionPane.showMessageDialog(new JFrame("Autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
-                    }
-
-                    if (loggado instanceof Administrador) {
-                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), loggado.nome + " autenticado com sucesso");
-                        emailT.setText("");
-                        passwordF.setText("");
-                        janela.mudaEcra("PainelAdmin");
-                    } else if (loggado instanceof Cliente) {
-                        emailT.setText("");
-                        passwordF.setText("");
-                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), loggado.nome + " autenticado com sucesso");
-                        janela.mudaEcra("PainelCliente");
-                    }
-
+                if (loggado instanceof Administrador) {
+                    JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), loggado.nome + " autenticado com sucesso");
+                    emailT.setText("");
+                    passwordF.setText("");
+                    janela.mudaEcra("PainelAdmin");
+                } else if (loggado instanceof Cliente) {
+                    emailT.setText("");
+                    passwordF.setText("");
+                    JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), loggado.nome + " autenticado com sucesso");
+                    janela.mudaEcra("PainelCliente");
+                }
             }
         });
 
