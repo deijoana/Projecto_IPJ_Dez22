@@ -83,7 +83,7 @@ public class Login extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = emailT.getText();
-                String password = passwordF.getText();
+                String password = String.valueOf(passwordF.getPassword());
 
                 Utilizador loggado = empresa.login(email, password);
 
@@ -95,8 +95,12 @@ public class Login extends JPanel {
 
                 if (loggado instanceof Administrador) {
                     JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), loggado.nome + " autenticado com sucesso");
+                    emailT.setText("");
+                    passwordF.setText("");
                     janela.mudaEcra("PainelAdmin");
                 } else if (loggado instanceof Cliente) {
+                    emailT.setText("");
+                    passwordF.setText("");
                     JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), loggado.nome + " autenticado com sucesso");
                     janela.mudaEcra("PainelCliente");
                 }
@@ -110,9 +114,7 @@ public class Login extends JPanel {
         c.gridy = 9;
         this.add(criarRegisto, c);
 
-        // fazer login
-        // verificar se é admin? Se for cliente //
-        criarRegisto.addActionListener(new GerirEventos(2, this.janela));
+        criarRegisto.addActionListener(new GerirEventos(1, this.janela));
 
     }
 }

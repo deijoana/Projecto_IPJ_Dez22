@@ -897,6 +897,7 @@ public class PainelAdmin extends JPanel {
         c.gridx = 2;
         c.gridy = 0;
         this.add(logout, c);
+        logout.addActionListener(new GerirEventos(2, this.janela));
     }
 
 

@@ -17,13 +17,13 @@ public class GerirEventos implements ActionListener {
         System.out.println(e);
         switch (num) {
             case 1:
-                janela.mudaEcra("PainelAdmin");
-                break;
-            case 2:
                 janela.mudaEcra("NovoRegisto");
                 break;
-            case 3:
+            case 2:
                 janela.mudaEcra("Login");
+                break;
+
+
         }
 
     }
