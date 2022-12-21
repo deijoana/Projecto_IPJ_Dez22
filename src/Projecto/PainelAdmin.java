@@ -137,7 +137,7 @@ public class PainelAdmin extends JPanel {
                 String telefone = telefoneT.getText();
                 String morada = moradaT.getText();
 
-                Utilizador novoAdmin = empresa.registarAdministrador(email, nome, telefone, nif, morada, password);
+                Utilizador novoAdmin = empresa.registarAdministrador(email, nome, telefone, nif, morada, password, empresa);
 
                 if (empresa.validarEmail(email)) {
 
@@ -383,6 +383,26 @@ public class PainelAdmin extends JPanel {
         c5.gridx = 2;
         c5.gridy = 6;
         addBus.add(guardarRegisto, c5);
+        guardarRegisto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String marca = marcaT.getText();
+                String modelo = modeloT.getText();
+                String matricula = matriculaT.getText();
+                int lotacao =  Integer.parseInt(lotacaoT.getText());
+
+                Autocarro autocarro = empresa.adicionarAutocarro(matricula, marca, modelo, lotacao, empresa);
+
+                if (autocarro == null) {
+                    JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula + " já existe");
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A matrícula " + matricula + " foi registada com sucesso.");
+                }
+
+                // limpar as caixas
+
+            }
+        });
 
         editBus = new JPanel();
         painelAutocarro.addTab("Editar", editBus);

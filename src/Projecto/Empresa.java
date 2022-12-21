@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Empresa implements Serializable {
-    public static final String AUTOCARROS_AOR = "autocarros_aor";
+    private static final long serialVersionUID = 2877785672008532764L;
     private List<Utilizador> listaUtilizadores;
     private List<Autocarro> listaAutocarros = new ArrayList<>();
     private List<Motorista> listaMotoristas = new ArrayList<>();
@@ -16,7 +16,7 @@ public class Empresa implements Serializable {
     private List listaReservas = new ArrayList<Reserva>();
     private List listaPreReservas = new ArrayList<Reserva>();
 
-    Administrador administrador = new Administrador(
+    static final Administrador administrador = new Administrador(
             "Tiago Sousa",
             "228923824",
             "Rua António Jardim",
@@ -26,16 +26,14 @@ public class Empresa implements Serializable {
             "12345"
     );
 
-    public Empresa() throws IOException, ClassNotFoundException {
-        this.listaUtilizadores = new ArrayList<>();
+    static final String AUTOCARROS_AOR = "autocarros_aor";
 
-        List<Utilizador> utilizadoresCarregados = (List<Utilizador>) this.leFicheiro(AUTOCARROS_AOR);
-        if (utilizadoresCarregados.size() == 0) {
-            this.listaUtilizadores.add(administrador);
-            this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
-        } else {
-            this.listaUtilizadores = utilizadoresCarregados;
-        }
+    public Empresa(List<Utilizador> utilizadores) {
+        this.listaUtilizadores = utilizadores;
+    }
+
+    public Empresa() {
+        this.listaUtilizadores = new ArrayList<>();
     }
 
     public List getListaUtilizadores() {
@@ -54,6 +52,25 @@ public class Empresa implements Serializable {
         this.listaAdministradores = listaAdministradores;
     }
 
+    public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
+        if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
+            return null;
+        }
+
+/*        for (Autocarro a : empresa.listaAutocarros) {
+            if (a.getMatricula().equals(matricula)) {
+                return null;
+            }
+        }*/
+
+        Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
+        empresa.listaAutocarros.add(novoAutocarro);
+
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
+
+        return novoAutocarro;
+    }
+
     public Utilizador registarCliente(
             String email,
             String nome,
@@ -65,7 +82,6 @@ public class Empresa implements Serializable {
             String palavraPasse,
             Empresa empresa
     ) {
-
         for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getEmail().equals(email)) {
                 return null;
@@ -85,8 +101,7 @@ public class Empresa implements Serializable {
         );
 
         empresa.listaUtilizadores.add(novoCliente);
-        this.escreveFicheiro(AUTOCARROS_AOR, empresa);
-        //this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
 
         return novoCliente;
     }
@@ -98,8 +113,8 @@ public class Empresa implements Serializable {
                 .toList();
     }
 
-    public Utilizador login(String emailUtilizador, String palavraPasse) {
-        for (Utilizador u: this.listaUtilizadores) {
+    public Utilizador login(String emailUtilizador, String palavraPasse, Empresa empresa) {
+        for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getEmail().equals(emailUtilizador) && u.getPalavraPasse().equals(palavraPasse)) {
                 return u;
             }
@@ -107,8 +122,7 @@ public class Empresa implements Serializable {
         return null;
     }
 
-
-    private void escreveFicheiro(String nome, Object objecto) {
+    private static void escreveFicheiro(String nome, Object objecto) {
         FicheiroDeObjetos fdo = new FicheiroDeObjetos();
 
         try {
@@ -120,17 +134,23 @@ public class Empresa implements Serializable {
         }
     }
 
-    private Object leFicheiro(String nomeDoFicheiro) throws IOException, ClassNotFoundException {
-        Object objeto = new ArrayList<>();
+    public static Empresa leFicheiro(String nomeDoFicheiro) throws IOException, ClassNotFoundException {
+        Empresa empresa = new Empresa();
+
         FicheiroDeObjetos fdo = new FicheiroDeObjetos();
         if (fdo.ficheiroExiste(nomeDoFicheiro)) {
             if (fdo.abreLeitura(nomeDoFicheiro)) {
                 fdo.abreLeitura(nomeDoFicheiro);
-                objeto = fdo.leObjecto();
+                empresa = (Empresa) fdo.leObjecto();
+
                 fdo.fechaLeitura();
             }
+        } else {
+            empresa.listaUtilizadores.add(administrador);
+            escreveFicheiro(AUTOCARROS_AOR, empresa);
         }
-        return objeto;
+
+        return empresa;
     }
 
     public boolean validarEmail(String email) {
@@ -151,10 +171,11 @@ public class Empresa implements Serializable {
             String telefone,
             String nif,
             String morada,
-            String palavraPasse
+            String palavraPasse,
+            Empresa empresa
     ) {
 
-        for (Utilizador u: this.listaUtilizadores) {
+        for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getEmail().equals(email)) {
                 return null;
             }
@@ -171,8 +192,9 @@ public class Empresa implements Serializable {
 
         );
 
-        this.listaUtilizadores.add(novoAdministrador);
-        this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
+        empresa.listaUtilizadores.add(novoAdministrador);
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
 
         return novoAdministrador;
-}}
+    }
+}

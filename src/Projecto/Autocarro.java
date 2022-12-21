@@ -16,4 +16,8 @@ public class Autocarro implements Serializable {
         this.lotacao = lotacao;
 
     }
+
+    public String getMatricula() {
+        return matricula;
+    }
 }

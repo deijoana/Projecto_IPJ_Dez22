@@ -85,7 +85,7 @@ public class Login extends JPanel {
                 String email = emailT.getText();
                 String password = String.valueOf(passwordF.getPassword());
 
-                Utilizador loggado = empresa.login(email, password);
+                Utilizador loggado = empresa.login(email, password, empresa);
 
                 if (loggado == null) {
                     emailT.setText("");
