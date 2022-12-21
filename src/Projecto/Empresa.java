@@ -20,7 +20,7 @@ public class Empresa implements Serializable {
 
     Administrador administrador = new Administrador(
             "Tiago Sousa",
-            228923824,
+            "228923824",
             "Rua António Jardim",
             "910424769",
             "tiagosousa@aor.pt",
@@ -68,7 +68,7 @@ public class Empresa implements Serializable {
             String email,
             String nome,
             String telefone,
-            long nif,
+            String nif,
             String morada,
             String tipoDeSubscricao,
             String modoDePagamento,
@@ -132,5 +132,49 @@ public class Empresa implements Serializable {
             }
         }
         return objeto;
+    }
+
+      public boolean validarEmail(String email) {
+          int count = 0;
+
+          for (int i = 0; i < email.length(); i++) {
+              if (email.charAt(i) == '@') count++;
+          }
+          if (count == 1) {
+              return true;
+          } else return false;
+
+      }
+
+    public Utilizador registarAdministrador(
+            String email,
+            String nome,
+            String telefone,
+            String nif,
+            String morada,
+            String palavraPasse
+    ) {
+
+        for (Utilizador u: this.listaUtilizadores) {
+            if (u.getEmail().equals(email)) {
+                return null;
+            }
+        }
+
+        Administrador novoAdministrador = new Administrador(
+                nome,
+                nif,
+                morada,
+                telefone,
+                email,
+                "Administrador",
+                palavraPasse
+
+        );
+
+        this.listaUtilizadores.add(novoAdministrador);
+        this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
+
+        return novoAdministrador;
     }
 }

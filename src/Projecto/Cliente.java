@@ -6,7 +6,7 @@ public class Cliente extends Utilizador implements Serializable {
     private String tipoSubscricao;
     private String modoPagamento;
 
-    public Cliente(String nome, long nif, String morada, String telefone, String email, String tipoUtilizador,
+    public Cliente(String nome, String nif, String morada, String telefone, String email, String tipoUtilizador,
                    String palavraPasse, String tipoSubscricao, String modoPagamento) {
         super(nome, nif, morada, telefone, email, tipoUtilizador, palavraPasse);
         this.tipoSubscricao = tipoSubscricao;

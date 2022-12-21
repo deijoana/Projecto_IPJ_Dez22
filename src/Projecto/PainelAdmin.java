@@ -2,9 +2,12 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PainelAdmin extends JPanel {
     Empresa empresa;
+
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
@@ -124,8 +127,45 @@ public class PainelAdmin extends JPanel {
         c1.gridx = 2;
         c1.gridy = 8;
         panel1.add(guardarRegisto, c1);
+       /* guardarRegisto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String email = emailT.getText();
+                String password = String.valueOf(passwordF.getPassword());
+                String nome = nomeT.getText();
+                String nif = nifT.getText();
+                String telefone = telefoneT.getText();
+                String morada = moradaT.getText();
 
 
+                Utilizador novoAdmin = empresa.registarAdministrador(email, nome, telefone, nif, morada, password);
+
+                if (empresa.validarEmail(email)) {
+
+                    if (novoAdmin == null) {
+
+                        JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                    }
+
+                    else if (novoAdmin instanceof Administrador) {
+                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoAdmin.nome + " autenticado com sucesso");
+                        janela.mudaEcra("Login");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
+
+                emailT.setText("");
+                passwordF.setText("");
+                nomeT.setText("");
+                nifT.setText("");
+                moradaT.setText("");
+                telefoneT.setText("");
+
+
+            }}
+
+        });
+
+*/
         panel2 = new JPanel(); //2º painel -> Motoristas, até à linha 269
         painelAd.addTab("Motoristas", panel2);
         panel2.setLayout(new GridLayout());

@@ -28,7 +28,7 @@ public class PainelRegisto extends JPanel {
         c.gridx = 10;
         c.gridy = 0;
         this.add(pagInicial, c);
-        pagInicial.addActionListener(new GerirEventos(3, this.janela));
+        pagInicial.addActionListener(new GerirEventos(2, this.janela));
 
         inserirDados = new JLabel("Insira os seguintes dados para efectuar um novo registo:");
         inserirDados.setFont(new Font("Arial", 1, 15));
@@ -140,7 +140,7 @@ public class PainelRegisto extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = emailT.getText();
-                String password = passwordF.getText();
+                String password = String.valueOf(passwordF.getPassword());
                 String nome = nomeT.getText();
                 String nif = nifT.getText();
                 String telefone = telefoneT.getText();
@@ -149,23 +149,34 @@ public class PainelRegisto extends JPanel {
                 String modoDePagamento = pagamentoSubscricaoB.getToolTipText();
 
 
-                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, Long.valueOf(nif), morada, tipoDeSubscricao, modoDePagamento, password);
+                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada, tipoDeSubscricao, modoDePagamento, password);
 
-                if (novoRegisto == null) {
-                    emailT.setText("");
-                    passwordF.setText("");
-                    JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
-                }
+                if (empresa.validarEmail(email)) {
 
-                if (novoRegisto instanceof Administrador) {
-                    JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoRegisto.nome + " autenticado com sucesso");
-                    janela.mudaEcra("Login");
-                } else if (novoRegisto instanceof Cliente) {
-                    JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
-                    janela.mudaEcra("Login");
-                }
-            }
-        });
+                    if (novoRegisto == null) {
+
+                        JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                    }
+
+                    if (novoRegisto instanceof Administrador) {
+                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoRegisto.nome + " autenticado com sucesso");
+                        janela.mudaEcra("Login");
+                    } else if (novoRegisto instanceof Cliente) {
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
+                        janela.mudaEcra("Login");
+                    }
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
+
+                emailT.setText("");
+                passwordF.setText("");
+                nomeT.setText("");
+                nifT.setText("");
+                moradaT.setText("");
+                telefoneT.setText("");
+
+
+            }});
 
     }
 }

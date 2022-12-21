@@ -23,7 +23,6 @@ public class GerirEventos implements ActionListener {
                 janela.mudaEcra("Login");
                 break;
 
-
         }
 
     }
