@@ -163,9 +163,7 @@ public class PainelRegisto extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
                     }
-              /*  } else
-                    JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
-*/
+
                 emailT.setText("");
                 passwordF.setText("");
                 nomeT.setText("");
