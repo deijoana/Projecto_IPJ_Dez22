@@ -149,7 +149,7 @@ public class PainelRegisto extends JPanel {
                 String modoDePagamento = pagamentoSubscricaoB.getToolTipText();
 
 
-                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, Long.valueOf(nif), morada, tipoDeSubscricao, modoDePagamento, password);
+                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, Long.valueOf(nif), morada, tipoDeSubscricao, modoDePagamento, password, empresa);
 
                 if (novoRegisto == null) {
                     emailT.setText("");

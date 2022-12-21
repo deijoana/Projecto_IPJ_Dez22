@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class Empresa implements Serializable {
     public static final String AUTOCARROS_AOR = "autocarros_aor";
@@ -13,7 +11,7 @@ public class Empresa implements Serializable {
     private List<Autocarro> listaAutocarros = new ArrayList<>();
     private List<Motorista> listaMotoristas = new ArrayList<>();
     private List listaAdministradores = new ArrayList<Administrador>();
-    private List listaClientes = new ArrayList<Cliente>();
+
     private List listaNegraClientes = new ArrayList<Cliente>();
     private List listaReservas = new ArrayList<Reserva>();
     private List listaPreReservas = new ArrayList<Reserva>();
@@ -27,6 +25,10 @@ public class Empresa implements Serializable {
             "Administrador",
             "12345"
     );
+
+    public Empresa(List<Utilizador> listaUtilizadores) {
+        this.listaUtilizadores = listaUtilizadores;
+    }
 
     public Empresa() throws IOException, ClassNotFoundException {
         this.listaUtilizadores = new ArrayList<>();
@@ -56,14 +58,6 @@ public class Empresa implements Serializable {
         this.listaAdministradores = listaAdministradores;
     }
 
-    public List getListaClientes() {
-        return listaClientes;
-    }
-
-    public void setListaClientes(List listaClientes) {
-        this.listaClientes = listaClientes;
-    }
-
     public Utilizador registarCliente(
             String email,
             String nome,
@@ -72,35 +66,44 @@ public class Empresa implements Serializable {
             String morada,
             String tipoDeSubscricao,
             String modoDePagamento,
-            String palavraPasse
+            String palavraPasse,
+            Empresa empresa
     ) {
 
-        for (Utilizador u: this.listaUtilizadores) {
+        for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getEmail().equals(email)) {
                 return null;
             }
         }
 
-       Cliente novoCliente = new Cliente(
-               nome,
-               nif,
-               morada,
-               telefone,
-               email,
-               "Cliente",
-               palavraPasse,
-               tipoDeSubscricao,
-               modoDePagamento
-       );
+        Cliente novoCliente = new Cliente(
+                nome,
+                nif,
+                morada,
+                telefone,
+                email,
+                "Cliente",
+                palavraPasse,
+                tipoDeSubscricao,
+                modoDePagamento
+        );
 
-        this.listaUtilizadores.add(novoCliente);
-        this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
+        empresa.listaUtilizadores.add(novoCliente);
+        this.escreveFicheiro(AUTOCARROS_AOR, empresa);
+        //this.escreveFicheiro(AUTOCARROS_AOR, this.listaUtilizadores);
 
         return novoCliente;
     }
 
+    public List<Utilizador> listaDeClientes(Empresa empresa) {
+        return empresa.listaUtilizadores.stream().filter(
+                        user -> user.tipoUtilizador.equals("Cliente")
+                )
+                .toList();
+    }
+
     public Utilizador login(String emailUtilizador, String palavraPasse) {
-        for (Utilizador u: this.listaUtilizadores) {
+        for (Utilizador u : this.listaUtilizadores) {
             if (u.getEmail().equals(emailUtilizador) && u.getPalavraPasse().equals(palavraPasse)) {
                 return u;
             }
