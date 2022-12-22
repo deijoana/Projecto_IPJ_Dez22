@@ -140,7 +140,7 @@ public class PainelAdmin extends JPanel {
 
                 Utilizador novoAdmin = empresa.registarAdministrador(email, nome, telefone, nif, morada, password, empresa);
 
-                if (empresa.validarEmail(email)) {
+                if (empresa.validarEmail(email, empresa)) {
 
                     if (novoAdmin == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
@@ -153,8 +153,7 @@ public class PainelAdmin extends JPanel {
                     } else if (novoAdmin instanceof Cliente) {
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoAdmin.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
-                    }
-                } else
+                    }} else
                     JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
 
                 emailT.setText("");

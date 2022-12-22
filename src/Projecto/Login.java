@@ -89,23 +89,27 @@ public class Login extends JPanel {
                 // guarda o utilizador correspondente aos dados inseridos ou null se não houver correspondência na lista de utilizadores
                 Utilizador logado = empresa.fazerLogin(email, password, empresa);
 
-                if (logado == null) {
-                    JOptionPane.showMessageDialog(new JFrame("Autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
-                }
+                if (empresa.validarEmail(email, empresa)) {
+                    if (logado == null) {
+                        JOptionPane.showMessageDialog(new JFrame("Autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                    }
 
-                if (logado instanceof Administrador) {
-                    JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), logado.nome + " autenticado com sucesso");
+                    if (logado instanceof Administrador) {
+                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), logado.nome + " autenticado com sucesso");
 
-                    janela.mudaEcra("PainelAdmin");
-                } else if (logado instanceof Cliente) {
+                        janela.mudaEcra("PainelAdmin");
+                    } else if (logado instanceof Cliente) {
 
-                    JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
-                    janela.mudaEcra("PainelCliente");
-                }
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
+                        janela.mudaEcra("PainelCliente");
+                    }
+
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
+
                 emailT.setText("");
                 passwordF.setText("");
-            }
-        });
+            }});
 
         criarRegisto = new JButton("Criar Registo");
         c.insets = new Insets(40, 0, 0, 0);

@@ -85,8 +85,8 @@ public class Empresa implements Serializable {
             Empresa empresa
     ) {
         for (Utilizador u : empresa.listaUtilizadores) {
-            if (u.getEmail().equals(email)) {
-                return null;
+            if (u.getEmail().equals(email)){
+                return null;  // significa que já existe uma conta para o email usado
             }
         }
 
@@ -160,7 +160,7 @@ public class Empresa implements Serializable {
     }
 
     // método que valida se o email inserido é válido
-    public boolean validarEmail(String email) {
+    public boolean validarEmail(String email, Empresa empresa) {
         int count = 0;
 
         for (int i = 0; i < email.length(); i++) {
