@@ -9,6 +9,9 @@ public class Administrador extends Utilizador implements Serializable {
         super(nome, nif, morada, telefone, email, tipoUtilizador, palavraPasse);
     }
 
-
+    @Override
+    public String toString() {
+         return nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + "\n";
+    }
 }
 

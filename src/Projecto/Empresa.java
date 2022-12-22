@@ -1,5 +1,6 @@
 package Projecto;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ public class Empresa implements Serializable {
     private List<Utilizador> listaUtilizadores;
     private List<Autocarro> listaAutocarros;
     private List<Motorista> listaMotoristas;
+
+    private List<Cliente> listaClientes;
     private List listaNegraClientes;
     private List listaReservas;
     private List listaPreReservas;
@@ -27,6 +30,7 @@ public class Empresa implements Serializable {
             "Administrador",
             "12345"
     );
+
 
     // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
     // Definiu-se como static porque este dado não deverá nunca ser alterado
@@ -53,22 +57,62 @@ public class Empresa implements Serializable {
     // método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula
     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
         // código que substitui numa linha um ciclo for:each
-        if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
-            return null;
-        }
-
-/*        for (Autocarro a : empresa.listaAutocarros) {
+        /*        for (Autocarro a : empresa.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
                 return null;
             }
         }*/
+        if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
+            return null;
+        }
 
         Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
         empresa.listaAutocarros.add(novoAutocarro);
-        // guarda as alterações no ficheiro de objectos
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        escreveFicheiro(AUTOCARROS_AOR, empresa);  // guarda as alterações no ficheiro de objectos
 
         return novoAutocarro;
+    }
+
+    public Motorista adicionarMotorista(String email, String nome, String nif, Empresa empresa) {
+        for (Motorista m : empresa.listaMotoristas) {
+            if (m.getNifMotorista().equals(nif)) {
+                return null;
+            }
+
+        }
+        Motorista novoMotorista = new Motorista(nome, email, nif);
+        empresa.listaMotoristas.add(novoMotorista);
+        escreveFicheiro((AUTOCARROS_AOR), empresa);
+        return novoMotorista;
+    }
+
+    public int editarMotorista(String email, String nome, String nif, Empresa empresa) {
+        // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
+
+        for (Motorista m : empresa.listaMotoristas) {
+            if (m.getNifMotorista().equals(nif)) {
+                m.setEmailMotorista(email);
+                m.setNomeMotorista(nome);
+                return 1;
+            }
+
+        }
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        return 0;
+    }
+
+    public int removerMotorista(String email, String nome, String nif, Empresa empresa) {
+        // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
+
+        for (Motorista m : empresa.listaMotoristas) {
+            if (m.getNifMotorista().equals(nif)) {
+                empresa.listaMotoristas.remove(m);
+                return 1;
+            }
+        }
+
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        return 0;
     }
 
     // método que adiciona um novo cliente à lista de utilizadores ao fazer um novo registo
@@ -85,7 +129,7 @@ public class Empresa implements Serializable {
             Empresa empresa
     ) {
         for (Utilizador u : empresa.listaUtilizadores) {
-            if (u.getEmail().equals(email)){
+            if (u.getEmail().equals(email)) {
                 return null;  // significa que já existe uma conta para o email usado
             }
         }
@@ -172,6 +216,15 @@ public class Empresa implements Serializable {
 
     }
 
+    public boolean validarDados(String dado, Empresa empresa) {
+        // método que valida se caixa de texto de dado está preenchida ou não
+        String vazio = "";
+        if (dado.equals(vazio)) {
+            return false;
+        }
+        return true;
+    }
+
     // método que adiciona um novo administrador à lista de utilizadores ao fazer um novo registo
     // só adiciona se não houver nenhuma instância com o mesmo email
     public Utilizador registarAdministrador(
@@ -206,4 +259,18 @@ public class Empresa implements Serializable {
 
         return novoAdministrador;
     }
+
+    public List<Motorista> getListaMotoristas() {
+        return listaMotoristas;
+    }
+
+    public void setListaMotoristas(List<Motorista> listaMotoristas) {
+        this.listaMotoristas = listaMotoristas;
+    }
+
+    public List<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+
+
 }

@@ -29,5 +29,8 @@ public class Cliente extends Utilizador implements Serializable {
         this.modoPagamento = modoPagamento;
     }
 
-
+    @Override
+    public String toString() {
+        return nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + ", " + tipoSubscricao + ", " + modoPagamento;
+    }
 }

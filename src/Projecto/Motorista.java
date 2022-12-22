@@ -14,4 +14,32 @@ public class Motorista implements Serializable {
         this.nifMotorista = nifMotorista;
     }
 
+    public String getNomeMotorista() {
+        return nomeMotorista;
+    }
+
+    public void setNomeMotorista(String nomeMotorista) {
+        this.nomeMotorista = nomeMotorista;
+    }
+
+    public String getEmailMotorista() {
+        return emailMotorista;
+    }
+
+    public void setEmailMotorista(String emailMotorista) {
+        this.emailMotorista = emailMotorista;
+    }
+
+    public String getNifMotorista() {
+        return nifMotorista;
+    }
+
+    public void setNifMotorista(String nifMotorista) {
+        this.nifMotorista = nifMotorista;
+    }
+
+    @Override
+    public String toString() {
+        return  nomeMotorista +", "+ emailMotorista + ", + NIF: "+nifMotorista + "\n";
+    }
 }
