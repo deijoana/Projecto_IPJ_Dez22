@@ -13,7 +13,7 @@ public class PainelAdmin extends JPanel {
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
-    JButton logout, guardarRegisto, guardarRegisto1, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
+    JButton logout, guardarRegisto, guardarRegisto1,guardarRegisto2, guardarRegisto3, guardarRegisto4,guardarRegisto5, guardarRegisto6, guardarRegisto7, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
 
     JList<Motorista> listagemMotoristas;
     JList<Utilizador> listagemClientes;
@@ -21,8 +21,20 @@ public class PainelAdmin extends JPanel {
 
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
     JLabel inserirDados1, nome1, nif1, morada1, telefone1, email1, palavraPasse1;
-    JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1, matriculaT, marcaT, modeloT, lotacaoT;
+    JLabel inserirDados2, nome2, nif2, email2;
+    JLabel inserirDados3, nome3, nif3, email3;
+    JLabel inserirDados4, nif4;
+    JLabel inserirDados5, matricula5, marca5, modelo5, lotacao5;
+    JLabel inserirDados6, matricula6, marca6, modelo6, lotacao6;
+    JLabel inserirDados7, matricula7;
+    JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1;
     JTextField nomeT1, nifT1, moradaT1, telefoneT1;
+    JTextField nomeT2, nifT2, emailT2;
+    JTextField nomeT3, nifT3, emailT3;
+    JTextField nifT4;
+    JTextField matriculaT5, marcaT5, modeloT5, lotacaoT5;
+    JTextField matriculaT6, marcaT6, modeloT6, lotacaoT6;
+    JTextField matriculaT7;
     JPasswordField passwordF, passwordF1, passwordNova1, passwordNova2;
 
     JComboBox tipoSubscricaoB, pagamentoSubscricaoB;
@@ -110,7 +122,6 @@ public class PainelAdmin extends JPanel {
         panel1.add(email1, c1);
 
         emailT1 = new JTextField(50);
-      //  emailT1.setText("***********");
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 5;
@@ -136,7 +147,6 @@ public class PainelAdmin extends JPanel {
         c1.gridy = 8;
         panel1.add(guardarRegisto1, c1);
 
-
         guardarRegisto1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -148,8 +158,7 @@ public class PainelAdmin extends JPanel {
                 String telefone1 = telefoneT1.getText();
                 String morada1 = moradaT1.getText();
 
-
-                JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
+             //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
 
                 Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1, empresa);
 
@@ -169,7 +178,7 @@ public class PainelAdmin extends JPanel {
                         janela.mudaEcra("Login");
                     }
                 } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "*********Dados inválidos. Insira os dados pedidos");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
                 emailT1.setText("");
                 passwordF1.setText("");
@@ -194,63 +203,63 @@ public class PainelAdmin extends JPanel {
         addM.setLayout(new GridBagLayout());
         GridBagConstraints c2 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Insira as seguintes informações para adicionar um novo motorista:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados2 = new JLabel("Insira as seguintes informações para adicionar um novo motorista:");
+        inserirDados2.setFont(new Font("Arial", 1, 12));
         c2.gridx = 0;
         c2.gridy = 0;
         c2.gridwidth = 2;
         c2.insets = new Insets(0, 0, 10, 0);
-        addM.add(inserirDados, c2);
+        addM.add(inserirDados2, c2);
 
-        nome = new JLabel("Nome");
-        nome.setFont(new Font("Arial", 1, 12));
+        nome2 = new JLabel("Nome");
+        nome2.setFont(new Font("Arial", 1, 12));
         c2.gridx = 1;
         c2.gridy = 1;
-        addM.add(nome, c2);
+        addM.add(nome2, c2);
 
-        nomeT = new JTextField(50);
+        nomeT2 = new JTextField(50);
         c2.gridx = 2;
         c2.gridy = 1;
-        addM.add(nomeT, c2);
+        addM.add(nomeT2, c2);
 
-        email = new JLabel("Email");
-        email.setFont(new Font("Arial", 1, 12));
+        email2 = new JLabel("Email");
+        email2.setFont(new Font("Arial", 1, 12));
         c2.gridx = 1;
         c2.gridy = 2;
-        addM.add(email, c2);
+        addM.add(email2, c2);
 
-        emailT = new JTextField(50);
+        emailT2 = new JTextField(50);
         c2.gridx = 2;
         c2.gridy = 2;
-        addM.add(emailT, c2);
+        addM.add(emailT2, c2);
 
-        nif = new JLabel("NIF");
-        nif.setFont(new Font("Arial", 1, 12));
+        nif2 = new JLabel("NIF");
+        nif2.setFont(new Font("Arial", 1, 12));
         c2.gridx = 1;
         c2.gridy = 3;
-        addM.add(nif, c2);
+        addM.add(nif2, c2);
 
-        nifT = new JTextField(50);
+        nifT2 = new JTextField(50);
         c2.gridx = 2;
         c2.gridy = 3;
-        addM.add(nifT, c2);
+        addM.add(nifT2, c2);
 
-        guardarRegisto = new JButton("Guardar registo");
+        guardarRegisto2 = new JButton("Guardar registo");
         c2.fill = GridBagConstraints.HORIZONTAL;
         c2.insets = new Insets(20, 0, 0, 0);
         c2.gridx = 2;
         c2.gridy = 5;
-        addM.add(guardarRegisto, c2);
-        guardarRegisto.addActionListener(new ActionListener() {
+        addM.add(guardarRegisto2, c2);
+        guardarRegisto2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nome = nomeT.getText();
-                String nif = nifT.getText();
-                String email = emailT.getText();
+                String nome2 = nomeT2.getText();
+                String nif2 = nifT2.getText();
+                String email2 = emailT2.getText();
 
-                Motorista novoMotorista = empresa.adicionarMotorista(email, nome, nif, empresa);
+                Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2, empresa);
 
-                if (empresa.validarEmail(email, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(nome, empresa)) {
+                if (empresa.validarEmail(email2, empresa) && empresa.validarDados(nif2, empresa) && empresa.validarDados(nome2, empresa)) {
 
                     if (novoMotorista == null) {
                         JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"), "Já existe um motorista com este NIF: " + nif);
@@ -261,9 +270,9 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
 
-                nomeT.setText("");
-                nifT.setText("");
-                emailT.setText("");
+                nomeT2.setText("");
+                nifT2.setText("");
+                emailT2.setText("");
             }
         });
 
@@ -273,64 +282,64 @@ public class PainelAdmin extends JPanel {
         editM.setLayout(new GridBagLayout());
         GridBagConstraints c3 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Edite os dados pessoais do motorista (use o NIF como identificador único do motorista):");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados3 = new JLabel("Edite os dados pessoais do motorista (use o NIF como identificador único do motorista):");
+        inserirDados3.setFont(new Font("Arial", 1, 12));
         c3.gridx = 0;
         c3.gridy = 0;
         c3.gridwidth = 2;
         c3.insets = new Insets(0, 0, 10, 0);
-        editM.add(inserirDados, c3);
+        editM.add(inserirDados3, c3);
 
-        nif = new JLabel("NIF");
-        nif.setFont(new Font("Arial", 1, 12));
+        nif3 = new JLabel("NIF");
+        nif3.setFont(new Font("Arial", 1, 12));
         c3.gridx = 1;
         c3.gridy = 1;
-        editM.add(nif, c3);
+        editM.add(nif3, c3);
 
-        nifT = new JTextField(50);
+        nifT3 = new JTextField(50);
         c3.gridx = 2;
         c3.gridy = 1;
-        editM.add(nifT, c3);
+        editM.add(nifT3, c3);
 
-        nome = new JLabel("Nome");
-        nome.setFont(new Font("Arial", 1, 12));
+        nome3 = new JLabel("Nome");
+        nome3.setFont(new Font("Arial", 1, 12));
         c3.gridx = 1;
         c3.gridy = 2;
-        editM.add(nome, c3);
+        editM.add(nome3, c3);
 
-        nomeT = new JTextField(50);
+        nomeT3 = new JTextField(50);
         c3.gridx = 2;
         c3.gridy = 2;
-        editM.add(nomeT, c3);
+        editM.add(nomeT3, c3);
 
-        email = new JLabel("Email");
-        email.setFont(new Font("Arial", 1, 12));
+        email3 = new JLabel("Email");
+        email3.setFont(new Font("Arial", 1, 12));
         c3.gridx = 1;
         c3.gridy = 3;
-        editM.add(email, c3);
+        editM.add(email3, c3);
 
-        emailT = new JTextField(50);
+        emailT3 = new JTextField(50);
         c3.gridx = 2;
         c3.gridy = 3;
-        editM.add(emailT, c3);
+        editM.add(emailT3, c3);
 
-        guardarRegisto = new JButton("Guardar alterações");
+        guardarRegisto3 = new JButton("Guardar alterações");
         c3.fill = GridBagConstraints.HORIZONTAL;
         c3.insets = new Insets(20, 0, 0, 0);
         c3.gridx = 2;
         c3.gridy = 5;
-        editM.add(guardarRegisto, c3);
+        editM.add(guardarRegisto3, c3);
 
-        guardarRegisto.addActionListener(new ActionListener() {
+        guardarRegisto3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nome = nomeT.getText();
-                String nif = nifT.getText();
-                String email = emailT.getText();
+                String nome3 = nomeT3.getText();
+                String nif3 = nifT3.getText();
+                String email3 = emailT3.getText();
 
-                boolean resultado = empresa.editarMotorista(email, nome, nif, empresa);
+                boolean resultado = empresa.editarMotorista(email3, nome3, nif3, empresa);
 
-                if (empresa.validarEmail(email, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(nome, empresa)) {
+                if (empresa.validarEmail(email3, empresa) && empresa.validarDados(nif3, empresa) && empresa.validarDados(nome3, empresa)) {
 
                     if (resultado) {
                         JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"), "As informações do motorista associado ao nif " + nif + " foram alteradas com sucesso");
@@ -339,9 +348,9 @@ public class PainelAdmin extends JPanel {
                 } else                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
 
-                nomeT.setText("");
-                nifT.setText("");
-                emailT.setText("");
+                nomeT3.setText("");
+                nifT3.setText("");
+                emailT3.setText("");
             }
         });
 
@@ -351,41 +360,39 @@ public class PainelAdmin extends JPanel {
         removeM.setLayout(new GridBagLayout());
         GridBagConstraints c4 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Indique o NIF do motorista cujas informações pretende remover:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados4 = new JLabel("Indique o NIF do motorista cujas informações pretende remover:");
+        inserirDados4.setFont(new Font("Arial", 1, 12));
         c4.gridx = 0;
         c4.gridy = 0;
         c4.insets = new Insets(0, 0, 20, 0);
-        removeM.add(inserirDados, c4);
+        removeM.add(inserirDados4, c4);
 
-        nif = new JLabel("NIF");
-        nif.setFont(new Font("Arial", 1, 12));
+        nif4 = new JLabel("NIF");
+        nif4.setFont(new Font("Arial", 1, 12));
         c4.gridx = 2;
         c4.gridy = 2;
         c4.insets = new Insets(0, 0, 0, 10);
-        removeM.add(nif, c4);
+        removeM.add(nif4, c4);
 
-        nifT = new JTextField(50);
+        nifT4 = new JTextField(50);
         c4.gridx = 3;
         c4.gridy = 2;
-        removeM.add(nifT, c4);
+        removeM.add(nifT4, c4);
 
-        guardarRegisto = new JButton("Remover motorista");
+        guardarRegisto4 = new JButton("Remover motorista");
         c4.insets = new Insets(20, 0, 0, 0);
         c4.gridx = 3;
         c4.gridy = 5;
-        removeM.add(guardarRegisto, c4);
-        guardarRegisto.addActionListener(new ActionListener() {
+        removeM.add(guardarRegisto4, c4);
+        guardarRegisto4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String nome = nomeT.getText();
-                String nif = nifT.getText();
-                String email = emailT.getText();
+                String nif4 = nifT4.getText();
 
-                boolean resultado = empresa.removerMotorista(email, nome, nif, empresa);
+                boolean resultado = empresa.removerMotorista(nif4, empresa);
 
-                if ( empresa.validarDados(nif, empresa) ) {
+                if ( empresa.validarDados(nif4, empresa) ) {
 
                     if (resultado) {
                         JOptionPane.showMessageDialog(new JFrame("O motorista foi removido"), "O motorista foi removido");
@@ -396,9 +403,7 @@ public class PainelAdmin extends JPanel {
                 } else JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
 
-                nomeT.setText("");
-                nifT.setText("");
-                emailT.setText("");
+                nifT4.setText("");
             }
         });
 
@@ -418,74 +423,74 @@ public class PainelAdmin extends JPanel {
         addBus.setLayout(new GridBagLayout());
         GridBagConstraints c5 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Insira as seguintes informações para adicionar um novo autocarro:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados5 = new JLabel("Insira as seguintes informações para adicionar um novo autocarro:");
+        inserirDados5.setFont(new Font("Arial", 1, 12));
         c5.gridx = 0;
         c5.gridy = 0;
         c5.gridwidth = 2;
         c5.insets = new Insets(0, 0, 10, 0);
-        addBus.add(inserirDados, c5);
+        addBus.add(inserirDados5, c5);
 
-        matricula = new JLabel("Matrícula");
-        matricula.setFont(new Font("Arial", 1, 12));
+        matricula5 = new JLabel("Matrícula");
+        matricula5.setFont(new Font("Arial", 1, 12));
         c5.gridx = 1;
         c5.gridy = 1;
-        addBus.add(matricula, c5);
+        addBus.add(matricula5, c5);
 
-        matriculaT = new JTextField("Formato ##-##-##", 50);
-        matriculaT.setFont(new Font("Arial", 1, 12));
+        matriculaT5 = new JTextField("Formato ##-##-##", 50);
+        matriculaT5.setFont(new Font("Arial", 1, 12));
         c5.gridx = 2;
         c5.gridy = 1;
-        addBus.add(matriculaT, c5);
+        addBus.add(matriculaT5, c5);
 
-        marca = new JLabel("Marca");
-        marca.setFont(new Font("Arial", 1, 12));
+        marca5 = new JLabel("Marca");
+        marca5.setFont(new Font("Arial", 1, 12));
         c5.gridx = 1;
         c5.gridy = 2;
-        addBus.add(marca, c5);
+        addBus.add(marca5, c5);
 
-        marcaT = new JTextField(50);
+        marcaT5 = new JTextField(50);
         c5.gridx = 2;
         c5.gridy = 2;
-        addBus.add(marcaT, c5);
+        addBus.add(marcaT5, c5);
 
-        modelo = new JLabel("Modelo");
-        modelo.setFont(new Font("Arial", 1, 12));
+        modelo5 = new JLabel("Modelo");
+        modelo5.setFont(new Font("Arial", 1, 12));
         c5.gridx = 1;
         c5.gridy = 3;
-        addBus.add(modelo, c5);
+        addBus.add(modelo5, c5);
 
-        modeloT = new JTextField(50);
+        modeloT5 = new JTextField(50);
         c5.gridx = 2;
         c5.gridy = 3;
-        addBus.add(modeloT, c5);
+        addBus.add(modeloT5, c5);
 
-        lotacao = new JLabel("Lotação");
-        lotacao.setFont(new Font("Arial", 1, 12));
+        lotacao5 = new JLabel("Lotação");
+        lotacao5.setFont(new Font("Arial", 1, 12));
         c5.gridx = 1;
         c5.gridy = 4;
-        addBus.add(lotacao, c5);
+        addBus.add(lotacao5, c5);
 
-        lotacaoT = new JTextField(50);
+        lotacaoT5 = new JTextField(50);
         c5.gridx = 2;
         c5.gridy = 4;
-        addBus.add(lotacaoT, c5);
+        addBus.add(lotacaoT5, c5);
 
-        guardarRegisto = new JButton("Guardar registo");
+        guardarRegisto5 = new JButton("Guardar registo");
         c5.fill = GridBagConstraints.HORIZONTAL;
         c5.insets = new Insets(20, 0, 0, 0);
         c5.gridx = 2;
         c5.gridy = 6;
-        addBus.add(guardarRegisto, c5);
-        guardarRegisto.addActionListener(new ActionListener() {
+        addBus.add(guardarRegisto5, c5);
+        guardarRegisto5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String marca = marcaT.getText();
-                String modelo = modeloT.getText();
-                String matricula = matriculaT.getText();
-                int lotacao = Integer.parseInt(lotacaoT.getText());
+                String marca5 = marcaT5.getText();
+                String modelo5 = modeloT5.getText();
+                String matricula5 = matriculaT5.getText();
+                int lotacao5 = Integer.parseInt(lotacaoT5.getText());
 
-                Autocarro autocarro = empresa.adicionarAutocarro(matricula, marca, modelo, lotacao, empresa);
+                Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5, empresa);
 
                 if (autocarro == null) {
                     JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula + " já existe");
@@ -493,10 +498,10 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A matrícula " + matricula + " foi registada com sucesso.");
                 }
 
-                marcaT.setText("");
-                modeloT.setText("");
-                matriculaT.setText("");
-                lotacaoT.setText("");
+                marcaT5.setText("");
+                modeloT5.setText("");
+                matriculaT5.setText("");
+                lotacaoT5.setText("");
 
             }
         });
@@ -506,94 +511,94 @@ public class PainelAdmin extends JPanel {
         editBus.setLayout(new GridBagLayout());
         GridBagConstraints c6 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Edite as informações do autocarro:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados6 = new JLabel("Edite as informações do autocarro:");
+        inserirDados6.setFont(new Font("Arial", 1, 12));
         c6.gridx = 0;
         c6.gridy = 0;
         c6.gridwidth = 2;
         c6.insets = new Insets(0, 0, 10, 0);
-        editBus.add(inserirDados, c6);
+        editBus.add(inserirDados6, c6);
 
-        matricula = new JLabel("Matrícula");
-        matricula.setFont(new Font("Arial", 1, 12));
+        matricula6 = new JLabel("Matrícula");
+        matricula6.setFont(new Font("Arial", 1, 12));
         c6.gridx = 1;
         c6.gridy = 1;
-        editBus.add(matricula, c6);
+        editBus.add(matricula6, c6);
 
-        matriculaT = new JTextField("Formato ##-##-##", 50);
-        matriculaT.setFont(new Font("Arial", 1, 12));
+        matriculaT6 = new JTextField("Formato ##-##-##", 50);
+        matriculaT6.setFont(new Font("Arial", 1, 12));
         c6.gridx = 2;
         c6.gridy = 1;
-        editBus.add(matriculaT, c6);
+        editBus.add(matriculaT6, c6);
 
-        marca = new JLabel("Marca");
-        marca.setFont(new Font("Arial", 1, 12));
+        marca6 = new JLabel("Marca");
+        marca6.setFont(new Font("Arial", 1, 12));
         c6.gridx = 1;
         c6.gridy = 2;
-        editBus.add(marca, c6);
+        editBus.add(marca6, c6);
 
-        marcaT = new JTextField(50);
+        marcaT6 = new JTextField(50);
         c6.gridx = 2;
         c6.gridy = 2;
-        editBus.add(marcaT, c6);
+        editBus.add(marcaT6, c6);
 
-        modelo = new JLabel("Modelo");
-        modelo.setFont(new Font("Arial", 1, 12));
+        modelo6 = new JLabel("Modelo");
+        modelo6.setFont(new Font("Arial", 1, 12));
         c6.gridx = 1;
         c6.gridy = 3;
-        editBus.add(modelo, c6);
+        editBus.add(modelo6, c6);
 
-        modeloT = new JTextField(50);
+        modeloT6 = new JTextField(50);
         c6.gridx = 2;
         c6.gridy = 3;
-        editBus.add(modeloT, c6);
+        editBus.add(modeloT6, c6);
 
-        lotacao = new JLabel("Lotação");
-        lotacao.setFont(new Font("Arial", 1, 12));
+        lotacao6 = new JLabel("Lotação");
+        lotacao6.setFont(new Font("Arial", 1, 12));
         c6.gridx = 1;
         c6.gridy = 4;
-        editBus.add(lotacao, c6);
+        editBus.add(lotacao6, c6);
 
-        lotacaoT = new JTextField(50);
+        lotacaoT6 = new JTextField(50);
         c6.gridx = 2;
         c6.gridy = 4;
-        editBus.add(lotacaoT, c6);
+        editBus.add(lotacaoT6, c6);
 
-        guardarRegisto = new JButton("Guardar alterações");
+        guardarRegisto6 = new JButton("Guardar alterações");
         c6.fill = GridBagConstraints.HORIZONTAL;
         c6.insets = new Insets(20, 0, 0, 0);
         c6.gridx = 2;
         c6.gridy = 6;
-        editBus.add(guardarRegisto, c6);
+        editBus.add(guardarRegisto6, c6);
 
         removeBus = new JPanel();
         painelAutocarro.addTab("Remover", removeBus);
         removeBus.setLayout(new GridBagLayout());
         GridBagConstraints c7 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Indique a matrícula do autocarro cujas informações pretende remover:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados7 = new JLabel("Indique a matrícula do autocarro cujas informações pretende remover:");
+        inserirDados7.setFont(new Font("Arial", 1, 12));
         c7.gridx = 0;
         c7.gridy = 0;
         c7.insets = new Insets(0, 20, 20, 0);
-        removeBus.add(inserirDados, c7);
+        removeBus.add(inserirDados7, c7);
 
-        matricula = new JLabel("Matrícula");
-        matricula.setFont(new Font("Arial", 1, 12));
+        matricula7 = new JLabel("Matrícula");
+        matricula7.setFont(new Font("Arial", 1, 12));
         c7.gridx = 2;
         c7.gridy = 2;
-        removeBus.add(matricula, c7);
+        removeBus.add(matricula7, c7);
 
-        matriculaT = new JTextField("Formato ##-##-##", 50);
+        matriculaT7 = new JTextField("Formato ##-##-##", 50);
         c7.gridx = 3;
         c7.gridy = 2;
-        removeBus.add(matriculaT, c7);
+        removeBus.add(matriculaT7, c7);
 
-        guardarRegisto = new JButton("Remover autocarro");
+        guardarRegisto7 = new JButton("Remover autocarro");
         c7.insets = new Insets(20, 0, 0, 0);
         c7.gridx = 3;
         c7.gridy = 4;
-        removeBus.add(guardarRegisto, c7);
+        removeBus.add(guardarRegisto7, c7);
 
         panel3.add(painelAutocarro);
 

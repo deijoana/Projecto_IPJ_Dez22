@@ -128,7 +128,7 @@ public class Empresa implements Serializable {
         return false;
     }
 
-    public boolean removerMotorista(String email, String nome, String nif, Empresa empresa) {
+    public boolean removerMotorista( String nif, Empresa empresa) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
         for (Motorista m : empresa.listaMotoristas) {

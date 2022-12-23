@@ -19,7 +19,7 @@ public class PainelCliente extends JPanel {
     JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
 
 
-    JLabel passAntiga, passNova, passNova2;
+    JLabel inserirDadosAltPass, passAntiga, passNova, passNova2;
 
     JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
 
@@ -160,13 +160,13 @@ public class PainelCliente extends JPanel {
         panel6.setLayout(new GridBagLayout());
         GridBagConstraints c6 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Para alterar a palavra-chave, insira os seguintes dados:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDadosAltPass = new JLabel("Para alterar a palavra-chave, insira os seguintes dados:");
+        inserirDadosAltPass.setFont(new Font("Arial", 1, 12));
         c6.gridx = 0;
         c6.gridy = 0;
         c6.insets = new Insets(0, 0, 50, 0);
         //c6.gridwidth = 2;
-        panel6.add(inserirDados, c6);
+        panel6.add(inserirDadosAltPass, c6);
 
         passAntiga = new JLabel("Insira palavra-passe antiga:");
         passAntiga.setFont(new Font("Arial", 1, 12));
