@@ -37,7 +37,6 @@ public class Empresa implements Serializable {
     );
 
 
-
     public Empresa() {
         this.listaUtilizadores = new ArrayList<>();
         this.listaMotoristas = new ArrayList<>();
@@ -59,14 +58,14 @@ public class Empresa implements Serializable {
     // método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula
     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
         // código que substitui numa linha um ciclo for:each
-        /*        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : empresa.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
                 return null;
             }
-        }*/
-        if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
-            return null;
         }
+        //if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
+        //  return null;
+        //}
 
         Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
         empresa.listaAutocarros.add(novoAutocarro);
@@ -85,8 +84,8 @@ public class Empresa implements Serializable {
             Empresa empresa
     ) {
 
-        for (Autocarro a: empresa.listaAutocarros) {
-            if (a.getMatricula().equals(matricula)){
+        for (Autocarro a : empresa.listaAutocarros) {
+            if (a.getMatricula().equals(matricula)) {
                 a.setMarca(novaMarca);
                 a.setModelo(novoModelo);
                 a.setLotacao(Integer.parseInt(String.valueOf(novaLotacao)));
@@ -97,6 +96,19 @@ public class Empresa implements Serializable {
         }
         return false;
     }
+
+    public boolean removerAutocarro(String matricula, Empresa empresa) {
+
+        for (Autocarro a : empresa.listaAutocarros) {
+            if (a.getMatricula().equals(matricula)) {
+                empresa.listaAutocarros.remove(a);
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public Motorista adicionarMotorista(String email, String nome, String nif, Empresa empresa) {
         for (Motorista m : empresa.listaMotoristas) {
@@ -120,15 +132,13 @@ public class Empresa implements Serializable {
                 m.setNomeMotorista(nome);
                 escreveFicheiro(AUTOCARROS_AOR, empresa);
                 return true;
-
             }
-
         }
 
         return false;
     }
 
-    public boolean removerMotorista(String email, String nome, String nif, Empresa empresa) {
+    public boolean removerMotorista(String nif, Empresa empresa) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
         for (Motorista m : empresa.listaMotoristas) {
@@ -138,7 +148,6 @@ public class Empresa implements Serializable {
                 return true;
             }
         }
-
 
         return false;
     }
@@ -235,7 +244,7 @@ public class Empresa implements Serializable {
 
             empresa = new Empresa();
             empresa.listaUtilizadores.add(administrador);
-            escreveFicheiro(nomeDoFicheiro,empresa);
+            escreveFicheiro(nomeDoFicheiro, empresa);
         }
 
         return empresa;
