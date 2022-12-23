@@ -8,20 +8,22 @@ import java.util.Vector;
 
 public class PainelAdmin extends JPanel {
     Empresa empresa;
+
+    GUI janela;
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
     JButton logout, guardarRegisto, guardarRegisto1, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
-    GUI janela;
 
     JList<Motorista> listagemMotoristas;
     JList<Utilizador> listagemClientes;
 
 
-
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
+    JLabel inserirDados1, nome1, nif1, morada1, telefone1, email1, palavraPasse1;
     JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1, matriculaT, marcaT, modeloT, lotacaoT;
-    JPasswordField passwordF, passwordNova1, passwordNova2;
+    JTextField nomeT1, nifT1, moradaT1, telefoneT1;
+    JPasswordField passwordF, passwordF1, passwordNova1, passwordNova2;
 
     JComboBox tipoSubscricaoB, pagamentoSubscricaoB;
 
@@ -41,92 +43,91 @@ public class PainelAdmin extends JPanel {
         panel1.setLayout(new GridBagLayout());
         GridBagConstraints c1 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Insira os dados do novo administrador:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados1 = new JLabel("Insira os dados do novo administrador:");
+        inserirDados1.setFont(new Font("Arial", 1, 12));
         c1.insets = new Insets(20, 0, 0, 0);
         c1.gridx = 0;
         c1.gridy = 0;
-        panel1.add(inserirDados, c1);
+        panel1.add(inserirDados1, c1);
 
-        nome = new JLabel("Nome");
-        nome.setFont(new Font("Arial", 1, 12));
+        nome1 = new JLabel("Nome");
+        nome1.setFont(new Font("Arial", 1, 12));
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 1;
-        panel1.add(nome, c1);
+        panel1.add(nome1, c1);
 
-        nomeT = new JTextField(50);
+        nomeT1 = new JTextField(50);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 1;
-        panel1.add(nomeT, c1);
+        panel1.add(nomeT1, c1);
 
-        nif = new JLabel("NIF");
-        nif.setFont(new Font("Arial", 1, 12));
+        nif1 = new JLabel("NIF");
+        nif1.setFont(new Font("Arial", 1, 12));
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 2;
-        panel1.add(nif, c1);
+        panel1.add(nif1, c1);
 
-        nifT = new JTextField(50);
+        nifT1 = new JTextField(50);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 2;
-        panel1.add(nifT, c1);
+        panel1.add(nifT1, c1);
 
-        morada = new JLabel("Morada");
-        morada.setFont(new Font("Arial", 1, 12));
+        morada1 = new JLabel("Morada");
+        morada1.setFont(new Font("Arial", 1, 12));
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 3;
-        panel1.add(morada, c1);
+        panel1.add(morada1, c1);
 
-        moradaT = new JTextField(50);
+        moradaT1 = new JTextField(50);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 3;
-        panel1.add(moradaT, c1);
+        panel1.add(moradaT1, c1);
 
-        telefone = new JLabel("Telefone");
-        telefone.setFont(new Font("Arial", 1, 12));
+        telefone1 = new JLabel("Telefone");
+        telefone1.setFont(new Font("Arial", 1, 12));
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 4;
-        panel1.add(telefone, c1);
+        panel1.add(telefone1, c1);
 
-        telefoneT = new JTextField(50);
+        telefoneT1 = new JTextField(50);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 4;
-        panel1.add(telefoneT, c1);
+        panel1.add(telefoneT1, c1);
 
-        email = new JLabel("Email");
-        email.setFont(new Font("Arial", 1, 12));
+        email1 = new JLabel("Email");
+        email1.setFont(new Font("Arial", 1, 12));
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 5;
-        panel1.add(email, c1);
+        panel1.add(email1, c1);
 
         emailT1 = new JTextField(50);
-        emailT1.setText("***********");
-
+      //  emailT1.setText("***********");
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 5;
         panel1.add(emailT1, c1);
 
-        palavraPasse = new JLabel("Palavra Passe");
-        palavraPasse.setFont(new Font("Arial", 1, 12));
+        palavraPasse1 = new JLabel("Palavra Passe");
+        palavraPasse1.setFont(new Font("Arial", 1, 12));
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 6;
-        panel1.add(palavraPasse, c1);
+        panel1.add(palavraPasse1, c1);
 
-        passwordF = new JPasswordField(50);
+        passwordF1 = new JPasswordField(50);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 6;
-        panel1.add(passwordF, c1);
+        panel1.add(passwordF1, c1);
 
         guardarRegisto1 = new JButton("Guardar registo de novo administrador");
         c1.fill = GridBagConstraints.HORIZONTAL;
@@ -140,20 +141,20 @@ public class PainelAdmin extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String email = emailT1.getText();
-                String password = String.valueOf(passwordF.getPassword());
-                String nome = nomeT.getText();
-                String nif = nifT.getText();
-                String telefone = telefoneT.getText();
-                String morada = moradaT.getText();
+                String email1 = emailT1.getText();
+                String password1 = String.valueOf(passwordF1.getPassword());
+                String nome1 = nomeT1.getText();
+                String nif1 = nifT1.getText();
+                String telefone1 = telefoneT1.getText();
+                String morada1 = moradaT1.getText();
 
 
                 JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
 
-                Utilizador novoAdministrador = empresa.registarAdministrador(email, nome, telefone, nif, morada, password, empresa);
+                Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1, empresa);
 
 
-                if (empresa.validarEmail(email, empresa) && empresa.validarDados(nome, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(password, empresa)) {
+                if (empresa.validarEmail(email1, empresa) && empresa.validarDados(nome1, empresa) && empresa.validarDados(nif1, empresa) && empresa.validarDados(password1, empresa)) {
 
                     if (novoAdministrador == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -171,11 +172,11 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "*********Dados inválidos. Insira os dados pedidos");
 
                 emailT1.setText("");
-                passwordF.setText("");
-                nomeT.setText("");
-                nifT.setText("");
-                moradaT.setText("");
-                telefoneT.setText("");
+                passwordF1.setText("");
+                nomeT1.setText("");
+                nifT1.setText("");
+                moradaT1.setText("");
+                telefoneT1.setText("");
 
             }
         });
