@@ -154,6 +154,24 @@ public class Empresa implements Serializable {
 
         return false;
     }
+    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada, String tipoSubscricao, String pagamentoSubscricao, String password, Empresa empresa) {
+        // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
+
+        for (Utilizador client : empresa.listaUtilizadores) {
+            if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
+                client.setEmail(email);
+                client.setNome(nome);
+                client.setTelefone(telefone);
+                client.setMorada(morada);
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
+
+            }
+
+        }
+
+        return false;
+    }
 
     // método que adiciona um novo cliente à lista de utilizadores ao fazer um novo registo
     // só adiciona se não houver nenhuma instância com o mesmo email
