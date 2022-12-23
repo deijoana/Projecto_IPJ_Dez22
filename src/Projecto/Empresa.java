@@ -75,6 +75,29 @@ public class Empresa implements Serializable {
         return novoAutocarro;
     }
 
+    // método que permite ao Administrador editar os atributos de um autocarro
+
+    public boolean editarAutocarro(
+            String matricula,
+            String novaMarca,
+            String novoModelo,
+            int novaLotacao,
+            Empresa empresa
+    ) {
+
+        for (Autocarro a: empresa.listaAutocarros) {
+            if (a.getMatricula().equals(matricula)){
+                a.setMarca(novaMarca);
+                a.setModelo(novoModelo);
+                a.setLotacao(Integer.parseInt(String.valueOf(novaLotacao)));
+
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Motorista adicionarMotorista(String email, String nome, String nif, Empresa empresa) {
         for (Motorista m : empresa.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {

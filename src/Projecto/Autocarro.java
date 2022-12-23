@@ -20,4 +20,28 @@ public class Autocarro implements Serializable {
     public String getMatricula() {
         return matricula;
     }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getLotacao() {
+        return lotacao;
+    }
+
+    public void setLotacao(int lotacao) {
+        this.lotacao = lotacao;
+    }
 }
