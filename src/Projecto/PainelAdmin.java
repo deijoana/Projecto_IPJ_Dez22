@@ -11,7 +11,7 @@ public class PainelAdmin extends JPanel {
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
-    JButton logout, guardarRegisto, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
+    JButton logout, guardarRegisto, guardarRegisto1, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
     GUI janela;
 
     JList<Motorista> listagemMotoristas;
@@ -20,7 +20,7 @@ public class PainelAdmin extends JPanel {
 
 
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
-    JTextField nomeT, nifT, moradaT, telefoneT, emailT, matriculaT, marcaT, modeloT, lotacaoT;
+    JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1, matriculaT, marcaT, modeloT, lotacaoT;
     JPasswordField passwordF, passwordNova1, passwordNova2;
 
     JComboBox tipoSubscricaoB, pagamentoSubscricaoB;
@@ -107,11 +107,13 @@ public class PainelAdmin extends JPanel {
         c1.gridy = 5;
         panel1.add(email, c1);
 
-        emailT = new JTextField(50);
+        emailT1 = new JTextField(50);
+        emailT1.setText("***********");
+
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 5;
-        panel1.add(emailT, c1);
+        panel1.add(emailT1, c1);
 
         palavraPasse = new JLabel("Palavra Passe");
         palavraPasse.setFont(new Font("Arial", 1, 12));
@@ -126,25 +128,30 @@ public class PainelAdmin extends JPanel {
         c1.gridy = 6;
         panel1.add(passwordF, c1);
 
-        guardarRegisto = new JButton("Guardar registo de novo administrador");
+        guardarRegisto1 = new JButton("Guardar registo de novo administrador");
         c1.fill = GridBagConstraints.HORIZONTAL;
         c1.insets = new Insets(30, 0, 20, 0);
         c1.gridx = 2;
         c1.gridy = 8;
-        panel1.add(guardarRegisto, c1);
+        panel1.add(guardarRegisto1, c1);
 
-        guardarRegisto.addActionListener(new ActionListener() {
+
+        guardarRegisto1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String email = emailT.getText();
+                String email = emailT1.getText();
                 String password = String.valueOf(passwordF.getPassword());
                 String nome = nomeT.getText();
                 String nif = nifT.getText();
                 String telefone = telefoneT.getText();
                 String morada = moradaT.getText();
 
+
+                JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
+
                 Utilizador novoAdministrador = empresa.registarAdministrador(email, nome, telefone, nif, morada, password, empresa);
+
 
                 if (empresa.validarEmail(email, empresa) && empresa.validarDados(nome, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(password, empresa)) {
 
@@ -161,9 +168,9 @@ public class PainelAdmin extends JPanel {
                         janela.mudaEcra("Login");
                     }
                 } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "*********Dados inválidos. Insira os dados pedidos");
 
-                emailT.setText("");
+                emailT1.setText("");
                 passwordF.setText("");
                 nomeT.setText("");
                 nifT.setText("");
@@ -320,11 +327,11 @@ public class PainelAdmin extends JPanel {
                 String nif = nifT.getText();
                 String email = emailT.getText();
 
-                int resultado = empresa.editarMotorista(email, nome, nif, empresa);
+                boolean resultado = empresa.editarMotorista(email, nome, nif, empresa);
 
                 if (empresa.validarEmail(email, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(nome, empresa)) {
 
-                    if (resultado == 1) {
+                    if (resultado) {
                         JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"), "As informações do motorista associado ao nif " + nif + " foram alteradas com sucesso");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
@@ -375,11 +382,11 @@ public class PainelAdmin extends JPanel {
                 String nif = nifT.getText();
                 String email = emailT.getText();
 
-                int resultado = empresa.removerMotorista(email, nome, nif, empresa);
+                boolean resultado = empresa.removerMotorista(email, nome, nif, empresa);
 
                 if ( empresa.validarDados(nif, empresa) ) {
 
-                    if (resultado == 1) {
+                    if (resultado) {
                         JOptionPane.showMessageDialog(new JFrame("O motorista foi removido"), "O motorista foi removido");
 
                     } else
@@ -915,7 +922,7 @@ public class PainelAdmin extends JPanel {
         c14.gridy = 0;
         panel6.add(inserirDados, c14);
 
-      listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.getListaUtilizadores()));
+        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.getListaUtilizadores()));
         c14.gridx = 1;
         c14.gridy = 1;
         //listagemClientes.setSelectedIndex(0);
