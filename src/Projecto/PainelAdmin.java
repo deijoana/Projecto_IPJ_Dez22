@@ -18,6 +18,7 @@ public class PainelAdmin extends JPanel {
     JList<Motorista> listagemMotoristas;
     JList<Utilizador> listagemClientes;
 
+    JList<Autocarro> listagemAutocarros;
 
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
     JLabel inserirDados1, nome1, nif1, morada1, telefone1, email1, palavraPasse1;
@@ -571,6 +572,32 @@ public class PainelAdmin extends JPanel {
         c6.gridy = 6;
         editBus.add(guardarRegisto6, c6);
 
+        guardarRegisto6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String marca6 = marcaT6.getText();
+                String modelo6 = modeloT6.getText();
+                String matricula6 = matriculaT6.getText();
+                int lotacao6 = Integer.parseInt(lotacaoT6.getText());
+
+                boolean resultado = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6, empresa);
+
+                if (resultado) {
+                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
+
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo com a matrícula inserida"),
+                            "Não foi encontrado nenhum registo de matrícula com os dados inseridos, insira novamente os dados:");
+
+                marcaT6.setText("");
+                modeloT6.setText("");
+                matriculaT6.setText("");
+                lotacaoT6.setText("");
+
+            }
+        });
+
+
         removeBus = new JPanel();
         painelAutocarro.addTab("Remover", removeBus);
         removeBus.setLayout(new GridBagLayout());
@@ -599,6 +626,24 @@ public class PainelAdmin extends JPanel {
         c7.gridx = 3;
         c7.gridy = 4;
         removeBus.add(guardarRegisto7, c7);
+
+        guardarRegisto7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String matricula = matriculaT7.getText();
+                boolean resultado = empresa.removerAutocarro(matricula, empresa);
+
+                if (resultado) {
+                    JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
+                            "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
+
+                matriculaT7.setText("");
+            }
+        });
+
 
         panel3.add(painelAutocarro);
 

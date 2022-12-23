@@ -59,14 +59,14 @@ public class Empresa implements Serializable {
     // método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula
     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
         // código que substitui numa linha um ciclo for:each
-        /*        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : empresa.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
                 return null;
             }
-        }*/
-        if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
-            return null;
         }
+        //if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
+        //  return null;
+        //}
 
         Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
         empresa.listaAutocarros.add(novoAutocarro);
@@ -85,12 +85,24 @@ public class Empresa implements Serializable {
             Empresa empresa
     ) {
 
-        for (Autocarro a: empresa.listaAutocarros) {
-            if (a.getMatricula().equals(matricula)){
+        for (Autocarro a : empresa.listaAutocarros) {
+            if (a.getMatricula().equals(matricula)) {
                 a.setMarca(novaMarca);
                 a.setModelo(novoModelo);
                 a.setLotacao(Integer.parseInt(String.valueOf(novaLotacao)));
 
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removerAutocarro(String matricula, Empresa empresa) {
+
+        for (Autocarro a : empresa.listaAutocarros) {
+            if (a.getMatricula().equals(matricula)) {
+                empresa.listaAutocarros.remove(a);
                 escreveFicheiro(AUTOCARROS_AOR, empresa);
                 return true;
             }
