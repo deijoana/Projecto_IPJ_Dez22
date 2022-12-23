@@ -4,17 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class PainelAdmin extends JPanel {
     Empresa empresa;
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
-    JButton logout, guardarRegisto, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
+    JButton logout, guardarRegisto, guardarRegisto1, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
     GUI janela;
 
+    JList<Motorista> listagemMotoristas;
+    JList<Utilizador> listagemClientes;
+
+
+
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
-    JTextField nomeT, nifT, moradaT, telefoneT, emailT, matriculaT, marcaT, modeloT, lotacaoT;
+    JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1, matriculaT, marcaT, modeloT, lotacaoT;
     JPasswordField passwordF, passwordNova1, passwordNova2;
 
     JComboBox tipoSubscricaoB, pagamentoSubscricaoB;
@@ -101,11 +107,13 @@ public class PainelAdmin extends JPanel {
         c1.gridy = 5;
         panel1.add(email, c1);
 
-        emailT = new JTextField(50);
+        emailT1 = new JTextField(50);
+        emailT1.setText("***********");
+
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 2;
         c1.gridy = 5;
-        panel1.add(emailT, c1);
+        panel1.add(emailT1, c1);
 
         palavraPasse = new JLabel("Palavra Passe");
         palavraPasse.setFont(new Font("Arial", 1, 12));
@@ -120,50 +128,57 @@ public class PainelAdmin extends JPanel {
         c1.gridy = 6;
         panel1.add(passwordF, c1);
 
-        guardarRegisto = new JButton("Guardar registo de novo administrador");
+        guardarRegisto1 = new JButton("Guardar registo de novo administrador");
         c1.fill = GridBagConstraints.HORIZONTAL;
         c1.insets = new Insets(30, 0, 20, 0);
         c1.gridx = 2;
         c1.gridy = 8;
-        panel1.add(guardarRegisto, c1);
+        panel1.add(guardarRegisto1, c1);
 
-        guardarRegisto.addActionListener(new ActionListener() {
+
+        guardarRegisto1.addActionListener(new ActionListener() {
             @Override
-
             public void actionPerformed(ActionEvent e) {
-                String email = emailT.getText();
+
+                String email = emailT1.getText();
                 String password = String.valueOf(passwordF.getPassword());
                 String nome = nomeT.getText();
                 String nif = nifT.getText();
                 String telefone = telefoneT.getText();
                 String morada = moradaT.getText();
 
-                Utilizador novoAdmin = empresa.registarAdministrador(email, nome, telefone, nif, morada, password, empresa);
 
-                if (empresa.validarEmail(email, empresa)) {
+                JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
 
-                    if (novoAdmin == null) {
-                        JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
+                Utilizador novoAdministrador = empresa.registarAdministrador(email, nome, telefone, nif, morada, password, empresa);
+
+
+                if (empresa.validarEmail(email, empresa) && empresa.validarDados(nome, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(password, empresa)) {
+
+                    if (novoAdministrador == null) {
+                        JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
                     }
 
-                    if (novoAdmin instanceof Administrador) {
-                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoAdmin.nome + " autenticado com sucesso");
+                    if (novoAdministrador instanceof Administrador) {
+                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoAdministrador.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
 
-                    } else if (novoAdmin instanceof Cliente) {
-                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoAdmin.nome + " autenticado com sucesso");
+                    } else if (novoAdministrador instanceof Cliente) {
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoAdministrador.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
-                    }} else
-                    JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
+                    }
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "*********Dados inválidos. Insira os dados pedidos");
 
-                emailT.setText("");
+                emailT1.setText("");
                 passwordF.setText("");
                 nomeT.setText("");
                 nifT.setText("");
                 moradaT.setText("");
                 telefoneT.setText("");
 
-            }});
+            }
+        });
 
 
         panel2 = new JPanel(); //2º painel -> Motoristas, até à linha 269
@@ -225,13 +240,39 @@ public class PainelAdmin extends JPanel {
         c2.gridx = 2;
         c2.gridy = 5;
         addM.add(guardarRegisto, c2);
+        guardarRegisto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nome = nomeT.getText();
+                String nif = nifT.getText();
+                String email = emailT.getText();
+
+                Motorista novoMotorista = empresa.adicionarMotorista(email, nome, nif, empresa);
+
+                if (empresa.validarEmail(email, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(nome, empresa)) {
+
+                    if (novoMotorista == null) {
+                        JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"), "Já existe um motorista com este NIF: " + nif);
+                    } else if (novoMotorista != null) {
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "Um novo motorista foi registado com sucesso");
+                    }
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+
+
+                nomeT.setText("");
+                nifT.setText("");
+                emailT.setText("");
+            }
+        });
+
 
         editM = new JPanel();
         painelM.addTab("Editar", editM);
         editM.setLayout(new GridBagLayout());
         GridBagConstraints c3 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Edite os dados pessoais do motorista:");
+        inserirDados = new JLabel("Edite os dados pessoais do motorista (use o NIF como identificador único do motorista):");
         inserirDados.setFont(new Font("Arial", 1, 12));
         c3.gridx = 0;
         c3.gridy = 0;
@@ -279,6 +320,31 @@ public class PainelAdmin extends JPanel {
         c3.gridy = 5;
         editM.add(guardarRegisto, c3);
 
+        guardarRegisto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nome = nomeT.getText();
+                String nif = nifT.getText();
+                String email = emailT.getText();
+
+                boolean resultado = empresa.editarMotorista(email, nome, nif, empresa);
+
+                if (empresa.validarEmail(email, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(nome, empresa)) {
+
+                    if (resultado) {
+                        JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"), "As informações do motorista associado ao nif " + nif + " foram alteradas com sucesso");
+                    } else
+                        JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
+                } else                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+
+
+                nomeT.setText("");
+                nifT.setText("");
+                emailT.setText("");
+            }
+        });
+
+
         removeM = new JPanel();
         painelM.addTab("Remover", removeM);
         removeM.setLayout(new GridBagLayout());
@@ -308,6 +374,33 @@ public class PainelAdmin extends JPanel {
         c4.gridx = 3;
         c4.gridy = 5;
         removeM.add(guardarRegisto, c4);
+        guardarRegisto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String nome = nomeT.getText();
+                String nif = nifT.getText();
+                String email = emailT.getText();
+
+                boolean resultado = empresa.removerMotorista(email, nome, nif, empresa);
+
+                if ( empresa.validarDados(nif, empresa) ) {
+
+                    if (resultado) {
+                        JOptionPane.showMessageDialog(new JFrame("O motorista foi removido"), "O motorista foi removido");
+
+                    } else
+                        JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
+
+                } else JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+
+
+                nomeT.setText("");
+                nifT.setText("");
+                emailT.setText("");
+            }
+        });
+
 
         panel2.add(painelM);
 
@@ -389,7 +482,7 @@ public class PainelAdmin extends JPanel {
                 String marca = marcaT.getText();
                 String modelo = modeloT.getText();
                 String matricula = matriculaT.getText();
-                int lotacao =  Integer.parseInt(lotacaoT.getText());
+                int lotacao = Integer.parseInt(lotacaoT.getText());
 
                 Autocarro autocarro = empresa.adicionarAutocarro(matricula, marca, modelo, lotacao, empresa);
 
@@ -399,7 +492,10 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A matrícula " + matricula + " foi registada com sucesso.");
                 }
 
-                // limpar as caixas
+                marcaT.setText("");
+                modeloT.setText("");
+                matriculaT.setText("");
+                lotacaoT.setText("");
 
             }
         });
@@ -468,29 +564,6 @@ public class PainelAdmin extends JPanel {
         c6.gridx = 2;
         c6.gridy = 6;
         editBus.add(guardarRegisto, c6);
-
-        guardarRegisto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String marca = marcaT.getText();
-                String modelo = modeloT.getText();
-                String matricula = matriculaT.getText();
-                int lotacao = Integer.parseInt(lotacaoT.getText());
-
-                boolean resultado = empresa.editarAutocarro(matricula, marca, modelo, lotacao, empresa);
-
-                if (resultado) {
-                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As suas alterações foram gravadas com sucesso");
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame("Autocarro inexistente"),
-                            "Não existe nenhum autocarro com a matrícula introduzida");
-                }
-
-                //limpar as caixas
-            }
-        });
-
 
         removeBus = new JPanel();
         painelAutocarro.addTab("Remover", removeBus);
@@ -816,9 +889,45 @@ public class PainelAdmin extends JPanel {
 
         panel5 = new JPanel();
         painelAd.addTab("Lista de Motoristas", panel5);
+        panel5.setLayout(new GridBagLayout());
+        GridBagConstraints c13 = new GridBagConstraints();
+
+        inserirDados = new JLabel("Lista dos motoristas da empresa");
+        inserirDados.setFont(new Font("Arial", 1, 12));
+        c13.insets = new Insets(0, 0, 0, 20);
+        c13.gridx = 0;
+        c13.gridy = 0;
+        panel5.add(inserirDados, c13);
+
+        listagemMotoristas = new JList<Motorista>(new Vector<Motorista>(empresa.getListaMotoristas()));
+
+    /*   if (empresa.getListaMotoristas().size()==0)
+           JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
+*/
+        c13.gridx = 1;
+        c13.gridy = 1;
+        //listagemMotoristas.setSelectedIndex(0);
+        panel5.add(listagemMotoristas, c13);
+
 
         panel6 = new JPanel();
         painelAd.addTab("Lista de Clientes", panel6);
+        panel6.setLayout(new GridBagLayout());
+        GridBagConstraints c14 = new GridBagConstraints();
+
+        inserirDados = new JLabel("Lista dos clientes da empresa");
+        inserirDados.setFont(new Font("Arial", 1, 12));
+        c14.insets = new Insets(0, 0, 0, 20);
+        c14.gridx = 0;
+        c14.gridy = 0;
+        panel6.add(inserirDados, c14);
+
+        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.getListaUtilizadores()));
+        c14.gridx = 1;
+        c14.gridy = 1;
+        //listagemClientes.setSelectedIndex(0);
+        panel6.add(listagemClientes, c14);
+
 
         panel7 = new JPanel();
         painelAd.addTab("Estatísticas", panel7);
@@ -913,7 +1022,7 @@ public class PainelAdmin extends JPanel {
         panel8.setLayout(new GridBagLayout());
         GridBagConstraints c12 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Insira os dados pedidos para alerar a palavra-passe:");
+        inserirDados = new JLabel("Insira os dados pedidos para alterar a palavra-passe:");
         inserirDados.setFont(new Font("Arial", 1, 12));
         // c12.insets = new Insets(20, 0, 0, 0);
         c12.gridx = 0;
@@ -964,7 +1073,6 @@ public class PainelAdmin extends JPanel {
         panel8.add(guardarRegisto, c12);
 
 
-
         c.gridx = 1;
         c.gridy = 1;
         this.add(painelAd, c);  //Adicionar o componente Tabbed Pane ao painel PainelAd
@@ -983,6 +1091,5 @@ public class PainelAdmin extends JPanel {
         this.add(logout, c);
         logout.addActionListener(new GerirEventos(2, this.janela));
     }
-
 
 }

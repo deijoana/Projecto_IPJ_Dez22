@@ -19,6 +19,11 @@ public class Empresa implements Serializable {
     private List listaReservas;
     private List listaPreReservas;
 
+
+    // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
+    // Definiu-se como static porque este dado não deverá nunca ser alterado
+    private String AUTOCARROS_AOR = "autocarros_aor";
+
     //Instância de Administrador "sénior" para poder entrar na aplicação ao iniciar a execução do programa.
     //Definiu-se como static porque esta instância é de importância máxima e não deverá ser alterada em qualquer circunstância
     static final Administrador administrador = new Administrador(
@@ -32,9 +37,6 @@ public class Empresa implements Serializable {
     );
 
 
-    // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
-    // Definiu-se como static porque este dado não deverá nunca ser alterado
-    static final String AUTOCARROS_AOR = "autocarros_aor";
 
     public Empresa() {
         this.listaUtilizadores = new ArrayList<>();
@@ -109,33 +111,36 @@ public class Empresa implements Serializable {
         return novoMotorista;
     }
 
-    public int editarMotorista(String email, String nome, String nif, Empresa empresa) {
+    public boolean editarMotorista(String email, String nome, String nif, Empresa empresa) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
         for (Motorista m : empresa.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {
                 m.setEmailMotorista(email);
                 m.setNomeMotorista(nome);
-                return 1;
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
+
             }
 
         }
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
-        return 0;
+
+        return false;
     }
 
-    public int removerMotorista(String email, String nome, String nif, Empresa empresa) {
+    public boolean removerMotorista(String email, String nome, String nif, Empresa empresa) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
         for (Motorista m : empresa.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {
                 empresa.listaMotoristas.remove(m);
-                return 1;
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
             }
         }
 
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
-        return 0;
+
+        return false;
     }
 
     // método que adiciona um novo cliente à lista de utilizadores ao fazer um novo registo
@@ -206,21 +211,31 @@ public class Empresa implements Serializable {
         }
     }
 
+    public void setAUTOCARROS_AOR(String AUTOCARROS_AOR) {
+        this.AUTOCARROS_AOR = AUTOCARROS_AOR;
+    }
+
     // método usado para ler o ficheiro de objectos. Não havendo, cria o ficheiro e adiciona o administrador "sénior" definido por default
     public static Empresa leFicheiro(String nomeDoFicheiro) throws IOException, ClassNotFoundException {
-        Empresa empresa = new Empresa();
+
+        Empresa empresa = null;
 
         FicheiroDeObjetos fdo = new FicheiroDeObjetos();
         if (fdo.ficheiroExiste(nomeDoFicheiro)) {
             if (fdo.abreLeitura(nomeDoFicheiro)) {
                 fdo.abreLeitura(nomeDoFicheiro);
                 empresa = (Empresa) fdo.leObjecto();
+                empresa.setAUTOCARROS_AOR(nomeDoFicheiro);
 
                 fdo.fechaLeitura();
             }
+
+
         } else {
+
+            empresa = new Empresa();
             empresa.listaUtilizadores.add(administrador);
-            escreveFicheiro(AUTOCARROS_AOR, empresa);
+            escreveFicheiro(nomeDoFicheiro,empresa);
         }
 
         return empresa;
