@@ -3,6 +3,7 @@ package Projecto;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,19 @@ public class Empresa implements Serializable {
 
     private List<Cliente> listaClientes;
     private List listaNegraClientes;
-    private List listaReservas;
+    private List<Reserva> listaReservas;
     private List listaPreReservas;
 
+    // user logado
+    private Utilizador loggeduser;
+
+    public Utilizador getLoggeduser() {
+        return loggeduser;
+    }
+
+    public void setLoggeduser(Utilizador loggeduser) {
+        this.loggeduser = loggeduser;
+    }
 
     // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
     // Definiu-se como static porque este dado não deverá nunca ser alterado
@@ -35,6 +46,7 @@ public class Empresa implements Serializable {
             "Administrador",
             "12345"
     );
+
 
 
     public Empresa() {
@@ -109,7 +121,6 @@ public class Empresa implements Serializable {
         return false;
     }
 
-
     public Motorista adicionarMotorista(String email, String nome, String nif, Empresa empresa) {
         for (Motorista m : empresa.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {
@@ -132,13 +143,15 @@ public class Empresa implements Serializable {
                 m.setNomeMotorista(nome);
                 escreveFicheiro(AUTOCARROS_AOR, empresa);
                 return true;
+
             }
+
         }
 
         return false;
     }
 
-    public boolean removerMotorista(String nif, Empresa empresa) {
+    public boolean removerMotorista( String nif, Empresa empresa) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
         for (Motorista m : empresa.listaMotoristas) {
@@ -147,6 +160,25 @@ public class Empresa implements Serializable {
                 escreveFicheiro(AUTOCARROS_AOR, empresa);
                 return true;
             }
+        }
+
+
+        return false;
+    }
+    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada, String tipoSubscricao, String pagamentoSubscricao, String password, Empresa empresa) {
+        // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
+
+        for (Utilizador client : empresa.listaUtilizadores) {
+            if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
+                client.setEmail(email);
+                client.setNome(nome);
+                client.setTelefone(telefone);
+                client.setMorada(morada);
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
+
+            }
+
         }
 
         return false;
@@ -197,6 +229,119 @@ public class Empresa implements Serializable {
                 .toList();
     }
 
+    // método para as estatísticas que contabiliza o total de clientes
+    public int totalClientes(Empresa empresa){
+        int soma = 0;
+
+        for (Utilizador u : empresa.listaUtilizadores) {
+            if(u instanceof Cliente){
+                soma++;
+            }
+        }
+        return soma;
+    }
+
+    // método para as estatísticas que contabiliza motoristas
+    public int totalMotoristas(Empresa empresa){
+        int soma = 0;
+
+        for (Motorista m : empresa.listaMotoristas) {
+            if (m instanceof Motorista) {
+                soma++;
+            }
+        }
+        return soma;
+    }
+
+    // método para as estatísticas que contabiliza autocarros
+    public int totalAutocarros(Empresa empresa){
+        int soma = 0;
+
+        for (Autocarro a : empresa.listaAutocarros) {
+            if (a instanceof Autocarro) {
+                soma++;
+            }
+        }
+       return soma;
+
+    }
+
+    //método para um Cliente fazer uma reserva
+    public Reserva fazerReserva(Autocarro bus,
+                                Motorista driver,
+                                Cliente client,
+                                LocalDate dataPartida,
+                                LocalDate dataRegresso,
+                                int numPassageiros,
+                                String localOrigem,
+                                String localDestino,
+                                double distancia,
+                                Empresa empresa)
+     {
+        Reserva novaReserva = new Reserva(
+                bus,
+                driver,
+                client,
+                dataPartida,
+                dataRegresso,
+                numPassageiros,
+                localOrigem,
+                localDestino,
+                distancia);
+
+        empresa.listaReservas.add(novaReserva);
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
+
+        return novaReserva;
+
+    }
+
+    //método para procurar disponilidade de autocarro
+    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa){
+        boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
+        Autocarro escolhido = null;
+
+        for ( Autocarro a : empresa.listaAutocarros) {
+            if (a.getLotacao() >= numPassageiros) { // autocarro elegivel, pois tem lotação suficiente
+
+                for (Reserva reservaO : empresa.listaReservas) {
+                    if(reservaO.getBus() == a &&
+                            (reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
+                            (dataPartida.isBefore((reservaO.getDataPartida())) && dataRegresso.isAfter(reservaO.getDataRegresso()))) {//
+                                saltaAutocarro = true; // reserva ocupa um periodo não elegivel
+                    }
+                }
+            }
+            if (!saltaAutocarro) { // não existe impedimento de escolher este autocarro, logo este serve
+                escolhido = a;
+                break;
+            } else {
+                saltaAutocarro = false; // este autocarro não serve pois há uma reserva naquelas datas
+            }
+        }
+        return escolhido;
+    }
+
+    //método para procurar disponilidade de motorista
+    public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso,  Empresa empresa){
+        boolean saltaMotorista = false; // salta para o proximo se verdadeiro
+            Motorista escolhido = null;
+            for (Motorista m : empresa.listaMotoristas) {
+                for (Reserva reservaO : empresa.listaReservas) {
+                    if ((reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
+                    (dataPartida.isBefore((reservaO.getDataPartida())) && dataRegresso.isAfter(reservaO.getDataRegresso()))) {//
+                        saltaMotorista = true;
+                    }
+                }
+            if (!saltaMotorista) { // não existe impedimento de escolher este autocarro, logo este serve
+                escolhido = m;
+                break;
+            } else {
+                saltaMotorista = false; // este autocarro não serve pois há uma reserva naquelas datas
+            }
+        }
+        return escolhido;
+    }
     // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
     public Utilizador fazerLogin(String emailUtilizador, String palavraPasse, Empresa empresa) {
         for (Utilizador u : empresa.listaUtilizadores) {
@@ -244,7 +389,7 @@ public class Empresa implements Serializable {
 
             empresa = new Empresa();
             empresa.listaUtilizadores.add(administrador);
-            escreveFicheiro(nomeDoFicheiro, empresa);
+            escreveFicheiro(nomeDoFicheiro,empresa);
         }
 
         return empresa;

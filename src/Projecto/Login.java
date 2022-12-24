@@ -102,6 +102,7 @@ public class Login extends JPanel {
 
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
                         janela.mudaEcra("PainelCliente");
+                        empresa.setLoggeduser(logado); // guarda user logado
                     }
 
                 } else

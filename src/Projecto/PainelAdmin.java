@@ -8,12 +8,11 @@ import java.util.Vector;
 
 public class PainelAdmin extends JPanel {
     Empresa empresa;
-
     GUI janela;
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
-    JButton logout, guardarRegisto, guardarRegisto1,guardarRegisto2, guardarRegisto3, guardarRegisto4,guardarRegisto5, guardarRegisto6, guardarRegisto7, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
+    JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
 
     JList<Motorista> listagemMotoristas;
     JList<Utilizador> listagemClientes;
@@ -28,6 +27,10 @@ public class PainelAdmin extends JPanel {
     JLabel inserirDados5, matricula5, marca5, modelo5, lotacao5;
     JLabel inserirDados6, matricula6, marca6, modelo6, lotacao6;
     JLabel inserirDados7, matricula7;
+    JLabel inserirDados8, nome8, nif8, telefone8, morada8, email8, palavraPasse8, pagamentoSubscricaoL8, tipoSubscricaoL8;
+
+    JLabel inserirDados9, nome9, nif9, telefone9, morada9, email9, palavraPasse9, pagamentoSubscricaoL9, tipoSubscricaoL9;
+
     JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1;
     JTextField nomeT1, nifT1, moradaT1, telefoneT1;
     JTextField nomeT2, nifT2, emailT2;
@@ -36,9 +39,12 @@ public class PainelAdmin extends JPanel {
     JTextField matriculaT5, marcaT5, modeloT5, lotacaoT5;
     JTextField matriculaT6, marcaT6, modeloT6, lotacaoT6;
     JTextField matriculaT7;
-    JPasswordField passwordF, passwordF1, passwordNova1, passwordNova2;
 
-    JComboBox tipoSubscricaoB, pagamentoSubscricaoB;
+    JTextField nomeT8, nifT8, telefoneT8, moradaT8, emailT8;
+    JTextField nomeT9, nifT9, telefoneT9, moradaT9, emailT9;
+    JPasswordField passwordF8, passwordF9, passwordF, passwordF1, passwordNova1, passwordNova2;
+
+    JComboBox tipoSubscricaoB8, pagamentoSubscricaoB8, tipoSubscricaoB9, pagamentoSubscricaoB9, tipoSubscricaoB, pagamentoSubscricaoB;
 
 
     PainelAdmin(GUI janela, Empresa empresa) {
@@ -171,11 +177,11 @@ public class PainelAdmin extends JPanel {
                     }
 
                     if (novoAdministrador instanceof Administrador) {
-                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoAdministrador.nome + " autenticado com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Administrador criado"), "Registo de " + novoAdministrador.nome + " criado com sucesso");
                         janela.mudaEcra("Login");
 
                     } else if (novoAdministrador instanceof Cliente) {
-                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoAdministrador.nome + " autenticado com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Cliente criado"), "Registo de " + novoAdministrador.nome + " criado com sucesso");
                         janela.mudaEcra("Login");
                     }
                 } else
@@ -338,15 +344,16 @@ public class PainelAdmin extends JPanel {
                 String nif3 = nifT3.getText();
                 String email3 = emailT3.getText();
 
-                boolean resultado = empresa.editarMotorista(email3, nome3, nif3, empresa);
+                boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3, empresa);
 
                 if (empresa.validarEmail(email3, empresa) && empresa.validarDados(nif3, empresa) && empresa.validarDados(nome3, empresa)) {
 
-                    if (resultado) {
+                    if (resultado1) {
                         JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"), "As informações do motorista associado ao nif " + nif + " foram alteradas com sucesso");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
-                } else                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
 
                 nomeT3.setText("");
@@ -391,17 +398,18 @@ public class PainelAdmin extends JPanel {
 
                 String nif4 = nifT4.getText();
 
-                boolean resultado = empresa.removerMotorista(nif4, empresa);
+                boolean resultado2 = empresa.removerMotorista(nif4, empresa);
 
-                if ( empresa.validarDados(nif4, empresa) ) {
+                if (empresa.validarDados(nif4, empresa)) {
 
-                    if (resultado) {
+                    if (resultado2) {
                         JOptionPane.showMessageDialog(new JFrame("O motorista foi removido"), "O motorista foi removido");
 
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
 
-                } else JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
 
                 nifT4.setText("");
@@ -580,9 +588,9 @@ public class PainelAdmin extends JPanel {
                 String matricula6 = matriculaT6.getText();
                 int lotacao6 = Integer.parseInt(lotacaoT6.getText());
 
-                boolean resultado = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6, empresa);
+                boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6, empresa);
 
-                if (resultado) {
+                if (resultado3) {
                     JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
 
                 } else
@@ -631,18 +639,18 @@ public class PainelAdmin extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-            String matricula = matriculaT7.getText();
-            boolean resultado = empresa.removerAutocarro(matricula, empresa);
+                String matricula = matriculaT7.getText();
+                boolean resultado4 = empresa.removerAutocarro(matricula, empresa);
 
-            if (resultado) {
-                JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
-            } else
-                JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
-                        "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
+                if (resultado4) {
+                    JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
+                            "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
 
                 matriculaT7.setText("");
-        }
-    });
+            }
+        });
 
 
         panel3.add(painelAutocarro);
@@ -659,252 +667,333 @@ public class PainelAdmin extends JPanel {
         addC.setLayout(new GridBagLayout());
         GridBagConstraints c8 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Insira as seguintes informações para adicionar um novo cliente:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados8 = new JLabel("Insira as seguintes informações para adicionar um novo cliente:");
+        inserirDados8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(20, 10, 0, 0);
         c8.gridx = 0;
         c8.gridy = 0;
-        addC.add(inserirDados, c8);
+        addC.add(inserirDados8, c8);
 
-        nome = new JLabel("Nome");
-        nome.setFont(new Font("Arial", 1, 12));
+        nome8 = new JLabel("Nome");
+        nome8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 0);
         c8.gridx = 1;
         c8.gridy = 1;
-        addC.add(nome, c8);
+        addC.add(nome8, c8);
 
-        nomeT = new JTextField(50);
+        nomeT8 = new JTextField(50);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 1;
-        addC.add(nomeT, c8);
+        addC.add(nomeT8, c8);
 
-        nif = new JLabel("NIF");
-        nif.setFont(new Font("Arial", 1, 12));
+        nif8 = new JLabel("NIF");
+        nif8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 0);
         c8.gridx = 1;
         c8.gridy = 2;
-        addC.add(nif, c8);
+        addC.add(nif8, c8);
 
-        nifT = new JTextField(50);
+        nifT8 = new JTextField(50);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 2;
-        addC.add(nifT, c8);
+        addC.add(nifT8, c8);
 
-        morada = new JLabel("Morada");
-        morada.setFont(new Font("Arial", 1, 12));
+        morada8 = new JLabel("Morada");
+        morada8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 0);
         c8.gridx = 1;
         c8.gridy = 3;
-        addC.add(morada, c8);
+        addC.add(morada8, c8);
 
-        moradaT = new JTextField(50);
+        moradaT8 = new JTextField(50);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 3;
-        addC.add(moradaT, c8);
+        addC.add(moradaT8, c8);
 
-        telefone = new JLabel("Telefone");
-        telefone.setFont(new Font("Arial", 1, 12));
+        telefone8 = new JLabel("Telefone");
+        telefone8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 0);
         c8.gridx = 1;
         c8.gridy = 4;
-        addC.add(telefone, c8);
+        addC.add(telefone8, c8);
 
-        telefoneT = new JTextField(50);
+        telefoneT8 = new JTextField(50);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 4;
-        addC.add(telefoneT, c8);
+        addC.add(telefoneT8, c8);
 
-        email = new JLabel("Email");
-        email.setFont(new Font("Arial", 1, 12));
+        email8 = new JLabel("Email");
+        email8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 0);
         c8.gridx = 1;
         c8.gridy = 5;
-        addC.add(email, c8);
+        addC.add(email8, c8);
 
-        emailT = new JTextField(50);
+        emailT8 = new JTextField(50);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 5;
-        addC.add(emailT, c8);
+        addC.add(emailT8, c8);
 
-        palavraPasse = new JLabel("Palavra Passe Inicial");
-        palavraPasse.setFont(new Font("Arial", 1, 12));
+        palavraPasse8 = new JLabel("Palavra Passe Inicial");
+        palavraPasse8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 0);
         c8.gridx = 1;
         c8.gridy = 6;
-        addC.add(palavraPasse, c8);
+        addC.add(palavraPasse8, c8);
 
-        passwordF = new JPasswordField(50);
+        passwordF8 = new JPasswordField(50);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 6;
-        addC.add(passwordF, c8);
+        addC.add(passwordF8, c8);
 
-        tipoSubscricaoL = new JLabel("Tipo de subscrição");
-        tipoSubscricaoL.setFont(new Font("Arial", 1, 12));
+        tipoSubscricaoL8 = new JLabel("Tipo de subscrição");
+        tipoSubscricaoL8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 0);
         c8.gridx = 1;
         c8.gridy = 7;
-        addC.add(tipoSubscricaoL, c8);
+        addC.add(tipoSubscricaoL8, c8);
 
         String tiposSubscricao[] = {"Normal", "Premium"};
-        tipoSubscricaoB = new JComboBox<>(tiposSubscricao);
+        tipoSubscricaoB8 = new JComboBox<>(tiposSubscricao);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.gridx = 2;
         c8.gridy = 7;
-        addC.add(tipoSubscricaoB, c8);
+        addC.add(tipoSubscricaoB8, c8);
 
-        pagamentoSubscricaoL = new JLabel("Modo de pagamento da subscrição");
-        pagamentoSubscricaoL.setFont(new Font("Arial", 1, 12));
+        pagamentoSubscricaoL8 = new JLabel("Modo de pagamento da subscrição");
+        pagamentoSubscricaoL8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 10);
         c8.gridx = 1;
         c8.gridy = 8;
-        addC.add(pagamentoSubscricaoL, c8);
+        addC.add(pagamentoSubscricaoL8, c8);
 
         String modosPagSubscricao[] = {"Paypal", "Cartão de Crédito", "Multibanco"};
-        pagamentoSubscricaoB = new JComboBox<>(modosPagSubscricao);
+        pagamentoSubscricaoB8 = new JComboBox<>(modosPagSubscricao);
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 8;
-        addC.add(pagamentoSubscricaoB, c8);
+        addC.add(pagamentoSubscricaoB8, c8);
 
-        guardarRegisto = new JButton("Guardar registo de novo cliente");
+        guardarRegisto8 = new JButton("Guardar registo de novo cliente");
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.insets = new Insets(20, 0, 20, 20);
         c8.gridx = 2;
         c8.gridy = 10;
-        addC.add(guardarRegisto, c8);
+        addC.add(guardarRegisto8, c8);
+        guardarRegisto8.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String email8 = emailT8.getText();
+                String password8 = String.valueOf(passwordF8.getPassword());
+                String nome8 = nomeT8.getText();
+                String nif8 = nifT8.getText();
+                String telefone8 = telefoneT8.getText();
+                String morada8 = moradaT8.getText();
+                String tipoSubscricao8 = (String) tipoSubscricaoB8.getSelectedItem();
+                String pagamentoSubscricao8 = (String) pagamentoSubscricaoB8.getSelectedItem();
+
+                // System.out.println(tipoSubscricao8 + " , " + pagamentoSubscricao8);
+
+                Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao8, pagamentoSubscricao8, password8, empresa);
+
+
+                if (empresa.validarEmail(email8, empresa) && empresa.validarDados(nome8, empresa) && empresa.validarDados(nif8, empresa) && empresa.validarDados(password8, empresa)) {
+
+                    if (novoCliente == null) {
+                        JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
+                    }
+
+                    if (novoCliente instanceof Administrador) {
+                        JOptionPane.showMessageDialog(new JFrame("Administrador criado"), "Registo de " + novoCliente.nome + " criado com sucesso");
+                        janela.mudaEcra("Login");
+
+                    } else if (novoCliente instanceof Cliente) {
+                        JOptionPane.showMessageDialog(new JFrame("Cliente criado"), "Registo de " + novoCliente.nome + " criado com sucesso");
+                        janela.mudaEcra("Login");
+                    }
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+
+                emailT8.setText("");
+                passwordF8.setText("");
+                nomeT8.setText("");
+                nifT8.setText("");
+                moradaT8.setText("");
+                telefoneT8.setText("");
+
+            }
+        });
+
 
         editC = new JPanel();
         painelC.addTab("Editar", editC);
         editC.setLayout(new GridBagLayout());
         GridBagConstraints c9 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Edite os dados pessoais do cliente:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados9 = new JLabel("Edite os dados pessoais do cliente:");
+        inserirDados9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(30, 0, 0, 0);
         c9.gridx = 0;
         c9.gridy = 0;
-        editC.add(inserirDados, c9);
+        editC.add(inserirDados9, c9);
 
-        nome = new JLabel("Nome");
-        nome.setFont(new Font("Arial", 1, 12));
+        nome9 = new JLabel("Nome");
+        nome9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 1;
-        editC.add(nome, c9);
+        editC.add(nome9, c9);
 
-        nomeT = new JTextField(50);
+        nomeT9 = new JTextField(50);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 1;
-        editC.add(nomeT, c9);
+        editC.add(nomeT9, c9);
 
-        nif = new JLabel("NIF");
-        nif.setFont(new Font("Arial", 1, 12));
+        nif9 = new JLabel("NIF");
+        nif9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 2;
-        editC.add(nif, c9);
+        editC.add(nif9, c9);
 
-        nifT = new JTextField(50);
+        nifT9 = new JTextField(50);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 2;
-        editC.add(nifT, c9);
+        editC.add(nifT9, c9);
 
-        morada = new JLabel("Morada");
-        morada.setFont(new Font("Arial", 1, 12));
+        morada9 = new JLabel("Morada");
+        morada9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 3;
-        editC.add(morada, c9);
+        editC.add(morada9, c9);
 
-        moradaT = new JTextField(50);
+        moradaT9 = new JTextField(50);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 3;
-        editC.add(moradaT, c9);
+        editC.add(moradaT9, c9);
 
-        telefone = new JLabel("Telefone");
-        telefone.setFont(new Font("Arial", 1, 12));
+        telefone9 = new JLabel("Telefone");
+        telefone9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 4;
-        editC.add(telefone, c9);
+        editC.add(telefone9, c9);
 
-        telefoneT = new JTextField(50);
+        telefoneT9 = new JTextField(50);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 4;
-        editC.add(telefoneT, c9);
+        editC.add(telefoneT9, c9);
 
-        email = new JLabel("Email");
-        email.setFont(new Font("Arial", 1, 12));
+        email9 = new JLabel("Email");
+        email9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 5;
-        editC.add(email, c9);
+        editC.add(email9, c9);
 
-        emailT = new JTextField(50);
+        emailT9 = new JTextField(50);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 5;
-        editC.add(emailT, c9);
+        editC.add(emailT9, c9);
 
-        palavraPasse = new JLabel("Palavra Passe Inicial");
-        palavraPasse.setFont(new Font("Arial", 1, 12));
+        palavraPasse9 = new JLabel("Palavra Passe Inicial");
+        palavraPasse9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 6;
-        editC.add(palavraPasse, c9);
+        editC.add(palavraPasse9, c9);
 
-        passwordF = new JPasswordField(50);
+        passwordF9 = new JPasswordField(50);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 6;
-        editC.add(passwordF, c9);
+        editC.add(passwordF9, c9);
 
-        tipoSubscricaoL = new JLabel("Tipo de subscrição");
-        tipoSubscricaoL.setFont(new Font("Arial", 1, 12));
+        tipoSubscricaoL9 = new JLabel("Tipo de subscrição");
+        tipoSubscricaoL9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 7;
-        editC.add(tipoSubscricaoL, c9);
+        editC.add(tipoSubscricaoL9, c9);
 
-        tipoSubscricaoB = new JComboBox<>(tiposSubscricao);
+        tipoSubscricaoB9 = new JComboBox<>(tiposSubscricao);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.fill = GridBagConstraints.HORIZONTAL;
         c9.gridx = 2;
         c9.gridy = 7;
-        editC.add(tipoSubscricaoB, c9);
+        editC.add(tipoSubscricaoB9, c9);
 
-        pagamentoSubscricaoL = new JLabel("Modo de pagamento da subscrição");
-        pagamentoSubscricaoL.setFont(new Font("Arial", 1, 12));
+        pagamentoSubscricaoL9 = new JLabel("Modo de pagamento da subscrição");
+        pagamentoSubscricaoL9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 10);
         c9.gridx = 1;
         c9.gridy = 8;
-        editC.add(pagamentoSubscricaoL, c9);
+        editC.add(pagamentoSubscricaoL9, c9);
 
-        pagamentoSubscricaoB = new JComboBox<>(modosPagSubscricao);
+        pagamentoSubscricaoB9 = new JComboBox<>(modosPagSubscricao);
         c9.fill = GridBagConstraints.HORIZONTAL;
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 8;
-        editC.add(pagamentoSubscricaoB, c9);
+        editC.add(pagamentoSubscricaoB9, c9);
 
-        guardarRegisto = new JButton("Guardar alterações");
+        guardarRegisto9 = new JButton("Guardar alterações");
         c9.fill = GridBagConstraints.HORIZONTAL;
         c9.insets = new Insets(20, 0, 20, 0);
         c9.gridx = 2;
         c9.gridy = 10;
-        editC.add(guardarRegisto, c9);
+        editC.add(guardarRegisto9, c9);
+        guardarRegisto9.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String email9 = emailT9.getText();
+                String password9 = String.valueOf(passwordF9.getPassword());
+                String nome9 = nomeT9.getText();
+                String nif9 = nifT9.getText();
+                String telefone9 = telefoneT9.getText();
+                String morada9 = moradaT9.getText();
+                String tipoSubscricao9 = (String) tipoSubscricaoB9.getSelectedItem();
+                String pagamentoSubscricao9 = (String) pagamentoSubscricaoB9.getSelectedItem();
+
+                boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9, tipoSubscricao9, pagamentoSubscricao9, password9, empresa);
+
+                if (empresa.validarEmail(email9, empresa) && empresa.validarDados(nome9, empresa) && empresa.validarDados(nif9, empresa)) {
+
+                    if (resultado5) {
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As informações do cliente associado ao nif " + nif9 + " foram alteradas com sucesso");
+                    } else
+                        JOptionPane.showMessageDialog(new JFrame("Cliente não encontrado"), "Nenhum registo de cliente encontrado associado ao nif " + nif9);
+
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+
+                emailT9.setText("");
+                passwordF9.setText("");
+                nomeT9.setText("");
+                nifT9.setText("");
+                moradaT9.setText("");
+                telefoneT9.setText("");
+
+
+            }
+        });
+
 
         removeC = new JPanel();
         painelC.addTab("Remover", removeC);
@@ -1000,6 +1089,20 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 1;
         panel7.add(totalCliente, c11);
 
+        totalCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                int totalClientes = 0;
+
+                totalClientes = empresa.totalClientes(empresa);
+
+                JOptionPane.showMessageDialog(new JFrame("Número de Clientes"), "Total de Clientes:" + totalClientes);
+
+            }
+        });
+
         totalMotorista = new JButton("Total de motoristas");
         totalMotorista.setFont(new Font("Arial", 1, 12));
         c11.fill = GridBagConstraints.HORIZONTAL;
@@ -1007,12 +1110,40 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 2;
         panel7.add(totalMotorista, c11);
 
+        totalMotorista.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                int totalMotoristas = 0;
+
+                totalMotoristas = empresa.totalMotoristas(empresa);
+
+                JOptionPane.showMessageDialog(new JFrame("Número de Motoristas"), "Total de Motoristas:" + totalMotoristas);
+
+            }
+        });
+
         totalAutocarro = new JButton("Total de autocarros");
         totalAutocarro.setFont(new Font("Arial", 1, 12));
         c11.fill = GridBagConstraints.HORIZONTAL;
         c11.gridx = 1;
         c11.gridy = 3;
         panel7.add(totalAutocarro, c11);
+
+        totalAutocarro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                int totalAutocarros = 0;
+
+                totalAutocarros = empresa.totalAutocarros(empresa);
+
+                JOptionPane.showMessageDialog(new JFrame("Número de Motoristas"), "Total de Autocarros:" + totalAutocarros);
+
+            }
+        });
 
         autocarroMReq = new JButton("Autocarro mais requisitado");
         autocarroMReq.setFont(new Font("Arial", 1, 12));

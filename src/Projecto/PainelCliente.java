@@ -2,6 +2,9 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class PainelCliente extends JPanel {
 
@@ -71,6 +74,7 @@ public class PainelCliente extends JPanel {
         panel1.add(dataRegresso, c1);
 
 
+
         dataRegressoT = new JTextField(20);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
@@ -136,6 +140,28 @@ public class PainelCliente extends JPanel {
         c1.gridx = 1;
         c1.gridy = 8;
         panel1.add(pesquisar, c1);
+
+        pesquisar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LocalDate dataPartida = LocalDate.parse(dataPartidaT.getText());
+                LocalDate dataRegresso = LocalDate.parse(dataRegressoT.getText());
+                String origem = origemT.getText();
+                String destino = destinoT.getText();
+                int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
+                double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
+
+                Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
+
+                if (autocarroO != null) {
+                    Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
+                    if (motoristaO != null){
+                        Cliente clienteO = (Cliente) empresa.getLoggeduser();
+                        Reserva r = empresa.fazerReserva(autocarroO, motoristaO, clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista, empresa);
+                    }
+                }
+            }
+        });
 
 
         panel2 = new JPanel();
