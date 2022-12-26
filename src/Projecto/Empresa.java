@@ -73,12 +73,13 @@ public class Empresa implements Serializable {
 
     // método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula
     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
-        // código que substitui numa linha um ciclo for:each
+
         for (Autocarro a : empresa.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
                 return null;
             }
         }
+        // código que substitui numa linha um ciclo for:each
         //if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
         //  return null;
         //}
@@ -155,7 +156,7 @@ public class Empresa implements Serializable {
         return false;
     }
 
-    public boolean removerMotorista( String nif, Empresa empresa) {
+    public boolean removerMotorista(String nif, Empresa empresa) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
         for (Motorista m : empresa.listaMotoristas) {
@@ -165,7 +166,6 @@ public class Empresa implements Serializable {
                 return true;
             }
         }
-
 
         return false;
     }
@@ -180,11 +180,8 @@ public class Empresa implements Serializable {
                 client.setMorada(morada);
                 escreveFicheiro(AUTOCARROS_AOR, empresa);
                 return true;
-
             }
-
         }
-
         return false;
     }
 
@@ -223,6 +220,21 @@ public class Empresa implements Serializable {
         escreveFicheiro(AUTOCARROS_AOR, empresa);
 
         return novoCliente;
+    }
+
+    //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
+    //e se o tipo de Utilizador é cliente.
+    public boolean removerCliente (String nif, Empresa empresa) {
+    // Será usado o nif como identificador do cliente a remover, dado que este nunca altera ao longo da vida
+        for (Utilizador client : empresa.listaUtilizadores) {
+            if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
+                empresa.listaUtilizadores.remove(client);
+                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                return true;
+            }
+
+        }
+        return false;
     }
 
     // método que percorre a lista de utilizadores e filtra todos os que são clientes
