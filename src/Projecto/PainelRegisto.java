@@ -152,7 +152,7 @@ public class PainelRegisto extends JPanel {
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada, tipoDeSubscricao, modoDePagamento, password, empresa);
 
                 if (empresa.validarEmail(email, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(password, empresa) && empresa.validarDados(nome, empresa)) {
-        // só valida os dados se as caixas respectivas estiverem preenchidas
+                    // só valida os dados se as caixas respectivas estiverem preenchidas
                     if (novoRegisto == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
                     }
@@ -165,17 +165,17 @@ public class PainelRegisto extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
                         janela.mudaEcra("Login");
                     }} else
-                        JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos.");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos.");
 
 
-                    emailT.setText("");
-                    passwordF.setText("");
-                    nomeT.setText("");
-                    nifT.setText("");
-                    moradaT.setText("");
-                    telefoneT.setText("");
+                emailT.setText("");
+                passwordF.setText("");
+                nomeT.setText("");
+                nifT.setText("");
+                moradaT.setText("");
+                telefoneT.setText("");
 
-                 }});
+            }});
 
     }
 }
