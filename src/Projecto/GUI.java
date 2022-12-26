@@ -28,7 +28,8 @@ public class GUI {
         cardsPanel.add(new PainelCliente(this, empresa), "PainelCliente");
         f.getContentPane().add(cardsPanel);
 
-        layout.show(cardsPanel, "Login");
+       layout.show(cardsPanel, "Login");
+
 
 
         f.setVisible(true);
