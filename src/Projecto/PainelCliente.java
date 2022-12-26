@@ -165,7 +165,7 @@ public class PainelCliente extends JPanel {
                                 n_Passageiros, origem, destino, distanciaPrevista, empresa);
                         JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada");
                     }else {
-                        JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há motorista disponível");
+                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há motorista disponível");
                     }
                 }else {
                     JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há autocarro disponível");

@@ -169,7 +169,7 @@ public class PainelAdmin extends JPanel {
                 String telefone1 = telefoneT1.getText();
                 String morada1 = moradaT1.getText();
 
-                //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("***" + emailT1.getText()));
+                //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
 
                 Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1, empresa);
 
@@ -1047,8 +1047,8 @@ public class PainelAdmin extends JPanel {
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
-                nifT10.setText("");
-            }
+                    nifT10.setText("");
+                }
         });
 
 

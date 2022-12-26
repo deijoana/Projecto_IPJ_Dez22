@@ -52,7 +52,6 @@ public class Empresa implements Serializable {
     );
 
 
-
     public Empresa() {
         this.listaUtilizadores = new ArrayList<>();
         this.listaMotoristas = new ArrayList<>();
@@ -169,6 +168,7 @@ public class Empresa implements Serializable {
 
         return false;
     }
+
     public boolean editarCliente(String email, String nome, String telefone, String nif, String morada, String tipoSubscricao, String pagamentoSubscricao, String password, Empresa empresa) {
         // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
 
@@ -224,7 +224,7 @@ public class Empresa implements Serializable {
 
     //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
     //e se o tipo de Utilizador é cliente.
-    public boolean removerCliente (String nif, Empresa empresa) {
+    public boolean removerCliente(String nif, Empresa empresa) {
         // Será usado o nif como identificador do cliente a remover, dado que este nunca altera ao longo da vida
         for (Utilizador client : empresa.listaUtilizadores) {
             if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
@@ -246,11 +246,11 @@ public class Empresa implements Serializable {
     }
 
     // método para as estatísticas que contabiliza o total de clientes
-    public int totalClientes(Empresa empresa){
+    public int totalClientes(Empresa empresa) {
         int soma = 0;
 
         for (Utilizador u : empresa.listaUtilizadores) {
-            if(u instanceof Cliente){
+            if (u instanceof Cliente) {
                 soma++;
             }
         }
@@ -258,7 +258,7 @@ public class Empresa implements Serializable {
     }
 
     // método para as estatísticas que contabiliza motoristas
-    public int totalMotoristas(Empresa empresa){
+    public int totalMotoristas(Empresa empresa) {
         int soma = 0;
 
         for (Motorista m : empresa.listaMotoristas) {
@@ -270,7 +270,7 @@ public class Empresa implements Serializable {
     }
 
     // método para as estatísticas que contabiliza autocarros
-    public int totalAutocarros(Empresa empresa){
+    public int totalAutocarros(Empresa empresa) {
         int soma = 0;
 
         for (Autocarro a : empresa.listaAutocarros) {
@@ -292,8 +292,7 @@ public class Empresa implements Serializable {
                                 String localOrigem,
                                 String localDestino,
                                 double distancia,
-                                Empresa empresa)
-    {
+                                Empresa empresa) {
         Reserva novaReserva = new Reserva(
                 bus,
                 driver,
@@ -313,17 +312,18 @@ public class Empresa implements Serializable {
     }
 
     //método para procurar disponilidade de autocarro
-    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa){
+    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
         boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
         Autocarro escolhido = null;
 
-        for ( Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : empresa.listaAutocarros) {
             if (a.getLotacao() >= numPassageiros) { // autocarro elegivel, pois tem lotação suficiente
 
                 for (Reserva reservaO : empresa.listaReservas) {
-                    if(reservaO.getBus() == a &&
+                    if (reservaO.getBus() == a &&
                             (reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
-                            (dataPartida.isBefore((reservaO.getDataPartida())) && dataRegresso.isAfter(reservaO.getDataRegresso()))) {//
+                            (dataPartida.isBefore(reservaO.getDataPartida()) && dataRegresso.isAfter(reservaO.getDataRegresso())) ||
+                            (dataRegresso.isAfter(reservaO.getDataPartida()) && dataRegresso.isBefore(reservaO.getDataRegresso()))) {//
                         saltaAutocarro = true; // reserva ocupa um periodo não elegivel
                     }
                 }
@@ -339,13 +339,14 @@ public class Empresa implements Serializable {
     }
 
     //método para procurar disponilidade de motorista
-    public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso,  Empresa empresa){
+    public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso, Empresa empresa) {
         boolean saltaMotorista = false; // salta para o proximo se verdadeiro
         Motorista escolhido = null;
         for (Motorista m : empresa.listaMotoristas) {
             for (Reserva reservaO : empresa.listaReservas) {
                 if ((reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
-                        (dataPartida.isBefore((reservaO.getDataPartida())) && dataRegresso.isAfter(reservaO.getDataRegresso()))) {//
+                        (dataPartida.isBefore(reservaO.getDataPartida()) && dataRegresso.isAfter(reservaO.getDataRegresso())) ||
+                        (dataRegresso.isAfter(reservaO.getDataPartida()) && dataRegresso.isBefore(reservaO.getDataRegresso()))) {
                     saltaMotorista = true;
                 }
             }
@@ -358,6 +359,7 @@ public class Empresa implements Serializable {
         }
         return escolhido;
     }
+
     // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
     public Utilizador fazerLogin(String emailUtilizador, String palavraPasse, Empresa empresa) {
         for (Utilizador u : empresa.listaUtilizadores) {
@@ -405,7 +407,7 @@ public class Empresa implements Serializable {
 
             empresa = new Empresa();
             empresa.listaUtilizadores.add(administrador);
-            escreveFicheiro(nomeDoFicheiro,empresa);
+            escreveFicheiro(nomeDoFicheiro, empresa);
         }
 
         return empresa;
