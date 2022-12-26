@@ -27,6 +27,10 @@ public class Empresa implements Serializable {
         return loggeduser;
     }
 
+    public List<Reserva> getListaReservas() {
+        return listaReservas;
+    }
+
     public void setLoggeduser(Utilizador loggeduser) {
         this.loggeduser = loggeduser;
     }
