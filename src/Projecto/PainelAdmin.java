@@ -12,7 +12,7 @@ public class PainelAdmin extends JPanel {
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
-    JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
+    JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
 
     JList<Motorista> listagemMotoristas;
     JList<Utilizador> listagemClientes;
@@ -31,6 +31,8 @@ public class PainelAdmin extends JPanel {
 
     JLabel inserirDados9, nome9, nif9, telefone9, morada9, email9, palavraPasse9, pagamentoSubscricaoL9, tipoSubscricaoL9;
 
+    JLabel inserirDados10, nif10;
+
     JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1;
     JTextField nomeT1, nifT1, moradaT1, telefoneT1;
     JTextField nomeT2, nifT2, emailT2;
@@ -42,6 +44,8 @@ public class PainelAdmin extends JPanel {
 
     JTextField nomeT8, nifT8, telefoneT8, moradaT8, emailT8;
     JTextField nomeT9, nifT9, telefoneT9, moradaT9, emailT9;
+
+    JTextField nifT10;
     JPasswordField passwordF8, passwordF9, passwordF, passwordF1, passwordNova1, passwordNova2;
 
     JComboBox tipoSubscricaoB8, pagamentoSubscricaoB8, tipoSubscricaoB9, pagamentoSubscricaoB9, tipoSubscricaoB, pagamentoSubscricaoB;
@@ -165,7 +169,7 @@ public class PainelAdmin extends JPanel {
                 String telefone1 = telefoneT1.getText();
                 String morada1 = moradaT1.getText();
 
-                //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
+                //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("***" + emailT1.getText()));
 
                 Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1, empresa);
 
@@ -976,9 +980,11 @@ public class PainelAdmin extends JPanel {
                 if (empresa.validarEmail(email9, empresa) && empresa.validarDados(nome9, empresa) && empresa.validarDados(nif9, empresa)) {
 
                     if (resultado5) {
-                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As informações do cliente associado ao nif " + nif9 + " foram alteradas com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"),
+                                "As informações do cliente associado ao nif " + nif9 + " foram alteradas com sucesso");
                     } else
-                        JOptionPane.showMessageDialog(new JFrame("Cliente não encontrado"), "Nenhum registo de cliente encontrado associado ao nif " + nif9);
+                        JOptionPane.showMessageDialog(new JFrame("Cliente não encontrado"),
+                                "Nenhum registo de cliente encontrado associado ao nif " + nif9);
 
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
@@ -990,7 +996,6 @@ public class PainelAdmin extends JPanel {
                 moradaT9.setText("");
                 telefoneT9.setText("");
 
-
             }
         });
 
@@ -1000,30 +1005,53 @@ public class PainelAdmin extends JPanel {
         removeC.setLayout(new GridBagLayout());
         GridBagConstraints c10 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Indique o NIF do cliente cujas informações pretende remover:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados10 = new JLabel("Indique o NIF do cliente cujas informações pretende remover:");
+        inserirDados10.setFont(new Font("Arial", 1, 12));
         c10.gridx = 0;
         c10.gridy = 0;
         c10.insets = new Insets(0, 0, 20, 0);
-        removeC.add(inserirDados, c10);
+        removeC.add(inserirDados10, c10);
 
-        nif = new JLabel("NIF");
-        nif.setFont(new Font("Arial", 1, 12));
+        nif10 = new JLabel("NIF");
+        nif10.setFont(new Font("Arial", 1, 12));
         c10.gridx = 2;
         c10.gridy = 2;
         c10.insets = new Insets(0, 0, 0, 10);
-        removeC.add(nif, c10);
+        removeC.add(nif10, c10);
 
-        nifT = new JTextField(50);
+        nifT10 = new JTextField(50);
         c10.gridx = 3;
         c10.gridy = 2;
-        removeC.add(nifT, c10);
+        removeC.add(nifT10, c10);
 
-        guardarRegisto = new JButton("Remover cliente");
+        guardarRegisto10 = new JButton("Remover cliente");
         c10.insets = new Insets(20, 0, 0, 0);
         c10.gridx = 3;
         c10.gridy = 5;
-        removeC.add(guardarRegisto, c10);
+        removeC.add(guardarRegisto10, c10);
+
+        guardarRegisto10.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nif10 = nifT10.getText();
+
+                boolean resultado10 = empresa.removerCliente(nif10, empresa);
+
+                if (empresa.validarDados(nif10, empresa)) {
+                    if (resultado10) {
+                        JOptionPane.showMessageDialog(new JFrame("Cliente removido com sucesso"),
+                                "O cliente associado ao nif " + nif10 + " foi removido com sucesso");
+                    } else
+                        JOptionPane.showMessageDialog(new JFrame("Cliente não encontrado"),
+                                "Nenhum registo de cliente encontrado associado ao nif " + nif10);
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+
+                nifT10.setText("");
+            }
+        });
+
+
 
         panel4.add(painelC);
 
@@ -1089,6 +1117,20 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 1;
         panel7.add(totalCliente, c11);
 
+        totalCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                int totalClientes = 0;
+
+                totalClientes = empresa.totalClientes(empresa);
+
+                JOptionPane.showMessageDialog(new JFrame("Número de Clientes"), "Total de Clientes:" + totalClientes);
+
+            }
+        });
+
         totalMotorista = new JButton("Total de motoristas");
         totalMotorista.setFont(new Font("Arial", 1, 12));
         c11.fill = GridBagConstraints.HORIZONTAL;
@@ -1096,12 +1138,40 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 2;
         panel7.add(totalMotorista, c11);
 
+        totalMotorista.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                int totalMotoristas = 0;
+
+                totalMotoristas = empresa.totalMotoristas(empresa);
+
+                JOptionPane.showMessageDialog(new JFrame("Número de Motoristas"), "Total de Motoristas:" + totalMotoristas);
+
+            }
+        });
+
         totalAutocarro = new JButton("Total de autocarros");
         totalAutocarro.setFont(new Font("Arial", 1, 12));
         c11.fill = GridBagConstraints.HORIZONTAL;
         c11.gridx = 1;
         c11.gridy = 3;
         panel7.add(totalAutocarro, c11);
+
+        totalAutocarro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                int totalAutocarros = 0;
+
+                totalAutocarros = empresa.totalAutocarros(empresa);
+
+                JOptionPane.showMessageDialog(new JFrame("Número de Autocarros"), "Total de Autocarros:" + totalAutocarros);
+
+            }
+        });
 
         autocarroMReq = new JButton("Autocarro mais requisitado");
         autocarroMReq.setFont(new Font("Arial", 1, 12));
