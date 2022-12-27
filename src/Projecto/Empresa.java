@@ -242,7 +242,8 @@ public class Empresa implements Serializable {
         for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getPalavraPasse().equals(novaPass)) {
                 return false;
-            } else {
+            }
+            else {
                 u.setPalavraPasse(novaPass);
             }
         }
