@@ -12,7 +12,7 @@ public class PainelAdmin extends JPanel {
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
-    JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
+    JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, guardarRegisto12, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
 
     JList<Motorista> listagemMotoristas;
     JList<Utilizador> listagemClientes;
@@ -32,6 +32,8 @@ public class PainelAdmin extends JPanel {
     JLabel inserirDados9, nome9, nif9, telefone9, morada9, email9, palavraPasse9, pagamentoSubscricaoL9, tipoSubscricaoL9;
 
     JLabel inserirDados10, nif10;
+
+    JLabel inserirDados12;
 
     JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1;
     JTextField nomeT1, nifT1, moradaT1, telefoneT1;
@@ -1232,25 +1234,29 @@ public class PainelAdmin extends JPanel {
         panel8.setLayout(new GridBagLayout());
         GridBagConstraints c12 = new GridBagConstraints();
 
-        inserirDados = new JLabel("Insira os dados pedidos para alterar a palavra-passe:");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados12 = new JLabel("Insira os dados pedidos para alterar a palavra-passe:");
+        inserirDados12.setFont(new Font("Arial", 1, 12));
         // c12.insets = new Insets(20, 0, 0, 0);
         c12.gridx = 0;
         c12.gridy = 0;
         c12.gridwidth = 2;
-        panel8.add(inserirDados, c12);
+        panel8.add(inserirDados12, c12);
 
+        /*
         palavraPasse = new JLabel("Palavra-passe antiga");
         palavraPasse.setFont(new Font("Arial", 1, 12));
         c12.gridx = 1;
         c12.gridy = 1;
         panel8.add(palavraPasse, c12);
 
+
         passwordF = new JPasswordField(50);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 1;
         panel8.add(passwordF, c12);
+        */
+
 
         passwordNova1L = new JLabel("Insira nova palavra-passe");
         passwordNova1L.setFont(new Font("Arial", 1, 12));
@@ -1276,11 +1282,30 @@ public class PainelAdmin extends JPanel {
         c12.gridy = 3;
         panel8.add(passwordNova2, c12);
 
-        guardarRegisto = new JButton("Guardar alterações");
+        guardarRegisto12 = new JButton("Guardar alterações");
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 5;
-        panel8.add(guardarRegisto, c12);
+        panel8.add(guardarRegisto12, c12);
+
+        guardarRegisto12.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            String passwordNova1L = String.valueOf(passwordNova1.getPassword());
+            String passwordNova2L = String.valueOf(passwordNova2.getPassword());
+
+            boolean resultado12 = empresa.alterarPalavraPass(passwordNova1L, passwordNova2L, empresa);
+
+            if (resultado12) {
+                JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
+
+            }else {
+                JOptionPane.showMessageDialog(new JFrame("Insucesso"), "A nova pass introduzida é igual à anterior, defina uma nova password:");
+            }
+            passwordNova1.setText("");
+            passwordNova2.setText("");
+            }
+        });
 
 
         c.gridx = 1;
