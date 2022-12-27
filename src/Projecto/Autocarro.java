@@ -44,4 +44,9 @@ public class Autocarro implements Serializable {
     public void setLotacao(int lotacao) {
         this.lotacao = lotacao;
     }
+
+    @Override
+    public String toString() {
+        return "Autocarro: " + matricula + ", " + marca + ", " + modelo + ", " + lotacao + "\n";
+    }
 }

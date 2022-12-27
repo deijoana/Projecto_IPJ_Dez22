@@ -31,7 +31,7 @@ public class Cliente extends Utilizador implements Serializable {
 
     @Override
     public String toString() {
-        return nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + ", " + tipoSubscricao + ", " + modoPagamento;
+        return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + ", " + tipoSubscricao + ", " + modoPagamento;
     }
 
 

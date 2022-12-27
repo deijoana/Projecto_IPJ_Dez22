@@ -117,4 +117,10 @@ public class Reserva implements Serializable {
     public void calcularCustoViagem(){
         this.custo = this.getDistancia()*0.55 + 1.2*this.getNumPassageiros();
     }
+
+    @Override
+    public String toString() {
+        return "Reserva: de " + dataPartida + " a " + dataRegresso +" desde " +localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + custo + "€\n";
+
+    }
 }

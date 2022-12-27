@@ -11,7 +11,7 @@ public class Administrador extends Utilizador implements Serializable {
 
     @Override
     public String toString() {
-         return nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + "\n";
+         return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + "\n";
     }
 }
 

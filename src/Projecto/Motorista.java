@@ -40,6 +40,6 @@ public class Motorista implements Serializable {
 
     @Override
     public String toString() {
-        return  nomeMotorista +", "+ emailMotorista + ",  NIF: "+nifMotorista + "\n\n";
+        return  " " + nomeMotorista +", "+ emailMotorista + ",  NIF: "+nifMotorista + "\n\n";
     }
 }
