@@ -71,6 +71,7 @@ public class Empresa implements Serializable {
         return listaUtilizadores;
     }
 
+
     public void setListaUtilizadores(List listaUtilizadores) {
         this.listaUtilizadores = listaUtilizadores;
 
@@ -265,6 +266,64 @@ public class Empresa implements Serializable {
                 .toList();
     }
 
+   /* public List<Reserva> listagemHistoricoReservas(Empresa empresa){
+        List listaHistoricoReservas = null;
+
+        for (Reserva r:empresa.listaReservas){
+            if (r.getClient().equals(loggeduser) && r.getDataPartida().isBefore(LocalDate.now())){
+                listaHistoricoReservas.add(r);
+            }
+        } return listaHistoricoReservas;
+    }
+   public List<Reserva> listaReservasClientes(Empresa empresa){
+        List listaReservasClientes=null;
+
+        for (Reserva r:empresa.listaReservas){
+            if (r.getClient().equals(loggeduser) && r.getDataPartida().isAfter(LocalDate.now())){
+                listaReservasClientes.add(r);
+            }
+
+        } return listaReservasClientes;
+    }
+*/
+
+    public List<Reserva> listagemHistoricoReservas (Empresa empresa){
+        // método que mostra todas as reservas passadas de um dado cliente
+
+        return empresa.listaReservas.stream().filter(
+                        user -> user.getClient().equals(loggeduser)
+
+                ).filter(user->user.getDataPartida().isBefore(LocalDate.now()))
+                .toList();
+
+    }
+
+    public List<Reserva> listaReservasCliente(Empresa empresa) {
+        // método que mostra todas as reservas futuras de um dado cliente
+
+
+        return empresa.listaReservas.stream().filter(
+                        user -> user.getClient().equals(loggeduser)
+
+                ).filter(user->user.getDataPartida().isAfter(LocalDate.now()))
+                .toList();
+
+    }
+
+    public HashMap listarAutocarrosReservados(int mes, Empresa empresa){
+// método que lista todos os autocarros reservados num dado mês e a respectiva data
+
+        List<Reserva> listaReservasMes = empresa.listaReservas.stream().filter(user->user.getDataPartida().getMonth().equals(mes)).toList();
+        HashMap autocarroDataReserva = new HashMap<Autocarro, Reserva>();
+
+        for (Reserva r:listaReservasMes){
+            autocarroDataReserva.put(r.getBus(), r.getDataPartida());
+        }
+
+
+            return autocarroDataReserva;
+    }
+
     // método para as estatísticas que contabiliza o total de clientes
     public int totalClientes(Empresa empresa) {
         int soma = 0;
@@ -288,6 +347,7 @@ public class Empresa implements Serializable {
         }
         return soma;
     }
+
 
     // método para as estatísticas que contabiliza autocarros
     public int totalAutocarros(Empresa empresa) {
@@ -384,6 +444,44 @@ public class Empresa implements Serializable {
         return escolhido;
     }
 
+
+   /* //método para procurar disponilidade de autocarro
+    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
+        boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
+        Autocarro escolhido = null;
+
+        List<Autocarro> listaAutocarrosDisponiveis = null;
+
+        for (Autocarro a : empresa.listaAutocarros) {
+            if (a.getLotacao() >= numPassageiros) { // autocarro elegivel, pois tem lotação suficiente
+
+                for (Reserva reservaO : empresa.listaReservas) {
+                    if (reservaO.getBus() == a &&
+                            (reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
+                            (dataPartida.isBefore(reservaO.getDataPartida()) && dataRegresso.isAfter(reservaO.getDataRegresso())) ||
+                            (dataRegresso.isAfter(reservaO.getDataPartida()) && dataRegresso.isBefore(reservaO.getDataRegresso()))) {//
+                        saltaAutocarro = true; // reserva ocupa um periodo não elegivel
+                    }
+                }
+            }
+            if (!saltaAutocarro) { // não existe impedimento de escolher este autocarro, logo este serve
+                listaAutocarrosDisponiveis.add(a);
+
+            } else {
+                saltaAutocarro = false; // este autocarro não serve pois há uma reserva naquelas datas
+            }
+        }
+
+        // assegura que o autocarro disponivel selecionado é que minimiza os lugares não usados na reserva
+        escolhido = listaAutocarrosDisponiveis.get(0);
+        for (Autocarro bus : listaAutocarrosDisponiveis) {
+            if (bus.getLotacao() < escolhido.getLotacao()) {
+                escolhido = bus;
+            }
+        }
+        return escolhido;
+    }
+*/
     //método para procurar disponilidade de motorista
     public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso, Empresa empresa) {
         boolean saltaMotorista = false; // salta para o proximo se verdadeiro
@@ -405,6 +503,8 @@ public class Empresa implements Serializable {
         }
         return escolhido;
     }
+
+
 
     // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
     public Utilizador fazerLogin(String emailUtilizador, String palavraPasse, Empresa empresa) {

@@ -23,13 +23,13 @@ public class PainelCliente extends JPanel {
     JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
 
 
-    JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2;
+    JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2, inserirDados2;
 
     JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
 
     JPasswordField passAntigaT, passNovaT, passNova2T;
 
-    JList listagemReservas;
+    JList<Reserva> listagemReservas, listagemHistoricoReservas;
 
 
     PainelCliente(GUI janela, Empresa empresa) {
@@ -63,7 +63,7 @@ public class PainelCliente extends JPanel {
         panel1.add(dataPartida, c1);
 
 
-        dataPartidaT = new JTextField("Formato AAAA-MM-DD", 20);
+        dataPartidaT = new JTextField("Formato aaaa-mm-dd", 20);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 1;
@@ -77,7 +77,7 @@ public class PainelCliente extends JPanel {
         panel1.add(dataRegresso, c1);
 
 
-        dataRegressoT = new JTextField("Formato AAAA-MM-DD", 20);
+        dataRegressoT = new JTextField("Formato aaaa-mm-dd", 20);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 2;
@@ -155,41 +155,63 @@ public class PainelCliente extends JPanel {
 
 
                 Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
-
-                if (autocarroO != null) {
-                    Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
-                    if (motoristaO != null) {
-                        Cliente clienteO = (Cliente) empresa.getLoggeduser();
-                        Reserva r = empresa.fazerReserva(autocarroO, motoristaO, clienteO, dataPartida, dataRegresso,
-                                n_Passageiros, origem, destino, distanciaPrevista, empresa);
-                        JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada");
+                if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa) && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa) && empresa.validarDados(String.valueOf(n_Passageiros), empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
+                    if (autocarroO != null) {
+                        Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
+                        if (motoristaO != null) {
+                            Cliente clienteO = (Cliente) empresa.getLoggeduser();
+                            Reserva r = empresa.fazerReserva(autocarroO, motoristaO, clienteO, dataPartida, dataRegresso,
+                                    n_Passageiros, origem, destino, distanciaPrevista, empresa);
+                            JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada. O autocarro disponível é " + autocarroO);
+                        } else {
+                            JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há motorista disponível");
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há motorista disponível");
+                        JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há autocarro disponível");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há autocarro disponível");
-                }
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+
+                dataPartidaT.setText("Formato aaaa-mm-dd");
+                dataRegressoT.setText("Formato aaaa-mm-dd");
+                origemT.setText("");
+                destinoT.setText("");
+                n_PassageirosT.setText("");
+                distPrevistaT.setText("");
+
             }
         });
 
 
         panel2 = new JPanel();
         painelCl.addTab("Consultar Histórico", panel2);
+        panel2.setLayout(new GridBagLayout());
+        GridBagConstraints c2 = new GridBagConstraints();
 
+        inserirDados2 = new JLabel("Histórico das suas reservas");
+        inserirDados2.setFont(new Font("Arial", 1, 12));
+        c2.gridx = 0;
+        c2.gridy = 0;
+        panel2.add(inserirDados2, c2);
+
+      listagemHistoricoReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listagemHistoricoReservas(empresa).stream().toList()));
+        c2.gridx = 1;
+        c2.gridy = 1;
+        panel2.add(listagemHistoricoReservas, c2);
 
         panel3 = new JPanel();
         painelCl.addTab("Consultar Reservas", panel3);
-        panel3.setLayout(new GridLayout());
+        panel3.setLayout(new GridBagLayout());
         GridBagConstraints c3 = new GridBagConstraints();
 
-        inserirDados3 = new JLabel("Lista de Reservas");
+        inserirDados3 = new JLabel("Lista das suas reservas");
         inserirDados.setFont(new Font("Arial", 1, 12));
         c3.insets = new Insets(0, 0, 0, 20);
         c3.gridx = 0;
         c3.gridy = 0;
         panel3.add(inserirDados3, c3);
 
-        listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.getListaReservas()));
+    listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
         c3.gridx = 1;
         c3.gridy = 1;
         panel3.add(listagemReservas, c3);
