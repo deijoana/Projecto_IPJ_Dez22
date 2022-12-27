@@ -806,8 +806,8 @@ public class PainelAdmin extends JPanel {
                 String nif8 = nifT8.getText();
                 String telefone8 = telefoneT8.getText();
                 String morada8 = moradaT8.getText();
-                String tipoSubscricao8 = (String) tipoSubscricaoB8.getSelectedItem();
-                String pagamentoSubscricao8 = (String) pagamentoSubscricaoB8.getSelectedItem();
+                String tipoSubscricao8 = tipoSubscricaoB8.getSelectedItem().toString();
+                String pagamentoSubscricao8 = pagamentoSubscricaoB8.getSelectedItem().toString();
 
                 // System.out.println(tipoSubscricao8 + " , " + pagamentoSubscricao8);
 
@@ -976,8 +976,8 @@ public class PainelAdmin extends JPanel {
                 String nif9 = nifT9.getText();
                 String telefone9 = telefoneT9.getText();
                 String morada9 = moradaT9.getText();
-                String tipoSubscricao9 = (String) tipoSubscricaoB9.getSelectedItem();
-                String pagamentoSubscricao9 = (String) pagamentoSubscricaoB9.getSelectedItem();
+                String tipoSubscricao9 = tipoSubscricaoB9.getSelectedItem().toString();
+                String pagamentoSubscricao9 = pagamentoSubscricaoB9.getSelectedItem().toString();
 
                 boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9, tipoSubscricao9, pagamentoSubscricao9, password9, empresa);
 
