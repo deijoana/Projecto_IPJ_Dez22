@@ -229,6 +229,7 @@ public class Empresa implements Serializable {
         for (Utilizador client : empresa.listaUtilizadores) {
             if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
                 empresa.listaUtilizadores.remove(client);
+                empresa.listaNegraClientes.add(client); // adiciona o cliente a lista alternativa, porque este cliente mantém a possibilidade de fazer login
                 escreveFicheiro(AUTOCARROS_AOR, empresa);
                 return true;
             }

@@ -515,7 +515,7 @@ public class PainelAdmin extends JPanel {
 
                 marcaT5.setText("");
                 modeloT5.setText("");
-                matriculaT5.setText("");
+                matriculaT5.setText("Formato ##-##-##");
                 lotacaoT5.setText("");
 
             }
@@ -605,7 +605,7 @@ public class PainelAdmin extends JPanel {
 
                 marcaT6.setText("");
                 modeloT6.setText("");
-                matriculaT6.setText("");
+                matriculaT6.setText("Formato ##-##-##");
                 lotacaoT6.setText("");
 
             }
@@ -645,16 +645,18 @@ public class PainelAdmin extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String matricula = matriculaT7.getText();
-                boolean resultado4 = empresa.removerAutocarro(matricula, empresa);
-
+                String matricula7 = matriculaT7.getText();
+                boolean resultado4 = empresa.removerAutocarro(matricula7, empresa);
+                if (empresa.validarDados(matricula7, empresa)) {
                 if (resultado4) {
                     JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
                             "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
-                matriculaT7.setText("");
+                matriculaT7.setText("Formato ##-##-##");
             }
         });
 
@@ -820,11 +822,11 @@ public class PainelAdmin extends JPanel {
 
                     if (novoCliente instanceof Administrador) {
                         JOptionPane.showMessageDialog(new JFrame("Administrador criado"), "Registo de " + novoCliente.nome + " criado com sucesso");
-                        janela.mudaEcra("Login");
+
 
                     } else if (novoCliente instanceof Cliente) {
                         JOptionPane.showMessageDialog(new JFrame("Cliente criado"), "Registo de " + novoCliente.nome + " criado com sucesso");
-                        janela.mudaEcra("Login");
+
                     }
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
@@ -1049,7 +1051,7 @@ public class PainelAdmin extends JPanel {
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
-                    nifT10.setText("");
+                nifT10.setText("");
                 }
         });
 
@@ -1128,7 +1130,7 @@ public class PainelAdmin extends JPanel {
 
                 totalClientes = empresa.totalClientes(empresa);
 
-                JOptionPane.showMessageDialog(new JFrame("Número de Clientes"), "Total de Clientes:" + totalClientes);
+                JOptionPane.showMessageDialog(new JFrame("Número de Clientes"), "Total de Clientes: " + totalClientes);
 
             }
         });
@@ -1149,7 +1151,7 @@ public class PainelAdmin extends JPanel {
 
                 totalMotoristas = empresa.totalMotoristas(empresa);
 
-                JOptionPane.showMessageDialog(new JFrame("Número de Motoristas"), "Total de Motoristas:" + totalMotoristas);
+                JOptionPane.showMessageDialog(new JFrame("Número de Motoristas"), "Total de Motoristas: " + totalMotoristas);
 
             }
         });
@@ -1170,7 +1172,7 @@ public class PainelAdmin extends JPanel {
 
                 totalAutocarros = empresa.totalAutocarros(empresa);
 
-                JOptionPane.showMessageDialog(new JFrame("Número de Autocarros"), "Total de Autocarros:" + totalAutocarros);
+                JOptionPane.showMessageDialog(new JFrame("Número de Autocarros"), "Total de Autocarros: " + totalAutocarros);
 
             }
         });

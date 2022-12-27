@@ -63,7 +63,7 @@ public class PainelCliente extends JPanel {
         panel1.add(dataPartida, c1);
 
 
-        dataPartidaT = new JTextField(20);
+        dataPartidaT = new JTextField("Formato AAAA-MM-DD", 20);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 1;
@@ -78,7 +78,7 @@ public class PainelCliente extends JPanel {
 
 
 
-        dataRegressoT = new JTextField(20);
+        dataRegressoT = new JTextField("Formato AAAA-MM-DD",20);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 2;
