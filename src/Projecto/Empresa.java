@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Empresa implements Serializable {
 
@@ -22,6 +24,10 @@ public class Empresa implements Serializable {
 
     // user logado
     private Utilizador loggeduser;
+
+    public List<Autocarro> getListaAutocarros() {
+        return listaAutocarros;
+    }
 
     public Utilizador getLoggeduser() {
         return loggeduser;
@@ -243,8 +249,7 @@ public class Empresa implements Serializable {
         for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getPalavraPasse().equals(novaPass)) {
                 return false;
-            }
-            else {
+            } else {
                 u.setPalavraPasse(novaPass);
             }
         }
@@ -296,6 +301,32 @@ public class Empresa implements Serializable {
         return soma;
 
     }
+
+    //método que devolve o autocarro mais requisitado
+    public Autocarro encontrarAutocarroMaisReq(Empresa empresa) {
+
+        Autocarro autocarroMaisReq = null;
+
+        int contador = 0;
+        int maximo = 0;
+
+        for (Autocarro a : empresa.listaAutocarros) {
+
+            for (Reserva r : empresa.listaReservas) {
+                if (r.getBus().equals(a)) {
+                    contador++;
+                }
+                if (contador > maximo) {
+                    maximo = contador;
+                    autocarroMaisReq = a;
+                }
+            }
+            contador = 0;
+
+        }
+        return autocarroMaisReq;
+    }
+
 
     //método para um Cliente fazer uma reserva
     public Reserva fazerReserva(Autocarro bus,

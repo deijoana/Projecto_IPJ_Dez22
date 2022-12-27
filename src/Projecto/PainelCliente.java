@@ -27,7 +27,7 @@ public class PainelCliente extends JPanel {
 
     JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
 
-    JTextField passAntigaT, passNovaT, passNova2T;
+    JPasswordField passAntigaT, passNovaT, passNova2T;
 
     JList listagemReservas;
 
@@ -77,8 +77,7 @@ public class PainelCliente extends JPanel {
         panel1.add(dataRegresso, c1);
 
 
-
-        dataRegressoT = new JTextField("Formato AAAA-MM-DD",20);
+        dataRegressoT = new JTextField("Formato AAAA-MM-DD", 20);
         c1.insets = new Insets(30, 0, 0, 0);
         c1.gridx = 1;
         c1.gridy = 2;
@@ -159,15 +158,15 @@ public class PainelCliente extends JPanel {
 
                 if (autocarroO != null) {
                     Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
-                    if (motoristaO != null){
+                    if (motoristaO != null) {
                         Cliente clienteO = (Cliente) empresa.getLoggeduser();
                         Reserva r = empresa.fazerReserva(autocarroO, motoristaO, clienteO, dataPartida, dataRegresso,
                                 n_Passageiros, origem, destino, distanciaPrevista, empresa);
                         JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada");
-                    }else {
-                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há motorista disponível");
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há motorista disponível");
                     }
-                }else {
+                } else {
                     JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há autocarro disponível");
                 }
             }
@@ -196,8 +195,6 @@ public class PainelCliente extends JPanel {
         panel3.add(listagemReservas, c3);
 
 
-
-
         panel4 = new JPanel();
         painelCl.addTab("Cancelar Reserva", panel4);
 
@@ -220,6 +217,7 @@ public class PainelCliente extends JPanel {
         //c6.gridwidth = 2;
         panel6.add(inserirDadosAltPass, c6);
 
+        /*
         passAntiga = new JLabel("Insira palavra-passe antiga:");
         passAntiga.setFont(new Font("Arial", 1, 12));
         c6.insets = new Insets(0, 0, 0, 20);
@@ -232,6 +230,7 @@ public class PainelCliente extends JPanel {
         c6.gridx = 1;
         c6.gridy = 2;
         panel6.add(passAntigaT, c6);
+         */
 
         passNova = new JLabel("Insira nova palavra-passe:");
         passNova.setFont(new Font("Arial", 1, 12));
@@ -240,7 +239,7 @@ public class PainelCliente extends JPanel {
         c6.gridy = 3;
         panel6.add(passNova, c6);
 
-        passNovaT = new JTextField(20);
+        passNovaT = new JPasswordField(20);
         c6.insets = new Insets(30, 0, 0, 0);
         c6.gridx = 1;
         c6.gridy = 3;
@@ -253,7 +252,7 @@ public class PainelCliente extends JPanel {
         c6.gridy = 4;
         panel6.add(passNova2, c6);
 
-        passNova2T = new JTextField(20);
+        passNova2T = new JPasswordField(20);
         c6.insets = new Insets(30, 0, 0, 0);
         c6.gridx = 1;
         c6.gridy = 4;
@@ -264,6 +263,26 @@ public class PainelCliente extends JPanel {
         c6.gridx = 1;
         c6.gridy = 5;
         panel6.add(guardarAlt, c6);
+
+        guardarAlt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String passNova = String.valueOf(passNovaT.getPassword());
+                String passNova2 = String.valueOf(passNova2T.getPassword());
+
+                boolean resultado = empresa.alterarPalavraPass(passNova, passNova2, empresa);
+
+                if (resultado && passNova.equals(passNova2)) {
+                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
+                    janela.mudaEcra("Login");
+
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Dados incorretos. Certifique-se que colocou os dados corretamente");
+                }
+                passNovaT.setText("");
+                passNova2T.setText("");
+            }
+        });
 
 
         c.gridx = 1;

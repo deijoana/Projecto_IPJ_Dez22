@@ -1184,6 +1184,19 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 4;
         panel7.add(autocarroMReq, c11);
 
+        autocarroMReq.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Autocarro autocarroMaisReq;
+
+                autocarroMaisReq = empresa.encontrarAutocarroMaisReq(empresa);
+
+                JOptionPane.showMessageDialog(new JFrame("Autocarro mais requisitado"),
+                        "O autocarro mais requisitado é o autocarro referente à matrícula: " +autocarroMaisReq.getMatricula());
+            }
+        });
+
 
         clienteMViagens = new JButton("Cliente com mais reservas");
         clienteMViagens.setFont(new Font("Arial", 1, 12));
@@ -1301,6 +1314,7 @@ public class PainelAdmin extends JPanel {
 
             if (resultado12 && passwordNova1L.equals(passwordNova2L)) {
                 JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
+                janela.mudaEcra("Login");
 
             }else {
                 JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Dados incorretos. Certifique-se que colocou os dados corretamente");
