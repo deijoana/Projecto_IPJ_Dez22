@@ -1296,14 +1296,14 @@ public class PainelAdmin extends JPanel {
 
             boolean resultado12 = empresa.alterarPalavraPass(passwordNova1L, passwordNova2L, empresa);
 
-            if (resultado12) {
+            if (resultado12 && passwordNova1L.equals(passwordNova2L)) {
                 JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
 
             }else {
-                JOptionPane.showMessageDialog(new JFrame("Insucesso"), "A nova pass introduzida é igual à anterior, defina uma nova password:");
+                JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Dados incorretos. Certifique-se que colocou os dados corretamente");
             }
-            passwordNova1.setText("");
-            passwordNova2.setText("");
+                passwordNova1.setText("");
+                passwordNova2.setText("");
             }
         });
 
