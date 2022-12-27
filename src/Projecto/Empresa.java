@@ -237,6 +237,19 @@ public class Empresa implements Serializable {
         return false;
     }
 
+    public boolean alterarPalavraPass(String novaPass, String novaPass2, Empresa empresa) {
+
+        for (Utilizador u : empresa.listaUtilizadores) {
+            if (u.getPalavraPasse().equals(novaPass)) {
+                return false;
+            } else {
+                u.setPalavraPasse(novaPass);
+            }
+        }
+        return true;
+    }
+
+
     // método que percorre a lista de utilizadores e filtra todos os que são clientes
     public List<Utilizador> listaDeClientes(Empresa empresa) {
         return empresa.listaUtilizadores.stream().filter(
