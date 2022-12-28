@@ -396,26 +396,27 @@ public class Empresa implements Serializable {
 
     //método para procurar disponilidade de autocarro
     public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
-        boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
         Autocarro escolhido = null;
 
         for (Autocarro a : empresa.listaAutocarros) {
-            if (a.getLotacao() >= numPassageiros) { // autocarro elegivel, pois tem lotação suficiente
-
-                for (Reserva reservaO : empresa.listaReservas) {
-                    if (reservaO.getBus() == a &&
-                            (reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
-                            (dataPartida.isBefore(reservaO.getDataPartida()) && dataRegresso.isAfter(reservaO.getDataRegresso())) ||
-                            (dataRegresso.isAfter(reservaO.getDataPartida()) && dataRegresso.isBefore(reservaO.getDataRegresso()))) {//
-                        saltaAutocarro = true; // reserva ocupa um periodo não elegivel
+            boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
+            // autocarro elegivel, pois tem lotação suficiente
+            if (a.getLotacao() >= numPassageiros) {
+                for (Reserva r : empresa.listaReservas) {
+                    if (r.getBus() == a) {
+                        if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) ||
+                                        (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) ||
+                                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) ||
+                                        (r.getDataPartida().isEqual(dataPartida) || r.getDataRegresso().isEqual(dataRegresso))) {
+                            // reserva não é elegivel
+                            saltaAutocarro = true;
+                        }
                     }
                 }
             }
             if (!saltaAutocarro) { // não existe impedimento de escolher este autocarro, logo este serve
                 escolhido = a;
                 break;
-            } else {
-                saltaAutocarro = false; // este autocarro não serve pois há uma reserva naquelas datas
             }
         }
         return escolhido;
@@ -457,27 +458,26 @@ public class Empresa implements Serializable {
 
     //método para procurar disponilidade de motorista
     public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso, Empresa empresa) {
-        boolean saltaMotorista = false; // salta para o proximo se verdadeiro
+     // salta para o proximo se verdadeiro
         Motorista escolhido = null;
         for (Motorista m : empresa.listaMotoristas) {
-            for (Reserva reservaO : empresa.listaReservas) {
-                if ((reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
-                        (dataPartida.isBefore(reservaO.getDataPartida()) && dataRegresso.isAfter(reservaO.getDataRegresso())) ||
-                        (dataRegresso.isAfter(reservaO.getDataPartida()) && dataRegresso.isBefore(reservaO.getDataRegresso()))) {
+            boolean saltaMotorista = false;
+            for (Reserva r : empresa.listaReservas) {
+                if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) ||
+                        (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) ||
+                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) ||
+                        (r.getDataPartida().isEqual(dataPartida) || r.getDataRegresso().isEqual(dataRegresso))
+                ) {
                     saltaMotorista = true;
                 }
             }
             if (!saltaMotorista) { // não existe impedimento de escolher este autocarro, logo este serve
                 escolhido = m;
                 break;
-            } else {
-                saltaMotorista = false; // este autocarro não serve pois há uma reserva naquelas datas
             }
         }
         return escolhido;
     }
-
-
 
     // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
     public Utilizador fazerLogin(String emailUtilizador, String palavraPasse, Empresa empresa) {
