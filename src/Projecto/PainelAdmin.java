@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class PainelAdmin extends JPanel {
@@ -51,6 +52,8 @@ public class PainelAdmin extends JPanel {
     JPasswordField passwordF8, passwordF9, passwordF, passwordF1, passwordNova1, passwordNova2;
 
     JComboBox tipoSubscricaoB8, pagamentoSubscricaoB8, tipoSubscricaoB9, pagamentoSubscricaoB9, tipoSubscricaoB, pagamentoSubscricaoB;
+
+    HashMap<Autocarro, Reserva> autocarroReservado;
 
 
     PainelAdmin(GUI janela, Empresa empresa) {
@@ -506,12 +509,14 @@ public class PainelAdmin extends JPanel {
                 int lotacao5 = Integer.parseInt(lotacaoT5.getText());
 
                 Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5, empresa);
-
-                if (autocarro == null) {
-                    JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula + " já existe");
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A matrícula " + matricula + " foi registada com sucesso.");
-                }
+                if (empresa.validarDados(matricula5, empresa) && empresa.validarDados(modelo5, empresa) && empresa.validarDados(marca5, empresa) && empresa.validarDados(String.valueOf(lotacao5),empresa)) {
+                    if (autocarro == null) {
+                        JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula5 + " já existe");
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A matrícula " + matricula5 + " foi registada com sucesso.");
+                    }
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
                 marcaT5.setText("");
                 modeloT5.setText("");
@@ -601,7 +606,7 @@ public class PainelAdmin extends JPanel {
 
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo com a matrícula inserida"),
-                            "Não foi encontrado nenhum registo de matrícula com os dados inseridos, insira novamente os dados:");
+                            "Não foi encontrado nenhum registo de matrícula com os dados inseridos. Insira novamente os dados:");
 
                 marcaT6.setText("");
                 modeloT6.setText("");
@@ -648,11 +653,11 @@ public class PainelAdmin extends JPanel {
                 String matricula7 = matriculaT7.getText();
                 boolean resultado4 = empresa.removerAutocarro(matricula7, empresa);
                 if (empresa.validarDados(matricula7, empresa)) {
-                if (resultado4) {
-                    JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
-                            "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
+                    if (resultado4) {
+                        JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
+                    } else
+                        JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
+                                "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
@@ -1052,9 +1057,8 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
                 nifT10.setText("");
-                }
+            }
         });
-
 
 
         panel4.add(painelC);
@@ -1094,7 +1098,7 @@ public class PainelAdmin extends JPanel {
         c14.gridy = 0;
         panel6.add(inserirDados, c14);
 
-        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.getListaUtilizadores()));
+        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes(empresa)));
         c14.gridx = 1;
         c14.gridy = 1;
         //listagemClientes.setSelectedIndex(0);
@@ -1193,7 +1197,7 @@ public class PainelAdmin extends JPanel {
                 autocarroMaisReq = empresa.encontrarAutocarroMaisReq(empresa);
 
                 JOptionPane.showMessageDialog(new JFrame("Autocarro mais requisitado"),
-                        "O autocarro mais requisitado é o autocarro referente à matrícula: " +autocarroMaisReq.getMatricula());
+                        "O autocarro mais requisitado é o autocarro referente à matrícula: " + autocarroMaisReq.getMatricula());
             }
         });
 
@@ -1212,6 +1216,8 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 1;
         panel7.add(listaBusReservado, c11);
+
+        //  autocarroReservado = new HashMap<Autocarro, Reserva>(empresa.listarAutocarrosReservados(12, empresa));
 
         listaReservaCanc = new JButton("Lista de reservas canceladas para um dado mês");
         listaReservaCanc.setFont(new Font("Arial", 1, 12));
@@ -1264,8 +1270,6 @@ public class PainelAdmin extends JPanel {
         c12.gridx = 1;
         c12.gridy = 1;
         panel8.add(palavraPasse, c12);
-
-
         passwordF = new JPasswordField(50);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
@@ -1307,18 +1311,18 @@ public class PainelAdmin extends JPanel {
         guardarRegisto12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            String passwordNova1L = String.valueOf(passwordNova1.getPassword());
-            String passwordNova2L = String.valueOf(passwordNova2.getPassword());
+                String passwordNova1L = String.valueOf(passwordNova1.getPassword());
+                String passwordNova2L = String.valueOf(passwordNova2.getPassword());
 
-            boolean resultado12 = empresa.alterarPalavraPass(passwordNova1L, passwordNova2L, empresa);
+                boolean resultado12 = empresa.alterarPalavraPass(passwordNova1L, passwordNova2L, empresa);
 
-            if (resultado12 && passwordNova1L.equals(passwordNova2L)) {
-                JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
-                janela.mudaEcra("Login");
+                if (resultado12 && passwordNova1L.equals(passwordNova2L)) {
+                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
+                    janela.mudaEcra("Login");
 
-            }else {
-                JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Dados incorretos. Certifique-se que colocou os dados corretamente");
-            }
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Dados incorretos. Certifique-se que colocou os dados corretamente");
+                }
                 passwordNova1.setText("");
                 passwordNova2.setText("");
             }
