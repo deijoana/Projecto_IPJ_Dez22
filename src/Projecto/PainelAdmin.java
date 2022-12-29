@@ -12,7 +12,7 @@ public class PainelAdmin extends JPanel {
     GUI janela;
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
-    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
+    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC, listaClientes, listaMotoristas;
     JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, guardarRegisto12, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
 
     JList<Motorista> listagemMotoristas;
@@ -440,6 +440,28 @@ public class PainelAdmin extends JPanel {
 
             }
         });
+
+        listaMotoristas = new JPanel();
+        painelM.addTab("Lista de Motoristas", listaMotoristas);
+        listaMotoristas.setLayout(new GridBagLayout());
+        GridBagConstraints c13 = new GridBagConstraints();
+
+        inserirDados = new JLabel("Lista dos motoristas da empresa");
+        inserirDados.setFont(new Font("Arial", 1, 12));
+        c13.insets = new Insets(0, 0, 0, 20);
+        c13.gridx = 0;
+        c13.gridy = 0;
+        listaMotoristas.add(inserirDados, c13);
+
+        listagemMotoristas = new JList<Motorista>(new Vector<Motorista>(empresa.getListaMotoristas()));
+
+    /*   if (empresa.getListaMotoristas().size()==0)
+           JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
+*/
+        c13.gridx = 1;
+        c13.gridy = 1;
+        //listagemMotoristas.setSelectedIndex(0);
+        listaMotoristas.add(listagemMotoristas, c13);
 
 
         panel2.add(painelM);
@@ -1105,10 +1127,27 @@ public class PainelAdmin extends JPanel {
             }
         });
 
+        listaClientes = new JPanel();
+        painelC.addTab("Lista de Clientes", listaClientes);
+        listaClientes.setLayout(new GridBagLayout());
+        GridBagConstraints c14 = new GridBagConstraints();
+
+        inserirDados = new JLabel("Lista dos clientes da empresa");
+        inserirDados.setFont(new Font("Arial", 1, 12));
+        c14.insets = new Insets(0, 0, 0, 20);
+        c14.gridx = 0;
+        c14.gridy = 0;
+        listaClientes.add(inserirDados, c14);
+
+        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes(empresa)));
+        c14.gridx = 1;
+        c14.gridy = 1;
+        //listagemClientes.setSelectedIndex(0);
+        listaClientes.add(listagemClientes, c14);
 
         panel4.add(painelC);
 
-        panel5 = new JPanel();
+     /*   panel5 = new JPanel();
         painelAd.addTab("Lista de Motoristas", panel5);
         panel5.setLayout(new GridBagLayout());
         GridBagConstraints c13 = new GridBagConstraints();
@@ -1125,13 +1164,13 @@ public class PainelAdmin extends JPanel {
     /*   if (empresa.getListaMotoristas().size()==0)
            JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
 */
-        c13.gridx = 1;
+   /*     c13.gridx = 1;
         c13.gridy = 1;
         //listagemMotoristas.setSelectedIndex(0);
         panel5.add(listagemMotoristas, c13);
+*/
 
-
-        panel6 = new JPanel();
+   /*     panel6 = new JPanel();
         painelAd.addTab("Lista de Clientes", panel6);
         panel6.setLayout(new GridBagLayout());
         GridBagConstraints c14 = new GridBagConstraints();
@@ -1148,7 +1187,7 @@ public class PainelAdmin extends JPanel {
         c14.gridy = 1;
         //listagemClientes.setSelectedIndex(0);
         panel6.add(listagemClientes, c14);
-
+*/
 
         panel7 = new JPanel();
         painelAd.addTab("Estatísticas", panel7);
