@@ -104,12 +104,12 @@ public class Login extends JPanel {
                         janela.mudaEcra("PainelCliente");
                         empresa.setLoggeduser(logado); // guarda user logado
                     }
-
+                    emailT.setText("");
+                    passwordF.setText("");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
 
-                emailT.setText("");
-                passwordF.setText("");
+
             }});
 
         criarRegisto = new JButton("Criar Registo");

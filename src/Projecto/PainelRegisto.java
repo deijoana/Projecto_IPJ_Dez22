@@ -11,7 +11,7 @@ public class PainelRegisto extends JPanel {
     JTextField nomeT, nifT, moradaT, telefoneT, emailT;
     JPasswordField passwordF;
     JComboBox tipoSubscricaoB, pagamentoSubscricaoB;
-    JButton pagInicial,guardarRegisto;
+    JButton pagInicial, guardarRegisto;
 
     GUI janela;
 
@@ -131,7 +131,7 @@ public class PainelRegisto extends JPanel {
 
         guardarRegisto = new JButton("Guardar registo");
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets= new Insets(40,0,0,0);
+        c.insets = new Insets(40, 0, 0, 0);
         c.gridx = 2;
         c.gridy = 11;
         this.add(guardarRegisto, c);
@@ -151,31 +151,39 @@ public class PainelRegisto extends JPanel {
 
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada, tipoDeSubscricao, modoDePagamento, password, empresa);
 
-                if (empresa.validarEmail(email, empresa) && empresa.validarDados(nif, empresa) && empresa.validarDados(password, empresa) && empresa.validarDados(nome, empresa)) {
+                if (empresa.validarEmail(email, empresa) && empresa.validarNIF(nif, empresa) && empresa.validarDados(password, empresa) && empresa.validarDados(nome, empresa) && empresa.validarTelefone(telefone, empresa)) {
                     // só valida os dados se as caixas respectivas estiverem preenchidas
                     if (novoRegisto == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
                     }
 
                     if (novoRegisto instanceof Administrador) {
-                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoRegisto.nome + " autenticado com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), novoRegisto.nome + " registado com sucesso");
                         janela.mudaEcra("Login");
 
                     } else if (novoRegisto instanceof Cliente) {
-                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " autenticado com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), novoRegisto.nome + " registado com sucesso");
                         janela.mudaEcra("Login");
-                    }} else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos.");
+                    }
+                    emailT.setText("");
+                    passwordF.setText("");
+                    nomeT.setText("");
+                    nifT.setText("");
+                    moradaT.setText("");
+                    telefoneT.setText("");
 
+                }
+                else if (!empresa.validarEmail(email, empresa)) {
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
+                } else if (!empresa.validarNIF(nif, empresa)) {
+                    JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
+                } else if (!empresa.validarTelefone(telefone, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx");
+                else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um nome e/ou password válidos");
 
-                emailT.setText("");
-                passwordF.setText("");
-                nomeT.setText("");
-                nifT.setText("");
-                moradaT.setText("");
-                telefoneT.setText("");
-
-            }});
+            }
+        });
 
     }
 }

@@ -155,6 +155,7 @@ public class PainelCliente extends JPanel {
 
 
                 Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
+
                 if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa) && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa) && empresa.validarDados(String.valueOf(n_Passageiros), empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
                     if (autocarroO != null) {
                         Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
@@ -169,16 +170,19 @@ public class PainelCliente extends JPanel {
                     } else {
                         JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há autocarro disponível");
                     }
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    dataPartidaT.setText("Formato aaaa-mm-dd");
+                    dataRegressoT.setText("Formato aaaa-mm-dd");
+                    origemT.setText("");
+                    destinoT.setText("");
+                    n_PassageirosT.setText("");
+                    distPrevistaT.setText("");
+                } else if (!empresa.validarDados(String.valueOf(dataPartida), empresa) || !empresa.validarDados(String.valueOf(dataRegresso), empresa))
 
-                dataPartidaT.setText("Formato aaaa-mm-dd");
-                dataRegressoT.setText("Formato aaaa-mm-dd");
-                origemT.setText("");
-                destinoT.setText("");
-                n_PassageirosT.setText("");
-                distPrevistaT.setText("");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira data de partida e/ou data de regresso válidas: aaaa-mm-dd");
 
+                else if (!empresa.validarDados(origem, empresa) || !empresa.validarDados(destino, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira origem e/ou destino válidos");
+                else  JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira número de passageiros e/ou distância prevista percorrida válidos");
             }
         });
 
