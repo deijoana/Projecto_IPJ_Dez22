@@ -245,8 +245,8 @@ public class Empresa implements Serializable {
         }
         return false;
     }
-    public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova, Empresa empresa) {
 
+    public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova, Empresa empresa) {
 
 
         if (!empresa.getLoggeduser().getPalavraPasse().equals(passwordAntiga)) {
@@ -261,7 +261,7 @@ public class Empresa implements Serializable {
             return 3;
         }
 
-        if (!passwordNova.equals(confirmacaoPasswordNova)){
+        if (!passwordNova.equals(confirmacaoPasswordNova)) {
             return 4;
         }
 
@@ -292,11 +292,11 @@ public class Empresa implements Serializable {
     public List<Reserva> listagemHistoricoReservas(Empresa empresa) {
         // método que mostra todas as reservas passadas de um dado cliente
 
-        List<Reserva> listaHistoricoReserva=new ArrayList<>();
+        List<Reserva> listaHistoricoReserva = new ArrayList<>();
 
-        for (Reserva r : empresa.listaReservas){
-            if (r.getClient().equals(empresa.loggeduser)){
-                if (r.getDataPartida().isBefore(LocalDate.now())){
+        for (Reserva r : empresa.listaReservas) {
+            if (r.getClient().equals(empresa.loggeduser)) {
+                if (r.getDataPartida().isBefore(LocalDate.now())) {
                     listaHistoricoReserva.add(r);
                 }
             }
@@ -316,11 +316,11 @@ public class Empresa implements Serializable {
     public List<Reserva> listaReservasCliente(Empresa empresa) {
         // método que mostra todas as reservas futuras de um dado cliente
 
-        List<Reserva> listaReserva=new ArrayList<>();
+        List<Reserva> listaReserva = new ArrayList<>();
 
-        for (Reserva r : empresa.listaReservas){
-            if (r.getClient().equals(empresa.loggeduser)){
-                if (r.getDataPartida().isAfter(LocalDate.now())){
+        for (Reserva r : empresa.listaReservas) {
+            if (r.getClient().equals(empresa.loggeduser)) {
+                if (r.getDataPartida().isAfter(LocalDate.now())) {
                     listaReserva.add(r);
                 }
             }
@@ -340,20 +340,20 @@ public class Empresa implements Serializable {
     }
 
 
-    public List<String> listarAutocarrosReservados (String ano, String mes, Empresa empresa){
+    public List<String> listarAutocarrosReservados(String ano, String mes, Empresa empresa) {
         // método que lista todos os autocarros reservados num dado mês e a respectiva data
 
         int valorAno = Integer.parseInt(ano);
         int valorMes = Integer.parseInt(mes);
-        List <String> listaAutocarrosReservados = new ArrayList<>();
+        List<String> listaAutocarrosReservados = new ArrayList<>();
 
-        for (Reserva r : listaReservas){
-            if (r.getDataPartida().getYear()== valorAno && r.getDataPartida().getMonthValue()==valorMes){
+        for (Reserva r : listaReservas) {
+            if (r.getDataPartida().getYear() == valorAno && r.getDataPartida().getMonthValue() == valorMes) {
                 listaAutocarrosReservados.add(r.getBus().toString() + " de " + r.getDataPartida() + " a " + r.getDataRegresso());
 
             }
         }
-        for (int i=0; i<listaAutocarrosReservados.size();i++){
+        for (int i = 0; i < listaAutocarrosReservados.size(); i++) {
             System.out.println(listaAutocarrosReservados.get(i));
         }
         return listaAutocarrosReservados;
@@ -524,9 +524,9 @@ public class Empresa implements Serializable {
             boolean saltaMotorista = false;
 
             for (Reserva r : empresa.listaReservas) {
-                if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m)||
+                if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m) ||
                         (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) && r.getDriver().equals(m) ||
-                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m)||
+                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m) ||
                         (r.getDataPartida().isEqual(dataPartida) && r.getDriver().equals(m) || r.getDataRegresso().isEqual(dataRegresso)) && r.getDriver().equals(m)
                 ) {
                     saltaMotorista = true;
@@ -632,6 +632,15 @@ public class Empresa implements Serializable {
         return true;
     }
 
+    public int validarComboBoxIndex(int subscricao, int pagamento, Empresa empresa) {
+
+        if (subscricao == 0 || pagamento == 0) {
+            return 0;
+        }
+        return 1;
+
+    }
+
     /*  public boolean validarPassword(String password, Empresa empresa){
           String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
 
@@ -646,9 +655,9 @@ public class Empresa implements Serializable {
         String telefoneRegex = "^(\\+351|00351)?(9|3|2)(\\d{8})";
 
         Pattern pat = Pattern.compile(telefoneRegex);
-            if (telefone == null) {
-                return false;
-            }
+        if (telefone == null) {
+            return false;
+        }
 
         return pat.matcher(telefone.trim()).matches();
     }
@@ -671,7 +680,7 @@ public class Empresa implements Serializable {
         return pat.matcher(matricula.trim()).matches();
     }
 
-    public boolean validarAno (String ano, Empresa empresa){
+    public boolean validarAno(String ano, Empresa empresa) {
         // método que valida apenas valores de anos no século XXI
 
         String anoRegex = "^[2][0][0-9][0-9]$";

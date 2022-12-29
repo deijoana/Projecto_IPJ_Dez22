@@ -109,7 +109,7 @@ public class PainelRegisto extends JPanel {
         c.gridy = 8;
         this.add(tipoSubscricaoL, c);
 
-        String tiposSubscricao[] = {"Normal", "Premium"};
+        String tiposSubscricao[] = {"", "Normal", "Premium"};
         tipoSubscricaoB = new JComboBox<>(tiposSubscricao);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
@@ -122,7 +122,7 @@ public class PainelRegisto extends JPanel {
         c.gridy = 9;
         this.add(pagamentoSubscricaoL, c);
 
-        String modosPagSubscricao[] = {"Paypal", "Cartão de Crédito", "Multibanco"};
+        String modosPagSubscricao[] = {"", "Paypal", "Cartão de Crédito", "Multibanco"};
         pagamentoSubscricaoB = new JComboBox<>(modosPagSubscricao);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
@@ -145,13 +145,17 @@ public class PainelRegisto extends JPanel {
                 String nif = nifT.getText();
                 String telefone = telefoneT.getText();
                 String tipoDeSubscricao = tipoSubscricaoB.getToolTipText();
+                int indiceSubscricao = tipoSubscricaoB.getSelectedIndex();
                 String morada = moradaT.getText();
                 String modoDePagamento = pagamentoSubscricaoB.getToolTipText();
+                int indicePagamento = pagamentoSubscricaoB.getSelectedIndex();
 
 
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada, tipoDeSubscricao, modoDePagamento, password, empresa);
 
-                if (empresa.validarEmail(email, empresa) && empresa.validarNIF(nif, empresa) && empresa.validarDados(password, empresa) && empresa.validarDados(nome, empresa) && empresa.validarTelefone(telefone, empresa)) {
+                int valorComboBox = empresa.validarComboBoxIndex(indiceSubscricao, indicePagamento, empresa);
+
+                if (empresa.validarEmail(email, empresa) && empresa.validarNIF(nif, empresa) && empresa.validarDados(password, empresa) && empresa.validarDados(nome, empresa) && empresa.validarTelefone(telefone, empresa) && valorComboBox == 1) {
                     // só valida os dados se as caixas respectivas estiverem preenchidas
                     if (novoRegisto == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -172,16 +176,20 @@ public class PainelRegisto extends JPanel {
                     moradaT.setText("");
                     telefoneT.setText("");
 
-                }
-                else if (!empresa.validarEmail(email, empresa)) {
+
+                } else if (!empresa.validarEmail(email, empresa)) {
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
                 } else if (!empresa.validarNIF(nif, empresa)) {
                     JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
                 } else if (!empresa.validarTelefone(telefone, empresa))
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx");
-                else
+                else if (valorComboBox != 1) {
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Seleccione uma das opções disponíveis para tipo de subscrição e modo de pagamento");
+                } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um nome e/ou password válidos");
 
+                tipoSubscricaoB.setSelectedIndex(0);
+                pagamentoSubscricaoB.setSelectedIndex(0);
             }
         });
 
