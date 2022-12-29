@@ -12,7 +12,7 @@ public class PainelAdmin extends JPanel {
     GUI janela;
     JLabel welcome;
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
-    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC;
+    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC, listaClientes, listaMotoristas;
     JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, guardarRegisto12, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
 
     JList<Motorista> listagemMotoristas;
@@ -441,6 +441,28 @@ public class PainelAdmin extends JPanel {
             }
         });
 
+        listaMotoristas = new JPanel();
+        painelM.addTab("Lista de Motoristas", listaMotoristas);
+        listaMotoristas.setLayout(new GridBagLayout());
+        GridBagConstraints c13 = new GridBagConstraints();
+
+        inserirDados = new JLabel("Lista dos motoristas da empresa");
+        inserirDados.setFont(new Font("Arial", 1, 12));
+        c13.insets = new Insets(0, 0, 0, 20);
+        c13.gridx = 0;
+        c13.gridy = 0;
+        listaMotoristas.add(inserirDados, c13);
+
+        listagemMotoristas = new JList<Motorista>(new Vector<Motorista>(empresa.getListaMotoristas()));
+
+    /*   if (empresa.getListaMotoristas().size()==0)
+           JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
+*/
+        c13.gridx = 1;
+        c13.gridy = 1;
+        //listagemMotoristas.setSelectedIndex(0);
+        listaMotoristas.add(listagemMotoristas, c13);
+
 
         panel2.add(painelM);
 
@@ -813,8 +835,6 @@ public class PainelAdmin extends JPanel {
         c8.gridx = 1;
         c8.gridy = 8;
         addC.add(pagamentoSubscricaoL8, c8);
-
-
         pagamentoSubscricaoB8 = new JComboBox<>(modosPagSubscricao);
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.insets = new Insets(10, 0, 0, 20);
@@ -876,7 +896,6 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx)");
                 else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira nome e/ou password válidos");
-
 
 
             }
@@ -966,34 +985,29 @@ public class PainelAdmin extends JPanel {
         c9.gridx = 1;
         c9.gridy = 6;
         editC.add(palavraPasse9, c9);
-
         passwordF9 = new JPasswordField(50);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 2;
         c9.gridy = 6;
         editC.add(passwordF9, c9);
-
         tipoSubscricaoL9 = new JLabel("Tipo de subscrição");
         tipoSubscricaoL9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
         c9.gridy = 7;
         editC.add(tipoSubscricaoL9, c9);
-
         tipoSubscricaoB9 = new JComboBox<>(tiposSubscricao);
         c9.insets = new Insets(10, 0, 0, 0);
         c9.fill = GridBagConstraints.HORIZONTAL;
         c9.gridx = 2;
         c9.gridy = 7;
         editC.add(tipoSubscricaoB9, c9);
-
         pagamentoSubscricaoL9 = new JLabel("Modo de pagamento da subscrição");
         pagamentoSubscricaoL9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 10);
         c9.gridx = 1;
         c9.gridy = 8;
         editC.add(pagamentoSubscricaoL9, c9);
-
         pagamentoSubscricaoB9 = new JComboBox<>(modosPagSubscricao);
         c9.fill = GridBagConstraints.HORIZONTAL;
         c9.insets = new Insets(10, 0, 0, 0);
@@ -1012,7 +1026,7 @@ public class PainelAdmin extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 String email9 = emailT9.getText();
-               // String password9 = String.valueOf(passwordF9.getPassword());
+                // String password9 = String.valueOf(passwordF9.getPassword());
                 String nome9 = nomeT9.getText();
                 String nif9 = nifT9.getText();
                 String telefone9 = telefoneT9.getText();
@@ -1032,7 +1046,7 @@ public class PainelAdmin extends JPanel {
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif9);
 
                     emailT9.setText("");
-                  //  passwordF9.setText("");
+                    //  passwordF9.setText("");
                     nomeT9.setText("");
                     nifT9.setText("");
                     moradaT9.setText("");
@@ -1105,35 +1119,9 @@ public class PainelAdmin extends JPanel {
             }
         });
 
-
-        panel4.add(painelC);
-
-        panel5 = new JPanel();
-        painelAd.addTab("Lista de Motoristas", panel5);
-        panel5.setLayout(new GridBagLayout());
-        GridBagConstraints c13 = new GridBagConstraints();
-
-        inserirDados = new JLabel("Lista dos motoristas da empresa");
-        inserirDados.setFont(new Font("Arial", 1, 12));
-        c13.insets = new Insets(0, 0, 0, 20);
-        c13.gridx = 0;
-        c13.gridy = 0;
-        panel5.add(inserirDados, c13);
-
-        listagemMotoristas = new JList<Motorista>(new Vector<Motorista>(empresa.getListaMotoristas()));
-
-    /*   if (empresa.getListaMotoristas().size()==0)
-           JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
-*/
-        c13.gridx = 1;
-        c13.gridy = 1;
-        //listagemMotoristas.setSelectedIndex(0);
-        panel5.add(listagemMotoristas, c13);
-
-
-        panel6 = new JPanel();
-        painelAd.addTab("Lista de Clientes", panel6);
-        panel6.setLayout(new GridBagLayout());
+        listaClientes = new JPanel();
+        painelC.addTab("Lista de Clientes", listaClientes);
+        listaClientes.setLayout(new GridBagLayout());
         GridBagConstraints c14 = new GridBagConstraints();
 
         inserirDados = new JLabel("Lista dos clientes da empresa");
@@ -1141,14 +1129,52 @@ public class PainelAdmin extends JPanel {
         c14.insets = new Insets(0, 0, 0, 20);
         c14.gridx = 0;
         c14.gridy = 0;
-        panel6.add(inserirDados, c14);
+        listaClientes.add(inserirDados, c14);
 
         listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes(empresa)));
         c14.gridx = 1;
         c14.gridy = 1;
         //listagemClientes.setSelectedIndex(0);
-        panel6.add(listagemClientes, c14);
+        listaClientes.add(listagemClientes, c14);
 
+        panel4.add(painelC);
+
+     /*   panel5 = new JPanel();
+        painelAd.addTab("Lista de Motoristas", panel5);
+        panel5.setLayout(new GridBagLayout());
+        GridBagConstraints c13 = new GridBagConstraints();
+        inserirDados = new JLabel("Lista dos motoristas da empresa");
+        inserirDados.setFont(new Font("Arial", 1, 12));
+        c13.insets = new Insets(0, 0, 0, 20);
+        c13.gridx = 0;
+        c13.gridy = 0;
+        panel5.add(inserirDados, c13);
+        listagemMotoristas = new JList<Motorista>(new Vector<Motorista>(empresa.getListaMotoristas()));
+    /*   if (empresa.getListaMotoristas().size()==0)
+           JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
+*/
+   /*     c13.gridx = 1;
+        c13.gridy = 1;
+        //listagemMotoristas.setSelectedIndex(0);
+        panel5.add(listagemMotoristas, c13);
+*/
+
+   /*     panel6 = new JPanel();
+        painelAd.addTab("Lista de Clientes", panel6);
+        panel6.setLayout(new GridBagLayout());
+        GridBagConstraints c14 = new GridBagConstraints();
+        inserirDados = new JLabel("Lista dos clientes da empresa");
+        inserirDados.setFont(new Font("Arial", 1, 12));
+        c14.insets = new Insets(0, 0, 0, 20);
+        c14.gridx = 0;
+        c14.gridy = 0;
+        panel6.add(inserirDados, c14);
+        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes(empresa)));
+        c14.gridx = 1;
+        c14.gridy = 1;
+        //listagemClientes.setSelectedIndex(0);
+        panel6.add(listagemClientes, c14);
+*/
 
         panel7 = new JPanel();
         painelAd.addTab("Estatísticas", panel7);
@@ -1309,18 +1335,17 @@ public class PainelAdmin extends JPanel {
         c12.gridwidth = 2;
         panel8.add(inserirDados12, c12);
 
-        /*
+
         palavraPasse = new JLabel("Palavra-passe antiga");
         palavraPasse.setFont(new Font("Arial", 1, 12));
         c12.gridx = 1;
         c12.gridy = 1;
         panel8.add(palavraPasse, c12);
-        passwordF = new JPasswordField(50);
+        passwordF = new JPasswordField(25);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 1;
         panel8.add(passwordF, c12);
-        */
 
 
         passwordNova1L = new JLabel("Insira nova palavra-passe");
@@ -1329,7 +1354,7 @@ public class PainelAdmin extends JPanel {
         c12.gridy = 2;
         panel8.add(passwordNova1L, c12);
 
-        passwordNova1 = new JPasswordField(50);
+        passwordNova1 = new JPasswordField(25);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 2;
@@ -1341,7 +1366,7 @@ public class PainelAdmin extends JPanel {
         c12.gridy = 3;
         panel8.add(passwordNova2L, c12);
 
-        passwordNova2 = new JPasswordField(50);
+        passwordNova2 = new JPasswordField(25);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 3;
@@ -1356,20 +1381,39 @@ public class PainelAdmin extends JPanel {
         guardarRegisto12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String palavraPasse = String.valueOf(passwordF.getPassword());
                 String passwordNova1L = String.valueOf(passwordNova1.getPassword());
                 String passwordNova2L = String.valueOf(passwordNova2.getPassword());
 
-                boolean resultado12 = empresa.alterarPalavraPass(passwordNova1L, passwordNova2L, empresa);
+                int resultado12 = empresa.alterarPassword(palavraPasse, passwordNova1L, passwordNova2L, empresa);
 
-                if (resultado12 && passwordNova1L.equals(passwordNova2L)) {
-                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
-                    janela.mudaEcra("Login");
+                if (empresa.validarDados(palavraPasse, empresa) && empresa.validarDados(passwordNova1L, empresa) && empresa.validarDados(passwordNova2L, empresa)) {
+
+                    if (resultado12 == 5) {
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
+                        passwordF.setText("");
+                        passwordNova1.setText("");
+                        passwordNova2.setText("");
+                        janela.mudaEcra("Login");
+                    } else if (resultado12 == 1) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A password antiga está incorreta. Por favor, tente novamente.");
+                    } else if (resultado12 == 2) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A password nova e a password de confirmação não são iguais. Por favor, tente novamente.");
+                    } else if (resultado12 == 3) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A password nova não pode ser igual à password antiga. Por favor, escolha uma password diferente.");
+                    } else if (resultado12 == 4) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A nova password e a confirmação da nova password não coincidem.");
+
+                    }
 
                 } else {
-                    JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Dados incorretos. Certifique-se que colocou os dados corretamente");
+                    JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                            "Preencha os campos vazios");
                 }
-                passwordNova1.setText("");
-                passwordNova2.setText("");
             }
         });
 

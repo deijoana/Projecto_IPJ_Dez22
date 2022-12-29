@@ -96,8 +96,9 @@ public class Login extends JPanel {
 
                     if (logado instanceof Administrador) {
                         JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), logado.nome + " autenticado com sucesso");
-
                         janela.mudaEcra("PainelAdmin");
+                        empresa.setLoggeduser(logado); //guarda user logado
+
                     } else if (logado instanceof Cliente) {
 
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");

@@ -246,6 +246,33 @@ public class Empresa implements Serializable {
         return false;
     }
 
+    public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova, Empresa empresa) {
+
+
+
+            if (!empresa.getLoggeduser().getPalavraPasse().equals(passwordAntiga)) {
+                return 1;
+            }
+
+            if (!passwordNova.equals(confirmacaoPasswordNova)) {
+                return 2;
+            }
+
+            if (passwordNova.equals(passwordAntiga)) {
+                return 3;
+            }
+
+            if (!passwordNova.equals(confirmacaoPasswordNova)){
+                return 4;
+            }
+
+            loggeduser.setPalavraPasse(passwordNova);
+                return 5;
+        }
+
+
+
+/*
     public boolean alterarPalavraPass(String novaPass, String novaPass2, Empresa empresa) {
 
         for (Utilizador u : empresa.listaUtilizadores) {
@@ -257,7 +284,7 @@ public class Empresa implements Serializable {
         }
         return true;
     }
-
+*/
 
     // método que percorre a lista de utilizadores e filtra todos os que são clientes
     public List<Utilizador> listaDeClientes(Empresa empresa) {
@@ -396,6 +423,7 @@ public class Empresa implements Serializable {
 
     }
 
+
     //método para procurar disponilidade de autocarro
     public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
         Autocarro escolhido = null;
@@ -426,6 +454,39 @@ public class Empresa implements Serializable {
     }
 
 
+       /* //método para procurar disponilidade de autocarro
+    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
+        boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
+        Autocarro escolhido = null;
+        List<Autocarro> listaAutocarrosDisponiveis = null;
+        for (Autocarro a : empresa.listaAutocarros) {
+            if (a.getLotacao() >= numPassageiros) { // autocarro elegivel, pois tem lotação suficiente
+                for (Reserva reservaO : empresa.listaReservas) {
+                    if (reservaO.getBus() == a &&
+                            (reservaO.getDataPartida().isBefore(dataPartida) && reservaO.getDataRegresso().isAfter(dataPartida)) ||
+                            (dataPartida.isBefore(reservaO.getDataPartida()) && dataRegresso.isAfter(reservaO.getDataRegresso())) ||
+                            (dataRegresso.isAfter(reservaO.getDataPartida()) && dataRegresso.isBefore(reservaO.getDataRegresso()))) {//
+                        saltaAutocarro = true; // reserva ocupa um periodo não elegivel
+                    }
+                }
+            }
+            if (!saltaAutocarro) { // não existe impedimento de escolher este autocarro, logo este serve
+                listaAutocarrosDisponiveis.add(a);
+            } else {
+                saltaAutocarro = false; // este autocarro não serve pois há uma reserva naquelas datas
+            }
+        }
+        // assegura que o autocarro disponivel selecionado é que minimiza os lugares não usados na reserva
+        escolhido = listaAutocarrosDisponiveis.get(0);
+        for (Autocarro bus : listaAutocarrosDisponiveis) {
+            if (bus.getLotacao() < escolhido.getLotacao()) {
+                escolhido = bus;
+            }
+        }
+        return escolhido;
+    }
+*/
+
     //método para procurar disponilidade de motorista
     public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso, Empresa empresa) {
         // salta para o proximo se verdadeiro
@@ -438,7 +499,7 @@ public class Empresa implements Serializable {
                 if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m)||
                         (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) && r.getDriver().equals(m) ||
                         (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m)||
-                        (r.getDataPartida().isEqual(dataPartida) || r.getDataRegresso().isEqual(dataRegresso)) && r.getDriver().equals(m)
+                        (r.getDataPartida().isEqual(dataPartida) && r.getDriver().equals(m) || r.getDataRegresso().isEqual(dataRegresso)) && r.getDriver().equals(m)
                 ) {
                     saltaMotorista = true;
                 }
@@ -509,14 +570,12 @@ public class Empresa implements Serializable {
     // método que valida se o email inserido é válido
     /*public boolean validarEmail(String email, Empresa empresa) {
         int count = 0;
-
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '@') count++;
         }
         if (count == 1) {
             return true;
         } else return false;
-
     }*/
 
     public boolean validarEmail(String email, Empresa empresa) {
@@ -545,7 +604,6 @@ public class Empresa implements Serializable {
 
     /*  public boolean validarPassword(String password, Empresa empresa){
           String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
-
           Pattern pat = Pattern.compile(passwordRegex);
           if (password == null) {
               return false;
@@ -557,9 +615,9 @@ public class Empresa implements Serializable {
         String telefoneRegex = "^(\\+351|00351)?(9|3|2)(\\d{8})";
 
         Pattern pat = Pattern.compile(telefoneRegex);
-            if (telefone == null) {
-                return false;
-            }
+        if (telefone == null) {
+            return false;
+        }
 
         return pat.matcher(telefone.trim()).matches();
     }
@@ -583,10 +641,8 @@ public class Empresa implements Serializable {
     }
 
    /* public boolean validarDadoNumerico(String num, Empresa empresa) {
-
    // método para validar se dados inseridos são numéricos. Não estava a executar bem
         String numRegex = "^\\d+$";
-
         Pattern pat = Pattern.compile(numRegex);
         if (numRegex == null)
             return false;
