@@ -249,31 +249,26 @@ public class Empresa implements Serializable {
     public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova, Empresa empresa) {
 
 
-
-            if (!empresa.getLoggeduser().getPalavraPasse().equals(passwordAntiga)) {
-                return 1;
-            }
-
-            if (!passwordNova.equals(confirmacaoPasswordNova)) {
-                return 2;
-            }
-
-            if (passwordNova.equals(passwordAntiga)) {
-                return 3;
-            }
-
-            if (!passwordNova.equals(confirmacaoPasswordNova)){
-                return 4;
-            }
-
-            loggeduser.setPalavraPasse(passwordNova);
-                return 5;
+        if (!empresa.getLoggeduser().getPalavraPasse().equals(passwordAntiga)) {
+            return 1;
         }
 
+        if (!passwordNova.equals(confirmacaoPasswordNova)) {
+            return 2;
+        }
 
+        if (passwordNova.equals(passwordAntiga)) {
+            return 3;
+        }
 
-/*
-    public boolean alterarPalavraPass(String novaPass, String novaPass2, Empresa empresa) {
+        if (!passwordNova.equals(confirmacaoPasswordNova)) {
+            return 4;
+        }
+
+        loggeduser.setPalavraPasse(passwordNova);
+        return 5;
+    }
+  /*  public boolean alterarPalavraPass(String novaPass, String novaPass2, Empresa empresa) {
 
         for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getPalavraPasse().equals(novaPass)) {
@@ -297,39 +292,73 @@ public class Empresa implements Serializable {
     public List<Reserva> listagemHistoricoReservas(Empresa empresa) {
         // método que mostra todas as reservas passadas de um dado cliente
 
-        return empresa.listaReservas.stream().filter(
-                        user -> user.getClient().equals(loggeduser)
+        List<Reserva> listaHistoricoReserva = new ArrayList<>();
+
+        for (Reserva r : empresa.listaReservas) {
+            if (r.getClient().equals(empresa.loggeduser)) {
+                if (r.getDataPartida().isBefore(LocalDate.now())) {
+                    listaHistoricoReserva.add(r);
+                }
+            }
+        }
+
+        return listaHistoricoReserva;
+
+
+      /*  return empresa.listaReservas.stream().filter(
+                        user -> user.getClient().equals(empresa.loggeduser)
 
                 ).filter(user -> user.getDataPartida().isBefore(LocalDate.now()))
                 .toList();
-
+*/
     }
 
     public List<Reserva> listaReservasCliente(Empresa empresa) {
         // método que mostra todas as reservas futuras de um dado cliente
 
+        List<Reserva> listaReserva = new ArrayList<>();
 
-        return empresa.listaReservas.stream().filter(
-                        user -> user.getClient().equals(loggeduser)
+        for (Reserva r : empresa.listaReservas) {
+            if (r.getClient().equals(empresa.loggeduser)) {
+                if (r.getDataPartida().isAfter(LocalDate.now())) {
+                    listaReserva.add(r);
+                }
+            }
+        }
+
+        return listaReserva;
+
+
+
+
+       /* return empresa.listaReservas.stream().filter(
+                        user -> user.getClient().equals(empresa.loggeduser)
 
                 ).filter(user -> user.getDataPartida().isAfter(LocalDate.now()))
                 .toList();
-
+*/
     }
 
-    public HashMap listarAutocarrosReservados(int mes, Empresa empresa) {
-// método que lista todos os autocarros reservados num dado mês e a respectiva data
 
-        List<Reserva> listaReservasMes = empresa.listaReservas.stream().filter(user -> user.getDataPartida().getMonth().equals(mes)).toList();
-        HashMap autocarroDataReserva = new HashMap<Autocarro, Reserva>();
+    public List<String> listarAutocarrosReservados(String ano, String mes, Empresa empresa) {
+        // método que lista todos os autocarros reservados num dado mês e a respectiva data
 
-        for (Reserva r : listaReservasMes) {
-            autocarroDataReserva.put(r.getBus(), r.getDataPartida());
+        int valorAno = Integer.parseInt(ano);
+        int valorMes = Integer.parseInt(mes);
+        List<String> listaAutocarrosReservados = new ArrayList<>();
+
+        for (Reserva r : listaReservas) {
+            if (r.getDataPartida().getYear() == valorAno && r.getDataPartida().getMonthValue() == valorMes) {
+                listaAutocarrosReservados.add(r.getBus().toString() + " de " + r.getDataPartida() + " a " + r.getDataRegresso());
+
+            }
         }
-
-
-        return autocarroDataReserva;
+        for (int i = 0; i < listaAutocarrosReservados.size(); i++) {
+            System.out.println(listaAutocarrosReservados.get(i));
+        }
+        return listaAutocarrosReservados;
     }
+
 
     // método para as estatísticas que contabiliza o total de clientes
     public int totalClientes(Empresa empresa) {
@@ -423,10 +452,11 @@ public class Empresa implements Serializable {
 
     }
 
-
     //método para procurar disponilidade de autocarro
     public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
         Autocarro escolhido = null;
+        List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
+
 
         for (Autocarro a : empresa.listaAutocarros) {
             boolean saltaAutocarro = true; // salta para o proximo se verdadeiro
@@ -446,19 +476,29 @@ public class Empresa implements Serializable {
                 }
             }
             if (!saltaAutocarro) { // não existe impedimento de escolher este autocarro, logo este serve
-                escolhido = a;
-                break;
+                listaAutocarrosDisponiveis.add(a);
+                //escolhido = a;
+                //break;
+            } else {
+                saltaAutocarro = false; // este autocarro não serve pois há uma reserva naquelas datas
             }
         }
+        // assegura que o autocarro disponivel selecionado é que minimiza os lugares não usados na reserva
+        escolhido = listaAutocarrosDisponiveis.get(0);
+        for (Autocarro bus : listaAutocarrosDisponiveis) {
+            if (bus.getLotacao() < escolhido.getLotacao()) {
+                escolhido = bus;
+            }
+        }
+
         return escolhido;
     }
 
-
-       /* //método para procurar disponilidade de autocarro
-    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
+        //método para procurar disponilidade de autocarro
+   /* public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
         boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
         Autocarro escolhido = null;
-        List<Autocarro> listaAutocarrosDisponiveis = null;
+        List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
         for (Autocarro a : empresa.listaAutocarros) {
             if (a.getLotacao() >= numPassageiros) { // autocarro elegivel, pois tem lotação suficiente
                 for (Reserva reservaO : empresa.listaReservas) {
@@ -487,6 +527,7 @@ public class Empresa implements Serializable {
     }
 */
 
+
     //método para procurar disponilidade de motorista
     public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso, Empresa empresa) {
         // salta para o proximo se verdadeiro
@@ -496,9 +537,9 @@ public class Empresa implements Serializable {
             boolean saltaMotorista = false;
 
             for (Reserva r : empresa.listaReservas) {
-                if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m)||
+                if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m) ||
                         (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) && r.getDriver().equals(m) ||
-                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m)||
+                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m) ||
                         (r.getDataPartida().isEqual(dataPartida) && r.getDriver().equals(m) || r.getDataRegresso().isEqual(dataRegresso)) && r.getDriver().equals(m)
                 ) {
                     saltaMotorista = true;
@@ -570,12 +611,14 @@ public class Empresa implements Serializable {
     // método que valida se o email inserido é válido
     /*public boolean validarEmail(String email, Empresa empresa) {
         int count = 0;
+
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '@') count++;
         }
         if (count == 1) {
             return true;
         } else return false;
+
     }*/
 
     public boolean validarEmail(String email, Empresa empresa) {
@@ -602,8 +645,18 @@ public class Empresa implements Serializable {
         return true;
     }
 
+    public int validarComboBoxIndex(int subscricao, int pagamento, Empresa empresa) {
+
+        if (subscricao == 0 || pagamento == 0) {
+            return 0;
+        }
+        return 1;
+
+    }
+
     /*  public boolean validarPassword(String password, Empresa empresa){
           String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
+
           Pattern pat = Pattern.compile(passwordRegex);
           if (password == null) {
               return false;
@@ -640,9 +693,23 @@ public class Empresa implements Serializable {
         return pat.matcher(matricula.trim()).matches();
     }
 
+    public boolean validarAno(String ano, Empresa empresa) {
+        // método que valida apenas valores de anos no século XXI
+
+        String anoRegex = "^[2][0][0-9][0-9]$";
+
+        Pattern pat = Pattern.compile(anoRegex);
+        if (anoRegex == null)
+            return false;
+        return true;
+
+    }
+
    /* public boolean validarDadoNumerico(String num, Empresa empresa) {
+
    // método para validar se dados inseridos são numéricos. Não estava a executar bem
         String numRegex = "^\\d+$";
+
         Pattern pat = Pattern.compile(numRegex);
         if (numRegex == null)
             return false;

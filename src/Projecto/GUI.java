@@ -26,6 +26,7 @@ public class GUI {
         cardsPanel.add(new PainelRegisto(this, empresa), "NovoRegisto");
         cardsPanel.add(new PainelAdmin(this, empresa), "PainelAdmin");
         cardsPanel.add(new PainelCliente(this, empresa), "PainelCliente");
+        cardsPanel.add(new PainelEstatisticaMensal(this, empresa),"PainelEstatistico");
         f.getContentPane().add(cardsPanel);
 
        layout.show(cardsPanel, "Login");

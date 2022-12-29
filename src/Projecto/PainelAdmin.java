@@ -20,6 +20,8 @@ public class PainelAdmin extends JPanel {
 
     JList<Autocarro> listagemAutocarros;
 
+    JScrollPane scrollPane1, scrollPane2;
+
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
     JLabel inserirDados1, nome1, nif1, morada1, telefone1, email1, palavraPasse1;
     JLabel inserirDados2, nome2, nif2, email2;
@@ -463,6 +465,8 @@ public class PainelAdmin extends JPanel {
         //listagemMotoristas.setSelectedIndex(0);
         listaMotoristas.add(listagemMotoristas, c13);
 
+        scrollPane1 = new JScrollPane(listagemMotoristas);
+        listaMotoristas.add(scrollPane1, c13);
 
         panel2.add(painelM);
 
@@ -1137,6 +1141,9 @@ public class PainelAdmin extends JPanel {
         //listagemClientes.setSelectedIndex(0);
         listaClientes.add(listagemClientes, c14);
 
+        scrollPane2 = new JScrollPane(listagemClientes);
+        listaClientes.add(scrollPane2, c14);
+
         panel4.add(painelC);
 
      /*   panel5 = new JPanel();
@@ -1288,7 +1295,6 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 1;
         panel7.add(listaBusReservado, c11);
 
-        //  autocarroReservado = new HashMap<Autocarro, Reserva>(empresa.listarAutocarrosReservados(12, empresa));
 
         listaReservaCanc = new JButton("Lista de reservas canceladas para um dado mês");
         listaReservaCanc.setFont(new Font("Arial", 1, 12));
