@@ -155,7 +155,10 @@ public class PainelCliente extends JPanel {
 
 
                 Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
-                if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa) && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa) && empresa.validarDados(String.valueOf(n_Passageiros), empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
+                if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa)
+                        && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa)
+                        && empresa.validarDados(String.valueOf(n_Passageiros),
+                        empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
                     if (autocarroO != null) {
                         Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
                         if (motoristaO != null) {
