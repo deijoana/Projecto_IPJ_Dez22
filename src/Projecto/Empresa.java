@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Empresa implements Serializable {
 
@@ -152,6 +153,7 @@ public class Empresa implements Serializable {
                 m.setEmailMotorista(email);
                 m.setNomeMotorista(nome);
                 escreveFicheiro(AUTOCARROS_AOR, empresa);
+
                 return true;
 
             }
@@ -175,7 +177,7 @@ public class Empresa implements Serializable {
         return false;
     }
 
-    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada, String tipoSubscricao, String pagamentoSubscricao, String password, Empresa empresa) {
+    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada, Empresa empresa) {
         // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
 
         for (Utilizador client : empresa.listaUtilizadores) {
@@ -505,7 +507,7 @@ public class Empresa implements Serializable {
     }
 
     // método que valida se o email inserido é válido
-    public boolean validarEmail(String email, Empresa empresa) {
+    /*public boolean validarEmail(String email, Empresa empresa) {
         int count = 0;
 
         for (int i = 0; i < email.length(); i++) {
@@ -515,16 +517,82 @@ public class Empresa implements Serializable {
             return true;
         } else return false;
 
+    }*/
+
+    public boolean validarEmail(String email, Empresa empresa) {
+        //valida email inserido se obedecer às regras abaixo descritas
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null) {
+            return false;
+        }
+        return pat.matcher(email.trim()).matches();
     }
 
-    public boolean validarDados(String dado, Empresa empresa) {
+
+    public boolean validarDados(String input, Empresa empresa) {
         // método que valida se caixa de texto de dado está preenchida ou não
         String vazio = "";
-        if (dado.equals(vazio)) {
+        if (input.trim().equals(vazio)) {
             return false;
         }
         return true;
     }
+
+    /*  public boolean validarPassword(String password, Empresa empresa){
+          String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
+
+          Pattern pat = Pattern.compile(passwordRegex);
+          if (password == null) {
+              return false;
+          }
+          return pat.matcher(password).matches();
+      }
+  */
+    public boolean validarTelefone(String telefone, Empresa empresa) {
+        String telefoneRegex = "^(\\+351|00351)?(9|3|2)(\\d{8})";
+
+        Pattern pat = Pattern.compile(telefoneRegex);
+            if (telefone == null) {
+                return false;
+            }
+
+        return pat.matcher(telefone.trim()).matches();
+    }
+
+    public boolean validarNIF(String nif, Empresa empresa) {
+        String nifRegex = "[\\d][0-9]{8}";
+
+        Pattern pat = Pattern.compile(nifRegex);
+        if (nif == null)
+            return false;
+        return pat.matcher(nif.trim()).matches();
+    }
+
+    public boolean validarMatricula(String matricula, Empresa empresa) {
+        String matriculaRegex = "^[a-zA-Z-0-9][a-zA-Z-0-9][-][a-zA-Z-0-9][a-zA-Z-0-9][-][a-zA-Z-0-9][a-zA-Z-0-9]$";
+
+        Pattern pat = Pattern.compile(matriculaRegex);
+        if (matricula == null)
+            return false;
+        return pat.matcher(matricula.trim()).matches();
+    }
+
+   /* public boolean validarDadoNumerico(String num, Empresa empresa) {
+
+   // método para validar se dados inseridos são numéricos. Não estava a executar bem
+        String numRegex = "^\\d+$";
+
+        Pattern pat = Pattern.compile(numRegex);
+        if (numRegex == null)
+            return false;
+        return pat.matcher(numRegex.trim()).matches();
+    }
+*/
 
     // método que adiciona um novo administrador à lista de utilizadores ao fazer um novo registo
     // só adiciona se não houver nenhuma instância com o mesmo email

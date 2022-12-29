@@ -179,7 +179,7 @@ public class PainelAdmin extends JPanel {
                 Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1, empresa);
 
 
-                if (empresa.validarEmail(email1, empresa) && empresa.validarDados(nome1, empresa) && empresa.validarDados(nif1, empresa) && empresa.validarDados(password1, empresa)) {
+                if (empresa.validarEmail(email1, empresa) && empresa.validarDados(nome1, empresa) && empresa.validarNIF(nif1, empresa) && empresa.validarDados(password1, empresa) && empresa.validarTelefone(telefone1, empresa)) {
 
                     if (novoAdministrador == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -193,15 +193,22 @@ public class PainelAdmin extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("Cliente criado"), "Registo de " + novoAdministrador.nome + " criado com sucesso");
                         janela.mudaEcra("Login");
                     }
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    emailT1.setText("");
+                    passwordF1.setText("");
+                    nomeT1.setText("");
+                    nifT1.setText("");
+                    moradaT1.setText("");
+                    telefoneT1.setText("");
 
-                emailT1.setText("");
-                passwordF1.setText("");
-                nomeT1.setText("");
-                nifT1.setText("");
-                moradaT1.setText("");
-                telefoneT1.setText("");
+                } else if (!empresa.validarEmail(email1, empresa)) {
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
+                } else if (!empresa.validarNIF(nif1, empresa)) {
+                    JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
+                } else if (!empresa.validarTelefone(telefone1, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx");
+                else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um nome e/ou password válidos");
+
 
             }
         });
@@ -275,20 +282,25 @@ public class PainelAdmin extends JPanel {
 
                 Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2, empresa);
 
-                if (empresa.validarEmail(email2, empresa) && empresa.validarDados(nif2, empresa) && empresa.validarDados(nome2, empresa)) {
+                if (empresa.validarEmail(email2, empresa) && empresa.validarNIF(nif2, empresa) && empresa.validarDados(nome2, empresa)) {
 
                     if (novoMotorista == null) {
-                        JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"), "Já existe um motorista com este NIF: " + nif);
+                        JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"), "Já existe um motorista com este NIF: " + nif2);
                     } else if (novoMotorista != null) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"), "Um novo motorista foi registado com sucesso");
                     }
+                    nomeT2.setText("");
+                    nifT2.setText("");
+                    emailT2.setText("");
+
+                } else if (!empresa.validarEmail(email2, empresa)) {
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
+                } else if (!empresa.validarNIF(nif2, empresa)) {
+                    JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
                 } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Preencha o nome");
 
 
-                nomeT2.setText("");
-                nifT2.setText("");
-                emailT2.setText("");
             }
         });
 
@@ -355,19 +367,24 @@ public class PainelAdmin extends JPanel {
 
                 boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3, empresa);
 
-                if (empresa.validarEmail(email3, empresa) && empresa.validarDados(nif3, empresa) && empresa.validarDados(nome3, empresa)) {
+                if (empresa.validarEmail(email3, empresa) && empresa.validarNIF(nif3, empresa) && empresa.validarDados(nome3, empresa)) {
 
                     if (resultado1) {
-                        JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"), "As informações do motorista associado ao nif " + nif + " foram alteradas com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"), "As informações do motorista associado ao nif " + nif3 + " foram alteradas com sucesso");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
+                    nomeT3.setText("");
+                    nifT3.setText("");
+                    emailT3.setText("");
+
+                } else if (!empresa.validarEmail(email3, empresa)) {
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
+                } else if (!empresa.validarNIF(nif3, empresa)) {
+                    JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
                 } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Preencha o nome");
 
 
-                nomeT3.setText("");
-                nifT3.setText("");
-                emailT3.setText("");
             }
         });
 
@@ -409,19 +426,18 @@ public class PainelAdmin extends JPanel {
 
                 boolean resultado2 = empresa.removerMotorista(nif4, empresa);
 
-                if (empresa.validarDados(nif4, empresa)) {
+                if (empresa.validarNIF(nif4, empresa)) {
 
                     if (resultado2) {
                         JOptionPane.showMessageDialog(new JFrame("O motorista foi removido"), "O motorista foi removido");
 
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
-
+                    nifT4.setText("");
                 } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
 
 
-                nifT4.setText("");
             }
         });
 
@@ -509,19 +525,23 @@ public class PainelAdmin extends JPanel {
                 int lotacao5 = Integer.parseInt(lotacaoT5.getText());
 
                 Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5, empresa);
-                if (empresa.validarDados(matricula5, empresa) && empresa.validarDados(modelo5, empresa) && empresa.validarDados(marca5, empresa) && empresa.validarDados(String.valueOf(lotacao5),empresa)) {
+                if (empresa.validarMatricula(matricula5, empresa) && empresa.validarDados(modelo5, empresa) && empresa.validarDados(marca5, empresa) && empresa.validarDados(String.valueOf(lotacao5), empresa)) {
                     if (autocarro == null) {
                         JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula5 + " já existe");
                     } else {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A matrícula " + matricula5 + " foi registada com sucesso.");
                     }
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    marcaT5.setText("");
+                    modeloT5.setText("");
+                    matriculaT5.setText("Formato ##-##-##");
+                    lotacaoT5.setText("");
 
-                marcaT5.setText("");
-                modeloT5.setText("");
-                matriculaT5.setText("Formato ##-##-##");
-                lotacaoT5.setText("");
+                } else if (!empresa.validarMatricula(matricula5, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira uma matrícula válida: ##-##-##");
+                else if (!empresa.validarDados(String.valueOf(lotacao5), empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um valor numérico válido para lotação do autocarro");
+                else JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira modelo e/ou marca válidos");
+
 
             }
         });
@@ -600,18 +620,23 @@ public class PainelAdmin extends JPanel {
                 int lotacao6 = Integer.parseInt(lotacaoT6.getText());
 
                 boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6, empresa);
+                if (empresa.validarMatricula(matricula6, empresa) && empresa.validarDados(modelo6, empresa) && empresa.validarDados(marca6, empresa) && empresa.validarDados(String.valueOf(lotacao6), empresa)) {
+                    if (resultado3) {
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
 
-                if (resultado3) {
-                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
+                    } else
+                        JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo com a matrícula inserida"),
+                                "Não foi encontrado nenhum registo de matrícula com os dados inseridos. Insira novamente os dados:");
+                    marcaT6.setText("");
+                    modeloT6.setText("");
+                    matriculaT6.setText("Formato ##-##-##");
+                    lotacaoT6.setText("");
 
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo com a matrícula inserida"),
-                            "Não foi encontrado nenhum registo de matrícula com os dados inseridos. Insira novamente os dados:");
-
-                marcaT6.setText("");
-                modeloT6.setText("");
-                matriculaT6.setText("Formato ##-##-##");
-                lotacaoT6.setText("");
+                } else if (!empresa.validarMatricula(matricula6, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira uma matrícula válida: ##-##-##");
+                else if (!empresa.validarDados(String.valueOf(lotacao6), empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um valor numérico válido para lotação do autocarro");
+                else JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira modelo e/ou marca válidos");
 
             }
         });
@@ -652,16 +677,17 @@ public class PainelAdmin extends JPanel {
 
                 String matricula7 = matriculaT7.getText();
                 boolean resultado4 = empresa.removerAutocarro(matricula7, empresa);
-                if (empresa.validarDados(matricula7, empresa)) {
+                if (empresa.validarMatricula(matricula7, empresa)) {
                     if (resultado4) {
                         JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
                                 "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
+                    matriculaT7.setText("Formato ##-##-##");
                 } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira uma matrícula válida: ##-##-##");
 
-                matriculaT7.setText("Formato ##-##-##");
+
             }
         });
 
@@ -772,7 +798,8 @@ public class PainelAdmin extends JPanel {
         c8.gridy = 7;
         addC.add(tipoSubscricaoL8, c8);
 
-        String tiposSubscricao[] = {"Normal", "Premium"};
+        String tiposSubscricao[] = {"Normal"};   // By default, o cliente adicionado por administrador será sempre normal
+        // String modosPagSubscricao[] = {"Paypal", "Cartão de Crédito", "Multibanco"};
         tipoSubscricaoB8 = new JComboBox<>(tiposSubscricao);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.fill = GridBagConstraints.HORIZONTAL;
@@ -780,21 +807,21 @@ public class PainelAdmin extends JPanel {
         c8.gridy = 7;
         addC.add(tipoSubscricaoB8, c8);
 
-        pagamentoSubscricaoL8 = new JLabel("Modo de pagamento da subscrição");
+       /* pagamentoSubscricaoL8 = new JLabel("Modo de pagamento da subscrição");
         pagamentoSubscricaoL8.setFont(new Font("Arial", 1, 12));
         c8.insets = new Insets(10, 0, 0, 10);
         c8.gridx = 1;
         c8.gridy = 8;
         addC.add(pagamentoSubscricaoL8, c8);
 
-        String modosPagSubscricao[] = {"Paypal", "Cartão de Crédito", "Multibanco"};
+
         pagamentoSubscricaoB8 = new JComboBox<>(modosPagSubscricao);
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.insets = new Insets(10, 0, 0, 20);
         c8.gridx = 2;
         c8.gridy = 8;
         addC.add(pagamentoSubscricaoB8, c8);
-
+*/
         guardarRegisto8 = new JButton("Guardar registo de novo cliente");
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.insets = new Insets(20, 0, 20, 20);
@@ -812,14 +839,14 @@ public class PainelAdmin extends JPanel {
                 String telefone8 = telefoneT8.getText();
                 String morada8 = moradaT8.getText();
                 String tipoSubscricao8 = tipoSubscricaoB8.getSelectedItem().toString();
-                String pagamentoSubscricao8 = pagamentoSubscricaoB8.getSelectedItem().toString();
+                String pagamentoSubscricao8 = null;  // O cliente adicionado por administrador é definido como normal, by default logo n tem modo de pagamento associado
+                // String pagamentoSubscricao8 = pagamentoSubscricaoB8.getSelectedItem().toString();
 
                 // System.out.println(tipoSubscricao8 + " , " + pagamentoSubscricao8);
 
                 Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao8, pagamentoSubscricao8, password8, empresa);
 
-
-                if (empresa.validarEmail(email8, empresa) && empresa.validarDados(nome8, empresa) && empresa.validarDados(nif8, empresa) && empresa.validarDados(password8, empresa)) {
+                if (empresa.validarEmail(email8, empresa) && empresa.validarDados(nome8, empresa) && empresa.validarNIF(nif8, empresa) && empresa.validarDados(password8, empresa) && empresa.validarTelefone(telefone8, empresa)) {
 
                     if (novoCliente == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -833,15 +860,24 @@ public class PainelAdmin extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("Cliente criado"), "Registo de " + novoCliente.nome + " criado com sucesso");
 
                     }
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    emailT8.setText("");
+                    passwordF8.setText("");
+                    nomeT8.setText("");
+                    nifT8.setText("");
+                    moradaT8.setText("");
+                    telefoneT8.setText("");
 
-                emailT8.setText("");
-                passwordF8.setText("");
-                nomeT8.setText("");
-                nifT8.setText("");
-                moradaT8.setText("");
-                telefoneT8.setText("");
+                } else if (!empresa.validarEmail(email8, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um email válido");
+
+                else if (!empresa.validarNIF(nif8, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
+                else if (!empresa.validarTelefone(telefone8, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx)");
+                else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira nome e/ou password válidos");
+
+
 
             }
         });
@@ -924,7 +960,7 @@ public class PainelAdmin extends JPanel {
         c9.gridy = 5;
         editC.add(emailT9, c9);
 
-        palavraPasse9 = new JLabel("Palavra Passe Inicial");
+      /*  palavraPasse9 = new JLabel("Palavra Passe Inicial");
         palavraPasse9.setFont(new Font("Arial", 1, 12));
         c9.insets = new Insets(10, 0, 0, 0);
         c9.gridx = 1;
@@ -964,7 +1000,7 @@ public class PainelAdmin extends JPanel {
         c9.gridx = 2;
         c9.gridy = 8;
         editC.add(pagamentoSubscricaoB9, c9);
-
+*/
         guardarRegisto9 = new JButton("Guardar alterações");
         c9.fill = GridBagConstraints.HORIZONTAL;
         c9.insets = new Insets(20, 0, 20, 0);
@@ -976,17 +1012,17 @@ public class PainelAdmin extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 String email9 = emailT9.getText();
-                String password9 = String.valueOf(passwordF9.getPassword());
+               // String password9 = String.valueOf(passwordF9.getPassword());
                 String nome9 = nomeT9.getText();
                 String nif9 = nifT9.getText();
                 String telefone9 = telefoneT9.getText();
                 String morada9 = moradaT9.getText();
-                String tipoSubscricao9 = tipoSubscricaoB9.getSelectedItem().toString();
-                String pagamentoSubscricao9 = pagamentoSubscricaoB9.getSelectedItem().toString();
+                // String tipoSubscricao9 = tipoSubscricaoB9.getSelectedItem().toString();
+                // String pagamentoSubscricao9 = pagamentoSubscricaoB9.getSelectedItem().toString();
 
-                boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9, tipoSubscricao9, pagamentoSubscricao9, password9, empresa);
+                boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9, empresa);
 
-                if (empresa.validarEmail(email9, empresa) && empresa.validarDados(nome9, empresa) && empresa.validarDados(nif9, empresa)) {
+                if (empresa.validarEmail(email9, empresa) && empresa.validarDados(nome9, empresa) && empresa.validarNIF(nif9, empresa) && empresa.validarTelefone(telefone9, empresa)) {
 
                     if (resultado5) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"),
@@ -995,15 +1031,22 @@ public class PainelAdmin extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("Cliente não encontrado"),
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif9);
 
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
+                    emailT9.setText("");
+                  //  passwordF9.setText("");
+                    nomeT9.setText("");
+                    nifT9.setText("");
+                    moradaT9.setText("");
+                    telefoneT9.setText("");
 
-                emailT9.setText("");
-                passwordF9.setText("");
-                nomeT9.setText("");
-                nifT9.setText("");
-                moradaT9.setText("");
-                telefoneT9.setText("");
+                } else if (!empresa.validarEmail(email9, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um email válido");
+
+                else if (!empresa.validarNIF(nif9, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
+                else if (!empresa.validarTelefone(telefone9, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx)");
+                else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um nome válido");
 
             }
         });
@@ -1046,17 +1089,19 @@ public class PainelAdmin extends JPanel {
 
                 boolean resultado10 = empresa.removerCliente(nif10, empresa);
 
-                if (empresa.validarDados(nif10, empresa)) {
+                if (empresa.validarNIF(nif10, empresa)) {
                     if (resultado10) {
                         JOptionPane.showMessageDialog(new JFrame("Cliente removido com sucesso"),
                                 "O cliente associado ao nif " + nif10 + " foi removido com sucesso");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Cliente não encontrado"),
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif10);
-                } else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Dados inválidos. Insira os dados pedidos");
 
-                nifT10.setText("");
+                    nifT10.setText("");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
+
+
             }
         });
 
