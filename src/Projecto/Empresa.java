@@ -455,6 +455,8 @@ public class Empresa implements Serializable {
     //método para procurar disponilidade de autocarro
     public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
         Autocarro escolhido = null;
+        List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
+
 
         for (Autocarro a : empresa.listaAutocarros) {
             boolean saltaAutocarro = true; // salta para o proximo se verdadeiro
@@ -474,18 +476,29 @@ public class Empresa implements Serializable {
                 }
             }
             if (!saltaAutocarro) { // não existe impedimento de escolher este autocarro, logo este serve
-                escolhido = a;
-                break;
+                listaAutocarrosDisponiveis.add(a);
+                //escolhido = a;
+                //break;
+            } else {
+                saltaAutocarro = false; // este autocarro não serve pois há uma reserva naquelas datas
             }
         }
+        // assegura que o autocarro disponivel selecionado é que minimiza os lugares não usados na reserva
+        escolhido = listaAutocarrosDisponiveis.get(0);
+        for (Autocarro bus : listaAutocarrosDisponiveis) {
+            if (bus.getLotacao() < escolhido.getLotacao()) {
+                escolhido = bus;
+            }
+        }
+
         return escolhido;
     }
 
-       /* //método para procurar disponilidade de autocarro
-    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
+        //método para procurar disponilidade de autocarro
+   /* public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
         boolean saltaAutocarro = false; // salta para o proximo se verdadeiro
         Autocarro escolhido = null;
-        List<Autocarro> listaAutocarrosDisponiveis = null;
+        List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
         for (Autocarro a : empresa.listaAutocarros) {
             if (a.getLotacao() >= numPassageiros) { // autocarro elegivel, pois tem lotação suficiente
                 for (Reserva reservaO : empresa.listaReservas) {
