@@ -22,7 +22,8 @@ public class GerirEventos implements ActionListener {
             case 2:
                 janela.mudaEcra("Login");
                 break;
-
+            case 4:
+                janela.mudaEcra("PainelAdmin");
 
         }
 

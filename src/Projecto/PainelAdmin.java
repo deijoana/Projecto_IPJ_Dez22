@@ -20,6 +20,8 @@ public class PainelAdmin extends JPanel {
 
     JList<Autocarro> listagemAutocarros;
 
+    JScrollPane scrollPane1, scrollPane2;
+
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
     JLabel inserirDados1, nome1, nif1, morada1, telefone1, email1, palavraPasse1;
     JLabel inserirDados2, nome2, nif2, email2;
@@ -463,6 +465,8 @@ public class PainelAdmin extends JPanel {
         //listagemMotoristas.setSelectedIndex(0);
         listaMotoristas.add(listagemMotoristas, c13);
 
+        scrollPane1 = new JScrollPane(listagemMotoristas);
+        listaMotoristas.add(scrollPane1, c13);
 
         panel2.add(painelM);
 
@@ -900,7 +904,6 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira nome e/ou password válidos");
 
 
-
             }
         });
 
@@ -1034,7 +1037,7 @@ public class PainelAdmin extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 String email9 = emailT9.getText();
-               // String password9 = String.valueOf(passwordF9.getPassword());
+                // String password9 = String.valueOf(passwordF9.getPassword());
                 String nome9 = nomeT9.getText();
                 String nif9 = nifT9.getText();
                 String telefone9 = telefoneT9.getText();
@@ -1054,7 +1057,7 @@ public class PainelAdmin extends JPanel {
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif9);
 
                     emailT9.setText("");
-                  //  passwordF9.setText("");
+                    //  passwordF9.setText("");
                     nomeT9.setText("");
                     nifT9.setText("");
                     moradaT9.setText("");
@@ -1144,6 +1147,9 @@ public class PainelAdmin extends JPanel {
         c14.gridy = 1;
         //listagemClientes.setSelectedIndex(0);
         listaClientes.add(listagemClientes, c14);
+
+        scrollPane2 = new JScrollPane(listagemClientes);
+        listaClientes.add(scrollPane2, c14);
 
         panel4.add(painelC);
 
@@ -1301,7 +1307,6 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 1;
         panel7.add(listaBusReservado, c11);
 
-        //  autocarroReservado = new HashMap<Autocarro, Reserva>(empresa.listarAutocarrosReservados(12, empresa));
 
         listaReservaCanc = new JButton("Lista de reservas canceladas para um dado mês");
         listaReservaCanc.setFont(new Font("Arial", 1, 12));
@@ -1348,18 +1353,17 @@ public class PainelAdmin extends JPanel {
         c12.gridwidth = 2;
         panel8.add(inserirDados12, c12);
 
-        /*
+
         palavraPasse = new JLabel("Palavra-passe antiga");
         palavraPasse.setFont(new Font("Arial", 1, 12));
         c12.gridx = 1;
         c12.gridy = 1;
         panel8.add(palavraPasse, c12);
-        passwordF = new JPasswordField(50);
+        passwordF = new JPasswordField(25);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 1;
         panel8.add(passwordF, c12);
-        */
 
 
         passwordNova1L = new JLabel("Insira nova palavra-passe");
@@ -1368,7 +1372,7 @@ public class PainelAdmin extends JPanel {
         c12.gridy = 2;
         panel8.add(passwordNova1L, c12);
 
-        passwordNova1 = new JPasswordField(50);
+        passwordNova1 = new JPasswordField(25);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 2;
@@ -1380,7 +1384,7 @@ public class PainelAdmin extends JPanel {
         c12.gridy = 3;
         panel8.add(passwordNova2L, c12);
 
-        passwordNova2 = new JPasswordField(50);
+        passwordNova2 = new JPasswordField(25);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 3;
@@ -1395,20 +1399,39 @@ public class PainelAdmin extends JPanel {
         guardarRegisto12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String palavraPasse = String.valueOf(passwordF.getPassword());
                 String passwordNova1L = String.valueOf(passwordNova1.getPassword());
                 String passwordNova2L = String.valueOf(passwordNova2.getPassword());
 
-                boolean resultado12 = empresa.alterarPalavraPass(passwordNova1L, passwordNova2L, empresa);
+                int resultado12 = empresa.alterarPassword(palavraPasse, passwordNova1L, passwordNova2L, empresa);
 
-                if (resultado12 && passwordNova1L.equals(passwordNova2L)) {
-                    JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
-                    janela.mudaEcra("Login");
+                if (empresa.validarDados(palavraPasse, empresa) && empresa.validarDados(passwordNova1L, empresa) && empresa.validarDados(passwordNova2L, empresa)) {
+
+                    if (resultado12 == 5) {
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
+                        passwordF.setText("");
+                        passwordNova1.setText("");
+                        passwordNova2.setText("");
+                        janela.mudaEcra("Login");
+                    } else if (resultado12 == 1) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A password antiga está incorreta. Por favor, tente novamente.");
+                    } else if (resultado12 == 2) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A password nova e a password de confirmação não são iguais. Por favor, tente novamente.");
+                    } else if (resultado12 == 3) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A password nova não pode ser igual à password antiga. Por favor, escolha uma password diferente.");
+                    } else if (resultado12 == 4) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                                "A nova password e a confirmação da nova password não coincidem.");
+
+                    }
 
                 } else {
-                    JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Dados incorretos. Certifique-se que colocou os dados corretamente");
+                    JOptionPane.showMessageDialog(new JFrame("Insucesso"),
+                            "Preencha os campos vazios");
                 }
-                passwordNova1.setText("");
-                passwordNova2.setText("");
             }
         });
 

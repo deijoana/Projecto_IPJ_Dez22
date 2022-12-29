@@ -245,8 +245,30 @@ public class Empresa implements Serializable {
         }
         return false;
     }
+    public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova, Empresa empresa) {
 
-    public boolean alterarPalavraPass(String novaPass, String novaPass2, Empresa empresa) {
+
+
+        if (!empresa.getLoggeduser().getPalavraPasse().equals(passwordAntiga)) {
+            return 1;
+        }
+
+        if (!passwordNova.equals(confirmacaoPasswordNova)) {
+            return 2;
+        }
+
+        if (passwordNova.equals(passwordAntiga)) {
+            return 3;
+        }
+
+        if (!passwordNova.equals(confirmacaoPasswordNova)){
+            return 4;
+        }
+
+        loggeduser.setPalavraPasse(passwordNova);
+        return 5;
+    }
+  /*  public boolean alterarPalavraPass(String novaPass, String novaPass2, Empresa empresa) {
 
         for (Utilizador u : empresa.listaUtilizadores) {
             if (u.getPalavraPasse().equals(novaPass)) {
@@ -257,7 +279,7 @@ public class Empresa implements Serializable {
         }
         return true;
     }
-
+*/
 
     // método que percorre a lista de utilizadores e filtra todos os que são clientes
     public List<Utilizador> listaDeClientes(Empresa empresa) {
@@ -270,39 +292,73 @@ public class Empresa implements Serializable {
     public List<Reserva> listagemHistoricoReservas(Empresa empresa) {
         // método que mostra todas as reservas passadas de um dado cliente
 
-        return empresa.listaReservas.stream().filter(
-                        user -> user.getClient().equals(loggeduser)
+        List<Reserva> listaHistoricoReserva=new ArrayList<>();
+
+        for (Reserva r : empresa.listaReservas){
+            if (r.getClient().equals(empresa.loggeduser)){
+                if (r.getDataPartida().isBefore(LocalDate.now())){
+                    listaHistoricoReserva.add(r);
+                }
+            }
+        }
+
+        return listaHistoricoReserva;
+
+
+      /*  return empresa.listaReservas.stream().filter(
+                        user -> user.getClient().equals(empresa.loggeduser)
 
                 ).filter(user -> user.getDataPartida().isBefore(LocalDate.now()))
                 .toList();
-
+*/
     }
 
     public List<Reserva> listaReservasCliente(Empresa empresa) {
         // método que mostra todas as reservas futuras de um dado cliente
 
+        List<Reserva> listaReserva=new ArrayList<>();
 
-        return empresa.listaReservas.stream().filter(
-                        user -> user.getClient().equals(loggeduser)
+        for (Reserva r : empresa.listaReservas){
+            if (r.getClient().equals(empresa.loggeduser)){
+                if (r.getDataPartida().isAfter(LocalDate.now())){
+                    listaReserva.add(r);
+                }
+            }
+        }
+
+        return listaReserva;
+
+
+
+
+       /* return empresa.listaReservas.stream().filter(
+                        user -> user.getClient().equals(empresa.loggeduser)
 
                 ).filter(user -> user.getDataPartida().isAfter(LocalDate.now()))
                 .toList();
-
+*/
     }
 
-    public HashMap listarAutocarrosReservados(int mes, Empresa empresa) {
-// método que lista todos os autocarros reservados num dado mês e a respectiva data
 
-        List<Reserva> listaReservasMes = empresa.listaReservas.stream().filter(user -> user.getDataPartida().getMonth().equals(mes)).toList();
-        HashMap autocarroDataReserva = new HashMap<Autocarro, Reserva>();
+    public List<String> listarAutocarrosReservados (String ano, String mes, Empresa empresa){
+        // método que lista todos os autocarros reservados num dado mês e a respectiva data
 
-        for (Reserva r : listaReservasMes) {
-            autocarroDataReserva.put(r.getBus(), r.getDataPartida());
+        int valorAno = Integer.parseInt(ano);
+        int valorMes = Integer.parseInt(mes);
+        List <String> listaAutocarrosReservados = new ArrayList<>();
+
+        for (Reserva r : listaReservas){
+            if (r.getDataPartida().getYear()== valorAno && r.getDataPartida().getMonthValue()==valorMes){
+                listaAutocarrosReservados.add(r.getBus().toString() + " de " + r.getDataPartida() + " a " + r.getDataRegresso());
+
+            }
         }
-
-
-        return autocarroDataReserva;
+        for (int i=0; i<listaAutocarrosReservados.size();i++){
+            System.out.println(listaAutocarrosReservados.get(i));
+        }
+        return listaAutocarrosReservados;
     }
+
 
     // método para as estatísticas que contabiliza o total de clientes
     public int totalClientes(Empresa empresa) {
@@ -463,18 +519,22 @@ public class Empresa implements Serializable {
     public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso, Empresa empresa) {
         // salta para o proximo se verdadeiro
         Motorista escolhido = null;
+
         for (Motorista m : empresa.listaMotoristas) {
             boolean saltaMotorista = false;
+
             for (Reserva r : empresa.listaReservas) {
-                if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) ||
-                        (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) ||
-                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) ||
-                        (r.getDataPartida().isEqual(dataPartida) || r.getDataRegresso().isEqual(dataRegresso))
+                if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m)||
+                        (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) && r.getDriver().equals(m) ||
+                        (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m)||
+                        (r.getDataPartida().isEqual(dataPartida) && r.getDriver().equals(m) || r.getDataRegresso().isEqual(dataRegresso)) && r.getDriver().equals(m)
                 ) {
                     saltaMotorista = true;
                 }
             }
-            if (!saltaMotorista) { // não existe impedimento de escolher este autocarro, logo este serve
+
+
+            if (!saltaMotorista) { // não existe impedimento de escolher este motorista, logo este serve
                 escolhido = m;
                 break;
             }
@@ -609,6 +669,18 @@ public class Empresa implements Serializable {
         if (matricula == null)
             return false;
         return pat.matcher(matricula.trim()).matches();
+    }
+
+    public boolean validarAno (String ano, Empresa empresa){
+        // método que valida apenas valores de anos no século XXI
+
+        String anoRegex = "^[2][0][0-9][0-9]$";
+
+        Pattern pat = Pattern.compile(anoRegex);
+        if (anoRegex == null)
+            return false;
+        return true;
+
     }
 
    /* public boolean validarDadoNumerico(String num, Empresa empresa) {
