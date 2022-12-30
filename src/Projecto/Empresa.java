@@ -4,21 +4,27 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Empresa implements Serializable {
 
     // atributo que especifica a versão do documento/ficheiro de objectos para prevenir que ocorra InvalidClassException
-    private static final long serialVersionUID = 2877785672008532764L;
+    private static final long serialVersionUID = 1L;
     private List<Utilizador> listaUtilizadores;
     private List<Autocarro> listaAutocarros;
     private List<Motorista> listaMotoristas;
 
     private List<Cliente> listaClientes;
     private List listaNegraClientes;
+
     private List<Reserva> listaReservas;
+    /**
+     * na altura de criar reserva, será usado para gerar o id da nova reserva, incrementando o valor...
+     */
+    private int reservasIdGenerator = 0;
+
     private List listaPreReservas;
 
     // user logado
@@ -447,7 +453,13 @@ public class Empresa implements Serializable {
                                 String localDestino,
                                 double distancia,
                                 Empresa empresa) {
+
+        String idNovaReserva = generateNovoIdDeReserva();
+
+        System.out.println("nova reserva será criada com o id <" + idNovaReserva + ">");
+
         Reserva novaReserva = new Reserva(
+                idNovaReserva,
                 bus,
                 driver,
                 client,
@@ -463,6 +475,39 @@ public class Empresa implements Serializable {
 
         return novaReserva;
 
+    }
+
+    private String generateNovoIdDeReserva() {
+        return "" + (++this.reservasIdGenerator);
+    }
+
+    public Reenbolso cancelarReserva(String idReserva, LocalDate dataDeCancelamento){
+        // porque this == empresa é sempre true, podemos comcluir que,
+        // não precisamos do parametro empresa,
+
+
+        Reserva reserva = findReservaPorId(idReserva);
+        if(reserva == null) {
+            throw new IllegalArgumentException("Não existe nenhuma reserva com o id " + idReserva);
+        }
+
+        Reenbolso reenbolse = reserva.cancelar(dataDeCancelamento);
+        removeReserva(reserva);
+
+        return reenbolse;
+    }
+
+    private boolean removeReserva(Reserva reserva) {
+        return this.listaReservas.remove(reserva);
+    }
+
+    private Reserva findReservaPorId(String idReserva) {
+        for (Reserva item : this.listaReservas) {
+            if(Objects.equals(idReserva, item.getId())) {
+                return item;
+            }
+        }
+        return null;
     }
 
 

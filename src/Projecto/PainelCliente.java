@@ -25,6 +25,12 @@ public class PainelCliente extends JPanel {
 
     JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2, inserirDados2;
 
+    JLabel idReserva;
+
+    JTextField idReservaT;
+
+    JButton cancelarReserva;
+
     JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
 
     JPasswordField passAntigaT, passNovaT, passNova2T;
@@ -223,6 +229,59 @@ public class PainelCliente extends JPanel {
 
         panel4 = new JPanel();
         painelCl.addTab("Cancelar Reserva", panel4);
+
+        panel4.setLayout(new GridBagLayout());
+        GridBagConstraints c4 = new GridBagConstraints();
+
+        idReserva = new JLabel("Coloque o ID da reserva:");
+        idReserva.setFont(new Font("Arial", 1, 12));
+        c4.insets = new Insets(30, 0, 0, 0);
+        c4.gridx = 0;
+        c4.gridy = 4;
+        panel4.add(idReserva, c4);
+
+        idReservaT= new JTextField(25);
+        c4.insets = new Insets(30, 0, 0, 0);
+        c4.gridx = 1;
+        c4.gridy = 4;
+        panel4.add(idReservaT, c4);
+
+        c4.insets = new Insets(30, 0, 0, 0);
+        c4.gridx = 1;
+        c4.gridy = 5;
+        cancelarReserva = new JButton("Cancelar");
+        cancelarReserva.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = idReservaT.getText();
+                if (text != null && !text.trim().isBlank()){
+
+                    try {
+                        Reenbolso reenbolso = empresa.cancelarReserva(text.trim(), LocalDate.now());
+
+                        JOptionPane.showMessageDialog(panel4,
+                                "Reserva cancelada '%s', com sucesso! \n Tem direito a %s € de reenbolso".formatted(idReserva, reenbolso),
+                                "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        idReservaT.setText("");
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+
+                        JOptionPane.showMessageDialog(panel4,
+                            ex.getMessage(),
+                            "Error!!", JOptionPane.ERROR_MESSAGE);}
+
+
+                } else {
+                    JOptionPane.showMessageDialog(panel4,
+                            "Por favor insira um id de reserva valido!",
+                            "Aviso", JOptionPane.WARNING_MESSAGE);
+
+                }
+
+            }
+        });
+        panel4.add(cancelarReserva, c4);
 
 
         panel5 = new JPanel();

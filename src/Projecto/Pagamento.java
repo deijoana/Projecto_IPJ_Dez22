@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 public class Pagamento implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     protected LocalDate data;
     protected double valor;
     protected boolean confirmacaoPag;

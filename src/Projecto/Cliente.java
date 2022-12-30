@@ -1,8 +1,11 @@
 package Projecto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Cliente extends Utilizador implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private String tipoSubscricao;
     private String modoPagamento;
 
@@ -34,5 +37,11 @@ public class Cliente extends Utilizador implements Serializable {
         return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + ", " + tipoSubscricao + ", " + modoPagamento;
     }
 
+    public boolean isNormal() {
+        return Objects.equals(this.tipoSubscricao, "Normal");
+    }
 
+    public boolean isPremium() {
+        return Objects.equals(this.tipoSubscricao, "Premium");
+    }
 }

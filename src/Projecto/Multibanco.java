@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 public class Multibanco extends Pagamento implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private long entidade;
     private long referencia;
 

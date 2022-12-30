@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Utilizador implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     protected String nome;
     protected String nif;
     protected String morada;

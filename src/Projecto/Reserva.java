@@ -2,9 +2,12 @@ package Projecto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 
 public class Reserva implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Autocarro bus;
     private Motorista driver;
     private Cliente client;
@@ -17,8 +20,12 @@ public class Reserva implements Serializable {
     private String localDestino;
     private double distancia;
 
+    private String id;
 
-    public Reserva(Autocarro bus, Motorista driver, Cliente client, LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, String localOrigem, String localDestino, double distancia) {
+    static int idCounter = 0;
+
+    public Reserva(String id, Autocarro bus, Motorista driver, Cliente client, LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, String localOrigem, String localDestino, double distancia) {
+        this.id = id;
         this.bus = bus;
         this.driver = driver;
         this.client = client;
@@ -114,13 +121,45 @@ public class Reserva implements Serializable {
     }
 
     // este metodo pode ficar na reserva
-    public void calcularCustoViagem(){
-        this.custo = this.getDistancia()*0.55 + 1.2*this.getNumPassageiros();
+    public void calcularCustoViagem() {
+        this.custo = this.getDistancia() * 0.55 + 1.2 * this.getNumPassageiros();
     }
 
     @Override
     public String toString() {
-        return "Reserva: de " + dataPartida + " a " + dataRegresso +" desde " +localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + custo + "€\n";
+        return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + " desde " + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + custo + "€\n";
 
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Reenbolso cancelar(LocalDate dataDeCancelamente) {
+        if (dataDeCancelamente.isAfter(this.dataPartida)) {
+            throw new IllegalArgumentException("À data de partida tem de ser depois da data de cancelamento!");
+        }
+
+        if (this.client.isNormal()) {
+            //Normal:
+            // Têm uma penalização de 50% sempre que cancelarem uma reserva até 7 dias consecutivos antes da partida.
+            // Após este prazo não existe reembolso.
+            if (ChronoUnit.DAYS.between(dataDeCancelamente, dataPartida) > 7) {
+                double penalizacao = this.custo * 0.5;
+                return new Reenbolso(penalizacao);
+            } else {
+                return Reenbolso.NO_REENBOLSO;
+            }
+        }
+
+        if (this.client.isPremium()) {
+            if (ChronoUnit.DAYS.between(dataDeCancelamente, dataPartida) > 2) {
+                return new Reenbolso(this.custo);
+            } else {
+                return Reenbolso.NO_REENBOLSO;
+            }
+        }
+
+        return Reenbolso.NO_REENBOLSO;
     }
 }

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 public class PayPal extends Pagamento implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String emailPayPal;
     private String PalavraPassePayPal;
 

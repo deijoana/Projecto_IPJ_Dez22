@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Motorista implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String nomeMotorista;
     private String emailMotorista;
     private String nifMotorista;

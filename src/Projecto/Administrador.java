@@ -3,6 +3,7 @@ package Projecto;
 import java.io.Serializable;
 
 public class Administrador extends Utilizador implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public Administrador(String nome, String nif, String morada, String telefone,
                          String email, String tipoUtilizador, String palavraPasse) {
