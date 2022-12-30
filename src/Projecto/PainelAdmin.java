@@ -866,9 +866,11 @@ public class PainelAdmin extends JPanel {
                 String pagamentoSubscricao8 = null;  // O cliente adicionado por administrador é definido como normal, by default logo n tem modo de pagamento associado
                 // String pagamentoSubscricao8 = pagamentoSubscricaoB8.getSelectedItem().toString();
 
+                TipoSubscricao tipoSubscricao = TipoSubscricao.parse(tipoSubscricao8);
+
                 // System.out.println(tipoSubscricao8 + " , " + pagamentoSubscricao8);
 
-                Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao8, pagamentoSubscricao8, password8, empresa);
+                Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao, pagamentoSubscricao8, password8, empresa);
 
                 if (empresa.validarEmail(email8, empresa) && empresa.validarDados(nome8, empresa) && empresa.validarNIF(nif8, empresa) && empresa.validarDados(password8, empresa) && empresa.validarTelefone(telefone8, empresa)) {
 

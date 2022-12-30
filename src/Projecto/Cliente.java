@@ -1,27 +1,19 @@
 package Projecto;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.time.LocalDate;
 
 public class Cliente extends Utilizador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String tipoSubscricao;
+    private TipoSubscricao tipoSubscricao;
     private String modoPagamento;
 
     public Cliente(String nome, String nif, String morada, String telefone, String email, String tipoUtilizador,
-                   String palavraPasse, String tipoSubscricao, String modoPagamento) {
+                   String palavraPasse, TipoSubscricao tipoSubscricao, String modoPagamento) {
         super(nome, nif, morada, telefone, email, tipoUtilizador, palavraPasse);
         this.tipoSubscricao = tipoSubscricao;
         this.modoPagamento = modoPagamento;
-    }
-
-    public String getTipoSubscricao() {
-        return tipoSubscricao;
-    }
-
-    public void setTipoSubscricao(String tipoSubscricao) {
-        this.tipoSubscricao = tipoSubscricao;
     }
 
     public String getModoPagamento() {
@@ -38,10 +30,14 @@ public class Cliente extends Utilizador implements Serializable {
     }
 
     public boolean isNormal() {
-        return Objects.equals(this.tipoSubscricao, "Normal");
+        return this.tipoSubscricao == TipoSubscricao.NORMAL;
     }
 
     public boolean isPremium() {
-        return Objects.equals(this.tipoSubscricao, "Premium");
+        return this.tipoSubscricao == TipoSubscricao.PREMIUM;
+    }
+
+    public Reembolso calcularReenbolsoDeCancelamentoDeReserva(double custo, LocalDate dataPartida, LocalDate dataDeCancelamente) {
+        return this.tipoSubscricao.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
     }
 }

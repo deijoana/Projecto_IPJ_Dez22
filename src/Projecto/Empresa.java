@@ -12,6 +12,7 @@ public class Empresa implements Serializable {
 
     // atributo que especifica a versão do documento/ficheiro de objectos para prevenir que ocorra InvalidClassException
     private static final long serialVersionUID = 1L;
+    private String AUTOCARROS_AOR = "autocarros_aor";
     private List<Utilizador> listaUtilizadores;
     private List<Autocarro> listaAutocarros;
     private List<Motorista> listaMotoristas;
@@ -48,7 +49,6 @@ public class Empresa implements Serializable {
 
     // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
     // Definiu-se como static porque este dado não deverá nunca ser alterado
-    private String AUTOCARROS_AOR = "autocarros_aor";
 
     //Instância de Administrador "sénior" para poder entrar na aplicação ao iniciar a execução do programa.
     //Definiu-se como static porque esta instância é de importância máxima e não deverá ser alterada em qualquer circunstância
@@ -96,7 +96,7 @@ public class Empresa implements Serializable {
 
         Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
         empresa.listaAutocarros.add(novoAutocarro);
-        escreveFicheiro(AUTOCARROS_AOR, empresa);  // guarda as alterações no ficheiro de objectos
+        escreveFicheiro();  // guarda as alterações no ficheiro de objectos
 
         return novoAutocarro;
     }
@@ -117,7 +117,7 @@ public class Empresa implements Serializable {
                 a.setModelo(novoModelo);
                 a.setLotacao(Integer.parseInt(String.valueOf(novaLotacao)));
 
-                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                escreveFicheiro();
                 return true;
             }
         }
@@ -129,7 +129,7 @@ public class Empresa implements Serializable {
         for (Autocarro a : empresa.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
                 empresa.listaAutocarros.remove(a);
-                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                escreveFicheiro();
                 return true;
             }
         }
@@ -145,7 +145,7 @@ public class Empresa implements Serializable {
         }
         Motorista novoMotorista = new Motorista(nome, email, nif);
         empresa.listaMotoristas.add(novoMotorista);
-        escreveFicheiro((AUTOCARROS_AOR), empresa);
+        escreveFicheiro();
         return novoMotorista;
     }
 
@@ -156,7 +156,7 @@ public class Empresa implements Serializable {
             if (m.getNifMotorista().equals(nif)) {
                 m.setEmailMotorista(email);
                 m.setNomeMotorista(nome);
-                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                escreveFicheiro();
 
                 return true;
 
@@ -173,7 +173,7 @@ public class Empresa implements Serializable {
         for (Motorista m : empresa.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {
                 empresa.listaMotoristas.remove(m);
-                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                escreveFicheiro();
                 return true;
             }
         }
@@ -190,7 +190,7 @@ public class Empresa implements Serializable {
                 client.setNome(nome);
                 client.setTelefone(telefone);
                 client.setMorada(morada);
-                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                escreveFicheiro();
                 return true;
             }
         }
@@ -205,7 +205,7 @@ public class Empresa implements Serializable {
             String telefone,
             String nif,
             String morada,
-            String tipoDeSubscricao,
+            TipoSubscricao tipoDeSubscricao,
             String modoDePagamento,
             String palavraPasse,
             Empresa empresa
@@ -229,7 +229,7 @@ public class Empresa implements Serializable {
         );
 
         empresa.listaUtilizadores.add(novoCliente);
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        escreveFicheiro();
 
         return novoCliente;
     }
@@ -242,7 +242,7 @@ public class Empresa implements Serializable {
             if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
                 empresa.listaUtilizadores.remove(client);
                 empresa.listaNegraClientes.add(client); // adiciona o cliente a lista alternativa, porque este cliente mantém a possibilidade de fazer login
-                escreveFicheiro(AUTOCARROS_AOR, empresa);
+                escreveFicheiro();
                 return true;
             }
 
@@ -471,7 +471,7 @@ public class Empresa implements Serializable {
                 distancia);
 
         empresa.listaReservas.add(novaReserva);
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        escreveFicheiro();
 
         return novaReserva;
 
@@ -481,7 +481,7 @@ public class Empresa implements Serializable {
         return "" + (++this.reservasIdGenerator);
     }
 
-    public Reenbolso cancelarReserva(String idReserva, LocalDate dataDeCancelamento){
+    public Reembolso cancelarReserva(String idReserva, LocalDate dataDeCancelamento){
         // porque this == empresa é sempre true, podemos comcluir que,
         // não precisamos do parametro empresa,
 
@@ -491,8 +491,10 @@ public class Empresa implements Serializable {
             throw new IllegalArgumentException("Não existe nenhuma reserva com o id " + idReserva);
         }
 
-        Reenbolso reenbolse = reserva.cancelar(dataDeCancelamento);
+        Reembolso reenbolse = reserva.cancelar(dataDeCancelamento);
         removeReserva(reserva);
+
+        escreveFicheiro();
 
         return reenbolse;
     }
@@ -604,9 +606,10 @@ public class Empresa implements Serializable {
         }
     }
 
-    public void setAUTOCARROS_AOR(String AUTOCARROS_AOR) {
-        this.AUTOCARROS_AOR = AUTOCARROS_AOR;
+    private void escreveFicheiro() { // writeMySelfInFIle
+        escreveFicheiro(AUTOCARROS_AOR, this);
     }
+
 
     // método usado para ler o ficheiro de objectos. Não havendo, cria o ficheiro e adiciona o administrador "sénior" definido por default
     public static Empresa leFicheiro(String nomeDoFicheiro) throws IOException, ClassNotFoundException {
@@ -632,6 +635,10 @@ public class Empresa implements Serializable {
         }
 
         return empresa;
+    }
+
+    private void setAUTOCARROS_AOR(String nomeDoFicheiro) {
+        this.AUTOCARROS_AOR = nomeDoFicheiro;
     }
 
 // método que valida se o email inserido é válido
@@ -768,7 +775,7 @@ public class Empresa implements Serializable {
         );
 
         empresa.listaUtilizadores.add(novoAdministrador);
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        escreveFicheiro();
 
         return novoAdministrador;
     }

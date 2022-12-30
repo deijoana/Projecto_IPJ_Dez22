@@ -3,13 +3,13 @@ package Projecto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Reenbolso implements Serializable {
+public class Reembolso implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public static final Reenbolso NO_REENBOLSO = new Reenbolso(0.0);
+    public static final Reembolso NO_REEMBOLSO = new Reembolso(0.0);
     private final Double value;
 
-    public Reenbolso(Double value) {
+    public Reembolso(Double value) {
         this.value = value;
     }
 
@@ -27,8 +27,8 @@ public class Reenbolso implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reenbolso reenbolso = (Reenbolso) o;
-        return Objects.equals(value, reenbolso.value);
+        Reembolso reembolso = (Reembolso) o;
+        return Objects.equals(value, reembolso.value);
     }
 
     @Override

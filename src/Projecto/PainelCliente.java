@@ -257,10 +257,10 @@ public class PainelCliente extends JPanel {
                 if (text != null && !text.trim().isBlank()){
 
                     try {
-                        Reenbolso reenbolso = empresa.cancelarReserva(text.trim(), LocalDate.now());
+                        Reembolso reembolso = empresa.cancelarReserva(text.trim(), LocalDate.now());
 
                         JOptionPane.showMessageDialog(panel4,
-                                "Reserva cancelada '%s', com sucesso! \n Tem direito a %s € de reenbolso".formatted(idReserva, reenbolso),
+                                "Reserva cancelada '%s', com sucesso! \n Tem direito a %s € de reembolso".formatted(text, reembolso),
                                 "Success", JOptionPane.INFORMATION_MESSAGE);
 
                         idReservaT.setText("");

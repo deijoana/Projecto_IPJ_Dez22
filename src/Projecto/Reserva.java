@@ -2,8 +2,6 @@ package Projecto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 
 public class Reserva implements Serializable {
 
@@ -135,31 +133,11 @@ public class Reserva implements Serializable {
         return id;
     }
 
-    public Reenbolso cancelar(LocalDate dataDeCancelamente) {
+    public Reembolso cancelar(LocalDate dataDeCancelamente) {
         if (dataDeCancelamente.isAfter(this.dataPartida)) {
             throw new IllegalArgumentException("À data de partida tem de ser depois da data de cancelamento!");
         }
 
-        if (this.client.isNormal()) {
-            //Normal:
-            // Têm uma penalização de 50% sempre que cancelarem uma reserva até 7 dias consecutivos antes da partida.
-            // Após este prazo não existe reembolso.
-            if (ChronoUnit.DAYS.between(dataDeCancelamente, dataPartida) > 7) {
-                double penalizacao = this.custo * 0.5;
-                return new Reenbolso(penalizacao);
-            } else {
-                return Reenbolso.NO_REENBOLSO;
-            }
-        }
-
-        if (this.client.isPremium()) {
-            if (ChronoUnit.DAYS.between(dataDeCancelamente, dataPartida) > 2) {
-                return new Reenbolso(this.custo);
-            } else {
-                return Reenbolso.NO_REENBOLSO;
-            }
-        }
-
-        return Reenbolso.NO_REENBOLSO;
+        return client.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
     }
 }
