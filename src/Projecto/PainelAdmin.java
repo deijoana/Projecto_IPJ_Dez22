@@ -1287,6 +1287,20 @@ public class PainelAdmin extends JPanel {
         c11.gridy = 5;
         panel7.add(clienteMViagens, c11);
 
+        clienteMViagens.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Utilizador clienteMaxReservas;
+
+                clienteMaxReservas = empresa.clienteComMaisReservas(empresa);
+                JOptionPane.showMessageDialog(new JFrame("Cliente com mais reservas"),
+                        "O cliente com mais reservas é o/a: " +clienteMaxReservas.getNome());
+            }
+        });
+
+
+
         listaBusReservado = new JButton("Lista de autocarros reservados para um dado mês");
         listaBusReservado.setFont(new Font("Arial", 1, 12));
         c11.insets = new Insets(20, 20, 0, 0);
