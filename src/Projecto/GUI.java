@@ -26,7 +26,15 @@ public class GUI {
         cardsPanel.add(new PainelRegisto(this, empresa), "NovoRegisto");
         cardsPanel.add(new PainelAdmin(this, empresa), "PainelAdmin");
         cardsPanel.add(new PainelCliente(this, empresa), "PainelCliente");
-        cardsPanel.add(new PainelEstatisticaMensal(this, empresa),"PainelEstatistico");
+        cardsPanel.add(new PainelSelecaoBus(this, empresa),"PainelSelecaoBus");
+        cardsPanel.add(new PainelReservaMensal(this, empresa),"PainelReservaMensal");
+        cardsPanel.add(new PainelDiaMaisReservas(this, empresa),"PainelDiaMaisReservas");
+        cardsPanel.add(new PainelNormal(this, empresa),"PainelNormal");
+        cardsPanel.add(new PainelPremium(this, empresa),"PainelPremium");
+        cardsPanel.add(new PainelPaypal(this, empresa),"PainelPaypal");
+        cardsPanel.add(new PainelCC(this, empresa),"PainelCC");
+        cardsPanel.add(new PainelMB(this, empresa),"PainelMB");
+
         f.getContentPane().add(cardsPanel);
 
        layout.show(cardsPanel, "Login");

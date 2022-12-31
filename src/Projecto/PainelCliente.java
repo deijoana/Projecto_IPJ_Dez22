@@ -16,7 +16,7 @@ public class PainelCliente extends JPanel {
 
     JPanel panel1, panel2, panel3, panel4, panel5, panel6;
 
-    JButton logout, pesquisar, guardarAlt;
+    JButton logout, pesquisar, guardarAlt, alterarSubs;
 
     GUI janela;
 
@@ -188,7 +188,8 @@ public class PainelCliente extends JPanel {
 
                 else if (!empresa.validarDados(origem, empresa) || !empresa.validarDados(destino, empresa))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira origem e/ou destino válidos");
-                else  JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira número de passageiros e/ou distância prevista percorrida válidos");
+                else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira número de passageiros e/ou distância prevista percorrida válidos");
             }
         });
 
@@ -286,6 +287,25 @@ public class PainelCliente extends JPanel {
 
         panel5 = new JPanel();
         painelCl.addTab("Alterar Subscrição", panel5);
+        panel5.setLayout(new GridBagLayout());
+        GridBagConstraints c7 = new GridBagConstraints();
+
+        alterarSubs = new JButton("Quero alterar a minha subscrição");
+        c7.gridx = 1;
+        c7.gridy = 1;
+        c7.fill = GridBagConstraints.HORIZONTAL;
+        panel5.add(alterarSubs, c7);
+
+        alterarSubs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cliente client = (Cliente) empresa.getLoggeduser();
+
+                if (client.getTipoSubscricao().equals("Normal")) {
+                    janela.mudaEcra("PainelNormal");
+                } else janela.mudaEcra("PainelPremium");
+            }
+        });
 
 
         panel6 = new JPanel();

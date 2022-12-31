@@ -6,6 +6,8 @@ import java.time.LocalDate;
 public class Cliente extends Utilizador implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+
     private TipoSubscricao tipoSubscricao;
     private String modoPagamento;
 
@@ -22,6 +24,14 @@ public class Cliente extends Utilizador implements Serializable {
 
     public void setModoPagamento(String modoPagamento) {
         this.modoPagamento = modoPagamento;
+    }
+
+    public TipoSubscricao getTipoSubscricao() {
+        return tipoSubscricao;
+    }
+
+    public void setTipoSubscricao(TipoSubscricao tipoSubscricao) {
+        this.tipoSubscricao = tipoSubscricao;
     }
 
     @Override

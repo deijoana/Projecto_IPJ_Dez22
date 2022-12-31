@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.time.Year;
+import java.time.chrono.ChronoLocalDate;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Empresa implements Serializable {
@@ -49,6 +52,7 @@ public class Empresa implements Serializable {
 
     // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
     // Definiu-se como static porque este dado não deverá nunca ser alterado
+    //private String AUTOCARROS_AOR = "autocarros_aor";
 
     //Instância de Administrador "sénior" para poder entrar na aplicação ao iniciar a execução do programa.
     //Definiu-se como static porque esta instância é de importância máxima e não deverá ser alterada em qualquer circunstância
@@ -346,12 +350,79 @@ public class Empresa implements Serializable {
 
             }
         }
-        for (int i = 0; i < listaAutocarrosReservados.size(); i++) {
+    /*    for (int i = 0; i < listaAutocarrosReservados.size(); i++) {
             System.out.println(listaAutocarrosReservados.get(i));
-        }
+        }*/
         return listaAutocarrosReservados;
     }
 
+    public String avaliarReservaMensal(String ano, int mes, Empresa empresa) {
+        int valorAno = Integer.parseInt(ano);
+
+        String listaReservaMensal = "";
+        int count = 0;
+        double volume = 0;
+
+        for (Reserva r : listaReservas) {
+            if (r.getDataPartida().getYear() == valorAno && r.getDataPartida().getMonthValue() == mes) {
+                count++;
+                volume = volume + r.getCusto();
+            }
+        }
+
+      /*  if (count == 0 || volume == 0) {
+            listaReservaMensal = null;
+        } else
+            listaReservaMensal = "No mês " + mes + " do ano " + ano + " há registo de " + count + " reservas, perfazendo um total de " + volume + "€";
+*/
+        //   return listaReservaMensal;
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        return listaReservaMensal = "No " + mes + "º mês de " + ano + " há registo de " + count + " reservas, perfazendo um total de " + volume + "€";
+    }
+
+    public LocalDate diaAnoMaisReservas(String ano, Empresa empresa) {
+
+        int valorAno = Integer.parseInt(ano);
+        LocalDate dia = LocalDate.of(valorAno, 01, 01);
+        LocalDate diaMaisReservas = null;
+
+        int count = 0;
+        int countmax = 0;
+
+        if (dia.isLeapYear()) {
+            for (int i = 1; i < 367; i++) {
+                count = 0;
+                for (Reserva r : listaReservas) {
+                    if ((dia.isEqual(r.getDataPartida()) || dia.isAfter(r.getDataPartida())) && (dia.isEqual(r.getDataRegresso()) || dia.isBefore(r.getDataRegresso()))) {
+                        count++;
+                    }
+                }
+                if (count > countmax) {
+                    countmax = count;
+                    diaMaisReservas = dia;
+                }
+                dia = dia.plusDays(1);
+
+            }
+
+        } else {
+            for (int i = 1; i < 366; i++) {
+                count = 0;
+                for (Reserva r : listaReservas) {
+                    if ((dia.isEqual(r.getDataPartida()) || dia.isAfter(r.getDataPartida())) && (dia.isEqual(r.getDataRegresso()) || dia.isBefore(r.getDataRegresso()))) {
+                        count++;
+                    }
+                }
+                if (count > countmax) {
+                    countmax = count;
+                    diaMaisReservas = dia;
+                }
+                dia = dia.plusDays(1);
+            }
+        }
+        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        return diaMaisReservas;
+    }
 
     // método para as estatísticas que contabiliza o total de clientes
     public int totalClientes(Empresa empresa) {
@@ -685,6 +756,15 @@ public class Empresa implements Serializable {
 
     }
 
+    public int validarComboBoxIndex(int pagamento, Empresa empresa) {
+
+        if (pagamento == 0) {
+            return 0;
+        }
+        return 1; // alguma comboBox foi selecionada
+
+    }
+
     /*  public boolean validarPassword(String password, Empresa empresa){
           String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
           Pattern pat = Pattern.compile(passwordRegex);
@@ -729,11 +809,41 @@ public class Empresa implements Serializable {
         String anoRegex = "^[2][0][0-9][0-9]$";
 
         Pattern pat = Pattern.compile(anoRegex);
-        if (anoRegex == null)
+        if (anoRegex == null) {
             return false;
-        return true;
-
+        }
+        return pat.matcher(ano.trim()).matches();
     }
+
+    public boolean validarCVC(String cvc, Empresa empresa) {
+
+        String cvcRegex = "^[0-9][0-9][0-9]$";
+
+        Pattern pat = Pattern.compile((cvcRegex));
+        if (cvcRegex == null) {
+            return false;
+        }
+        return pat.matcher(cvc.trim()).matches();
+    }
+
+    public boolean validarnumCC(String numCC, Empresa empresa) {
+        String nifRegex = "[\\d][0-9]{15}";
+
+        Pattern pat = Pattern.compile(nifRegex);
+        if (numCC == null)
+            return false;
+        return pat.matcher(numCC.trim()).matches();
+    }
+
+    public boolean validarLocalDate(String localDate, Empresa empresa) {
+        LocalDate data = LocalDate.parse(localDate.trim());
+
+        if (LocalDate.now().isBefore(data))
+            return true;
+        return false;
+    }
+
+
 
    /* public boolean validarDadoNumerico(String num, Empresa empresa) {
    // método para validar se dados inseridos são numéricos. Não estava a executar bem

@@ -1310,6 +1310,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 1;
         panel7.add(listaBusReservado, c11);
+        listaBusReservado.addActionListener(new GerirEventos(4, janela));
 
 
         listaReservaCanc = new JButton("Lista de reservas canceladas para um dado mês");
@@ -1335,6 +1336,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 4;
         panel7.add(volumeReservaMensal, c11);
+        volumeReservaMensal.addActionListener(new GerirEventos(5, janela));
 
         diaAnoMReserva = new JButton("Dia do ano com mais reservas");
         diaAnoMReserva.setFont(new Font("Arial", 1, 12));
@@ -1343,6 +1345,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 5;
         panel7.add(diaAnoMReserva, c11);
+        diaAnoMReserva.addActionListener(new GerirEventos(6, janela));
 
         panel8 = new JPanel();
         painelAd.addTab("Alterar Palavra-Passe", panel8);

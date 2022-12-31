@@ -22,9 +22,24 @@ public class GerirEventos implements ActionListener {
             case 2:
                 janela.mudaEcra("Login");
                 break;
-            case 4:
+            case 3:
                 janela.mudaEcra("PainelAdmin");
-
+                break;
+            case 4:
+                janela.mudaEcra("PainelSelecaoBus");
+                break;
+            case 5:
+                janela.mudaEcra("PainelReservaMensal");
+                break;
+            case 6:
+                janela.mudaEcra("PainelDiaMaisReservas");
+                break;
+            case 7:
+                janela.mudaEcra("PainelCliente");
+                break;
+            case 8:
+                janela.mudaEcra("PainelNormal");
+                break;
         }
 
     }

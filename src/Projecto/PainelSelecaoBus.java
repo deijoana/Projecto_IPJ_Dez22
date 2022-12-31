@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.Vector;
 
-public class PainelEstatisticaMensal extends JPanel {
+public class PainelSelecaoBus extends JPanel {
 
     Empresa empresa;
     GUI janela;
@@ -15,7 +15,7 @@ public class PainelEstatisticaMensal extends JPanel {
     JTextField anoT;
     JButton voltar, confirmar;
 
-    PainelEstatisticaMensal(GUI janela, Empresa empresa) {
+    PainelSelecaoBus(GUI janela, Empresa empresa) {
 
         this.empresa = empresa;
         this.janela = janela;
@@ -27,18 +27,18 @@ public class PainelEstatisticaMensal extends JPanel {
         c.insets = new Insets(15, 0, 15, 0);
         c.gridx = 1;
         c.gridy = 1;
-       // c.gridwidth = 2;
+        // c.gridwidth = 2;
         this.add(inserirDados, c);
 
         mesL = new JLabel("Mês");
         mesL.setFont(new Font("Arial", 1, 14));
         c.insets = new Insets(30, 0, 0, 10);
-       c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
         c.gridy = 2;
         this.add(mesL, c);
 
-        String meses[] = {"1", "2", "3", "4", "5", "6", "7","8","9","10","11","12"};
+        String meses[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
         mesC = new JComboBox<>(meses);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 3;
@@ -54,6 +54,7 @@ public class PainelEstatisticaMensal extends JPanel {
 
         anoT = new JTextField("Formato: xxxx");
         anoT.setFont(new Font("Arial", 1, 14));
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 3;
         c.gridy = 4;
         this.add(anoT, c);
@@ -63,7 +64,7 @@ public class PainelEstatisticaMensal extends JPanel {
         c.gridx = 4;
         c.gridy = 0;
         this.add(voltar, c);
-        voltar.addActionListener(new GerirEventos(4, janela));
+        voltar.addActionListener(new GerirEventos(3, janela));
 
         confirmar = new JButton("Confirmar");
         confirmar.setFont(new Font("Arial", 1, 14));
@@ -77,21 +78,35 @@ public class PainelEstatisticaMensal extends JPanel {
                 String mes = mesC.getSelectedItem().toString();
                 String ano = anoT.getText();
 
-                List<String> resultado = empresa.listarAutocarrosReservados(ano, mes, empresa);
-
-                if (empresa.validarAno(ano, empresa)){
-                    if (resultado == null){
+                JList<String> resultado = new JList<String>(new Vector<String>(empresa.listarAutocarrosReservados(ano, mes, empresa).stream().toList()));
+        ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
+                if (empresa.validarAno(ano, empresa)) {
+                    if (model.getSize()==0){
                         JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Não há nenhum autocarro reservado no mês seleccionado");
                     } else {
-                        JList <String> lista = new JList<>((ListModel) resultado);
-                        JScrollPane scrollPane1 = new JScrollPane(lista);
-                        JOptionPane.showMessageDialog(null, scrollPane1, "Lista", JOptionPane.PLAIN_MESSAGE);
+                        //JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Mostrar lista");
+                        JFrame local = new JFrame("Lista de Autocarros reservados e respectivas datas");
+                        local.setSize(800, 600);
 
+                        local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+                        JPanel painelLocal = new JPanel();
+                       // painelLocal.setBackground(Color.red);
+                        painelLocal.setLayout(new GridBagLayout());
+                        GridBagConstraints c1 = new GridBagConstraints();
+
+                        c1.gridx = 1;
+                        c1.gridy = 1;
+                        painelLocal.add(resultado, c1);
+                        local.add(painelLocal);
+                        local.setVisible(true);
                     }
-
-                } else JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Insira um valor de ano válido");
+                    anoT.setText("Formato: xxxx");
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Insira um valor de ano válido");
             }
         });
+
 
 
     }
