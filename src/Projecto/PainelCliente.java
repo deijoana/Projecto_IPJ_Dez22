@@ -1,10 +1,13 @@
 package Projecto;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class PainelCliente extends JPanel {
@@ -159,29 +162,37 @@ public class PainelCliente extends JPanel {
                 int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
                 double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
 
+                // premium 03-01 -> 05-01 para 50 lugares
+                //   ---
 
-                Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
 
                 if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa) && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa) && empresa.validarDados(String.valueOf(n_Passageiros), empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
-                    if (autocarroO != null) {
-                        Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
-                        if (motoristaO != null) {
+
+                   // if (autocarroO != null) {
+                        //Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
+                       // Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
+                        //if (motoristaO != null) {
+
+                    try {
+
                             Cliente clienteO = (Cliente) empresa.getLoggeduser();
-                            Reserva r = empresa.fazerReserva(autocarroO, motoristaO, clienteO, dataPartida, dataRegresso,
-                                    n_Passageiros, origem, destino, distanciaPrevista, empresa);
-                            JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada. O autocarro disponível é " + autocarroO);
-                        } else {
-                            JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há motorista disponível");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), "Não há autocarro disponível");
+                            Reserva r = empresa.fazerReserva(clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista);
+
+                            JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada. O autocarro disponível é " + r.getBus());
+
+                        dataPartidaT.setText("Formato aaaa-mm-dd");
+                        dataRegressoT.setText("Formato aaaa-mm-dd");
+                        origemT.setText("");
+                        destinoT.setText("");
+                        n_PassageirosT.setText("");
+                        distPrevistaT.setText("");
+                    } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
                     }
-                    dataPartidaT.setText("Formato aaaa-mm-dd");
-                    dataRegressoT.setText("Formato aaaa-mm-dd");
-                    origemT.setText("");
-                    destinoT.setText("");
-                    n_PassageirosT.setText("");
-                    distPrevistaT.setText("");
+
+
+
+
                 } else if (!empresa.validarDados(String.valueOf(dataPartida), empresa) || !empresa.validarDados(String.valueOf(dataRegresso), empresa))
 
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira data de partida e/ou data de regresso válidas: aaaa-mm-dd");
@@ -212,17 +223,27 @@ public class PainelCliente extends JPanel {
 
         panel3 = new JPanel();
         painelCl.addTab("Consultar Reservas", panel3);
+
+
+        listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
+        painelCl.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                listagemReservas.setListData(new Vector<>(empresa.listaReservasCliente(empresa)));
+            }
+        });
+
         panel3.setLayout(new GridBagLayout());
         GridBagConstraints c3 = new GridBagConstraints();
 
         inserirDados3 = new JLabel("Lista das suas reservas");
-        inserirDados.setFont(new Font("Arial", 1, 12));
+        inserirDados3.setFont(new Font("Arial", 1, 12));
         c3.insets = new Insets(0, 0, 0, 20);
         c3.gridx = 0;
         c3.gridy = 0;
         panel3.add(inserirDados3, c3);
 
-        listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
+       // listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
         c3.gridx = 1;
         c3.gridy = 1;
         panel3.add(listagemReservas, c3);
@@ -258,7 +279,7 @@ public class PainelCliente extends JPanel {
                 if (text != null && !text.trim().isBlank()){
 
                     try {
-                        Reembolso reembolso = empresa.cancelarReserva(text.trim(), LocalDate.now());
+                        Reembolso reembolso = empresa.cancelarReservaFromView(text.trim(), LocalDate.now());
 
                         JOptionPane.showMessageDialog(panel4,
                                 "Reserva cancelada '%s', com sucesso! \n Tem direito a %s € de reembolso".formatted(text, reembolso),

@@ -135,9 +135,22 @@ public class Reserva implements Serializable {
 
     public Reembolso cancelar(LocalDate dataDeCancelamente) {
         if (dataDeCancelamente.isAfter(this.dataPartida)) {
-            throw new IllegalArgumentException("À data de partida tem de ser depois da data de cancelamento!");
+            throw new IllegalArgumentException("A data de partida tem de ser depois da data de cancelamento!");
         }
 
         return client.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
+    }
+
+    public boolean isBetween(LocalDate dataPartida, LocalDate dataRegresso) {
+
+
+
+        if ((this.dataPartida.isBefore(dataPartida) && this.dataRegresso.isAfter(dataPartida)) ||
+                (dataPartida.isBefore(getDataPartida()) && dataRegresso.isAfter(getDataRegresso())) ||
+                (dataRegresso.isAfter(getDataPartida()) && dataRegresso.isBefore(getDataRegresso())) ||
+                (getDataPartida().isEqual(dataPartida) || getDataRegresso().isEqual(dataRegresso))) {
+            return true;
+        }
+        return false;
     }
 }

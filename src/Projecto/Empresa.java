@@ -6,8 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.time.Year;
-import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -512,18 +510,108 @@ public class Empresa implements Serializable {
         return clMaxReservas;
     }
 
+    /*
+    Normal: Têm uma penalização de 50% sempre que cancelarem uma reserva até 7 dias consecutivos antes da partida.
+     Após este prazo não existe reembolso. Esta subscrição não representa nenhum custo mensal acrescido.
+2. Premium: Podem cancelar as reservas sem qualquer custo até 2 dias consecutivos antes da data da reserva.
+Após este prazo não existe reembolso.
+Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utilizador premium procurar uma reserva,
+ apenas os autocarros de outros utilizadores premium devem ser considerados como reservados.
+  Havendo reservas de utilizadores normais para as datas pretendidas, e mais nenhum autocarro disponível,
+  deve ser cancelada a reserva mais recente do utilizador normal cujo autocarro satisfaz as necessidades do cliente premium,
+   desde que este cancelamento seja no mínimo com 2 dias de antecedência.
+    Quando uma reserva é cancelada, o cliente afetado deve receber uma notificação (mensagem no ecrã).
+    Esta subscrição tem um custo mensal de 10€.
+     */
 
-    //método para um Cliente fazer uma reserva
-    public Reserva fazerReserva(Autocarro bus,
-                                Motorista driver,
-                                Cliente client,
+    public Reserva fazerReserva(Cliente client,
                                 LocalDate dataPartida,
                                 LocalDate dataRegresso,
                                 int numPassageiros,
                                 String localOrigem,
                                 String localDestino,
-                                double distancia,
-                                Empresa empresa) {
+                                double distancia) {
+
+        Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
+        Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso, this);
+
+        Reserva reservaCriada = null;
+        if (autocarro != null && motorista != null) {
+            System.out.printf("Encontrado Motorista %s e Autocarro %s disponivel para nova reserva%n", motorista.getNifMotorista(), autocarro.getMatricula());
+            reservaCriada = criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
+
+        } else if (motorista != null && client.isPremium()) {
+            System.out.println("Não foi encontrado autocarro disponivel para os criterios pretendidos!");
+
+
+                Reserva reservaExistente = getReservaDeClientNormalQuePossaSerCancelada(dataPartida, dataRegresso, numPassageiros);
+                System.out.println("Existe uma reserva '%s' de um cliente Normal que pode ser cancelada".formatted(reservaExistente.getId()));
+
+                Reembolso reembolso = cancelarReserva(reservaExistente.getId(), LocalDate.now());
+
+                // TODO:`enviar a mensagem para o client da reserva cancelada
+               // reservaExistente.getClient().addNewNotifcation(new Notificacao(...));
+
+                System.out.println("Reserva Cancelada!!!");
+
+                reservaCriada = criarNovaReserva(
+                        reservaExistente.getBus(),
+                        motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
+
+
+
+        } else
+            throw new IllegalArgumentException("Não existe autocarro ou motorista disponivel");
+
+        escreveFicheiro();
+        return reservaCriada;
+
+    }
+
+    private Reserva getReservaDeClientNormalQuePossaSerCancelada(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
+        LocalDate dataPartidaPlusTwoDays = dataPartida.plusDays(2);
+        return this.listaReservas.stream()
+                .filter(reserva -> reserva.getClient().isNormal())
+                .filter(reserva -> reserva.getBus().getLotacao() >= numPassageiros)
+                .filter(reserva -> reserva.isBetween(dataPartidaPlusTwoDays, dataRegresso))
+                .min(Comparator.comparing(reserva -> reserva.getNumPassageiros()))
+                .orElse(null);
+    }
+
+    private Autocarro getAutocarroLivre(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
+
+        return this.listaAutocarros.stream()
+                .filter(autocarro -> autocarro.getLotacao() >= numPassageiros)
+                .filter(autocarro -> naoExistReservaNoPeriodoParaOAutocarro(autocarro, dataPartida, dataRegresso))
+                .sorted(Comparator.comparing(Autocarro::getLotacao)).findFirst().orElse(null);
+    }
+
+
+    // um autocarro esta libre entre duas dasta se e so se:
+    // não existe reserva para ele entre essas duas datas
+
+    boolean naoExistReservaNoPeriodoParaOAutocarro(Autocarro auto, LocalDate d1, LocalDate d2) {
+        // se o não existirem reservas para o autocarro
+
+        long count = this.listaReservas.stream()
+                .filter(r -> r.isBetween(d1, d2))
+                .filter(r -> r.getBus().equals(auto)).count();
+        return count == 0L;
+    }
+
+
+    //método para um Cliente fazer uma reserva
+    private Reserva criarNovaReserva(Autocarro bus,
+                                     Motorista driver,
+                                     Cliente client,
+                                     LocalDate dataPartida,
+                                     LocalDate dataRegresso,
+                                     int numPassageiros,
+                                     String localOrigem,
+                                     String localDestino,
+                                     double distancia
+    ) {
+
 
         String idNovaReserva = generateNovoIdDeReserva();
 
@@ -541,8 +629,8 @@ public class Empresa implements Serializable {
                 localDestino,
                 distancia);
 
-        empresa.listaReservas.add(novaReserva);
-        escreveFicheiro();
+        listaReservas.add(novaReserva);
+       // escreveFicheiro();
 
         return novaReserva;
 
@@ -552,16 +640,24 @@ public class Empresa implements Serializable {
         return "" + (++this.reservasIdGenerator);
     }
 
-    public Reembolso cancelarReserva(String idReserva, LocalDate dataDeCancelamento){
-        // porque this == empresa é sempre true, podemos comcluir que,
-        // não precisamos do parametro empresa,
 
 
-        Reserva reserva = findReservaPorId(idReserva);
-        if(reserva == null) {
-            throw new IllegalArgumentException("Não existe nenhuma reserva com o id " + idReserva);
+    public Reembolso cancelarReservaFromView(String idReserva, LocalDate dataDeCancelamento) {
+        Reserva reserva = getReserva(idReserva);
+
+        if (!reserva.getClient().equals(loggeduser)) {
+            throw new IllegalArgumentException("O cliente pode apenas cancelar reservas criadas por si proprio");
         }
+        return cancelarReserva(reserva, dataDeCancelamento);
+    }
 
+    private Reembolso cancelarReserva(String idReserva, LocalDate dataDeCancelamento) {
+        Reserva reserva = getReserva(idReserva);
+        return cancelarReserva(reserva, dataDeCancelamento);
+    }
+
+
+    private Reembolso cancelarReserva(Reserva reserva, LocalDate dataDeCancelamento) {
         Reembolso reenbolse = reserva.cancelar(dataDeCancelamento);
         removeReserva(reserva);
 
@@ -570,13 +666,21 @@ public class Empresa implements Serializable {
         return reenbolse;
     }
 
+    private Reserva getReserva(String idReserva) {
+        Reserva reserva = findReservaPorId(idReserva);
+        if (reserva == null) {
+            throw new IllegalArgumentException("Não existe nenhuma reserva com o id " + idReserva);
+        }
+        return reserva;
+    }
+
     private boolean removeReserva(Reserva reserva) {
         return this.listaReservas.remove(reserva);
     }
 
     private Reserva findReservaPorId(String idReserva) {
         for (Reserva item : this.listaReservas) {
-            if(Objects.equals(idReserva, item.getId())) {
+            if (Objects.equals(idReserva, item.getId())) {
                 return item;
             }
         }
@@ -672,6 +776,7 @@ public class Empresa implements Serializable {
             fdo.abreEscrita(nome);
             fdo.escreveObjecto(objecto);
             fdo.fechaEscrita();
+
         } catch (Exception e) {
             System.out.println("Erro a escrever o objecto: " + objecto.toString());
         }
