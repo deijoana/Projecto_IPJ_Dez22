@@ -460,13 +460,14 @@ public class Empresa implements Serializable {
     }
 
     //método que devolve o autocarro mais requisitado
-    public Autocarro encontrarAutocarroMaisReq(Empresa empresa) {
+    public AutocarrosMaisUtilizadosStats encontrarAutocarroMaisReq(Empresa empresa) {
 
         Autocarro autocarroMaisReq = null;
 
         int contador = 0;
         int maximo = 0;
 
+        List<Autocarro> buss = new ArrayList<>();
         for (Autocarro a : empresa.listaAutocarros) {
 
             for (Reserva r : empresa.listaReservas) {
@@ -481,7 +482,20 @@ public class Empresa implements Serializable {
             contador = 0;
 
         }
-        return autocarroMaisReq;
+
+        for (Autocarro a : empresa.listaAutocarros) {
+            int numeroDeOcorrencias = 0;
+            for (Reserva r : empresa.listaReservas) {
+                if (r.getBus().equals(a)) {
+                    numeroDeOcorrencias++;
+                }
+            }
+           if (numeroDeOcorrencias == maximo)
+               buss.add(a);
+        }
+
+
+        return new AutocarrosMaisUtilizadosStats(maximo, buss);
     }
 
     //método que devolve o cliente com mais reservas

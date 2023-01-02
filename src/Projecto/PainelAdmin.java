@@ -1272,12 +1272,12 @@ public class PainelAdmin extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Autocarro autocarroMaisReq;
 
-                autocarroMaisReq = empresa.encontrarAutocarroMaisReq(empresa);
+
+                AutocarrosMaisUtilizadosStats autocarrosMaisUtilizadosStats = empresa.encontrarAutocarroMaisReq(empresa);
 
                 JOptionPane.showMessageDialog(new JFrame("Autocarro mais requisitado"),
-                        "O autocarro mais requisitado é o autocarro referente à matrícula: " + autocarroMaisReq.getMatricula());
+                        "O autocarro mais requisitado é o autocarro referente à matrícula: \n %s ".formatted(autocarrosMaisUtilizadosStats));
             }
         });
 
