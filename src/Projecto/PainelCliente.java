@@ -322,7 +322,7 @@ public class PainelCliente extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Cliente client = (Cliente) empresa.getLoggeduser();
 
-                if (client.getTipoSubscricao().equals("Normal")) {
+                if (client.getTipoSubscricao().equals(TipoSubscricao.NORMAL)) {
                     janela.mudaEcra("PainelNormal");
                 } else janela.mudaEcra("PainelPremium");
             }

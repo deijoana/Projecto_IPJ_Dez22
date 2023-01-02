@@ -605,7 +605,7 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
     // não existe reserva para ele entre essas duas datas
 
     boolean naoExistReservaNoPeriodoParaOAutocarro(Autocarro auto, LocalDate d1, LocalDate d2) {
-        // se o não existirem reservas para o autocarro
+        // se não existirem reservas para o autocarro
 
         long count = this.listaReservas.stream()
                 .filter(r -> r.isBetween(d1, d2))
