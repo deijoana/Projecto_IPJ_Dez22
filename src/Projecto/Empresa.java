@@ -490,8 +490,8 @@ public class Empresa implements Serializable {
                     numeroDeOcorrencias++;
                 }
             }
-           if (numeroDeOcorrencias == maximo)
-               buss.add(a);
+            if (numeroDeOcorrencias == maximo)
+                buss.add(a);
         }
 
 
@@ -558,20 +558,19 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
             System.out.println("Não foi encontrado autocarro disponivel para os criterios pretendidos!");
 
 
-                Reserva reservaExistente = getReservaDeClientNormalQuePossaSerCancelada(dataPartida, dataRegresso, numPassageiros);
-                System.out.println("Existe uma reserva '%s' de um cliente Normal que pode ser cancelada".formatted(reservaExistente.getId()));
+            Reserva reservaExistente = getReservaDeClientNormalQuePossaSerCancelada(dataPartida, dataRegresso, numPassageiros);
+            System.out.println("Existe uma reserva '%s' de um cliente Normal que pode ser cancelada".formatted(reservaExistente.getId()));
 
-                Reembolso reembolso = cancelarReserva(reservaExistente.getId(), LocalDate.now());
+            Reembolso reembolso = cancelarReserva(reservaExistente.getId(), LocalDate.now());
 
-                // TODO:`enviar a mensagem para o client da reserva cancelada
-               // reservaExistente.getClient().addNewNotifcation(new Notificacao(...));
+            // TODO:`enviar a mensagem para o client da reserva cancelada
+            // reservaExistente.getClient().addNewNotifcation(new Notificacao(...));
 
-                System.out.println("Reserva Cancelada!!!");
+            System.out.println("Reserva Cancelada!!!");
 
-                reservaCriada = criarNovaReserva(
-                        reservaExistente.getBus(),
-                        motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
-
+            reservaCriada = criarNovaReserva(
+                    reservaExistente.getBus(),
+                    motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
 
 
         } else
@@ -644,7 +643,7 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
                 distancia);
 
         listaReservas.add(novaReserva);
-       // escreveFicheiro();
+        // escreveFicheiro();
 
         return novaReserva;
 
@@ -653,7 +652,6 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
     private String generateNovoIdDeReserva() {
         return "" + (++this.reservasIdGenerator);
     }
-
 
 
     public Reembolso cancelarReservaFromView(String idReserva, LocalDate dataDeCancelamento) {
@@ -699,6 +697,12 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
             }
         }
         return null;
+    }
+
+    public double calcularCustoViagem (int numPassageiros, double distancia) {
+        double custo;
+        custo = distancia * 0.55 + 1.2 * numPassageiros;
+        return custo;
     }
 
 

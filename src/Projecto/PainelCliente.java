@@ -1,5 +1,7 @@
 package Projecto;
 
+import Projecto.utils.Validations;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -8,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class PainelCliente extends JPanel {
 
@@ -32,7 +36,7 @@ public class PainelCliente extends JPanel {
 
     JTextField idReservaT;
 
-    JButton cancelarReserva;
+    JButton cancelarReserva, calcularCustoReserva;
 
     JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
 
@@ -145,7 +149,7 @@ public class PainelCliente extends JPanel {
         c1.gridy = 6;
         panel1.add(distPrevistaT, c1);
 
-        pesquisar = new JButton("Pesquisar");
+        pesquisar = new JButton("Confirmar Reserva");
         c1.fill = GridBagConstraints.CENTER;
         c1.insets = new Insets(40, 0, 20, 0);
         c1.gridx = 1;
@@ -155,52 +159,77 @@ public class PainelCliente extends JPanel {
         pesquisar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LocalDate dataPartida = LocalDate.parse(dataPartidaT.getText());
-                LocalDate dataRegresso = LocalDate.parse(dataRegressoT.getText());
-                String origem = origemT.getText();
-                String destino = destinoT.getText();
-                int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
-                double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
-
-                // premium 03-01 -> 05-01 para 50 lugares
-                //   ---
 
 
-                if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa) && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa) && empresa.validarDados(String.valueOf(n_Passageiros), empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
-
-                   // if (autocarroO != null) {
-                        //Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
-                       // Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
-                        //if (motoristaO != null) {
-
-                    try {
-
-                            Cliente clienteO = (Cliente) empresa.getLoggeduser();
-                            Reserva r = empresa.fazerReserva(clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista);
-
-                            JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada. O autocarro disponível é " + r.getBus());
-
-                        dataPartidaT.setText("Formato aaaa-mm-dd");
-                        dataRegressoT.setText("Formato aaaa-mm-dd");
-                        origemT.setText("");
-                        destinoT.setText("");
-                        n_PassageirosT.setText("");
-                        distPrevistaT.setText("");
-                    } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
+                try {
+                    java.util.List<String> validationError = validateNovaReservaInputFields();
+                    if (!validationError.isEmpty()) {
+                        JOptionPane.showMessageDialog(new JFrame("Dados incorrectos"), String.join("\n", validationError));
+                        return;
                     }
 
 
+                    LocalDate dataPartida = LocalDate.parse(dataPartidaT.getText());
+                    LocalDate dataRegresso = LocalDate.parse(dataRegressoT.getText());
+                    String origem = origemT.getText();
+                    String destino = destinoT.getText();
+                    int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
+                    double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
 
 
-                } else if (!empresa.validarDados(String.valueOf(dataPartida), empresa) || !empresa.validarDados(String.valueOf(dataRegresso), empresa))
+                    Cliente clienteO = (Cliente) empresa.getLoggeduser();
+                    Reserva r = empresa.fazerReserva(clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista);
 
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira data de partida e/ou data de regresso válidas: aaaa-mm-dd");
+                    JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
+                            "Reserva confirmada. O autocarro disponível é " + r.getBus());
 
-                else if (!empresa.validarDados(origem, empresa) || !empresa.validarDados(destino, empresa))
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira origem e/ou destino válidos");
-                else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira número de passageiros e/ou distância prevista percorrida válidos");
+                    dataPartidaT.setText("Formato aaaa-mm-dd");
+                    dataRegressoT.setText("Formato aaaa-mm-dd");
+                    origemT.setText("");
+                    destinoT.setText("");
+                    n_PassageirosT.setText("");
+                    distPrevistaT.setText("");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
+                }
+
+            }
+
+        });
+
+        calcularCustoReserva = new JButton("Simular custo da viagem");
+        c1.fill = GridBagConstraints.CENTER;
+        c1.insets = new Insets(40, 0, 20, 0);
+        c1.gridx = 0;
+        c1.gridy = 8;
+        panel1.add(calcularCustoReserva, c1);
+
+        calcularCustoReserva.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    java.util.List<String> validationError = validateNovaReservaInputFields();
+                    if (!validationError.isEmpty()) {
+                        JOptionPane.showMessageDialog(new JFrame("Dados incorrectos"), String.join("\n", validationError));
+                        return;
+                    }
+
+                    int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
+                    double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
+
+
+                    //Cliente clienteO = (Cliente) empresa.getLoggeduser();
+
+                    double custo = empresa.calcularCustoViagem(n_Passageiros, distanciaPrevista);
+
+                    JOptionPane.showMessageDialog(new JFrame("Simulação de preço"),
+                            "Para os dados inseridos o custo da sua viagem será de: " + custo + " €");
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
+                }
+
             }
         });
 
@@ -243,7 +272,7 @@ public class PainelCliente extends JPanel {
         c3.gridy = 0;
         panel3.add(inserirDados3, c3);
 
-       // listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
+        // listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
         c3.gridx = 1;
         c3.gridy = 1;
         panel3.add(listagemReservas, c3);
@@ -262,7 +291,7 @@ public class PainelCliente extends JPanel {
         c4.gridy = 4;
         panel4.add(idReserva, c4);
 
-        idReservaT= new JTextField(25);
+        idReservaT = new JTextField(25);
         c4.insets = new Insets(30, 0, 0, 0);
         c4.gridx = 1;
         c4.gridy = 4;
@@ -276,7 +305,7 @@ public class PainelCliente extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String text = idReservaT.getText();
-                if (text != null && !text.trim().isBlank()){
+                if (text != null && !text.trim().isBlank()) {
 
                     try {
                         Reembolso reembolso = empresa.cancelarReservaFromView(text.trim(), LocalDate.now());
@@ -286,12 +315,13 @@ public class PainelCliente extends JPanel {
                                 "Success", JOptionPane.INFORMATION_MESSAGE);
 
                         idReservaT.setText("");
-                    } catch (Exception ex){
+                    } catch (Exception ex) {
                         ex.printStackTrace();
 
                         JOptionPane.showMessageDialog(panel4,
-                            ex.getMessage(),
-                            "Error!!", JOptionPane.ERROR_MESSAGE);}
+                                ex.getMessage(),
+                                "Error!!", JOptionPane.ERROR_MESSAGE);
+                    }
 
 
                 } else {
@@ -449,6 +479,27 @@ public class PainelCliente extends JPanel {
         this.add(logout, c);
         logout.addActionListener(new GerirEventos(2, this.janela));
 
+    }
+
+    private List<String> validateNovaReservaInputFields() {
+        java.util.List<String> validationError = new ArrayList<>();
+        if (!Validations.isValidateIsoDate(dataPartidaT.getText())) {
+            validationError.add("Data de partida não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
+        }
+        if (dataRegressoT.getText() == null || dataRegressoT.getText().isBlank() || !dataRegressoT.getText().trim().matches("dddd-dd-dd")) {
+            validationError.add("Data de regresso não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
+        }
+        if (Validations.isNotBlank(origemT.getText())){
+            validationError.add("Origem não pode ser vazia");
+        }
+        if (destinoT.getText() == null || destinoT.getText().isBlank())
+            validationError.add("Destino não pode ser vazia");
+        if (distPrevistaT.getText() == null || distPrevistaT.getText().isBlank())
+            validationError.add("Distância não pode ser vazia");
+        if (n_PassageirosT.getText() == null || n_PassageirosT.getText().isBlank())
+            validationError.add("Número de passageiros não pode ser vazia");
+
+        return validationError;
     }
 
 }

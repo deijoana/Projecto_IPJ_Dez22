@@ -2,6 +2,7 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 
 public class GUI {
 
@@ -34,6 +35,7 @@ public class GUI {
         cardsPanel.add(new PainelPaypal(this, empresa),"PainelPaypal");
         cardsPanel.add(new PainelCC(this, empresa),"PainelCC");
         cardsPanel.add(new PainelMB(this, empresa),"PainelMB");
+        //cardsPanel.add(new PainelConfirmarReserva(this, empresa), "PainelConfirmarReserva");
 
         f.getContentPane().add(cardsPanel);
 
@@ -48,6 +50,7 @@ public class GUI {
     public void mudaEcra(String ecra){
         layout.show (cardsPanel, ecra);
     }
+
 
 
 }
