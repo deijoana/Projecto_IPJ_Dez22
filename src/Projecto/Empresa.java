@@ -104,6 +104,9 @@ public class Empresa implements Serializable {
     }
 
     // método que permite ao Administrador editar os atributos de um autocarro
+    // Este método permite editar as informações de um autocarro da lista de autocarros e grava essa lista no ficheiro de objetos.
+    // O método recebe como parâmetros a matrícula do autocarro a ser editado,
+    // as novas informações (marca, modelo e lotação) e a empresa que possui a lista de autocarros.
 
     public boolean editarAutocarro(
             String matricula,
@@ -126,6 +129,9 @@ public class Empresa implements Serializable {
         return false;
     }
 
+    //Este método permite remover um autocarro.
+    //Percorre a lista de autocarros e verifica se a matrícula dada faz match com algum dos autocarros da lista.
+    //Se se verificar esse match o autocarrado é removido da lista e a atualização é gravada no ficheiro de objetos.
     public boolean removerAutocarro(String matricula, Empresa empresa) {
 
         for (Autocarro a : empresa.listaAutocarros) {
@@ -563,7 +569,7 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
 
             Reembolso reembolso = cancelarReserva(reservaExistente.getId(), LocalDate.now());
 
-            // TODO:`enviar a mensagem para o client da reserva cancelada
+            // TODO: enviar a mensagem para o client da reserva cancelada
             // reservaExistente.getClient().addNewNotifcation(new Notificacao(...));
 
             System.out.println("Reserva Cancelada!!!");
@@ -699,7 +705,7 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
         return null;
     }
 
-    public double calcularCustoViagem (int numPassageiros, double distancia) {
+    public double calcularCustoViagem(int numPassageiros, double distancia) {
         double custo;
         custo = distancia * 0.55 + 1.2 * numPassageiros;
         return custo;

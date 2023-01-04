@@ -486,7 +486,7 @@ public class PainelCliente extends JPanel {
         if (!Validations.isValidateIsoDate(dataPartidaT.getText())) {
             validationError.add("Data de partida não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
         }
-        if (dataRegressoT.getText() == null || dataRegressoT.getText().isBlank() || !dataRegressoT.getText().trim().matches("dddd-dd-dd")) {
+        if (!Validations.isValidateIsoDate(dataRegressoT.getText())) {
             validationError.add("Data de regresso não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
         }
         if (Validations.isNotBlank(origemT.getText())){

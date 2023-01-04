@@ -287,7 +287,8 @@ public class PainelAdmin extends JPanel {
                 if (empresa.validarEmail(email2, empresa) && empresa.validarNIF(nif2, empresa) && empresa.validarDados(nome2, empresa)) {
 
                     if (novoMotorista == null) {
-                        JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"), "Já existe um motorista com este NIF: " + nif2);
+                        JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"),
+                                "Já existe um motorista com este NIF: " + nif2);
                     } else if (novoMotorista != null) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"), "Um novo motorista foi registado com sucesso");
                     }
@@ -301,7 +302,6 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Preencha o nome");
-
 
             }
         });
@@ -372,9 +372,11 @@ public class PainelAdmin extends JPanel {
                 if (empresa.validarEmail(email3, empresa) && empresa.validarNIF(nif3, empresa) && empresa.validarDados(nome3, empresa)) {
 
                     if (resultado1) {
-                        JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"), "As informações do motorista associado ao nif " + nif3 + " foram alteradas com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"),
+                                "As informações do motorista associado ao nif " + nif3 + " foram alteradas com sucesso");
                     } else
-                        JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"), "Não foi encontrado nenhum registo de motorista com o nif indicado");
+                        JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo de motorista com o nif indicado"),
+                                "Não foi encontrado nenhum registo de motorista com o nif indicado");
                     nomeT3.setText("");
                     nifT3.setText("");
                     emailT3.setText("");
@@ -385,7 +387,6 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Preencha o nome");
-
 
             }
         });
@@ -648,7 +649,8 @@ public class PainelAdmin extends JPanel {
                 boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6, empresa);
                 if (empresa.validarMatricula(matricula6, empresa) && empresa.validarDados(modelo6, empresa) && empresa.validarDados(marca6, empresa) && empresa.validarDados(String.valueOf(lotacao6), empresa)) {
                     if (resultado3) {
-                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Sucesso"),
+                                "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
 
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum registo com a matrícula inserida"),
