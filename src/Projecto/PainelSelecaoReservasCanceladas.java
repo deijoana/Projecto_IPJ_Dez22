@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
-public class PainelSelecaoBus extends JPanel {
+public class PainelSelecaoReservasCanceladas extends JPanel {
 
     Empresa empresa;
     GUI janela;
@@ -17,7 +17,7 @@ public class PainelSelecaoBus extends JPanel {
     JTextField anoT;
     JButton voltar, confirmar;
 
-    PainelSelecaoBus(GUI janela, Empresa empresa) {
+    PainelSelecaoReservasCanceladas(GUI janela, Empresa empresa) {
 
         this.empresa = empresa;
         this.janela = janela;
@@ -81,14 +81,14 @@ public class PainelSelecaoBus extends JPanel {
                 String mes = mesC.getSelectedItem().toString();
                 String ano = anoT.getText();
 
-                JList<String> resultado = new JList<String>(new Vector<String>(empresa.listarAutocarrosReservados(ano, mes, empresa).stream().toList()));
-                ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
+                JList<Reserva> resultado = new JList<>(new Vector<>(empresa.listarReservasCanceladas(ano, mes, empresa)));
+               ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
                 if (empresa.validarAno(ano, empresa)) {
-                    if (model.getSize() == 0) {
-                        JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Não há nenhum autocarro reservado no mês seleccionado");
+                   if (model.getSize()==0){
+                   // if(resultado==null){
+                        JOptionPane.showMessageDialog(new JFrame("Lista de reservas canceladas"), "Não há nenhuma reserva cancelada no mês seleccionado");
                     } else {
-                        //JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Mostrar lista");
-                        JFrame local = new JFrame("Lista de Autocarros reservados e respectivas datas");
+                        JFrame local = new JFrame("Lista de Reservas Canceladas");
                         local.setSize(800, 600);
 
                         local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -106,9 +106,10 @@ public class PainelSelecaoBus extends JPanel {
                     }
                     anoT.setText("Formato: xxxx");
                 } else
-                    JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Insira um valor de ano válido");
+                    JOptionPane.showMessageDialog(new JFrame("Lista de reservas canceladas"), "Insira um valor de ano válido");
             }
         });
+
 
 
     }

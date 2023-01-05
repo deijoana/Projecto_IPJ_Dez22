@@ -1,10 +1,13 @@
 package Projecto;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 public class PainelAdmin extends JPanel {
@@ -444,6 +447,14 @@ public class PainelAdmin extends JPanel {
             }
         });
 
+        painelM.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
+            }
+        });
+
         listaMotoristas = new JPanel();
         painelM.addTab("Lista de Motoristas", listaMotoristas);
         listaMotoristas.setLayout(new GridBagLayout());
@@ -707,6 +718,7 @@ public class PainelAdmin extends JPanel {
                 boolean resultado4 = empresa.removerAutocarro(matricula7, empresa);
                 if (empresa.validarMatricula(matricula7, empresa)) {
                     if (resultado4) {
+                        empresa.cancelarReservaSemBus (matricula7);
                         JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
@@ -1113,6 +1125,7 @@ public class PainelAdmin extends JPanel {
 
                 if (empresa.validarNIF(nif10, empresa)) {
                     if (resultado10) {
+                       empresa.cancelarReservaDeClienteRemovido(nif10);
                         JOptionPane.showMessageDialog(new JFrame("Cliente removido com sucesso"),
                                 "O cliente associado ao nif " + nif10 + " foi removido com sucesso");
                     } else
@@ -1138,6 +1151,14 @@ public class PainelAdmin extends JPanel {
         c14.gridx = 0;
         c14.gridy = 0;
         listaClientes.add(inserirDados, c14);
+
+        painelC.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                listagemClientes.setListData(new Vector<>(empresa.listaDeClientes(empresa)));
+            }
+        });
 
         listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes(empresa)));
         c14.gridx = 1;
@@ -1295,11 +1316,11 @@ public class PainelAdmin extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Utilizador clienteMaxReservas;
+              //   clienteMaxReservas=null;
 
-                clienteMaxReservas = empresa.clienteComMaisReservas(empresa);
+                List<Utilizador>  clienteMaxReservas = empresa.clienteComMaisReservasStats(empresa);
                 JOptionPane.showMessageDialog(new JFrame("Cliente com mais reservas"),
-                        "O cliente com mais reservas é o/a: " +clienteMaxReservas.getNome());
+                        "O cliente com mais reservas é: \n %s ".formatted(clienteMaxReservas));
             }
         });
 
@@ -1322,6 +1343,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 2;
         panel7.add(listaReservaCanc, c11);
+        listaReservaCanc.addActionListener(new GerirEventos(9, janela));
 
         listaReservaEmEspera = new JButton("Lista de reservas / clientes em espera");
         listaReservaEmEspera.setFont(new Font("Arial", 1, 12));

@@ -99,19 +99,29 @@ public class Login extends JPanel {
                         janela.mudaEcra("PainelAdmin");
                         empresa.setLoggeduser(logado); //guarda user logado
 
-                    } else if (logado instanceof Cliente) {
+                    } else if (logado instanceof Cliente && !empresa.clientePertenceAListaNegra(logado)) {
 
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), "Notificações: ".formatted(((Cliente) logado).getListaNotificacoes()));
                         janela.mudaEcra("PainelCliente");
                         empresa.setLoggeduser(logado); // guarda user logado
+
+                    } else if (logado instanceof Cliente && empresa.clientePertenceAListaNegra(logado)) {
+
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
+                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), "Notificações: ".formatted(((Cliente) logado).getListaNotificacoes()));
+                        janela.mudaEcra("PainelClienteRemoved");
+                        empresa.setLoggeduser(logado); // guarda user logado
                     }
+
                     emailT.setText("");
                     passwordF.setText("");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Email inválido"), "Email inválido. Verifique se os dados estão corretos.");
 
 
-            }});
+            }
+        });
 
         criarRegisto = new JButton("Criar Registo");
         c.insets = new Insets(40, 0, 0, 0);

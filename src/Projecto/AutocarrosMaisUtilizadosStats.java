@@ -17,6 +17,6 @@ public class AutocarrosMaisUtilizadosStats implements Formattable {
         for (Autocarro autocarro : this.autocarros) {
             matriculas.add(autocarro.getMatricula());
         }
-        formatter.format("MAX: " + this.numeroUtilizacoes + "\n MATRICULAS: " + matriculas);
+        formatter.format("Número de utilizações: " + this.numeroUtilizacoes + "\n MATRICULAS: " + matriculas);
     }
 }

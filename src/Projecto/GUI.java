@@ -36,6 +36,8 @@ public class GUI {
         cardsPanel.add(new PainelCC(this, empresa),"PainelCC");
         cardsPanel.add(new PainelMB(this, empresa),"PainelMB");
         //cardsPanel.add(new PainelConfirmarReserva(this, empresa), "PainelConfirmarReserva");
+        cardsPanel.add(new PainelSelecaoReservasCanceladas(this, empresa), "PainelSelecaoReservasCanceladas");
+        cardsPanel.add(new PainelClienteRemoved(this, empresa), "PainelClienteRemoved");
 
         f.getContentPane().add(cardsPanel);
 

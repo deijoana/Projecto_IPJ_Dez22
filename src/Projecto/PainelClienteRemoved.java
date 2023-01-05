@@ -1,7 +1,5 @@
 package Projecto;
 
-import Projecto.utils.Validations;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -10,11 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
-public class PainelCliente extends JPanel {
+public class PainelClienteRemoved extends JPanel {
 
     Empresa empresa;
 
@@ -36,7 +32,7 @@ public class PainelCliente extends JPanel {
 
     JTextField idReservaT;
 
-    JButton cancelarReserva, calcularCustoReserva;
+    JButton cancelarReserva;
 
     JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
 
@@ -45,7 +41,7 @@ public class PainelCliente extends JPanel {
     JList<Reserva> listagemReservas, listagemHistoricoReservas;
 
 
-    PainelCliente(GUI janela, Empresa empresa) {
+    PainelClienteRemoved(GUI janela, Empresa empresa) {
         this.empresa = empresa;
         this.janela = janela;
         this.setLayout(new GridBagLayout());
@@ -77,7 +73,7 @@ public class PainelCliente extends JPanel {
 
 
         dataPartidaT = new JTextField("Formato aaaa-mm-dd", 20);
-        c1.insets = new Insets(30, 0, 0, 0);
+        c1.insets = new Insets(30, 0, 0, 30);
         c1.gridx = 1;
         c1.gridy = 1;
         panel1.add(dataPartidaT, c1);
@@ -91,7 +87,7 @@ public class PainelCliente extends JPanel {
 
 
         dataRegressoT = new JTextField("Formato aaaa-mm-dd", 20);
-        c1.insets = new Insets(30, 0, 0, 0);
+        c1.insets = new Insets(30, 0, 0, 30);
         c1.gridx = 1;
         c1.gridy = 2;
         panel1.add(dataRegressoT, c1);
@@ -104,7 +100,7 @@ public class PainelCliente extends JPanel {
         panel1.add(origem, c1);
 
         origemT = new JTextField(20);
-        c1.insets = new Insets(30, 0, 0, 0);
+        c1.insets = new Insets(30, 0, 0, 30);
         c1.gridx = 1;
         c1.gridy = 3;
         panel1.add(origemT, c1);
@@ -118,7 +114,7 @@ public class PainelCliente extends JPanel {
         panel1.add(destino, c1);
 
         destinoT = new JTextField(20);
-        c1.insets = new Insets(30, 0, 0, 0);
+        c1.insets = new Insets(30, 0, 0, 30);
         c1.gridx = 1;
         c1.gridy = 4;
         panel1.add(destinoT, c1);
@@ -131,25 +127,25 @@ public class PainelCliente extends JPanel {
         panel1.add(n_Passageiros, c1);
 
         n_PassageirosT = new JTextField(20);
-        c1.insets = new Insets(30, 0, 0, 0);
+        c1.insets = new Insets(30, 0, 0, 30);
         c1.gridx = 1;
         c1.gridy = 5;
         panel1.add(n_PassageirosT, c1);
 
         distPrevista = new JLabel("Distância prevista (km)");
         distPrevista.setFont(new Font("Arial", 1, 12));
-        c1.insets = new Insets(30, 0, 0, 0);
+        c1.insets = new Insets(30, 0, 20, 0);
         c1.gridx = 0;
         c1.gridy = 6;
         panel1.add(distPrevista, c1);
 
         distPrevistaT = new JTextField(20);
-        c1.insets = new Insets(30, 0, 0, 0);
+        c1.insets = new Insets(30, 0, 20, 30);
         c1.gridx = 1;
         c1.gridy = 6;
         panel1.add(distPrevistaT, c1);
 
-        pesquisar = new JButton("Confirmar Reserva");
+       /* pesquisar = new JButton("Pesquisar");
         c1.fill = GridBagConstraints.CENTER;
         c1.insets = new Insets(40, 0, 20, 0);
         c1.gridx = 1;
@@ -160,80 +156,51 @@ public class PainelCliente extends JPanel {
         pesquisar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                LocalDate dataPartida = LocalDate.parse(dataPartidaT.getText());
+                LocalDate dataRegresso = LocalDate.parse(dataRegressoT.getText());
+                String origem = origemT.getText();
+                String destino = destinoT.getText();
+                int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
+                double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
 
 
-                try {
-                    java.util.List<String> validationError = validateNovaReservaInputFields();
-                    if (!validationError.isEmpty()) {
-                        JOptionPane.showMessageDialog(new JFrame("Dados incorrectos"), String.join("\n", validationError));
-                        return;
+
+                if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa) && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa) && empresa.validarDados(String.valueOf(n_Passageiros), empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
+
+                    // if (autocarroO != null) {
+                    //Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
+                    // Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
+                    //if (motoristaO != null) {
+
+                    try {
+
+                        Cliente clienteO = (Cliente) empresa.getLoggeduser();
+                        Reserva r = empresa.fazerReserva(clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista);
+
+                        JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada. O autocarro disponível é " + r.getBus());
+
+                        dataPartidaT.setText("Formato aaaa-mm-dd");
+                        dataRegressoT.setText("Formato aaaa-mm-dd");
+                        origemT.setText("");
+                        destinoT.setText("");
+                        n_PassageirosT.setText("");
+                        distPrevistaT.setText("");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
                     }
 
 
-                    LocalDate dataPartida = LocalDate.parse(dataPartidaT.getText());
-                    LocalDate dataRegresso = LocalDate.parse(dataRegressoT.getText());
-                    String origem = origemT.getText();
-                    String destino = destinoT.getText();
-                    int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
-                    double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
+                } else if (!empresa.validarDados(String.valueOf(dataPartida), empresa) || !empresa.validarDados(String.valueOf(dataRegresso), empresa))
 
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira data de partida e/ou data de regresso válidas: aaaa-mm-dd");
 
-                    Cliente clienteO = (Cliente) empresa.getLoggeduser();
-                    Reserva r = empresa.fazerReserva(clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista);
-
-                    JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
-                            "Reserva confirmada. O autocarro disponível é " + r.getBus());
-
-                    dataPartidaT.setText("Formato aaaa-mm-dd");
-                    dataRegressoT.setText("Formato aaaa-mm-dd");
-                    origemT.setText("");
-                    destinoT.setText("");
-                    n_PassageirosT.setText("");
-                    distPrevistaT.setText("");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
-                }
-
-            }
-
-        });
-
-        calcularCustoReserva = new JButton("Simular custo da viagem");
-        c1.fill = GridBagConstraints.CENTER;
-        c1.insets = new Insets(40, 0, 20, 0);
-        c1.gridx = 0;
-        c1.gridy = 8;
-        panel1.add(calcularCustoReserva, c1);
-
-        calcularCustoReserva.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                try {
-                    java.util.List<String> validationError = validateNovaReservaInputFields();
-                    if (!validationError.isEmpty()) {
-                        JOptionPane.showMessageDialog(new JFrame("Dados incorrectos"), String.join("\n", validationError));
-                        return;
-                    }
-
-                    int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
-                    double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
-
-
-                    //Cliente clienteO = (Cliente) empresa.getLoggeduser();
-
-                    double custo = empresa.calcularCustoViagem(n_Passageiros, distanciaPrevista);
-
-                    JOptionPane.showMessageDialog(new JFrame("Simulação de preço"),
-                            "Para os dados inseridos o custo da sua viagem será de: " + custo + " €");
-
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
-                }
-
+                else if (!empresa.validarDados(origem, empresa) || !empresa.validarDados(destino, empresa))
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira origem e/ou destino válidos");
+                else
+                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira número de passageiros e/ou distância prevista percorrida válidos");
             }
         });
-
+*/
 
         panel2 = new JPanel();
         painelCl.addTab("Consultar Histórico", panel2);
@@ -280,7 +247,7 @@ public class PainelCliente extends JPanel {
         panel3.add(listagemReservas, c3);
 
 
-        panel4 = new JPanel();
+       panel4 = new JPanel();
         painelCl.addTab("Cancelar Reserva", panel4);
 
         panel4.setLayout(new GridBagLayout());
@@ -299,7 +266,7 @@ public class PainelCliente extends JPanel {
         c4.gridy = 4;
         panel4.add(idReservaT, c4);
 
-        c4.insets = new Insets(30, 0, 0, 0);
+      /*  c4.insets = new Insets(30, 0, 0, 0);
         c4.gridx = 1;
         c4.gridy = 5;
         cancelarReserva = new JButton("Cancelar");
@@ -310,10 +277,8 @@ public class PainelCliente extends JPanel {
                 if (text != null && !text.trim().isBlank()) {
 
                     try {
-                        empresa.addReservaCancelada(text);
                         Reembolso reembolso = empresa.cancelarReservaFromView(text.trim(), LocalDate.now());
-
-
+                        empresa.addReservaCancelada(text);
                         JOptionPane.showMessageDialog(panel4,
                                 "Reserva cancelada '%s', com sucesso! \n Tem direito a %s € de reembolso".formatted(text, reembolso),
                                 "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -338,14 +303,14 @@ public class PainelCliente extends JPanel {
             }
         });
         panel4.add(cancelarReserva, c4);
-
+*/
 
         panel5 = new JPanel();
         painelCl.addTab("Alterar Subscrição", panel5);
         panel5.setLayout(new GridBagLayout());
         GridBagConstraints c7 = new GridBagConstraints();
 
-        alterarSubs = new JButton("Quero alterar a minha subscrição");
+       /* alterarSubs = new JButton("Quero alterar a minha subscrição");
         c7.gridx = 1;
         c7.gridy = 1;
         c7.fill = GridBagConstraints.HORIZONTAL;
@@ -361,7 +326,7 @@ public class PainelCliente extends JPanel {
                 } else janela.mudaEcra("PainelPremium");
             }
         });
-
+*/
 
         panel6 = new JPanel();
         painelCl.addTab("Alterar Palavra Passe", panel6);
@@ -385,7 +350,7 @@ public class PainelCliente extends JPanel {
         c6.gridy = 2;
         panel6.add(passAntiga, c6);
         passAntigaT = new JPasswordField(25);
-        c6.insets = new Insets(0, 0, 0, 0);
+        c6.insets = new Insets(0, 0, 0, 30);
         c6.gridx = 1;
         c6.gridy = 2;
         panel6.add(passAntigaT, c6);
@@ -399,7 +364,7 @@ public class PainelCliente extends JPanel {
         panel6.add(passNova, c6);
 
         passNovaT = new JPasswordField(25);
-        c6.insets = new Insets(30, 0, 0, 0);
+        c6.insets = new Insets(30, 0, 0, 30);
         c6.gridx = 1;
         c6.gridy = 3;
         panel6.add(passNovaT, c6);
@@ -412,12 +377,12 @@ public class PainelCliente extends JPanel {
         panel6.add(passNova2, c6);
 
         passNova2T = new JPasswordField(25);
-        c6.insets = new Insets(30, 0, 0, 0);
+        c6.insets = new Insets(30, 0, 0, 30);
         c6.gridx = 1;
         c6.gridy = 4;
         panel6.add(passNova2T, c6);
 
-        guardarAlt = new JButton("Guardar alterações");
+      /*  guardarAlt = new JButton("Guardar alterações");
         c6.insets = new Insets(30, 0, 0, 0);
         c6.gridx = 1;
         c6.gridy = 5;
@@ -463,7 +428,7 @@ public class PainelCliente extends JPanel {
                 }
             }
         });
-
+*/
 
         c.gridx = 1;
         c.gridy = 1;
@@ -483,27 +448,6 @@ public class PainelCliente extends JPanel {
         this.add(logout, c);
         logout.addActionListener(new GerirEventos(2, this.janela));
 
-    }
-
-    private List<String> validateNovaReservaInputFields() {
-        java.util.List<String> validationError = new ArrayList<>();
-        if (!Validations.isValidateIsoDate(dataPartidaT.getText())) {
-            validationError.add("Data de partida não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
-        }
-        if (!Validations.isValidateIsoDate(dataRegressoT.getText())) {
-            validationError.add("Data de regresso não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
-        }
-        if (Validations.isNotBlank(origemT.getText())) {
-            validationError.add("Origem não pode ser vazia");
-        }
-        if (destinoT.getText() == null || destinoT.getText().isBlank())
-            validationError.add("Destino não pode ser vazia");
-        if (distPrevistaT.getText() == null || distPrevistaT.getText().isBlank())
-            validationError.add("Distância não pode ser vazia");
-        if (n_PassageirosT.getText() == null || n_PassageirosT.getText().isBlank())
-            validationError.add("Número de passageiros não pode ser vazia");
-
-        return validationError;
     }
 
 }
