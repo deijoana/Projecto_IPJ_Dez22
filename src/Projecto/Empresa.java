@@ -1,5 +1,6 @@
 package Projecto;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,7 +20,9 @@ public class Empresa implements Serializable {
     private List<Motorista> listaMotoristas;
 
     private List<Cliente> listaClientes;
-    private List listaNegraClientes;
+    private List<Utilizador> listaNegraClientes;
+
+    private List<Reserva> listaReservasCanceladas;
 
     private List<Reserva> listaReservas;
     /**
@@ -69,9 +72,10 @@ public class Empresa implements Serializable {
         this.listaUtilizadores = new ArrayList<>();
         this.listaMotoristas = new ArrayList<>();
         this.listaAutocarros = new ArrayList<>();
-        this.listaNegraClientes = new ArrayList<Cliente>();
+        this.listaNegraClientes = new ArrayList<>();
         this.listaReservas = new ArrayList<Reserva>();
         this.listaPreReservas = new ArrayList<Reserva>();
+        this.listaReservasCanceladas = new ArrayList<Reserva>();
     }
 
     public List getListaUtilizadores() {
@@ -248,8 +252,9 @@ public class Empresa implements Serializable {
         // Será usado o nif como identificador do cliente a remover, dado que este nunca altera ao longo da vida
         for (Utilizador client : empresa.listaUtilizadores) {
             if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
-                empresa.listaUtilizadores.remove(client);
+
                 empresa.listaNegraClientes.add(client); // adiciona o cliente a lista alternativa, porque este cliente mantém a possibilidade de fazer login
+                empresa.listaUtilizadores.remove(client);
                 escreveFicheiro();
                 return true;
             }
@@ -307,11 +312,23 @@ public class Empresa implements Serializable {
     public List<Reserva> listagemHistoricoReservas(Empresa empresa) {
         // método que mostra todas as reservas passadas de um dado cliente
 
-        return empresa.listaReservas.stream().filter(
-                        user -> user.getClient().equals(loggeduser)
+        List<Reserva> listaReserva = new ArrayList<>();
+
+        for (Reserva r : empresa.listaReservas) {
+            if (r.getClient().equals(empresa.loggeduser)) {
+                if (r.getDataPartida().isBefore(LocalDate.now())) {
+                    listaReserva.add(r);
+                }
+            }
+        }
+
+        return listaReserva;
+
+      /*return empresa.listaReservas.stream().filter(
+                        r -> r.getClient().equals(loggeduser)
 
                 ).filter(user -> user.getDataPartida().isBefore(LocalDate.now()))
-                .toList();
+                .toList();*/
 
     }
 
@@ -348,7 +365,7 @@ public class Empresa implements Serializable {
         int valorMes = Integer.parseInt(mes);
         List<String> listaAutocarrosReservados = new ArrayList<>();
 
-        for (Reserva r : listaReservas) {
+        for (Reserva r : this.listaReservas) {
             if (r.getDataPartida().getYear() == valorAno && r.getDataPartida().getMonthValue() == valorMes) {
                 listaAutocarrosReservados.add(r.getBus().toString() + " de " + r.getDataPartida() + " a " + r.getDataRegresso());
 
@@ -358,6 +375,26 @@ public class Empresa implements Serializable {
             System.out.println(listaAutocarrosReservados.get(i));
         }*/
         return listaAutocarrosReservados;
+    }
+
+    public List<Reserva> listarReservasCanceladas(String ano, String mes, Empresa empresa) {
+        // método que lista todas as reservas canceladas num dado mês e a respectiva data
+
+        int valorAno = Integer.parseInt(ano);
+        int valorMes = Integer.parseInt(mes);
+
+        List<Reserva> listaResCanceladas = new ArrayList<>();
+
+        if (this.listaReservasCanceladas.isEmpty()) {
+            JOptionPane.showMessageDialog(new JFrame("Lista de reservas canceladas"), "Não há nenhuma reserva cancelada");
+        } else {
+            for (Reserva r : this.listaReservasCanceladas) {
+                if (r.getDataPartida().getYear() == valorAno && r.getDataPartida().getMonthValue() == valorMes) {
+                    listaResCanceladas.add(r);
+                }
+            }
+        }
+        return listaResCanceladas;
     }
 
     public String avaliarReservaMensal(String ano, int mes, Empresa empresa) {
@@ -530,19 +567,31 @@ public class Empresa implements Serializable {
         return clMaxReservas;
     }
 
-    /*
-    Normal: Têm uma penalização de 50% sempre que cancelarem uma reserva até 7 dias consecutivos antes da partida.
-     Após este prazo não existe reembolso. Esta subscrição não representa nenhum custo mensal acrescido.
-2. Premium: Podem cancelar as reservas sem qualquer custo até 2 dias consecutivos antes da data da reserva.
-Após este prazo não existe reembolso.
-Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utilizador premium procurar uma reserva,
- apenas os autocarros de outros utilizadores premium devem ser considerados como reservados.
-  Havendo reservas de utilizadores normais para as datas pretendidas, e mais nenhum autocarro disponível,
-  deve ser cancelada a reserva mais recente do utilizador normal cujo autocarro satisfaz as necessidades do cliente premium,
-   desde que este cancelamento seja no mínimo com 2 dias de antecedência.
-    Quando uma reserva é cancelada, o cliente afetado deve receber uma notificação (mensagem no ecrã).
-    Esta subscrição tem um custo mensal de 10€.
-     */
+    public List<Utilizador> clienteComMaisReservasStats(Empresa empresa) {
+
+        List<Utilizador> clMaxReservas = new ArrayList<>();
+
+        int contador = 0;
+        int maximo = 0;
+
+        for (Utilizador c : empresa.listaUtilizadores) {
+            if (c instanceof Cliente) {
+
+                for (Reserva r : empresa.listaReservas) {
+                    if (r.getClient().equals(c)) {
+                        contador++;
+                    }
+                    if (contador > maximo) {
+                        maximo = contador;
+                        clMaxReservas.add(c);
+                    }
+                }
+                contador = 0;
+            }
+        }
+        return clMaxReservas;
+    }
+
 
     public Reserva fazerReserva(Cliente client,
                                 LocalDate dataPartida,
@@ -569,8 +618,7 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
 
             Reembolso reembolso = cancelarReserva(reservaExistente.getId(), LocalDate.now());
 
-            // TODO: enviar a mensagem para o client da reserva cancelada
-            // reservaExistente.getClient().addNewNotifcation(new Notificacao(...));
+            reservaExistente.getClient().addNotificacao(" A sua reserva " + reservaExistente.getId() + "foi cancelada. Se aplicável, receberá o reembolso devido pelo mesmo método com que efectuou o pagamento da reserva");
 
             System.out.println("Reserva Cancelada!!!");
 
@@ -674,15 +722,31 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
         return cancelarReserva(reserva, dataDeCancelamento);
     }
 
+    public void addReservaCancelada(String idReserva) {
+        Reserva r = getReserva(idReserva);
+        this.listaReservasCanceladas.add(r);
+        escreveFicheiro();
+
+    }
+
+    public void addReservaCancelada(Reserva r) {
+        this.listaReservasCanceladas.add(r);
+        escreveFicheiro();
+
+    }
 
     private Reembolso cancelarReserva(Reserva reserva, LocalDate dataDeCancelamento) {
+
         Reembolso reenbolse = reserva.cancelar(dataDeCancelamento);
+
         removeReserva(reserva);
+
 
         escreveFicheiro();
 
         return reenbolse;
     }
+
 
     private Reserva getReserva(String idReserva) {
         Reserva reserva = findReservaPorId(idReserva);
@@ -1032,4 +1096,59 @@ Os utilizadores premium têm prioridade na reserva, ou seja, sempre que um utili
     }
 
 
+    public void cancelarReservaSemBus(String matricula) {
+
+        for (Reserva r : this.listaReservas) {
+            if (r.getBus().getMatricula().equals(matricula)) {
+                addReservaCancelada(r);
+                removeReserva(r);
+
+                r.getClient().addNotificacao("A sua reserva " + r.getId() + "foi cancelada por indisponibilidade de autocarro. Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
+
+            }
+            escreveFicheiro();
+        }
+    }
+
+    public void cancelarReservaDeClienteRemovido(String nif) {
+
+        List<Utilizador> listaClientes = listaDeClientes(this);
+        Utilizador clienteRemovido = null;
+
+        for (Utilizador u : listaClientes) {
+            if (u.getNif().equals(nif)) {
+                clienteRemovido = u;
+
+            }
+        }
+        for (Reserva r : this.listaReservas) {
+            if (r.getClient().equals(clienteRemovido)) {
+                addReservaCancelada(r);
+                r.getClient().addNotificacao("A sua conta de cliente foi removida. As reservas confirmadas que poderiam existir foram canceladas. Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
+                removeReserva(r);
+
+            }
+        }
+        escreveFicheiro();
+
+    }
+
+    public boolean clientePertenceAListaNegra(Utilizador user) {
+
+        for (Utilizador u : this.listaNegraClientes) {
+            if (u.equals(user)) return true;
+
+        }
+        return false;
+    }
+
+
+    public boolean validarDatas(LocalDate dataPartida, LocalDate dataRegresso) {
+        LocalDate dataP = dataPartida;
+        LocalDate dataR = dataRegresso;
+
+        if (dataR.isEqual(dataP) || dataR.isAfter(dataP))
+            return true;
+        return false;
+    }
 }

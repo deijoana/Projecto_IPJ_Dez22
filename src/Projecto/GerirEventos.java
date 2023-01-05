@@ -40,6 +40,9 @@ public class GerirEventos implements ActionListener {
             case 8:
                 janela.mudaEcra("PainelNormal");
                 break;
+            case 9:
+                janela.mudaEcra("PainelSelecaoReservasCanceladas");
+                break;
         }
 
     }

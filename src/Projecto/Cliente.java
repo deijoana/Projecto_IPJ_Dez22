@@ -2,6 +2,8 @@ package Projecto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cliente extends Utilizador implements Serializable {
 
@@ -10,6 +12,8 @@ public class Cliente extends Utilizador implements Serializable {
 
     private TipoSubscricao tipoSubscricao;
     private String modoPagamento;
+
+    private List<String> listaNotificacoes = new ArrayList<>();
 
     public Cliente(String nome, String nif, String morada, String telefone, String email, String tipoUtilizador,
                    String palavraPasse, TipoSubscricao tipoSubscricao, String modoPagamento) {
@@ -49,5 +53,13 @@ public class Cliente extends Utilizador implements Serializable {
 
     public Reembolso calcularReenbolsoDeCancelamentoDeReserva(double custo, LocalDate dataPartida, LocalDate dataDeCancelamente) {
         return this.tipoSubscricao.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
+    }
+
+    public void addNotificacao (String notificacao){
+        this.listaNotificacoes.add(notificacao);
+    }
+
+    public List<String> getListaNotificacoes() {
+        return listaNotificacoes;
     }
 }
