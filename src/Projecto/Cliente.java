@@ -34,6 +34,7 @@ public class Cliente extends Utilizador implements Serializable {
         this.tipoSubscricao = tipoSubscricao;
     }
 
+
     @Override
     public String toString() {
         return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + ", " + tipoSubscricao + ", " + modoPagamento;

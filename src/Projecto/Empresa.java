@@ -48,13 +48,20 @@ public class Empresa implements Serializable {
         this.loggeduser = loggeduser;
     }
 
-    // Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
-    // Definiu-se como static porque este dado não deverá nunca ser alterado
-    //private String AUTOCARROS_AOR = "autocarros_aor";
+    /**
+     Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
+     *Definiu-se como static porque este dado não deverá nunca ser alterado
+     *private String AUTOCARROS_AOR = "autocarros_aor";
+     */
 
-    //Instância de Administrador "sénior" para poder entrar na aplicação ao iniciar a execução do programa.
+
+
+    /**
+    // Instância de Administrador "sénior" para poder entrar na aplicação ao iniciar a execução do programa.
     //Definiu-se como static porque esta instância é de importância máxima e não deverá ser alterada em qualquer circunstância
-    static final Administrador administrador = new Administrador(
+    */
+
+     static final Administrador administrador = new Administrador(
             "Tiago Sousa",
             "228923824",
             "Rua António Jardim",
@@ -62,6 +69,7 @@ public class Empresa implements Serializable {
             "tiagosousa@aor.pt",
             "Administrador",
             "12345"
+
     );
 
 
@@ -82,9 +90,12 @@ public class Empresa implements Serializable {
         this.listaUtilizadores = listaUtilizadores;
 
     }
+    /**
+     * Método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula.
+     * O método recebe como parâmetros a matrícula
+    */
 
-    // método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula
-    public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
+     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
 
         for (Autocarro a : empresa.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
@@ -105,9 +116,19 @@ public class Empresa implements Serializable {
 
     // método que permite ao Administrador editar os atributos de um autocarro
     // Este método permite editar as informações de um autocarro da lista de autocarros e grava essa lista no ficheiro de objetos.
-    // O método recebe como parâmetros a matrícula do autocarro a ser editado,
-    // as novas informações (marca, modelo e lotação) e a empresa que possui a lista de autocarros.
 
+
+    /**
+     * Método que permite ao Administrador editar os atributos de um autocarro.
+     * O método corre a lista de autocarros da empresa e se a matrícula inserida pelo utilizador tiver correspondência é-lhe permitido
+     * editar os atributos desse autocarro. De seguida grava a informação no ficheiro de objetos.
+     * @param matricula
+     * @param novaMarca
+     * @param novoModelo
+     * @param novaLotacao
+     * @param empresa
+     * @return se o resultado for true retorna o autocarro com as devidas alteraçõe se for false
+     */
     public boolean editarAutocarro(
             String matricula,
             String novaMarca,
@@ -129,9 +150,17 @@ public class Empresa implements Serializable {
         return false;
     }
 
+    /**
+     * Este método permite remover um autocarro.
+     * Percorre a lista de autocarros e verifica se a matrícula dada faz match com algum dos autocarros da lista.
+     * Se se verificar esse match o autocarro é removido da lista e a atualização é gravada no ficheiro de objetos.
+     * @param matricula
+     * @param empresa
+     * @return se devolver true o autocarro é removido.
+     */
     //Este método permite remover um autocarro.
     //Percorre a lista de autocarros e verifica se a matrícula dada faz match com algum dos autocarros da lista.
-    //Se se verificar esse match o autocarrado é removido da lista e a atualização é gravada no ficheiro de objetos.
+    //Se se verificar esse match o autocarro é removido da lista e a atualização é gravada no ficheiro de objetos.
     public boolean removerAutocarro(String matricula, Empresa empresa) {
 
         for (Autocarro a : empresa.listaAutocarros) {
@@ -179,6 +208,7 @@ public class Empresa implements Serializable {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
         for (Motorista m : empresa.listaMotoristas) {
+
             if (m.getNifMotorista().equals(nif)) {
                 empresa.listaMotoristas.remove(m);
                 escreveFicheiro();
