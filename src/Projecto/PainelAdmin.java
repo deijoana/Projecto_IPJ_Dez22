@@ -181,10 +181,10 @@ public class PainelAdmin extends JPanel {
 
                 //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
 
-                Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1, empresa);
+                Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1);
 
 
-                if (empresa.validarEmail(email1, empresa) && empresa.validarDados(nome1, empresa) && empresa.validarNIF(nif1, empresa) && empresa.validarDados(password1, empresa) && empresa.validarTelefone(telefone1, empresa)) {
+                if (empresa.validarEmail(email1) && empresa.validarDados(nome1) && empresa.validarNIF(nif1) && empresa.validarDados(password1) && empresa.validarTelefone(telefone1)) {
 
                     if (novoAdministrador == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -205,11 +205,11 @@ public class PainelAdmin extends JPanel {
                     moradaT1.setText("");
                     telefoneT1.setText("");
 
-                } else if (!empresa.validarEmail(email1, empresa)) {
+                } else if (!empresa.validarEmail(email1)) {
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
-                } else if (!empresa.validarNIF(nif1, empresa)) {
+                } else if (!empresa.validarNIF(nif1)) {
                     JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
-                } else if (!empresa.validarTelefone(telefone1, empresa))
+                } else if (!empresa.validarTelefone(telefone1))
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx");
                 else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um nome e/ou password válidos");
@@ -287,7 +287,7 @@ public class PainelAdmin extends JPanel {
 
                 Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2);
 
-                if (empresa.validarEmail(email2, empresa) && empresa.validarNIF(nif2, empresa) && empresa.validarDados(nome2, empresa)) {
+                if (empresa.validarEmail(email2) && empresa.validarNIF(nif2) && empresa.validarDados(nome2)) {
 
                     if (novoMotorista == null) {
                         JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"),
@@ -299,9 +299,9 @@ public class PainelAdmin extends JPanel {
                     nifT2.setText("");
                     emailT2.setText("");
 
-                } else if (!empresa.validarEmail(email2, empresa)) {
+                } else if (!empresa.validarEmail(email2)) {
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
-                } else if (!empresa.validarNIF(nif2, empresa)) {
+                } else if (!empresa.validarNIF(nif2)) {
                     JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Preencha o nome");
@@ -372,7 +372,7 @@ public class PainelAdmin extends JPanel {
 
                 boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3);
 
-                if (empresa.validarEmail(email3, empresa) && empresa.validarNIF(nif3, empresa) && empresa.validarDados(nome3, empresa)) {
+                if (empresa.validarEmail(email3) && empresa.validarNIF(nif3) && empresa.validarDados(nome3)) {
 
                     if (resultado1) {
                         JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"),
@@ -384,9 +384,9 @@ public class PainelAdmin extends JPanel {
                     nifT3.setText("");
                     emailT3.setText("");
 
-                } else if (!empresa.validarEmail(email3, empresa)) {
+                } else if (!empresa.validarEmail(email3)) {
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
-                } else if (!empresa.validarNIF(nif3, empresa)) {
+                } else if (!empresa.validarNIF(nif3)) {
                     JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Preencha o nome");
@@ -432,7 +432,7 @@ public class PainelAdmin extends JPanel {
 
                 boolean resultado2 = empresa.removerMotorista(nif4);
 
-                if (empresa.validarNIF(nif4, empresa)) {
+                if (empresa.validarNIF(nif4)) {
 
                     if (resultado2) {
                         JOptionPane.showMessageDialog(new JFrame("O motorista foi removido"), "O motorista foi removido");
@@ -451,7 +451,7 @@ public class PainelAdmin extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
 
-listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
+                listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
             }
         });
 
@@ -563,7 +563,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                 int lotacao5 = Integer.parseInt(lotacaoT5.getText());
 
                 Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5);
-                if (empresa.validarMatricula(matricula5, empresa) && empresa.validarDados(modelo5, empresa) && empresa.validarDados(marca5, empresa) && empresa.validarDados(String.valueOf(lotacao5), empresa)) {
+                if (empresa.validarMatricula(matricula5) && empresa.validarDados(modelo5) && empresa.validarDados(marca5) && empresa.validarDados(String.valueOf(lotacao5))) {
                     if (autocarro == null) {
                         JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula5 + " já existe");
                     } else {
@@ -574,9 +574,9 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                     matriculaT5.setText("Formato ##-##-##");
                     lotacaoT5.setText("");
 
-                } else if (!empresa.validarMatricula(matricula5, empresa))
+                } else if (!empresa.validarMatricula(matricula5))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira uma matrícula válida: ##-##-##");
-                else if (!empresa.validarDados(String.valueOf(lotacao5), empresa))
+                else if (!empresa.validarDados(String.valueOf(lotacao5)))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um valor numérico válido para lotação do autocarro");
                 else JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira modelo e/ou marca válidos");
 
@@ -658,7 +658,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                 int lotacao6 = Integer.parseInt(lotacaoT6.getText());
 
                 boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6);
-                if (empresa.validarMatricula(matricula6, empresa) && empresa.validarDados(modelo6, empresa) && empresa.validarDados(marca6, empresa) && empresa.validarDados(String.valueOf(lotacao6), empresa)) {
+                if (empresa.validarMatricula(matricula6) && empresa.validarDados(modelo6) && empresa.validarDados(marca6) && empresa.validarDados(String.valueOf(lotacao6))) {
                     if (resultado3) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"),
                                 "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
@@ -671,9 +671,9 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                     matriculaT6.setText("Formato ##-##-##");
                     lotacaoT6.setText("");
 
-                } else if (!empresa.validarMatricula(matricula6, empresa))
+                } else if (!empresa.validarMatricula(matricula6))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira uma matrícula válida: ##-##-##");
-                else if (!empresa.validarDados(String.valueOf(lotacao6), empresa))
+                else if (!empresa.validarDados(String.valueOf(lotacao6)))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um valor numérico válido para lotação do autocarro");
                 else JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira modelo e/ou marca válidos");
 
@@ -716,9 +716,9 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 String matricula7 = matriculaT7.getText();
                 boolean resultado4 = empresa.removerAutocarro(matricula7);
-                if (empresa.validarMatricula(matricula7, empresa)) {
+                if (empresa.validarMatricula(matricula7)) {
                     if (resultado4) {
-                        empresa.cancelarReservaSemBus (matricula7);
+                        empresa.cancelarReservaSemBus(matricula7);
                         JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
@@ -730,7 +730,6 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
             }
         });
-
 
         panel3.add(painelAutocarro);
 
@@ -886,7 +885,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao, pagamentoSubscricao8, password8);
 
-                if (empresa.validarEmail(email8, empresa) && empresa.validarDados(nome8, empresa) && empresa.validarNIF(nif8, empresa) && empresa.validarDados(password8, empresa) && empresa.validarTelefone(telefone8, empresa)) {
+                if (empresa.validarEmail(email8) && empresa.validarDados(nome8) && empresa.validarNIF(nif8) && empresa.validarDados(password8) && empresa.validarTelefone(telefone8)) {
 
                     if (novoCliente == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -907,12 +906,12 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                     moradaT8.setText("");
                     telefoneT8.setText("");
 
-                } else if (!empresa.validarEmail(email8, empresa))
+                } else if (!empresa.validarEmail(email8))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um email válido");
 
-                else if (!empresa.validarNIF(nif8, empresa))
+                else if (!empresa.validarNIF(nif8))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
-                else if (!empresa.validarTelefone(telefone8, empresa))
+                else if (!empresa.validarTelefone(telefone8))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx)");
                 else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira nome e/ou password válidos");
@@ -1056,7 +1055,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9);
 
-                if (empresa.validarEmail(email9, empresa) && empresa.validarDados(nome9, empresa) && empresa.validarNIF(nif9, empresa) && empresa.validarTelefone(telefone9, empresa)) {
+                if (empresa.validarEmail(email9) && empresa.validarDados(nome9) && empresa.validarNIF(nif9) && empresa.validarTelefone(telefone9)) {
 
                     if (resultado5) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"),
@@ -1072,12 +1071,12 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                     moradaT9.setText("");
                     telefoneT9.setText("");
 
-                } else if (!empresa.validarEmail(email9, empresa))
+                } else if (!empresa.validarEmail(email9))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um email válido");
 
-                else if (!empresa.validarNIF(nif9, empresa))
+                else if (!empresa.validarNIF(nif9))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
-                else if (!empresa.validarTelefone(telefone9, empresa))
+                else if (!empresa.validarTelefone(telefone9))
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx)");
                 else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um nome válido");
@@ -1123,20 +1122,17 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 boolean resultado10 = empresa.removerCliente(nif10);
 
-                if (empresa.validarNIF(nif10, empresa)) {
+                if (empresa.validarNIF(nif10)) {
                     if (resultado10) {
-                       empresa.cancelarReservaDeClienteRemovido(nif10);
+                        empresa.cancelarReservaDeClienteRemovido(nif10);
                         JOptionPane.showMessageDialog(new JFrame("Cliente removido com sucesso"),
                                 "O cliente associado ao nif " + nif10 + " foi removido com sucesso");
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Cliente não encontrado"),
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif10);
-
                     nifT10.setText("");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
-
-
             }
         });
 
@@ -1231,8 +1227,6 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
         totalCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
                 int totalClientes = 0;
 
                 totalClientes = empresa.totalClientes();
@@ -1252,7 +1246,6 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
         totalMotorista.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
 
                 int totalMotoristas = 0;
 
@@ -1274,9 +1267,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
             @Override
             public void actionPerformed(ActionEvent e) {
 
-
                 int totalAutocarros = 0;
-
                 totalAutocarros = empresa.totalAutocarros();
 
                 JOptionPane.showMessageDialog(new JFrame("Número de Autocarros"), "Total de Autocarros: " + totalAutocarros);
@@ -1294,8 +1285,6 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
         autocarroMReq.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
 
                 AutocarrosMaisUtilizadosStats autocarrosMaisUtilizadosStats = empresa.encontrarAutocarroMaisReq();
 
@@ -1316,14 +1305,13 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
             @Override
             public void actionPerformed(ActionEvent e) {
 
-              //   clienteMaxReservas=null;
+                //   clienteMaxReservas=null;
 
-                List<Utilizador>  clienteMaxReservas = empresa.clienteComMaisReservasStats();
+                List<Utilizador> clienteMaxReservas = empresa.clienteComMaisReservasStats();
                 JOptionPane.showMessageDialog(new JFrame("Cliente com mais reservas"),
                         "O cliente com mais reservas é: \n %s ".formatted(clienteMaxReservas));
             }
         });
-
 
 
         listaBusReservado = new JButton("Lista de autocarros reservados para um dado mês");
@@ -1384,18 +1372,17 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
         c12.gridwidth = 2;
         panel8.add(inserirDados12, c12);
 
-
         palavraPasse = new JLabel("Palavra-passe antiga");
         palavraPasse.setFont(new Font("Arial", 1, 12));
         c12.gridx = 1;
         c12.gridy = 1;
+
         panel8.add(palavraPasse, c12);
         passwordF = new JPasswordField(25);
         c12.insets = new Insets(10, 10, 0, 0);
         c12.gridx = 2;
         c12.gridy = 1;
         panel8.add(passwordF, c12);
-
 
         passwordNova1L = new JLabel("Insira nova palavra-passe");
         passwordNova1L.setFont(new Font("Arial", 1, 12));
@@ -1426,17 +1413,15 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
         c12.gridx = 2;
         c12.gridy = 5;
         panel8.add(guardarRegisto12, c12);
-
         guardarRegisto12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String palavraPasse = String.valueOf(passwordF.getPassword());
                 String passwordNova1L = String.valueOf(passwordNova1.getPassword());
                 String passwordNova2L = String.valueOf(passwordNova2.getPassword());
-
                 int resultado12 = empresa.alterarPassword(palavraPasse, passwordNova1L, passwordNova2L);
 
-                if (empresa.validarDados(palavraPasse, empresa) && empresa.validarDados(passwordNova1L, empresa) && empresa.validarDados(passwordNova2L, empresa)) {
+                if (empresa.validarDados(palavraPasse) && empresa.validarDados(passwordNova1L) && empresa.validarDados(passwordNova2L)) {
 
                     if (resultado12 == 5) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
@@ -1460,12 +1445,10 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                     }
 
                 } else {
-                    JOptionPane.showMessageDialog(new JFrame("Insucesso"),
-                            "Preencha os campos vazios");
+                    JOptionPane.showMessageDialog(new JFrame("Insucesso"), "Preencha os campos vazios");
                 }
             }
         });
-
 
         c.gridx = 1;
         c.gridy = 1;

@@ -83,7 +83,7 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
 
                 JList<Reserva> resultado = new JList<>(new Vector<>(empresa.listarReservasCanceladas(ano, mes)));
                ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
-                if (empresa.validarAno(ano, empresa)) {
+                if (empresa.validarAno(ano)) {
                    if (model.getSize()==0){
                    // if(resultado==null){
                         JOptionPane.showMessageDialog(new JFrame("Lista de reservas canceladas"), "Não há nenhuma reserva cancelada no mês seleccionado");

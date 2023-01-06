@@ -83,7 +83,7 @@ public class PainelSelecaoBus extends JPanel {
 
                 JList<String> resultado = new JList<String>(new Vector<String>(empresa.listarAutocarrosReservados(ano, mes).stream().toList()));
                 ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
-                if (empresa.validarAno(ano, empresa)) {
+                if (empresa.validarAno(ano)) {
                     if (model.getSize() == 0) {
                         JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Não há nenhum autocarro reservado no mês seleccionado");
                     } else {

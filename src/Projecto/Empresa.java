@@ -121,7 +121,6 @@ public class Empresa implements Serializable {
     // método que permite ao Administrador editar os atributos de um autocarro
     // Este método permite editar as informações de um autocarro da lista de autocarros e grava essa lista no ficheiro de objetos.
 
-
     /**
      * Método que permite ao Administrador editar os atributos de um autocarro.
      * O método corre a lista de autocarros da empresa e se a matrícula inserida pelo utilizador tiver correspondência é-lhe permitido
@@ -459,7 +458,7 @@ public class Empresa implements Serializable {
         if (dia.isLeapYear()) {
             for (int i = 1; i < 367; i++) {
                 count = 0;
-                for (Reserva r : listaReservas) {
+                for (Reserva r : this.listaReservas) {
                     if ((dia.isEqual(r.getDataPartida()) || dia.isAfter(r.getDataPartida())) && (dia.isEqual(r.getDataRegresso()) || dia.isBefore(r.getDataRegresso()))) {
                         count++;
                     }
@@ -475,7 +474,7 @@ public class Empresa implements Serializable {
         } else {
             for (int i = 1; i < 366; i++) {
                 count = 0;
-                for (Reserva r : listaReservas) {
+                for (Reserva r : this.listaReservas) {
                     if ((dia.isEqual(r.getDataPartida()) || dia.isAfter(r.getDataPartida())) && (dia.isEqual(r.getDataRegresso()) || dia.isBefore(r.getDataRegresso()))) {
                         count++;
                     }
@@ -628,7 +627,7 @@ public class Empresa implements Serializable {
                                 double distancia) {
 
         Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
-        Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso, this);
+        Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso);
 
         Reserva reservaCriada = null;
         if (autocarro != null && motorista != null) {
@@ -803,17 +802,17 @@ public class Empresa implements Serializable {
 
 
     //método para procurar disponilidade de autocarro
-    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, Empresa empresa) {
+    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
         Autocarro escolhido = null;
         List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
 
 
-        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : this.listaAutocarros) {
             boolean saltaAutocarro = true; // salta para o proximo se verdadeiro
             // autocarro elegivel, pois tem lotação suficiente
             if (a.getLotacao() >= numPassageiros) {
                 saltaAutocarro = false;
-                for (Reserva r : empresa.listaReservas) {
+                for (Reserva r : this.listaReservas) {
                     if (r.getBus() == a) {
                         if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) ||
                                 (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) ||
@@ -846,14 +845,14 @@ public class Empresa implements Serializable {
 
 
     //método para procurar disponilidade de motorista
-    public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso, Empresa empresa) {
+    public Motorista procurarDisponibilidadeMotorista(LocalDate dataPartida, LocalDate dataRegresso) {
         // salta para o proximo se verdadeiro
         Motorista escolhido = null;
 
-        for (Motorista m : empresa.listaMotoristas) {
+        for (Motorista m : this.listaMotoristas) {
             boolean saltaMotorista = false;
 
-            for (Reserva r : empresa.listaReservas) {
+            for (Reserva r : this.listaReservas) {
                 if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m) ||
                         (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) && r.getDriver().equals(m) ||
                         (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m) ||
@@ -873,8 +872,8 @@ public class Empresa implements Serializable {
     }
 
     // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
-    public Utilizador fazerLogin(String emailUtilizador, String palavraPasse, Empresa empresa) {
-        for (Utilizador u : empresa.listaUtilizadores) {
+    public Utilizador fazerLogin(String emailUtilizador, String palavraPasse) {
+        for (Utilizador u : this.listaUtilizadores) {
             if (u.getEmail().equals(emailUtilizador) && u.getPalavraPasse().equals(palavraPasse)) {
                 return u;
             }
@@ -932,7 +931,7 @@ public class Empresa implements Serializable {
     }
 
 // método que valida se o email inserido é válido
-    /*public boolean validarEmail(String email, Empresa empresa) {
+    /*public boolean validarEmail(String email) {
         int count = 0;
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '@') count++;
@@ -942,7 +941,7 @@ public class Empresa implements Serializable {
         } else return false;
     }*/
 
-    public boolean validarEmail(String email, Empresa empresa) {
+    public boolean validarEmail(String email) {
         //valida email inserido se obedecer às regras abaixo descritas
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
@@ -957,7 +956,7 @@ public class Empresa implements Serializable {
     }
 
 
-    public boolean validarDados(String input, Empresa empresa) {
+    public boolean validarDados(String input) {
         // método que valida se caixa de texto de dado está preenchida ou não
         String vazio = "";
         if (input.trim().equals(vazio)) {
@@ -966,7 +965,7 @@ public class Empresa implements Serializable {
         return true;
     }
 
-    public int validarComboBoxIndex(int subscricao, int pagamento, Empresa empresa) {
+    public int validarComboBoxIndex(int subscricao, int pagamento) {
 
         if (subscricao == 0 || pagamento == 0) {
             return 0;
@@ -975,7 +974,7 @@ public class Empresa implements Serializable {
 
     }
 
-    public int validarComboBoxIndex(int pagamento, Empresa empresa) {
+    public int validarComboBoxIndex(int pagamento) {
 
         if (pagamento == 0) {
             return 0;
@@ -984,7 +983,7 @@ public class Empresa implements Serializable {
 
     }
 
-    /*  public boolean validarPassword(String password, Empresa empresa){
+    /*  public boolean validarPassword(String password){
           String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
           Pattern pat = Pattern.compile(passwordRegex);
           if (password == null) {
@@ -993,7 +992,7 @@ public class Empresa implements Serializable {
           return pat.matcher(password).matches();
       }
   */
-    public boolean validarTelefone(String telefone, Empresa empresa) {
+    public boolean validarTelefone(String telefone) {
         String telefoneRegex = "^(\\+351|00351)?(9|3|2)(\\d{8})";
 
         Pattern pat = Pattern.compile(telefoneRegex);
@@ -1004,7 +1003,7 @@ public class Empresa implements Serializable {
         return pat.matcher(telefone.trim()).matches();
     }
 
-    public boolean validarNIF(String nif, Empresa empresa) {
+    public boolean validarNIF(String nif) {
         String nifRegex = "[\\d][0-9]{8}";
 
         Pattern pat = Pattern.compile(nifRegex);
@@ -1013,7 +1012,7 @@ public class Empresa implements Serializable {
         return pat.matcher(nif.trim()).matches();
     }
 
-    public boolean validarMatricula(String matricula, Empresa empresa) {
+    public boolean validarMatricula(String matricula) {
         String matriculaRegex = "^[a-zA-Z-0-9][a-zA-Z-0-9][-][a-zA-Z-0-9][a-zA-Z-0-9][-][a-zA-Z-0-9][a-zA-Z-0-9]$";
 
         Pattern pat = Pattern.compile(matriculaRegex);
@@ -1022,7 +1021,7 @@ public class Empresa implements Serializable {
         return pat.matcher(matricula.trim()).matches();
     }
 
-    public boolean validarAno(String ano, Empresa empresa) {
+    public boolean validarAno(String ano) {
         // método que valida apenas valores de anos no século XXI
 
         String anoRegex = "^[2][0][0-9][0-9]$";
@@ -1034,7 +1033,7 @@ public class Empresa implements Serializable {
         return pat.matcher(ano.trim()).matches();
     }
 
-    public boolean validarCVC(String cvc, Empresa empresa) {
+    public boolean validarCVC(String cvc) {
 
         String cvcRegex = "^[0-9][0-9][0-9]$";
 
@@ -1045,7 +1044,7 @@ public class Empresa implements Serializable {
         return pat.matcher(cvc.trim()).matches();
     }
 
-    public boolean validarnumCC(String numCC, Empresa empresa) {
+    public boolean validarnumCC(String numCC) {
         String nifRegex = "[\\d][0-9]{15}";
 
         Pattern pat = Pattern.compile(nifRegex);
@@ -1054,7 +1053,7 @@ public class Empresa implements Serializable {
         return pat.matcher(numCC.trim()).matches();
     }
 
-    public boolean validarLocalDate(String localDate, Empresa empresa) {
+    public boolean validarLocalDate(String localDate) {
         LocalDate data = LocalDate.parse(localDate.trim());
 
         if (LocalDate.now().isBefore(data))
@@ -1064,7 +1063,7 @@ public class Empresa implements Serializable {
 
 
 
-   /* public boolean validarDadoNumerico(String num, Empresa empresa) {
+   /* public boolean validarDadoNumerico(String num) {
    // método para validar se dados inseridos são numéricos. Não estava a executar bem
         String numRegex = "^\\d+$";
         Pattern pat = Pattern.compile(numRegex);
@@ -1082,11 +1081,11 @@ public class Empresa implements Serializable {
             String telefone,
             String nif,
             String morada,
-            String palavraPasse,
-            Empresa empresa
+            String palavraPasse
+
     ) {
 
-        for (Utilizador u : empresa.listaUtilizadores) {
+        for (Utilizador u : this.listaUtilizadores) {
             if (u.getEmail().equals(email)) {
                 return null;
             }
@@ -1103,7 +1102,7 @@ public class Empresa implements Serializable {
 
         );
 
-        empresa.listaUtilizadores.add(novoAdministrador);
+        this.listaUtilizadores.add(novoAdministrador);
         escreveFicheiro();
 
         return novoAdministrador;

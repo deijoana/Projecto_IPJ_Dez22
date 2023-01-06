@@ -434,7 +434,7 @@ public class PainelCliente extends JPanel {
 
                 int resultado = empresa.alterarPassword(passAntiga, passNova, passNova2);
 
-                if (empresa.validarDados(passAntiga, empresa) && empresa.validarDados(passNova, empresa) && empresa.validarDados(passNova2, empresa)) {
+                if (empresa.validarDados(passAntiga) && empresa.validarDados(passNova) && empresa.validarDados(passNova2)) {
 
                     if (resultado == 5) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");

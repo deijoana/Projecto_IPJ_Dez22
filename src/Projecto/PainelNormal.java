@@ -49,7 +49,7 @@ public class PainelNormal extends JPanel {
                 String modoPagam = modoPagamento.getSelectedItem().toString();
                 int indiceSubscricao = modoPagamento.getSelectedIndex();
 
-                if (empresa.validarComboBoxIndex(indiceSubscricao, empresa) == 1) {
+                if (empresa.validarComboBoxIndex(indiceSubscricao) == 1) {
 
                     switch (indiceSubscricao) {
                         case 1:

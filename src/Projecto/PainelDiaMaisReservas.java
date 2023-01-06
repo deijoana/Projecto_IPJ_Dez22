@@ -65,7 +65,7 @@ public class PainelDiaMaisReservas extends JPanel {
 
                 LocalDate diaMaisReservas = empresa.diaAnoMaisReservas(ano);
 
-                if (empresa.validarAno(ano, empresa)) {
+                if (empresa.validarAno(ano)) {
 
                         if (diaMaisReservas ==null ){
 

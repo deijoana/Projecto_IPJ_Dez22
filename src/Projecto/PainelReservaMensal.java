@@ -69,7 +69,7 @@ public class PainelReservaMensal extends JPanel {
                 JList<String> resultado = new JList<String>(dados);
                 ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
 
-                if (empresa.validarAno(ano, empresa)) {
+                if (empresa.validarAno(ano)) {
                     if (model.getSize()==0){
                         JOptionPane.showMessageDialog(new JFrame("Insucesso"), "O ano " + ano + " não teve nenhuma reserva" );
                     } else {

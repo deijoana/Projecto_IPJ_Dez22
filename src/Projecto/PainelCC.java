@@ -91,7 +91,7 @@ public class PainelCC extends JPanel {
 
                 Cliente client = (Cliente) empresa.getLoggeduser();
 
-                if (empresa.validarDados(nomeCC, empresa) && empresa.validarCVC(cvc, empresa) && empresa.validarnumCC(numCC, empresa) && empresa.validarLocalDate(dataExpiracaoCC, empresa)) {
+                if (empresa.validarDados(nomeCC) && empresa.validarCVC(cvc) && empresa.validarnumCC(numCC) && empresa.validarLocalDate(dataExpiracaoCC)) {
                     client.setTipoSubscricao(TipoSubscricao.PREMIUM);
                     client.setModoPagamento("Cartão de Crédito");
                     JOptionPane.showMessageDialog(new JFrame("sucesso"), "Subscreveu o plano Premium com sucesso. O valor da mensalidade (10€) será debitado da conta associada ao cartão de crédito inserido");
@@ -101,11 +101,11 @@ public class PainelCC extends JPanel {
                     dataExpiracaoCCT.setText("");
                     cvcT.setText("");
 
-                } else if (!empresa.validarDados(nomeCC, empresa))
+                } else if (!empresa.validarDados(nomeCC))
                     JOptionPane.showMessageDialog(new JFrame("insucesso"), "Insira um nome válido para concluir a subscrição do plano Premium");
-                else if (!empresa.validarCVC(cvc, empresa))
+                else if (!empresa.validarCVC(cvc))
                     JOptionPane.showMessageDialog(new JFrame("insucesso"), "Insira um CVC válido para concluir a subscrição do plano Premium");
-                else if (!empresa.validarnumCC(numCC, empresa))
+                else if (!empresa.validarnumCC(numCC))
                     JOptionPane.showMessageDialog(new JFrame("insucesso"), "Insira um número de cartão de crédito válido para concluir a subscrição do plano Premium");
                 else
                     JOptionPane.showMessageDialog(new JFrame("insucesso"), "Insira uma data válida (aaaa-mm-dd) para concluir a subscrição do plano Premium");

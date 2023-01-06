@@ -156,9 +156,9 @@ public class PainelRegisto extends JPanel {
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada,
                         TipoSubscricao.parse(tipoDeSubscricao), modoDePagamento, password);
 
-                if (empresa.validarComboBoxIndex(indiceSubscricao, indicePagamento, empresa) == 1) {
+                if (empresa.validarComboBoxIndex(indiceSubscricao, indicePagamento) == 1) {
 
-                    if (empresa.validarEmail(email, empresa) && empresa.validarNIF(nif, empresa) && empresa.validarDados(password, empresa) && empresa.validarDados(nome, empresa) && empresa.validarTelefone(telefone, empresa)) {
+                    if (empresa.validarEmail(email) && empresa.validarNIF(nif) && empresa.validarDados(password) && empresa.validarDados(nome) && empresa.validarTelefone(telefone)) {
                         // só valida os dados se as caixas respectivas estiverem preenchidas
                         if (novoRegisto == null) {
                             JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -181,11 +181,11 @@ public class PainelRegisto extends JPanel {
                         tipoSubscricaoB.setSelectedIndex(0);
                         pagamentoSubscricaoB.setSelectedIndex(0);
 
-                    } else if (!empresa.validarEmail(email, empresa)) {
+                    } else if (!empresa.validarEmail(email)) {
                         JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um email válido");
-                    } else if (!empresa.validarNIF(nif, empresa)) {
+                    } else if (!empresa.validarNIF(nif)) {
                         JOptionPane.showMessageDialog(new Frame("Falta dados"), "Insira um NIF válido (9 dígitos)");
-                    } else if (!empresa.validarTelefone(telefone, empresa)) {
+                    } else if (!empresa.validarTelefone(telefone)) {
                         JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx");
 
                     } else

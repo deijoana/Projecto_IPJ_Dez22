@@ -87,9 +87,9 @@ public class Login extends JPanel {
                 String password = String.valueOf(passwordF.getPassword());
 
                 // guarda o utilizador correspondente aos dados inseridos ou null se não houver correspondência na lista de utilizadores
-                Utilizador logado = empresa.fazerLogin(email, password, empresa);
+                Utilizador logado = empresa.fazerLogin(email, password);
 
-                if (empresa.validarEmail(email, empresa)) {
+                if (empresa.validarEmail(email)) {
                     if (logado == null) {
                         JOptionPane.showMessageDialog(new JFrame("Autenticação inválida"), "Autenticação inválida. Verifique se os dados estão corretos.");
                     }

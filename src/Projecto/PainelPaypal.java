@@ -65,7 +65,7 @@ public class PainelPaypal extends JPanel {
                 String password = String.valueOf(passwordF.getPassword());
                 Cliente client = (Cliente) empresa.getLoggeduser();
 
-                if (empresa.validarEmail(email, empresa) && empresa.validarDados(password, empresa)) {
+                if (empresa.validarEmail(email) && empresa.validarDados(password)) {
                     client.setTipoSubscricao(TipoSubscricao.PREMIUM);
                     client.setModoPagamento("Paypal");
                     JOptionPane.showMessageDialog(new JFrame("sucesso"), "Subscreveu o plano Premium com sucesso. O valor da mensalidade (10€) será debitado da sua conta PayPal");
