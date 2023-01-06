@@ -149,15 +149,56 @@ public class PainelCliente extends JPanel {
         c1.gridy = 6;
         panel1.add(distPrevistaT, c1);
 
-        pesquisar = new JButton("Confirmar Reserva");
+        pesquisar = new JButton("Pagamento");
         c1.fill = GridBagConstraints.CENTER;
         c1.insets = new Insets(40, 0, 20, 0);
         c1.gridx = 1;
         c1.gridy = 8;
         panel1.add(pesquisar, c1);
 
-
         pesquisar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cliente clienteO = (Cliente) empresa.getLoggeduser();
+
+                java.util.List<String> validationError = validateNovaReservaInputFields();
+                if (!validationError.isEmpty()) {
+                    JOptionPane.showMessageDialog(new JFrame("Dados incorrectos"), String.join("\n", validationError));
+                    return;
+                }
+
+                if (clienteO.getModoPagamento().equals("Paypal")) {
+                    janela.mudaEcra("PainelPaypal");
+                } else if (clienteO.getModoPagamento().equals("Multibanco")) {
+                    janela.cardsPanel.add(new PainelMBConfirmarReserva(
+                            janela,
+                            empresa,
+                            dataPartidaT.getText(),
+                            dataRegressoT.getText(),
+                            origemT.getText(),
+                            destinoT.getText(),
+                            n_PassageirosT.getText(),
+                            distPrevistaT.getText()
+                    ), "PagamentoReservaMultibanco");
+
+
+                } else if (clienteO.getModoPagamento().equals("Cartao de credito")) {
+                    janela.mudaEcra("PainelCC");
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame("Método de pagamento inválido"), "Método de pagamento inválido");
+                }
+                dataPartidaT.setText("Formato aaaa-mm-dd");
+                dataRegressoT.setText("Formato aaaa-mm-dd");
+                origemT.setText("");
+                destinoT.setText("");
+                n_PassageirosT.setText("");
+                distPrevistaT.setText("");
+                janela.mudaEcra("PagamentoReservaMultibanco");
+            }
+        });
+
+
+/*        pesquisar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -196,7 +237,7 @@ public class PainelCliente extends JPanel {
 
             }
 
-        });
+        });*/
 
         calcularCustoReserva = new JButton("Simular custo da viagem");
         c1.fill = GridBagConstraints.CENTER;
