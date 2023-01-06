@@ -160,7 +160,7 @@ public class Empresa implements Serializable {
 
 
     /**
-     * Método que adiciona um motorista à lista de motoristas, se não existir nenhuma instância nessa lista com igual NIF. Guarda as alterações no ficheiro de objectos
+     * Método que adiciona um motorista à lista de motoristas, se não existir nenhuma instância nessa lista com um NIF igual. Guarda as alterações no ficheiro de objectos
      * @param email representa o email do motorista a ser adicionado
      * @param nome representa o nome do motorista a ser adicionado
      * @param nif representa o nif do motorista a ser adicionado
@@ -230,7 +230,7 @@ public class Empresa implements Serializable {
      * @param tipoDeSubscricao
      * @param modoDePagamento
      * @param palavraPasse
-     * @return
+     * @return objeto da classe Cliente ou null se já houver correspondência com o email na lista de utilizadores
      */
 
     // método que adiciona um novo cliente à lista de utilizadores ao fazer um novo registo
@@ -269,6 +269,16 @@ public class Empresa implements Serializable {
         return novoCliente;
     }
 
+    /**
+     * Método que edita o cliente se o NIF introduzido tiver correspondência na lista de utilizadores o o Tipo de Utilizador for um Cliente.
+     *
+     * @param email O novo email do cliente.
+     * @param nome O novo nome do cliente.
+     * @param telefone O novo número de telefone do cliente.
+     * @param nif O NIF do cliente a ser editado.
+     * @param morada A nova morada do cliente.
+     * @return {@code true} se o cliente foi editado com sucesso, {@code false} se o NIF não tiver correspondência.
+     */
 
     public boolean editarCliente(String email, String nome, String telefone, String nif, String morada) {
         // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
@@ -286,6 +296,13 @@ public class Empresa implements Serializable {
         return false;
     }
 
+
+    /**
+     * Método que remove o cliente da lista de clientes se houver correspondência para o nif dado como parâmetro. Guarda as alterações no ficheiro de objectos
+     *
+     * @param nif O NIF do cliente a ser removido.
+     * @return {@code true} se o cliente foi removido com sucesso, {@code false} caso contrário.
+     */
     //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
     //e se o tipo de Utilizador é cliente.
     public boolean removerCliente(String nif) {
@@ -303,6 +320,19 @@ public class Empresa implements Serializable {
         return false;
     }
 
+    /**
+     * Método que altera a password de um utilizador.
+     *
+     * @param passwordAntiga A password atual do utilizador.
+     * @param passwordNova A nova password do utilizador.
+     * @param confirmacaoPasswordNova A confirmação da nova password do utilizador.
+     * @return O código de resultado da alteração da password:
+     *         1 - A password atual está incorreta.
+     *         2 - A nova password e a sua confirmação não são iguais.
+     *         3 - A nova password é igual à password atual.
+     *         4 - A confirmação da nova password está incorreta.
+     *         5 - A password foi alterada com sucesso.
+     */
     public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova) {
 
 
@@ -341,6 +371,12 @@ public class Empresa implements Serializable {
     }
 */
 
+    /**
+     * Método que obtém a lista de clientes.
+     *
+     * @return A lista de clientes.
+     */
+
     // método que percorre a lista de utilizadores e filtra todos os que são clientes
     public List<Utilizador> listaDeClientes() {
         return this.listaUtilizadores.stream().filter(
@@ -349,6 +385,11 @@ public class Empresa implements Serializable {
                 .toList();
     }
 
+    /**
+     * Método que obtém o histórico de reservas de um cliente.
+     *
+     * @return A lista de reservas passadas do cliente.
+     */
     public List<Reserva> listagemHistoricoReservas() {
         // método que mostra todas as reservas passadas de um dado cliente
 
@@ -371,6 +412,12 @@ public class Empresa implements Serializable {
                 .toList();*/
 
     }
+
+    /**
+     * Método que obtém a lista de reservas futuras de um cliente.
+     *
+     * @return A lista de reservas futuras do cliente.
+     */
 
     public List<Reserva> listaReservasCliente() {
         // método que mostra todas as reservas futuras de um dado cliente
@@ -397,6 +444,14 @@ public class Empresa implements Serializable {
 */
     }
 
+    /**
+     * Método que obtém a lista de autocarros reservados num dado mês e a respetiva data.
+     *
+     * @param ano O ano da reserva.
+     * @param mes O mês da reserva.
+     * @return A lista de autocarros reservados e as suas respectivas datas de partida e regresso.
+     */
+
 
     public List<String> listarAutocarrosReservados(String ano, String mes) {
         // método que lista todos os autocarros reservados num dado mês e a respectiva data
@@ -416,6 +471,14 @@ public class Empresa implements Serializable {
         }*/
         return listaAutocarrosReservados;
     }
+
+    /**
+     * Método que obtém a lista de reservas canceladas num dado mês e a respetiva data.
+     *
+     * @param ano O ano da reserva cancelada.
+     * @param mes O mês da reserva cancelada.
+     * @return A lista de reservas canceladas.
+     */
 
     public List<Reserva> listarReservasCanceladas(String ano, String mes) {
         // método que lista todas as reservas canceladas num dado mês e a respectiva data
