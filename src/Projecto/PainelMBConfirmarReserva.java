@@ -18,6 +18,17 @@ public class PainelMBConfirmarReserva extends JPanel {
 
     JButton voltar, confirmar;
 
+    /**
+     *
+     * @param janela
+     * @param empresa
+     * @param dataPartida
+     * @param dataRegresso
+     * @param origem
+     * @param destino
+     * @param n_Passageiros
+     * @param distPrevista
+     */
     PainelMBConfirmarReserva(GUI janela, Empresa empresa, String dataPartida, String dataRegresso, String origem, String destino, String n_Passageiros, String distPrevista) {
 
         numReferencia = (int) (111111111 + Math.random() * ((999999999 - 111111111) + 1));

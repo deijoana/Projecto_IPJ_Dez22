@@ -11,6 +11,12 @@ public class Pagamento implements Serializable {
     protected double valor;
     protected boolean confirmacaoPag;
 
+    /**
+     *
+     * @param data
+     * @param valor
+     * @param confirmacaoPag
+     */
     public Pagamento(LocalDate data, double valor, boolean confirmacaoPag) {
         this.data = data;
         this.valor = valor;

@@ -8,6 +8,7 @@ public class Main {
         // cria instância da empresa, carregando os dados que estão no ficheiro de objectos
         Empresa empresa = Empresa.leFicheiro("autocarros_aor");
 
+
         GUI frame = new GUI(empresa);
 
     }

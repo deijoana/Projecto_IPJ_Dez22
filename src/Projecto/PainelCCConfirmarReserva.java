@@ -16,6 +16,17 @@ public class PainelCCConfirmarReserva extends JPanel {
     private String dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
 
 
+    /**
+     *
+     * @param janela
+     * @param empresa
+     * @param dataPartida
+     * @param dataRegresso
+     * @param origem
+     * @param destino
+     * @param n_Passageiros
+     * @param distPrevista
+     */
     PainelCCConfirmarReserva(GUI janela, Empresa empresa, String dataPartida, String dataRegresso, String origem, String destino, String n_Passageiros, String distPrevista) {
 
         this.dataPartida = dataPartida;

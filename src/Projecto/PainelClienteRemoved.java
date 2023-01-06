@@ -40,7 +40,11 @@ public class PainelClienteRemoved extends JPanel {
 
     JList<Reserva> listagemReservas, listagemHistoricoReservas;
 
-
+    /**
+     *
+     * @param janela
+     * @param empresa
+     */
     PainelClienteRemoved(GUI janela, Empresa empresa) {
         this.empresa = empresa;
         this.janela = janela;

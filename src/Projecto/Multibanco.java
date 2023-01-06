@@ -11,6 +11,14 @@ public class Multibanco extends Pagamento implements Serializable {
     private long entidade;
     private long referencia;
 
+    /**
+     *
+     * @param data
+     * @param valor
+     * @param confirmacaoPag
+     * @param entidade
+     * @param referencia
+     */
     public Multibanco(LocalDate data, double valor, boolean confirmacaoPag, long entidade, long referencia) {
         super(data, valor, confirmacaoPag);
         this.entidade = entidade;

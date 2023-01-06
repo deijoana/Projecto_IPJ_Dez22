@@ -45,6 +45,11 @@ public class PainelCliente extends JPanel {
     JList<Reserva> listagemReservas, listagemHistoricoReservas;
 
 
+    /**
+     *
+     * @param janela
+     * @param empresa
+     */
     PainelCliente(GUI janela, Empresa empresa) {
         this.empresa = empresa;
         this.janela = janela;
@@ -169,6 +174,7 @@ public class PainelCliente extends JPanel {
         c1.gridx = 1;
         c1.gridy = 9;
         panel1.add(pesquisar, c1);
+
 
         pesquisar.addActionListener(new ActionListener() {
             @Override

@@ -14,6 +14,11 @@ public class PainelCC extends JPanel {
     JTextField numCCT, nomeCCT, dataExpiracaoCCT, cvcT;
 
 
+    /**
+     *
+     * @param janela
+     * @param empresa
+     */
     PainelCC(GUI janela, Empresa empresa) {
 
         this.empresa = empresa;
