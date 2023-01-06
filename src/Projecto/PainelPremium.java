@@ -13,7 +13,7 @@ public class PainelPremium extends JPanel {
     JTextArea condicoesGerais;
 
     JButton confirmar, voltar;
-    JComboBox modoPagamento;
+
 
     PainelPremium(GUI janela, Empresa empresa) {
 
@@ -52,6 +52,6 @@ public class PainelPremium extends JPanel {
         c.gridx = 4;
         c.gridy = 0;
         this.add(voltar, c);
-        voltar.addActionListener(new GerirEventos(7, janela));
+        voltar.addActionListener(new GerirActionListener(7, janela));
     }
 }

@@ -52,7 +52,7 @@ public class Empresa implements Serializable {
         this.listaReservas = new ArrayList<>();
         this.listaPreReservas = new ArrayList<>();
         this.listaReservasCanceladas = new ArrayList<>();
-        this.reservasIdGenerator=0;
+        this.reservasIdGenerator = 0;
     }
 
     /**
@@ -330,7 +330,7 @@ public class Empresa implements Serializable {
             if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
 
                 this.listaNegraClientes.add(client); // adiciona o cliente a lista alternativa, porque este cliente mantém a possibilidade de fazer login
-                this.listaUtilizadores.remove(client);
+                // this.listaUtilizadores.remove(client);
                 escreveFicheiro();
                 return true;
             }
@@ -446,7 +446,8 @@ public class Empresa implements Serializable {
         for (Reserva r : this.listaReservas) {
             if (r.getClient().equals(this.loggeduser)) {
                 if (r.getDataPartida().isAfter(LocalDate.now())) {
-                    listaReserva.add(r);
+                   // if (r.getEstadoReserva().equals("1"))
+                        listaReserva.add(r);
                 }
             }
         }
@@ -461,6 +462,15 @@ public class Empresa implements Serializable {
                 ).filter(user -> user.getDataPartida().isAfter(LocalDate.now()))
                 .toList();
 */
+    }
+
+    public List<String> listaNotificacoes() {
+        List <String> listaNotes= new ArrayList<>();
+
+        if (this.loggeduser instanceof Cliente){
+        Cliente c = (Cliente) this.loggeduser;
+        listaNotes=c.getListaNotificacoes();}
+       return listaNotes;
     }
 
     /**
@@ -737,10 +747,11 @@ public class Empresa implements Serializable {
                     if (r.getClient().equals(c)) {
                         contador++;
                     }
-                    if (contador > maximo) {
-                        maximo = contador;
-                        clMaxReservas.add(c);
-                    }
+
+                }
+                if (contador >= maximo) {
+                    maximo = contador;
+                    clMaxReservas.add(c);
                 }
                 contador = 0;
             }
@@ -1032,7 +1043,7 @@ public class Empresa implements Serializable {
      * @param nif O NIF do cliente removido.
      * @return void
      */
-    public void cancelarReservaDeClienteRemovido(String nif) {
+  /*  public void cancelarReservaDeClienteRemovido(String nif) {
 
         List<Utilizador> listaClientes = listaDeClientes();
         Utilizador clienteRemovido = null;
@@ -1048,12 +1059,38 @@ public class Empresa implements Serializable {
                 addReservaCancelada(r);
                 r.getClient().addNotificacao("A sua conta de cliente foi removida. As reservas confirmadas que poderiam existir foram canceladas. Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
                 removeReserva(r);
+            }
+        }
+        escreveFicheiro();
+    }*/
+    public void cancelarReservaDeClienteRemovido(String nif) {
 
+        List<Utilizador> listaClientes = listaDeClientes();
+
+        // Utilizador clienteRemovido = null;
+
+        for (Utilizador u : listaClientes) {
+            if (u.getNif().equals(nif)) {
+                // clienteRemovido = u;
+
+                // }
+                //}
+                for (Reserva r : this.listaReservas) {
+                    if (r.getClient().equals(u)) {
+                        // if (!r.getEstadoReserva().equals("2"))
+                        addReservaCancelada(r);
+                        r.getClient().addNotificacao("A sua conta de cliente foi removida. As reservas confirmadas que poderiam existir foram canceladas. Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
+                        //removeReserva(r);
+                        r.setEstadoReserva("2");
+
+                    }
+                }
             }
         }
         escreveFicheiro();
 
     }
+
 
     /**
      * Método que calcula o custo de uma viagem de autocarro.
@@ -1526,6 +1563,7 @@ public class Empresa implements Serializable {
             escreveFicheiro();
         }
     }
+
 
 
 

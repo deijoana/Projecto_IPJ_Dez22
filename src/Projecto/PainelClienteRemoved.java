@@ -4,20 +4,18 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 public class PainelClienteRemoved extends JPanel {
 
     Empresa empresa;
 
-    JLabel welcome;
+    JLabel welcome, inserirDados8;
     JTabbedPane painelCl;
 
-    JPanel panel1, panel2, panel3, panel4, panel5, panel6;
+    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
 
     JButton logout, pesquisar, guardarAlt, alterarSubs;
 
@@ -39,6 +37,7 @@ public class PainelClienteRemoved extends JPanel {
     JPasswordField passAntigaT, passNovaT, passNova2T;
 
     JList<Reserva> listagemReservas, listagemHistoricoReservas;
+    JList<String> listagemNotificacoes;
 
     /**
      *
@@ -76,11 +75,17 @@ public class PainelClienteRemoved extends JPanel {
         panel1.add(dataPartida, c1);
 
 
-        dataPartidaT = new JTextField("Formato aaaa-mm-dd", 20);
+        dataPartidaT = new JTextField("aaaa-mm-dd", 20);
         c1.insets = new Insets(30, 0, 0, 30);
         c1.gridx = 1;
         c1.gridy = 1;
         panel1.add(dataPartidaT, c1);
+        dataPartidaT.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               dataPartidaT.setText("aaaa-mm-dd");
+            }
+        });
 
         dataRegresso = new JLabel("Data de regresso");
         dataRegresso.setFont(new Font("Arial", 1, 12));
@@ -90,11 +95,17 @@ public class PainelClienteRemoved extends JPanel {
         panel1.add(dataRegresso, c1);
 
 
-        dataRegressoT = new JTextField("Formato aaaa-mm-dd", 20);
+        dataRegressoT = new JTextField("aaaa-mm-dd", 20);
         c1.insets = new Insets(30, 0, 0, 30);
         c1.gridx = 1;
         c1.gridy = 2;
         panel1.add(dataRegressoT, c1);
+        dataRegressoT.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                dataRegressoT.setText("aaaa-mm-dd");
+            }
+        });
 
         origem = new JLabel("Origem");
         origem.setFont(new Font("Arial", 1, 12));
@@ -332,6 +343,22 @@ public class PainelClienteRemoved extends JPanel {
         });
 */
 
+        panel7 = new JPanel();
+        painelCl.addTab("Notificações", panel7);
+        panel7.setLayout(new GridBagLayout());
+        GridBagConstraints c8 = new GridBagConstraints();
+
+        inserirDados8 = new JLabel("Aqui encontra as suas notificações:");
+        inserirDados8.setFont(new Font("Arial", 1, 12));
+        c8.gridx=1;
+        c8.gridy=1;
+        panel7.add(inserirDados8, c8);
+
+        listagemNotificacoes = new JList<String>(new Vector<String>(empresa.listaNotificacoes()));
+        c8.gridx = 1;
+        c8.gridy = 2;
+        panel7.add(listagemNotificacoes, c8);
+
         panel6 = new JPanel();
         painelCl.addTab("Alterar Palavra Passe", panel6);
 
@@ -450,7 +477,7 @@ public class PainelClienteRemoved extends JPanel {
         c.gridx = 2;
         c.gridy = 0;
         this.add(logout, c);
-        logout.addActionListener(new GerirEventos(2, this.janela));
+        logout.addActionListener(new GerirActionListener(2, this.janela));
 
     }
 

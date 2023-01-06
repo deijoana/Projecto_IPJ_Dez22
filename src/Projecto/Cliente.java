@@ -100,7 +100,7 @@ public class Cliente extends Utilizador implements Serializable {
      * @return Objecto do tipo List que guarda no formato String informação das notificações
      */
     public List<String> getListaNotificacoes() {
-        return listaNotificacoes;
+        return this.listaNotificacoes;
     }
     /**
      * Método que calcula o reembolso devido a um cliente por cancelamento de reserva, de acordo com o tipo de subscrição que o cliente tem

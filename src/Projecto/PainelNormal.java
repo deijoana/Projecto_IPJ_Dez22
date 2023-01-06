@@ -74,6 +74,6 @@ public class PainelNormal extends JPanel {
         c.gridx = 4;
         c.gridy = 0;
         this.add(voltar, c);
-        voltar.addActionListener(new GerirEventos(7, janela));
+        voltar.addActionListener(new GerirActionListener(7, janela));
     }
 }

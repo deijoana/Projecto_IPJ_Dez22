@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 
 public class PainelCCConfirmarReserva extends JPanel {
@@ -77,10 +79,16 @@ public class PainelCCConfirmarReserva extends JPanel {
         c.gridy = 3;
         this.add(dataExpiracaoCC, c);
 
-        dataExpiracaoCCT = new JTextField("Formato aaaa-mm-dd", 50);
+        dataExpiracaoCCT = new JTextField("aaaa-mm-dd", 50);
         c.gridx = 2;
         c.gridy = 3;
         this.add(dataExpiracaoCCT, c);
+        dataExpiracaoCCT.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                dataExpiracaoCCT.setText("aaaa-mm-dd");
+            }
+        });
 
         cvc = new JLabel("CVC - código de segurança do cartao de crédito");
         cvc.setFont(new Font("Arial", 1, 14));
@@ -123,7 +131,7 @@ public class PainelCCConfirmarReserva extends JPanel {
 
                         numCCT.setText("");
                         nomeCCT.setText("");
-                        dataExpiracaoCCT.setText("");
+                        dataExpiracaoCCT.setText("aaaa-mm-dd");
                         cvcT.setText("");
 
                         janela.mudaEcra("PainelCliente");
@@ -148,7 +156,7 @@ public class PainelCCConfirmarReserva extends JPanel {
         c.gridx = 4;
         c.gridy = 0;
         this.add(voltar, c);
-        voltar.addActionListener(new GerirEventos(7, janela));
+        voltar.addActionListener(new GerirActionListener(7, janela));
     }
 
 }

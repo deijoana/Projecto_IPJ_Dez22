@@ -1,11 +1,8 @@
 package Projecto;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.Vector;
 
 public class PainelSelecaoReservasCanceladas extends JPanel {
@@ -54,19 +51,26 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
         c.gridy = 4;
         this.add(anoL, c);
 
-        anoT = new JTextField("Formato: xxxx");
+        anoT = new JTextField("xxxx");
         anoT.setFont(new Font("Arial", 1, 14));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 3;
         c.gridy = 4;
         this.add(anoT, c);
+        anoT.addMouseListener(new MouseAdapter() {
+                                  @Override
+                                  public void mouseClicked(MouseEvent e) {
+                                      anoT.setText("");
+                                  }
+                              });
+
 
         voltar = new JButton("Voltar");
         voltar.setFont(new Font("Arial", 1, 10));
         c.gridx = 4;
         c.gridy = 0;
         this.add(voltar, c);
-        voltar.addActionListener(new GerirEventos(3, janela));
+        voltar.addActionListener(new GerirActionListener(3, janela));
 
         confirmar = new JButton("Confirmar");
         confirmar.setFont(new Font("Arial", 1, 14));
@@ -104,9 +108,10 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
                         local.add(painelLocal);
                         local.setVisible(true);
                     }
-                    anoT.setText("Formato: xxxx");
+                    anoT.setText("xxxx");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Lista de reservas canceladas"), "Insira um valor de ano válido");
+                mesC.setSelectedIndex(0);
             }
         });
 

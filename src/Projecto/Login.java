@@ -96,22 +96,25 @@ public class Login extends JPanel {
 
                     if (logado instanceof Administrador) {
                         JOptionPane.showMessageDialog(new JFrame("Administrador loggado"), logado.nome + " autenticado com sucesso");
-                        janela.mudaEcra("PainelAdmin");
                         empresa.setLoggeduser(logado); //guarda user logado
+                        janela.mudaEcra("PainelAdmin");
+
 
                     } else if (logado instanceof Cliente && !empresa.clientePertenceAListaNegra(logado)) {
 
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), "Notificações: ".formatted(((Cliente) logado).getListaNotificacoes()));
-                        janela.mudaEcra("PainelCliente");
                         empresa.setLoggeduser(logado); // guarda user logado
+                        janela.mudaEcra("PainelCliente");
+
 
                     } else if (logado instanceof Cliente && empresa.clientePertenceAListaNegra(logado)) {
 
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), "Notificações: ".formatted(((Cliente) logado).getListaNotificacoes()));
-                        janela.mudaEcra("PainelClienteRemoved");
                         empresa.setLoggeduser(logado); // guarda user logado
+                        janela.mudaEcra("PainelClienteRemoved");
+
                     }
 
                     emailT.setText("");
@@ -130,7 +133,7 @@ public class Login extends JPanel {
         c.gridy = 9;
         this.add(criarRegisto, c);
 
-        criarRegisto.addActionListener(new GerirEventos(1, this.janela));
+        criarRegisto.addActionListener(new GerirActionListener(1, this.janela));
 
     }
 }

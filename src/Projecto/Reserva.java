@@ -25,6 +25,8 @@ public class Reserva implements Serializable {
     private String localDestino;
     private double distancia;
 
+    private String estadoReserva;
+
     private String id;
 
     static int idCounter = 0;
@@ -53,6 +55,7 @@ public class Reserva implements Serializable {
         this.localOrigem = localOrigem;
         this.localDestino = localDestino;
         this.distancia = distancia;
+        this.estadoReserva = "1"; // 1 significa válida e 2 significa inválida
         calcularCustoViagem();
     }
 
@@ -187,5 +190,13 @@ public class Reserva implements Serializable {
             return true;
         }
         return false;
+    }
+
+    public String getEstadoReserva() {
+        return this.estadoReserva;
+    }
+
+    public void setEstadoReserva(String estadoReserva) {
+        this.estadoReserva = estadoReserva;
     }
 }

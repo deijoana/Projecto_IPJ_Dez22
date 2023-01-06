@@ -85,7 +85,7 @@ public class PainelPaypal extends JPanel {
         c.gridx = 4;
         c.gridy = 0;
         this.add(voltar, c);
-        voltar.addActionListener(new GerirEventos(8, janela));
+        voltar.addActionListener(new GerirActionListener(8, janela));
     }
 
 }

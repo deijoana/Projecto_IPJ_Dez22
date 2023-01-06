@@ -6,6 +6,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -219,7 +221,7 @@ public class PainelAdmin extends JPanel {
         });
 
 
-        panel2 = new JPanel(); //2º painel -> Motoristas, até à linha 269
+        panel2 = new JPanel();
         painelAd.addTab("Motoristas", panel2);
         panel2.setLayout(new GridLayout());
 
@@ -509,11 +511,17 @@ public class PainelAdmin extends JPanel {
         c5.gridy = 1;
         addBus.add(matricula5, c5);
 
-        matriculaT5 = new JTextField("Formato ##-##-##", 50);
+        matriculaT5 = new JTextField("##-##-##", 50);
         matriculaT5.setFont(new Font("Arial", 1, 12));
         c5.gridx = 2;
         c5.gridy = 1;
         addBus.add(matriculaT5, c5);
+        matriculaT5.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                matriculaT5.setText("##-##-##");
+            }
+        });
 
         marca5 = new JLabel("Marca");
         marca5.setFont(new Font("Arial", 1, 12));
@@ -571,7 +579,7 @@ public class PainelAdmin extends JPanel {
                     }
                     marcaT5.setText("");
                     modeloT5.setText("");
-                    matriculaT5.setText("Formato ##-##-##");
+                    matriculaT5.setText("##-##-##");
                     lotacaoT5.setText("");
 
                 } else if (!empresa.validarMatricula(matricula5))
@@ -603,11 +611,17 @@ public class PainelAdmin extends JPanel {
         c6.gridy = 1;
         editBus.add(matricula6, c6);
 
-        matriculaT6 = new JTextField("Formato ##-##-##", 50);
+        matriculaT6 = new JTextField("##-##-##", 50);
         matriculaT6.setFont(new Font("Arial", 1, 12));
         c6.gridx = 2;
         c6.gridy = 1;
         editBus.add(matriculaT6, c6);
+        matriculaT6.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                matriculaT6.setText("##-##-##");
+            }
+        });
 
         marca6 = new JLabel("Marca");
         marca6.setFont(new Font("Arial", 1, 12));
@@ -668,7 +682,7 @@ public class PainelAdmin extends JPanel {
                                 "Não foi encontrado nenhum registo de matrícula com os dados inseridos. Insira novamente os dados:");
                     marcaT6.setText("");
                     modeloT6.setText("");
-                    matriculaT6.setText("Formato ##-##-##");
+                    matriculaT6.setText("##-##-##");
                     lotacaoT6.setText("");
 
                 } else if (!empresa.validarMatricula(matricula6))
@@ -699,10 +713,16 @@ public class PainelAdmin extends JPanel {
         c7.gridy = 2;
         removeBus.add(matricula7, c7);
 
-        matriculaT7 = new JTextField("Formato ##-##-##", 50);
+        matriculaT7 = new JTextField("##-##-##", 50);
         c7.gridx = 3;
         c7.gridy = 2;
         removeBus.add(matriculaT7, c7);
+        matriculaT7.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                matriculaT7.setText("");
+            }
+        });
 
         guardarRegisto7 = new JButton("Remover autocarro");
         c7.insets = new Insets(20, 0, 0, 0);
@@ -723,7 +743,7 @@ public class PainelAdmin extends JPanel {
                     } else
                         JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
                                 "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
-                    matriculaT7.setText("Formato ##-##-##");
+                    matriculaT7.setText("##-##-##");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira uma matrícula válida: ##-##-##");
 
@@ -1321,7 +1341,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 1;
         panel7.add(listaBusReservado, c11);
-        listaBusReservado.addActionListener(new GerirEventos(4, janela));
+        listaBusReservado.addActionListener(new GerirActionListener(4, janela));
 
 
         listaReservaCanc = new JButton("Lista de reservas canceladas para um dado mês");
@@ -1331,7 +1351,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 2;
         panel7.add(listaReservaCanc, c11);
-        listaReservaCanc.addActionListener(new GerirEventos(9, janela));
+        listaReservaCanc.addActionListener(new GerirActionListener(9, janela));
 
         listaReservaEmEspera = new JButton("Lista de reservas / clientes em espera");
         listaReservaEmEspera.setFont(new Font("Arial", 1, 12));
@@ -1348,7 +1368,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 4;
         panel7.add(volumeReservaMensal, c11);
-        volumeReservaMensal.addActionListener(new GerirEventos(5, janela));
+        volumeReservaMensal.addActionListener(new GerirActionListener(5, janela));
 
         diaAnoMReserva = new JButton("Dia do ano com mais reservas");
         diaAnoMReserva.setFont(new Font("Arial", 1, 12));
@@ -1357,7 +1377,7 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 5;
         panel7.add(diaAnoMReserva, c11);
-        diaAnoMReserva.addActionListener(new GerirEventos(6, janela));
+        diaAnoMReserva.addActionListener(new GerirActionListener(6, janela));
 
         panel8 = new JPanel();
         painelAd.addTab("Alterar Palavra-Passe", panel8);
@@ -1454,7 +1474,7 @@ public class PainelAdmin extends JPanel {
         c.gridy = 1;
         this.add(painelAd, c);  //Adicionar o componente Tabbed Pane ao painel PainelAd
 
-        welcome = new JLabel("Bem-vindo à sua área de administrador");
+        welcome = new JLabel("Bem-vindo à sua área de administrador ");
         c.gridx = 0;
         c.gridy = 0;
         this.add(welcome, c);
@@ -1466,7 +1486,7 @@ public class PainelAdmin extends JPanel {
         c.gridx = 2;
         c.gridy = 0;
         this.add(logout, c);
-        logout.addActionListener(new GerirEventos(2, this.janela));
+        logout.addActionListener(new GerirActionListener(2, this.janela));
     }
 
 

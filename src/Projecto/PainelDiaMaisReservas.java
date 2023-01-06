@@ -4,15 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.util.Vector;
 
 public class PainelDiaMaisReservas extends JPanel {
 
     Empresa empresa;
     GUI janela;
     JLabel inserirDados, anoL, mesL;
-    JComboBox mesC;
+
     JTextField anoT;
     JButton voltar, confirmar;
 
@@ -39,19 +40,25 @@ public class PainelDiaMaisReservas extends JPanel {
         c.gridy = 4;
         this.add(anoL, c);
 
-        anoT = new JTextField("Formato: xxxx");
+        anoT = new JTextField("xxxx");
         anoT.setFont(new Font("Arial", 1, 14));
         c.gridx = 3;
         c.gridy = 4;
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(anoT, c);
+        anoT.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                anoT.setText("xxxx");
+            }
+        });
 
         voltar = new JButton("Voltar");
         voltar.setFont(new Font("Arial", 1, 10));
         c.gridx = 4;
         c.gridy = 0;
         this.add(voltar, c);
-        voltar.addActionListener(new GerirEventos(3, janela));
+        voltar.addActionListener(new GerirActionListener(3, janela));
 
         confirmar = new JButton("Confirmar");
         confirmar.setFont(new Font("Arial", 1, 14));
@@ -75,7 +82,7 @@ public class PainelDiaMaisReservas extends JPanel {
                         JOptionPane.showMessageDialog(new JFrame("sucesso"), "O dia do ano " + ano + " com mais reservas foi " + diaMaisReservas);
 
                     }
-                    anoT.setText("Formato: xxxx");
+                    anoT.setText("xxxx");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Reservas mensais"), "Insira um valor de ano válido");
 

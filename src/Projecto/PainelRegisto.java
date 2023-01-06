@@ -27,7 +27,7 @@ public class PainelRegisto extends JPanel {
         c.gridx = 10;
         c.gridy = 0;
         this.add(pagInicial, c);
-        pagInicial.addActionListener(new GerirEventos(2, this.janela));
+        pagInicial.addActionListener(new GerirActionListener(2, this.janela));
 
         inserirDados = new JLabel("Insira os seguintes dados para efectuar um novo registo:");
         inserirDados.setFont(new Font("Arial", 1, 15));
@@ -152,6 +152,7 @@ public class PainelRegisto extends JPanel {
 
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada,
                         TipoSubscricao.parse(tipoDeSubscricao), modoDePagamento, password);
+
 
                 if (empresa.validarComboBoxIndex(indiceSubscricao, indicePagamento) == 1) {
 
