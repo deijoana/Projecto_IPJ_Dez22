@@ -27,20 +27,20 @@ public class PainelCliente extends JPanel {
 
     GUI janela;
 
-    JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
+    JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista, modoPagamentoL;
 
 
     JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2, inserirDados2;
 
     JLabel idReserva;
 
-    JTextField idReservaT;
+    JTextField idReservaT, dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
 
     JButton cancelarReserva, calcularCustoReserva;
 
-    JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
-
     JPasswordField passAntigaT, passNovaT, passNova2T;
+
+    JComboBox modoPagamentoC;
 
     JList<Reserva> listagemReservas, listagemHistoricoReservas;
 
@@ -63,7 +63,7 @@ public class PainelCliente extends JPanel {
 
         inserirDados = new JLabel("Indique os seguintes dados para verificar a disponiblidade dos nossos serviços:");
         inserirDados.setFont(new Font("Arial", 1, 12));
-        c1.insets = new Insets(10, 0, 0, 0);
+        c1.insets = new Insets(10, 10, 0, 0);
         c1.gridx = 0;
         c1.gridy = 0;
         panel1.add(inserirDados, c1);
@@ -149,11 +149,25 @@ public class PainelCliente extends JPanel {
         c1.gridy = 6;
         panel1.add(distPrevistaT, c1);
 
+        modoPagamentoL = new JLabel("Modo de Pagamento");
+        modoPagamentoL.setFont(new Font("Arial", 1, 12));
+        c1.insets = new Insets(30, 0, 0, 0);
+        c1.gridx = 0;
+        c1.gridy = 7;
+        panel1.add(modoPagamentoL, c1);
+
+        String dados[] = {"", "Paypal", "Cartão de Crédito", "Multibanco"};
+        modoPagamentoC = new JComboBox<>(dados);
+        c1.insets = new Insets(30, 0, 0, 0);
+        c1.gridx = 1;
+        c1.gridy = 7;
+        panel1.add(modoPagamentoC, c1);
+
         pesquisar = new JButton("Pagamento");
         c1.fill = GridBagConstraints.CENTER;
-        c1.insets = new Insets(40, 0, 20, 0);
+        c1.insets = new Insets(20, 20, 20, 20);
         c1.gridx = 1;
-        c1.gridy = 8;
+        c1.gridy = 9;
         panel1.add(pesquisar, c1);
 
         pesquisar.addActionListener(new ActionListener() {
@@ -167,7 +181,66 @@ public class PainelCliente extends JPanel {
                     return;
                 }
 
-                if (clienteO.getModoPagamento().equals("Paypal")) {
+                String modoPagam = modoPagamentoC.getSelectedItem().toString();
+                int indiceSubscricao = modoPagamentoC.getSelectedIndex();
+
+                if (empresa.validarComboBoxIndex(indiceSubscricao) == 1) {
+
+                    switch (indiceSubscricao) {
+                        case 1:
+                            janela.cardsPanel.add(new PainelPaypalConfirmarReserva(
+                                    janela,
+                                    empresa,
+                                    dataPartidaT.getText(),
+                                    dataRegressoT.getText(),
+                                    origemT.getText(),
+                                    destinoT.getText(),
+                                    n_PassageirosT.getText(),
+                                    distPrevistaT.getText()
+                            ), "PagamentoReservaPaypal");
+                            janela.mudaEcra("PagamentoReservaPaypal");
+                            break;
+                        case 2:
+                            janela.cardsPanel.add(new PainelCCConfirmarReserva(
+                                    janela,
+                                    empresa,
+                                    dataPartidaT.getText(),
+                                    dataRegressoT.getText(),
+                                    origemT.getText(),
+                                    destinoT.getText(),
+                                    n_PassageirosT.getText(),
+                                    distPrevistaT.getText()
+                            ), "PagamentoReservaCC");
+                            janela.mudaEcra("PagamentoReservaCC");
+                            break;
+                        case 3:
+                            janela.cardsPanel.add(new PainelMBConfirmarReserva(
+                                    janela,
+                                    empresa,
+                                    dataPartidaT.getText(),
+                                    dataRegressoT.getText(),
+                                    origemT.getText(),
+                                    destinoT.getText(),
+                                    n_PassageirosT.getText(),
+                                    distPrevistaT.getText()
+                            ), "PagamentoReservaMultibanco");
+                            janela.mudaEcra("PagamentoReservaMultibanco");
+                            break;
+                    }
+                    dataPartidaT.setText("Formato aaaa-mm-dd");
+                    dataRegressoT.setText("Formato aaaa-mm-dd");
+                    origemT.setText("");
+                    destinoT.setText("");
+                    n_PassageirosT.setText("");
+                    distPrevistaT.setText("");
+                    modoPagamentoC.setSelectedIndex(0);
+
+                } else
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Seleccione uma das opções disponíveis para o modo de pagamento");
+
+
+
+            /*    if (clienteO.getModoPagamento().equals("Paypal")) {
                     janela.mudaEcra("PainelPaypal");
                 } else if (clienteO.getModoPagamento().equals("Multibanco")) {
                     janela.cardsPanel.add(new PainelMBConfirmarReserva(
@@ -186,14 +259,8 @@ public class PainelCliente extends JPanel {
                     janela.mudaEcra("PainelCC");
                 } else {
                     JOptionPane.showMessageDialog(new JFrame("Método de pagamento inválido"), "Método de pagamento inválido");
-                }
-                dataPartidaT.setText("Formato aaaa-mm-dd");
-                dataRegressoT.setText("Formato aaaa-mm-dd");
-                origemT.setText("");
-                destinoT.setText("");
-                n_PassageirosT.setText("");
-                distPrevistaT.setText("");
-                janela.mudaEcra("PagamentoReservaMultibanco");
+                }*/
+
             }
         });
 
@@ -241,9 +308,9 @@ public class PainelCliente extends JPanel {
 
         calcularCustoReserva = new JButton("Simular custo da viagem");
         c1.fill = GridBagConstraints.CENTER;
-        c1.insets = new Insets(40, 0, 20, 0);
+        c1.insets = new Insets(20, 0, 20, 0);
         c1.gridx = 0;
-        c1.gridy = 8;
+        c1.gridy = 9;
         panel1.add(calcularCustoReserva, c1);
 
         calcularCustoReserva.addActionListener(new ActionListener() {

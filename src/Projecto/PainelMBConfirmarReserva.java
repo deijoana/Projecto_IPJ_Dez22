@@ -11,15 +11,22 @@ public class PainelMBConfirmarReserva extends JPanel {
     Empresa empresa;
     GUI janela;
 
+    private String dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
     private static final String numEntidade = "11100";
     private int numReferencia;
     JLabel inserirDados, entidade, entidadeL, referencia, referenciaL;
 
     JButton voltar, confirmar;
 
-    PainelMBConfirmarReserva(GUI janela, Empresa empresa, String dataPartidaT, String dataRegressoT, String origemT, String destinoT, String n_PassageirosT, String distPrevistaT) {
+    PainelMBConfirmarReserva(GUI janela, Empresa empresa, String dataPartida, String dataRegresso, String origem, String destino, String n_Passageiros, String distPrevista) {
 
         numReferencia = (int) (111111111 + Math.random() * ((999999999 - 111111111) + 1));
+        this.dataPartida = dataPartida;
+        this.dataRegresso = dataRegresso;
+        this.origem = origem;
+        this.destino = destino;
+        this.n_Passageiros = n_Passageiros;
+        this.distPrevista = distPrevista;
 
         this.empresa = empresa;
         this.janela = janela;
@@ -70,8 +77,8 @@ public class PainelMBConfirmarReserva extends JPanel {
 
                 try {
                     Cliente clienteO = (Cliente) empresa.getLoggeduser();
-                    Reserva r = empresa.fazerReserva(clienteO, LocalDate.parse(dataPartidaT), LocalDate.parse(dataRegressoT),
-                            Integer.valueOf(n_PassageirosT), origemT, destinoT, Double.valueOf(distPrevistaT));
+                    Reserva r = empresa.fazerReserva(clienteO, LocalDate.parse(dataPartida), LocalDate.parse(dataRegresso),
+                            Integer.valueOf(n_Passageiros), origem, destino, Double.valueOf(distPrevista));
 
                     JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
                             "Reserva confirmada. O autocarro disponível é " + r.getBus());

@@ -65,6 +65,7 @@ public class PainelNormal extends JPanel {
                 } else
                 JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Seleccione uma das opções disponíveis para o modo de pagamento");
 
+                modoPagamento.setSelectedIndex(0);
             }
         });
         voltar = new JButton("Voltar");

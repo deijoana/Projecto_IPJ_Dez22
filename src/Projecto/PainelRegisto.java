@@ -150,9 +150,6 @@ public class PainelRegisto extends JPanel {
                 String modoDePagamento = pagamentoSubscricaoB.getSelectedItem().toString();
                 int indicePagamento = pagamentoSubscricaoB.getSelectedIndex();
 
-
-
-
                 Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada,
                         TipoSubscricao.parse(tipoDeSubscricao), modoDePagamento, password);
 
