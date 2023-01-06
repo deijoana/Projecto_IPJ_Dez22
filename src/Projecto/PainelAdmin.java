@@ -285,7 +285,7 @@ public class PainelAdmin extends JPanel {
                 String nif2 = nifT2.getText();
                 String email2 = emailT2.getText();
 
-                Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2, empresa);
+                Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2);
 
                 if (empresa.validarEmail(email2, empresa) && empresa.validarNIF(nif2, empresa) && empresa.validarDados(nome2, empresa)) {
 
@@ -370,7 +370,7 @@ public class PainelAdmin extends JPanel {
                 String nif3 = nifT3.getText();
                 String email3 = emailT3.getText();
 
-                boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3, empresa);
+                boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3);
 
                 if (empresa.validarEmail(email3, empresa) && empresa.validarNIF(nif3, empresa) && empresa.validarDados(nome3, empresa)) {
 
@@ -430,7 +430,7 @@ public class PainelAdmin extends JPanel {
 
                 String nif4 = nifT4.getText();
 
-                boolean resultado2 = empresa.removerMotorista(nif4, empresa);
+                boolean resultado2 = empresa.removerMotorista(nif4);
 
                 if (empresa.validarNIF(nif4, empresa)) {
 
@@ -562,7 +562,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                 String matricula5 = matriculaT5.getText();
                 int lotacao5 = Integer.parseInt(lotacaoT5.getText());
 
-                Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5, empresa);
+                Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5);
                 if (empresa.validarMatricula(matricula5, empresa) && empresa.validarDados(modelo5, empresa) && empresa.validarDados(marca5, empresa) && empresa.validarDados(String.valueOf(lotacao5), empresa)) {
                     if (autocarro == null) {
                         JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula5 + " já existe");
@@ -657,7 +657,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                 String matricula6 = matriculaT6.getText();
                 int lotacao6 = Integer.parseInt(lotacaoT6.getText());
 
-                boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6, empresa);
+                boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6);
                 if (empresa.validarMatricula(matricula6, empresa) && empresa.validarDados(modelo6, empresa) && empresa.validarDados(marca6, empresa) && empresa.validarDados(String.valueOf(lotacao6), empresa)) {
                     if (resultado3) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"),
@@ -715,7 +715,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
             public void actionPerformed(ActionEvent e) {
 
                 String matricula7 = matriculaT7.getText();
-                boolean resultado4 = empresa.removerAutocarro(matricula7, empresa);
+                boolean resultado4 = empresa.removerAutocarro(matricula7);
                 if (empresa.validarMatricula(matricula7, empresa)) {
                     if (resultado4) {
                         empresa.cancelarReservaSemBus (matricula7);
@@ -884,7 +884,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 // System.out.println(tipoSubscricao8 + " , " + pagamentoSubscricao8);
 
-                Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao, pagamentoSubscricao8, password8, empresa);
+                Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao, pagamentoSubscricao8, password8);
 
                 if (empresa.validarEmail(email8, empresa) && empresa.validarDados(nome8, empresa) && empresa.validarNIF(nif8, empresa) && empresa.validarDados(password8, empresa) && empresa.validarTelefone(telefone8, empresa)) {
 
@@ -1054,7 +1054,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                 // String tipoSubscricao9 = tipoSubscricaoB9.getSelectedItem().toString();
                 // String pagamentoSubscricao9 = pagamentoSubscricaoB9.getSelectedItem().toString();
 
-                boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9, empresa);
+                boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9);
 
                 if (empresa.validarEmail(email9, empresa) && empresa.validarDados(nome9, empresa) && empresa.validarNIF(nif9, empresa) && empresa.validarTelefone(telefone9, empresa)) {
 
@@ -1121,7 +1121,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
             public void actionPerformed(ActionEvent e) {
                 String nif10 = nifT10.getText();
 
-                boolean resultado10 = empresa.removerCliente(nif10, empresa);
+                boolean resultado10 = empresa.removerCliente(nif10);
 
                 if (empresa.validarNIF(nif10, empresa)) {
                     if (resultado10) {
@@ -1156,11 +1156,11 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
             @Override
             public void stateChanged(ChangeEvent e) {
 
-                listagemClientes.setListData(new Vector<>(empresa.listaDeClientes(empresa)));
+                listagemClientes.setListData(new Vector<>(empresa.listaDeClientes()));
             }
         });
 
-        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes(empresa)));
+        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes()));
         c14.gridx = 1;
         c14.gridy = 1;
         //listagemClientes.setSelectedIndex(0);
@@ -1235,7 +1235,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 int totalClientes = 0;
 
-                totalClientes = empresa.totalClientes(empresa);
+                totalClientes = empresa.totalClientes();
 
                 JOptionPane.showMessageDialog(new JFrame("Número de Clientes"), "Total de Clientes: " + totalClientes);
 
@@ -1256,7 +1256,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 int totalMotoristas = 0;
 
-                totalMotoristas = empresa.totalMotoristas(empresa);
+                totalMotoristas = empresa.totalMotoristas();
 
                 JOptionPane.showMessageDialog(new JFrame("Número de Motoristas"), "Total de Motoristas: " + totalMotoristas);
 
@@ -1277,7 +1277,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
                 int totalAutocarros = 0;
 
-                totalAutocarros = empresa.totalAutocarros(empresa);
+                totalAutocarros = empresa.totalAutocarros();
 
                 JOptionPane.showMessageDialog(new JFrame("Número de Autocarros"), "Total de Autocarros: " + totalAutocarros);
 
@@ -1297,7 +1297,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
 
 
-                AutocarrosMaisUtilizadosStats autocarrosMaisUtilizadosStats = empresa.encontrarAutocarroMaisReq(empresa);
+                AutocarrosMaisUtilizadosStats autocarrosMaisUtilizadosStats = empresa.encontrarAutocarroMaisReq();
 
                 JOptionPane.showMessageDialog(new JFrame("Autocarro mais requisitado"),
                         "O autocarro mais requisitado é o autocarro referente à matrícula: \n %s ".formatted(autocarrosMaisUtilizadosStats));
@@ -1318,7 +1318,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
 
               //   clienteMaxReservas=null;
 
-                List<Utilizador>  clienteMaxReservas = empresa.clienteComMaisReservasStats(empresa);
+                List<Utilizador>  clienteMaxReservas = empresa.clienteComMaisReservasStats();
                 JOptionPane.showMessageDialog(new JFrame("Cliente com mais reservas"),
                         "O cliente com mais reservas é: \n %s ".formatted(clienteMaxReservas));
             }
@@ -1434,7 +1434,7 @@ listagemMotoristas.setListData(new Vector<>(empresa.getListaMotoristas()));
                 String passwordNova1L = String.valueOf(passwordNova1.getPassword());
                 String passwordNova2L = String.valueOf(passwordNova2.getPassword());
 
-                int resultado12 = empresa.alterarPassword(palavraPasse, passwordNova1L, passwordNova2L, empresa);
+                int resultado12 = empresa.alterarPassword(palavraPasse, passwordNova1L, passwordNova2L);
 
                 if (empresa.validarDados(palavraPasse, empresa) && empresa.validarDados(passwordNova1L, empresa) && empresa.validarDados(passwordNova2L, empresa)) {
 

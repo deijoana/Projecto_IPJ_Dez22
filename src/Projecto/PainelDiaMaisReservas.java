@@ -63,7 +63,7 @@ public class PainelDiaMaisReservas extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String ano = anoT.getText();
 
-                LocalDate diaMaisReservas = empresa.diaAnoMaisReservas(ano, empresa);
+                LocalDate diaMaisReservas = empresa.diaAnoMaisReservas(ano);
 
                 if (empresa.validarAno(ano, empresa)) {
 

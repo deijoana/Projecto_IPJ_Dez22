@@ -99,9 +99,9 @@ public class Empresa implements Serializable {
      * O método recebe como parâmetros a matrícula
     */
 
-     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao, Empresa empresa) {
+     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao) {
 
-        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : this.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
                 return null;
             }
@@ -112,7 +112,7 @@ public class Empresa implements Serializable {
         //}
 
         Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
-        empresa.listaAutocarros.add(novoAutocarro);
+        this.listaAutocarros.add(novoAutocarro);
         escreveFicheiro();  // guarda as alterações no ficheiro de objectos
 
         return novoAutocarro;
@@ -130,18 +130,16 @@ public class Empresa implements Serializable {
      * @param novaMarca
      * @param novoModelo
      * @param novaLotacao
-     * @param empresa
      * @return se o resultado for true retorna o autocarro com as devidas alteraçõe se for false
      */
     public boolean editarAutocarro(
             String matricula,
             String novaMarca,
             String novoModelo,
-            int novaLotacao,
-            Empresa empresa
+            int novaLotacao
     ) {
 
-        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : this.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
                 a.setMarca(novaMarca);
                 a.setModelo(novoModelo);
@@ -159,17 +157,16 @@ public class Empresa implements Serializable {
      * Percorre a lista de autocarros e verifica se a matrícula dada faz match com algum dos autocarros da lista.
      * Se se verificar esse match o autocarro é removido da lista e a atualização é gravada no ficheiro de objetos.
      * @param matricula
-     * @param empresa
      * @return se devolver true o autocarro é removido.
      */
     //Este método permite remover um autocarro.
     //Percorre a lista de autocarros e verifica se a matrícula dada faz match com algum dos autocarros da lista.
     //Se se verificar esse match o autocarro é removido da lista e a atualização é gravada no ficheiro de objetos.
-    public boolean removerAutocarro(String matricula, Empresa empresa) {
+    public boolean removerAutocarro(String matricula) {
 
-        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : this.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
-                empresa.listaAutocarros.remove(a);
+                this.listaAutocarros.remove(a);
                 escreveFicheiro();
                 return true;
             }
@@ -177,23 +174,23 @@ public class Empresa implements Serializable {
         return false;
     }
 
-    public Motorista adicionarMotorista(String email, String nome, String nif, Empresa empresa) {
-        for (Motorista m : empresa.listaMotoristas) {
+    public Motorista adicionarMotorista(String email, String nome, String nif) {
+        for (Motorista m : this.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {
                 return null;
             }
 
         }
         Motorista novoMotorista = new Motorista(nome, email, nif);
-        empresa.listaMotoristas.add(novoMotorista);
+        this.listaMotoristas.add(novoMotorista);
         escreveFicheiro();
         return novoMotorista;
     }
 
-    public boolean editarMotorista(String email, String nome, String nif, Empresa empresa) {
+    public boolean editarMotorista(String email, String nome, String nif) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
-        for (Motorista m : empresa.listaMotoristas) {
+        for (Motorista m : this.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {
                 m.setEmailMotorista(email);
                 m.setNomeMotorista(nome);
@@ -208,13 +205,13 @@ public class Empresa implements Serializable {
         return false;
     }
 
-    public boolean removerMotorista(String nif, Empresa empresa) {
+    public boolean removerMotorista(String nif) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
-        for (Motorista m : empresa.listaMotoristas) {
+        for (Motorista m : this.listaMotoristas) {
 
             if (m.getNifMotorista().equals(nif)) {
-                empresa.listaMotoristas.remove(m);
+                this.listaMotoristas.remove(m);
                 escreveFicheiro();
                 return true;
             }
@@ -223,10 +220,10 @@ public class Empresa implements Serializable {
         return false;
     }
 
-    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada, Empresa empresa) {
+    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada) {
         // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
 
-        for (Utilizador client : empresa.listaUtilizadores) {
+        for (Utilizador client : this.listaUtilizadores) {
             if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
                 client.setEmail(email);
                 client.setNome(nome);
@@ -249,10 +246,9 @@ public class Empresa implements Serializable {
             String morada,
             TipoSubscricao tipoDeSubscricao,
             String modoDePagamento,
-            String palavraPasse,
-            Empresa empresa
+            String palavraPasse
     ) {
-        for (Utilizador u : empresa.listaUtilizadores) {
+        for (Utilizador u : this.listaUtilizadores) {
             if (u.getEmail().equals(email)) {
                 return null;  // significa que já existe uma conta para o email usado
             }
@@ -270,7 +266,7 @@ public class Empresa implements Serializable {
                 modoDePagamento
         );
 
-        empresa.listaUtilizadores.add(novoCliente);
+        this.listaUtilizadores.add(novoCliente);
         escreveFicheiro();
 
         return novoCliente;
@@ -278,13 +274,13 @@ public class Empresa implements Serializable {
 
     //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
     //e se o tipo de Utilizador é cliente.
-    public boolean removerCliente(String nif, Empresa empresa) {
+    public boolean removerCliente(String nif) {
         // Será usado o nif como identificador do cliente a remover, dado que este nunca altera ao longo da vida
-        for (Utilizador client : empresa.listaUtilizadores) {
+        for (Utilizador client : this.listaUtilizadores) {
             if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
 
-                empresa.listaNegraClientes.add(client); // adiciona o cliente a lista alternativa, porque este cliente mantém a possibilidade de fazer login
-                empresa.listaUtilizadores.remove(client);
+                this.listaNegraClientes.add(client); // adiciona o cliente a lista alternativa, porque este cliente mantém a possibilidade de fazer login
+                this.listaUtilizadores.remove(client);
                 escreveFicheiro();
                 return true;
             }
@@ -293,10 +289,10 @@ public class Empresa implements Serializable {
         return false;
     }
 
-    public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova, Empresa empresa) {
+    public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova) {
 
 
-        if (!empresa.getLoggeduser().getPalavraPasse().equals(passwordAntiga)) {
+        if (!this.getLoggeduser().getPalavraPasse().equals(passwordAntiga)) {
             return 1;
         }
 
@@ -332,20 +328,20 @@ public class Empresa implements Serializable {
 */
 
     // método que percorre a lista de utilizadores e filtra todos os que são clientes
-    public List<Utilizador> listaDeClientes(Empresa empresa) {
-        return empresa.listaUtilizadores.stream().filter(
+    public List<Utilizador> listaDeClientes() {
+        return this.listaUtilizadores.stream().filter(
                         user -> user.tipoUtilizador.equals("Cliente")
                 )
                 .toList();
     }
 
-    public List<Reserva> listagemHistoricoReservas(Empresa empresa) {
+    public List<Reserva> listagemHistoricoReservas() {
         // método que mostra todas as reservas passadas de um dado cliente
 
         List<Reserva> listaReserva = new ArrayList<>();
 
-        for (Reserva r : empresa.listaReservas) {
-            if (r.getClient().equals(empresa.loggeduser)) {
+        for (Reserva r : this.listaReservas) {
+            if (r.getClient().equals(this.loggeduser)) {
                 if (r.getDataPartida().isBefore(LocalDate.now())) {
                     listaReserva.add(r);
                 }
@@ -362,13 +358,13 @@ public class Empresa implements Serializable {
 
     }
 
-    public List<Reserva> listaReservasCliente(Empresa empresa) {
+    public List<Reserva> listaReservasCliente() {
         // método que mostra todas as reservas futuras de um dado cliente
 
         List<Reserva> listaReserva = new ArrayList<>();
 
-        for (Reserva r : empresa.listaReservas) {
-            if (r.getClient().equals(empresa.loggeduser)) {
+        for (Reserva r : this.listaReservas) {
+            if (r.getClient().equals(this.loggeduser)) {
                 if (r.getDataPartida().isAfter(LocalDate.now())) {
                     listaReserva.add(r);
                 }
@@ -388,7 +384,7 @@ public class Empresa implements Serializable {
     }
 
 
-    public List<String> listarAutocarrosReservados(String ano, String mes, Empresa empresa) {
+    public List<String> listarAutocarrosReservados(String ano, String mes) {
         // método que lista todos os autocarros reservados num dado mês e a respectiva data
 
         int valorAno = Integer.parseInt(ano);
@@ -407,7 +403,7 @@ public class Empresa implements Serializable {
         return listaAutocarrosReservados;
     }
 
-    public List<Reserva> listarReservasCanceladas(String ano, String mes, Empresa empresa) {
+    public List<Reserva> listarReservasCanceladas(String ano, String mes) {
         // método que lista todas as reservas canceladas num dado mês e a respectiva data
 
         int valorAno = Integer.parseInt(ano);
@@ -427,7 +423,7 @@ public class Empresa implements Serializable {
         return listaResCanceladas;
     }
 
-    public String avaliarReservaMensal(String ano, int mes, Empresa empresa) {
+    public String avaliarReservaMensal(String ano, int mes) {
         int valorAno = Integer.parseInt(ano);
 
         String listaReservaMensal = "";
@@ -447,11 +443,11 @@ public class Empresa implements Serializable {
             listaReservaMensal = "No mês " + mes + " do ano " + ano + " há registo de " + count + " reservas, perfazendo um total de " + volume + "€";
 */
         //   return listaReservaMensal;
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        escreveFicheiro();
         return listaReservaMensal = "No " + mes + "º mês de " + ano + " há registo de " + count + " reservas, perfazendo um total de " + volume + "€";
     }
 
-    public LocalDate diaAnoMaisReservas(String ano, Empresa empresa) {
+    public LocalDate diaAnoMaisReservas(String ano) {
 
         int valorAno = Integer.parseInt(ano);
         LocalDate dia = LocalDate.of(valorAno, 01, 01);
@@ -491,15 +487,15 @@ public class Empresa implements Serializable {
                 dia = dia.plusDays(1);
             }
         }
-        escreveFicheiro(AUTOCARROS_AOR, empresa);
+        escreveFicheiro();
         return diaMaisReservas;
     }
 
     // método para as estatísticas que contabiliza o total de clientes
-    public int totalClientes(Empresa empresa) {
+    public int totalClientes() {
         int soma = 0;
 
-        for (Utilizador u : empresa.listaUtilizadores) {
+        for (Utilizador u : this.listaUtilizadores) {
             if (u instanceof Cliente) {
                 soma++;
             }
@@ -508,10 +504,10 @@ public class Empresa implements Serializable {
     }
 
     // método para as estatísticas que contabiliza motoristas
-    public int totalMotoristas(Empresa empresa) {
+    public int totalMotoristas() {
         int soma = 0;
 
-        for (Motorista m : empresa.listaMotoristas) {
+        for (Motorista m : this.listaMotoristas) {
             if (m instanceof Motorista) {
                 soma++;
             }
@@ -520,10 +516,10 @@ public class Empresa implements Serializable {
     }
 
     // método para as estatísticas que contabiliza autocarros
-    public int totalAutocarros(Empresa empresa) {
+    public int totalAutocarros() {
         int soma = 0;
 
-        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : this.listaAutocarros) {
             if (a instanceof Autocarro) {
                 soma++;
             }
@@ -533,7 +529,7 @@ public class Empresa implements Serializable {
     }
 
     //método que devolve o autocarro mais requisitado
-    public AutocarrosMaisUtilizadosStats encontrarAutocarroMaisReq(Empresa empresa) {
+    public AutocarrosMaisUtilizadosStats encontrarAutocarroMaisReq() {
 
         Autocarro autocarroMaisReq = null;
 
@@ -541,9 +537,9 @@ public class Empresa implements Serializable {
         int maximo = 0;
 
         List<Autocarro> buss = new ArrayList<>();
-        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : this.listaAutocarros) {
 
-            for (Reserva r : empresa.listaReservas) {
+            for (Reserva r : this.listaReservas) {
                 if (r.getBus().equals(a)) {
                     contador++;
                 }
@@ -556,9 +552,9 @@ public class Empresa implements Serializable {
 
         }
 
-        for (Autocarro a : empresa.listaAutocarros) {
+        for (Autocarro a : this.listaAutocarros) {
             int numeroDeOcorrencias = 0;
-            for (Reserva r : empresa.listaReservas) {
+            for (Reserva r : this.listaReservas) {
                 if (r.getBus().equals(a)) {
                     numeroDeOcorrencias++;
                 }
@@ -572,17 +568,17 @@ public class Empresa implements Serializable {
     }
 
     //método que devolve o cliente com mais reservas
-    public Utilizador clienteComMaisReservas(Empresa empresa) {
+    public Utilizador clienteComMaisReservas() {
 
         Utilizador clMaxReservas = null;
 
         int contador = 0;
         int maximo = 0;
 
-        for (Utilizador c : empresa.listaUtilizadores) {
+        for (Utilizador c : this.listaUtilizadores) {
             if (c instanceof Cliente) {
 
-                for (Reserva r : empresa.listaReservas) {
+                for (Reserva r : this.listaReservas) {
                     if (r.getClient().equals(c)) {
                         contador++;
                     }
@@ -597,17 +593,17 @@ public class Empresa implements Serializable {
         return clMaxReservas;
     }
 
-    public List<Utilizador> clienteComMaisReservasStats(Empresa empresa) {
+    public List<Utilizador> clienteComMaisReservasStats() {
 
         List<Utilizador> clMaxReservas = new ArrayList<>();
 
         int contador = 0;
         int maximo = 0;
 
-        for (Utilizador c : empresa.listaUtilizadores) {
+        for (Utilizador c : this.listaUtilizadores) {
             if (c instanceof Cliente) {
 
-                for (Reserva r : empresa.listaReservas) {
+                for (Reserva r : this.listaReservas) {
                     if (r.getClient().equals(c)) {
                         contador++;
                     }
@@ -1142,7 +1138,7 @@ public class Empresa implements Serializable {
 
     public void cancelarReservaDeClienteRemovido(String nif) {
 
-        List<Utilizador> listaClientes = listaDeClientes(this);
+        List<Utilizador> listaClientes = listaDeClientes();
         Utilizador clienteRemovido = null;
 
         for (Utilizador u : listaClientes) {

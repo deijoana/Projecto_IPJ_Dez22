@@ -62,9 +62,9 @@ public class PainelReservaMensal extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String ano = anoT.getText();
 
-                String dados[] = {empresa.avaliarReservaMensal(ano, 1, empresa), empresa.avaliarReservaMensal(ano, 2, empresa), empresa.avaliarReservaMensal(ano, 3, empresa),
-                        empresa.avaliarReservaMensal(ano, 4, empresa),empresa.avaliarReservaMensal(ano, 5, empresa),empresa.avaliarReservaMensal(ano, 6, empresa),empresa.avaliarReservaMensal(ano ,7, empresa),
-                        empresa.avaliarReservaMensal(ano, 8, empresa),empresa.avaliarReservaMensal(ano, 9, empresa),empresa.avaliarReservaMensal(ano, 10, empresa),empresa.avaliarReservaMensal(ano, 11, empresa),empresa.avaliarReservaMensal(ano, 12, empresa)};
+                String dados[] = {empresa.avaliarReservaMensal(ano, 1), empresa.avaliarReservaMensal(ano, 2), empresa.avaliarReservaMensal(ano, 3),
+                        empresa.avaliarReservaMensal(ano, 4),empresa.avaliarReservaMensal(ano, 5),empresa.avaliarReservaMensal(ano, 6),empresa.avaliarReservaMensal(ano ,7),
+                        empresa.avaliarReservaMensal(ano, 8),empresa.avaliarReservaMensal(ano, 9),empresa.avaliarReservaMensal(ano, 10),empresa.avaliarReservaMensal(ano, 11),empresa.avaliarReservaMensal(ano, 12)};
 
                 JList<String> resultado = new JList<String>(dados);
                 ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não

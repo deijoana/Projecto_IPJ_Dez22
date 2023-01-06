@@ -153,7 +153,8 @@ public class PainelRegisto extends JPanel {
 
 
 
-                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada,  TipoSubscricao.parse(tipoDeSubscricao), modoDePagamento, password, empresa);
+                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada,
+                        TipoSubscricao.parse(tipoDeSubscricao), modoDePagamento, password);
 
                 if (empresa.validarComboBoxIndex(indiceSubscricao, indicePagamento, empresa) == 1) {
 

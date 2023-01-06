@@ -213,7 +213,7 @@ public class PainelClienteRemoved extends JPanel {
         c2.gridy = 0;
         panel2.add(inserirDados2, c2);
 
-        listagemHistoricoReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listagemHistoricoReservas(empresa).stream().toList()));
+        listagemHistoricoReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listagemHistoricoReservas().stream().toList()));
         c2.gridx = 1;
         c2.gridy = 1;
         panel2.add(listagemHistoricoReservas, c2);
@@ -222,12 +222,12 @@ public class PainelClienteRemoved extends JPanel {
         painelCl.addTab("Consultar Reservas", panel3);
 
 
-        listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
+        listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente()));
         painelCl.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                listagemReservas.setListData(new Vector<>(empresa.listaReservasCliente(empresa)));
-                listagemHistoricoReservas.setListData(new Vector<>(empresa.listagemHistoricoReservas(empresa)));
+                listagemReservas.setListData(new Vector<>(empresa.listaReservasCliente()));
+                listagemHistoricoReservas.setListData(new Vector<>(empresa.listagemHistoricoReservas()));
             }
         });
 
