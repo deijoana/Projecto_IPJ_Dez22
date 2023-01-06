@@ -10,61 +10,56 @@ import java.util.Objects;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ *
+ * Classe onde estão armazenados todos os dados da aplicação bem como a maioria dos métodos que são chamados para aceder à informação necessária para a execução da aplicação
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
+
 public class Empresa implements Serializable {
 
     // atributo que especifica a versão do documento/ficheiro de objectos para prevenir que ocorra InvalidClassException
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
+     */
     private String AUTOCARROS_AOR = "autocarros_aor";
     private List<Utilizador> listaUtilizadores;
     private List<Autocarro> listaAutocarros;
     private List<Motorista> listaMotoristas;
-
-    private List<Cliente> listaClientes;
     private List<Utilizador> listaNegraClientes;
-
     private List<Reserva> listaReservasCanceladas;
-
     private List<Reserva> listaReservas;
-    /**
-     * na altura de criar reserva, será usado para gerar o id da nova reserva, incrementando o valor...
-     */
-    private int reservasIdGenerator = 0;
 
+    /**
+     * na altura de criar reserva, será usado para gerar o id da nova reserva; Vai incrementando o seu valor
+     */
+    private int reservasIdGenerator;
     private List listaPreReservas;
 
-    // user logado
+    /**
+     * Guarda informação do utilizador que está logado
+     */
     private Utilizador loggeduser;
 
-    public List<Autocarro> getListaAutocarros() {
-        return listaAutocarros;
-    }
-
-    public Utilizador getLoggeduser() {
-        return loggeduser;
-    }
-
-    public List<Reserva> getListaReservas() {
-        return listaReservas;
-    }
-
-    public void setLoggeduser(Utilizador loggeduser) {
-        this.loggeduser = loggeduser;
+    public Empresa() {
+        this.listaUtilizadores = new ArrayList<>();
+        this.listaMotoristas = new ArrayList<>();
+        this.listaAutocarros = new ArrayList<>();
+        this.listaNegraClientes = new ArrayList<>();
+        this.listaReservas = new ArrayList<>();
+        this.listaPreReservas = new ArrayList<>();
+        this.listaReservasCanceladas = new ArrayList<>();
+        this.reservasIdGenerator=0;
     }
 
     /**
-     Nome atribuído ao ficheiro de objectos responsável por guardar toda a informação da instância empresa da Classe empresa
-     *Definiu-se como static porque este dado não deverá nunca ser alterado
-     *private String AUTOCARROS_AOR = "autocarros_aor";
+     * Instância de Administrador "sénior", para poder entrar na aplicação ao iniciar a execução do programa
+     * Definiu-se como static porque esta instância é de importância máxima e não deverá ser alterada em qualquer circunstância
      */
-
-
-
-    /**
-    // Instância de Administrador "sénior" para poder entrar na aplicação ao iniciar a execução do programa.
-    //Definiu-se como static porque esta instância é de importância máxima e não deverá ser alterada em qualquer circunstância
-    */
-
-     static final Administrador administrador = new Administrador(
+    static final Administrador administrador = new Administrador(
             "Tiago Sousa",
             "228923824",
             "Rua António Jardim",
@@ -75,30 +70,30 @@ public class Empresa implements Serializable {
 
     );
 
-
-    public Empresa() {
-        this.listaUtilizadores = new ArrayList<>();
-        this.listaMotoristas = new ArrayList<>();
-        this.listaAutocarros = new ArrayList<>();
-        this.listaNegraClientes = new ArrayList<>();
-        this.listaReservas = new ArrayList<Reserva>();
-        this.listaPreReservas = new ArrayList<Reserva>();
-        this.listaReservasCanceladas = new ArrayList<Reserva>();
-    }
-
-    public List getListaUtilizadores() {
-        return listaUtilizadores;
-    }
-
-    public void setListaUtilizadores(List listaUtilizadores) {
-        this.listaUtilizadores = listaUtilizadores;
-
-    }
     /**
-     * Método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista como igual matrícula.
-     * O método recebe como parâmetros a matrícula
-    */
+     * Método que obtém a informação do utilizador que está logado na aplicação
+     * @return Objecto do tipo Utilizador
+     */
+    public Utilizador getLoggeduser() {
+        return loggeduser;
+    }
 
+    /**
+     * Método que define o novo Utilizador que está logado na aplicação
+     * @param loggeduser Objecto utilizador que representa e guarda toda a informação do novo utilizador logado
+     */
+    public void setLoggeduser(Utilizador loggeduser) {
+        this.loggeduser = loggeduser;
+    }
+
+    /**
+     * Método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista com igual matrícula. Guarda as alterações no ficheiro de objectos
+     * @param matricula representa a matrícula do autocarro a ser adicionado
+     * @param marca representa a marca do autocarro a ser adicionado
+     * @param modelo representa o modelo do autocarro a ser adicionado
+     * @param lotacao representa a lotação do autocarro a ser adicionado
+     * @return Objecto da classe Autocarro ou null se já houver correspondência para a matrícula na lista de autocarros
+     */
      public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao) {
 
         for (Autocarro a : this.listaAutocarros) {
@@ -118,18 +113,13 @@ public class Empresa implements Serializable {
         return novoAutocarro;
     }
 
-    // método que permite ao Administrador editar os atributos de um autocarro
-    // Este método permite editar as informações de um autocarro da lista de autocarros e grava essa lista no ficheiro de objetos.
-
     /**
-     * Método que permite ao Administrador editar os atributos de um autocarro.
-     * O método corre a lista de autocarros da empresa e se a matrícula inserida pelo utilizador tiver correspondência é-lhe permitido
-     * editar os atributos desse autocarro. De seguida grava a informação no ficheiro de objetos.
-     * @param matricula
-     * @param novaMarca
-     * @param novoModelo
-     * @param novaLotacao
-     * @return se o resultado for true retorna o autocarro com as devidas alteraçõe se for false
+     * Método que edita os atributos do autocarro se houver correspondência para a matrícula dada como parâmetro. Guarda as alterações no ficheiro de objectos
+     * @param matricula representa a matrícula do autocarro a ser editado
+     * @param novaMarca representa a marca do autocarro a ser editado
+     * @param novoModelo representa o modelo do autocarro a ser editado
+     * @param novaLotacao representa a lotação do autocarro a ser editado
+     * @return true se houver correspondência para a matrícula e as informações do autocarro respectivo forem editadas. False se nenhuma correspondência for encontrada para a matrícula dada como parâmetro
      */
     public boolean editarAutocarro(
             String matricula,
@@ -152,15 +142,10 @@ public class Empresa implements Serializable {
     }
 
     /**
-     * Este método permite remover um autocarro.
-     * Percorre a lista de autocarros e verifica se a matrícula dada faz match com algum dos autocarros da lista.
-     * Se se verificar esse match o autocarro é removido da lista e a atualização é gravada no ficheiro de objetos.
-     * @param matricula
-     * @return se devolver true o autocarro é removido.
+     * Método que remove o autocarro da lista de autocarros se houver correspondência para a matrícula dada como parâmetro. Guarda as alterações no ficheiro de objectos
+     * @param matricula representa a matrícula do autocarro a ser removido
+     * @return true se houver correspondência para a matrícula e o autocarro respectivo for removido. False se nenhuma correspondência for encontrada para a matrícula dada como parâmetro
      */
-    //Este método permite remover um autocarro.
-    //Percorre a lista de autocarros e verifica se a matrícula dada faz match com algum dos autocarros da lista.
-    //Se se verificar esse match o autocarro é removido da lista e a atualização é gravada no ficheiro de objetos.
     public boolean removerAutocarro(String matricula) {
 
         for (Autocarro a : this.listaAutocarros) {
@@ -173,6 +158,14 @@ public class Empresa implements Serializable {
         return false;
     }
 
+
+    /**
+     * Método que adiciona um motorista à lista de motoristas, se não existir nenhuma instância nessa lista com igual NIF. Guarda as alterações no ficheiro de objectos
+     * @param email representa o email do motorista a ser adicionado
+     * @param nome representa o nome do motorista a ser adicionado
+     * @param nif representa o nif do motorista a ser adicionado
+     * @return Objecto da classe motorista ou null se já houver correspondência para o nif na lista de motoristas
+     */
     public Motorista adicionarMotorista(String email, String nome, String nif) {
         for (Motorista m : this.listaMotoristas) {
             if (m.getNifMotorista().equals(nif)) {
@@ -186,6 +179,13 @@ public class Empresa implements Serializable {
         return novoMotorista;
     }
 
+    /**
+     * Método que edita os atributos do motorista se houver correspondência para o nif dado como parâmetro. Guarda as alterações no ficheiro de objectos
+     * @param email representa o email do motorista a ser editado
+     * @param nome representa o nome do motorista a ser editado
+     * @param nif representa o nif do motorista a ser editado
+     * @return true se houver correspondência para o nif e as informações do motorista respectivo forem editadas. False se nenhuma correspondência for encontrada para o nif dado como parâmetro
+     */
     public boolean editarMotorista(String email, String nome, String nif) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
@@ -196,14 +196,16 @@ public class Empresa implements Serializable {
                 escreveFicheiro();
 
                 return true;
-
             }
-
         }
-
         return false;
     }
 
+    /**
+     * Método que remove o motorista da lista de motoristas se houver correspondência para o nif dado como parâmetro. Guarda as alterações no ficheiro de objectos
+     * @param nif representa o nif do motorista a ser removido
+     * @return true se houver correspondência para o nif e o motorista respectivo for removido. False se nenhuma correspondência for encontrada para o nif dado como parâmetro
+     */
     public boolean removerMotorista(String nif) {
         // Será usado o nif como identificador do motorista, dado que este nunca altera ao longo da vida
 
@@ -215,25 +217,21 @@ public class Empresa implements Serializable {
                 return true;
             }
         }
-
         return false;
     }
 
-    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada) {
-        // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
-
-        for (Utilizador client : this.listaUtilizadores) {
-            if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
-                client.setEmail(email);
-                client.setNome(nome);
-                client.setTelefone(telefone);
-                client.setMorada(morada);
-                escreveFicheiro();
-                return true;
-            }
-        }
-        return false;
-    }
+    /**
+     * Método que adiciona um cliente à lista de utilizadores, desde que não haja correspondência na lista de utilizadores para o email usado
+     * @param email
+     * @param nome
+     * @param telefone
+     * @param nif
+     * @param morada
+     * @param tipoDeSubscricao
+     * @param modoDePagamento
+     * @param palavraPasse
+     * @return
+     */
 
     // método que adiciona um novo cliente à lista de utilizadores ao fazer um novo registo
     // só adiciona se não houver nenhuma instância com o mesmo email
@@ -269,6 +267,23 @@ public class Empresa implements Serializable {
         escreveFicheiro();
 
         return novoCliente;
+    }
+
+
+    public boolean editarCliente(String email, String nome, String telefone, String nif, String morada) {
+        // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
+
+        for (Utilizador client : this.listaUtilizadores) {
+            if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
+                client.setEmail(email);
+                client.setNome(nome);
+                client.setTelefone(telefone);
+                client.setMorada(morada);
+                escreveFicheiro();
+                return true;
+            }
+        }
+        return false;
     }
 
     //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
@@ -1116,9 +1131,6 @@ public class Empresa implements Serializable {
         this.listaMotoristas = listaMotoristas;
     }
 
-    public List<Cliente> getListaClientes() {
-        return listaClientes;
-    }
 
 
     public void cancelarReservaSemBus(String matricula) {
