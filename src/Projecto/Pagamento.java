@@ -3,7 +3,7 @@ package Projecto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Pagamento implements Serializable {
+public abstract class Pagamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

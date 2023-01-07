@@ -3,14 +3,13 @@ package Projecto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+* Classe que define objectos do tipo Reserva
+* @author Joana Ramalho
+* @author Tiago Sousa
+*/
 public class Reserva implements Serializable {
 
-    /**
-     *
-     * Classe que define objectos do tipo Reserva
-     * @author Joana Ramalho
-     * @author Tiago Sousa
-     */
 
     private static final long serialVersionUID = 1L;
     private Autocarro bus;
@@ -24,12 +23,8 @@ public class Reserva implements Serializable {
     private String localOrigem;
     private String localDestino;
     private double distancia;
-
     private String estadoReserva;
-
     private String id;
-
-    static int idCounter = 0;
 
     /**
      *
