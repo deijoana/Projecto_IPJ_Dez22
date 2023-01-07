@@ -18,4 +18,7 @@ public abstract class Pagamento implements Serializable {
         this.data = data;
     }
 
+    public boolean devePedirIBAN() {
+        return false;
+    }
 }

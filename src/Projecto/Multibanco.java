@@ -1,6 +1,5 @@
 package Projecto;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -22,5 +21,10 @@ public class Multibanco extends Pagamento implements Serializable {
         super(data);
         this.entidade = entidade;
         this.referencia = referencia;
+    }
+
+    @Override
+    public boolean devePedirIBAN() {
+        return true;
     }
 }
