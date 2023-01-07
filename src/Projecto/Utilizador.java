@@ -3,14 +3,13 @@ package Projecto;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ *
+ * Classe que define objectos do tipo Utilizador
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class Utilizador implements Serializable {
-
-    /**
-     *
-     * Classe que define objectos do tipo Utilizador
-     * @author Joana Ramalho
-     * @author Tiago Sousa
-     */
 
     private static final long serialVersionUID = 1L;
     protected String nome;
@@ -138,6 +137,11 @@ public class Utilizador implements Serializable {
         return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + "\n";
     }
 
+    /**
+     * Método que retorna sempre <code>false</code>, pois esta implementação não permite a criação de notificações para os utilizadores.
+     *
+     * @return Sempre <code>false</code>.
+     */
     public boolean temNovaNotificacoesPorLer() {
         return false;
     }

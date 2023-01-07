@@ -247,9 +247,6 @@ public class Empresa implements Serializable {
      * @param palavraPasse
      * @return objeto da classe Cliente ou null se já houver correspondência com o email na lista de utilizadores
      */
-
-    // método que adiciona um novo cliente à lista de utilizadores ao fazer um novo registo
-    // só adiciona se não houver nenhuma instância com o mesmo email
     public Utilizador registarCliente(
             String email,
             String nome,
@@ -294,7 +291,6 @@ public class Empresa implements Serializable {
      * @param morada   A nova morada do cliente.
      * @return {@code true} se o cliente foi editado com sucesso, {@code false} se o NIF não tiver correspondência.
      */
-
     public boolean editarCliente(String email, String nome, String telefone, String nif, String morada) {
         // Será usado o nif como identificador do cliente, dado que este nunca altera ao longo da vida
 
@@ -318,8 +314,6 @@ public class Empresa implements Serializable {
      * @param nif O NIF do cliente a ser removido.
      * @return {@code true} se o cliente foi removido com sucesso, {@code false} caso contrário.
      */
-    //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
-    //e se o tipo de Utilizador é cliente.
     public boolean removerCliente(String nif) {
         List<Cliente> clientes = getTodoOsClientesPorNif(nif);
 
@@ -343,6 +337,12 @@ public class Empresa implements Serializable {
         return true;
     }
 
+    /**
+     * Retorna uma lista de reservas associadas ao cliente passado como parâmetro.
+     *
+     * @param cliente O cliente cujas reservas serão retornadas
+     * @return Uma lista de reservas associadas ao cliente passado como parâmetro
+     */
     private List<Reserva> getReservasDoCliente(Cliente cliente) {
         return listaReservas.stream().filter(r -> Objects.equals(cliente, r.getClient())).toList();
     }
@@ -382,27 +382,11 @@ public class Empresa implements Serializable {
     }
 
 
-/*
-    public boolean alterarPalavraPass(String novaPass, String novaPass2, Empresa empresa) {
-
-        for (Utilizador u : empresa.listaUtilizadores) {
-            if (u.getPalavraPasse().equals(novaPass)) {
-                return false;
-            } else {
-                u.setPalavraPasse(novaPass);
-            }
-        }
-        return true;
-    }
-*/
-
     /**
      * Método que obtém a lista de clientes.
      *
      * @return A lista de clientes.
      */
-
-    // método que percorre a lista de utilizadores e filtra todos os que são clientes
     public List<Utilizador> listaDeClientes() {
         return this.listaUtilizadores.stream().filter(
                         user -> user.tipoUtilizador.equals("Cliente")
@@ -470,6 +454,11 @@ public class Empresa implements Serializable {
 */
     }
 
+    /**
+     * Método que retorna a lista de notificações do utilizador atualmente autenticado, caso seja um cliente.
+     *
+     * @return A lista de notificações do utilizador atualmente autenticado, ou uma lista vazia caso o utilizador atualmente autenticado não seja um cliente
+     */
     public List<String> listaNotificacoes() {
         List<String> listaNotes = new ArrayList<>();
 
@@ -487,7 +476,6 @@ public class Empresa implements Serializable {
      * @param mes O mês da reserva.
      * @return A lista de autocarros reservados e as suas respectivas datas de partida e regresso.
      */
-
 
     public List<String> listarAutocarrosReservados(String ano, String mes) {
         // método que lista todos os autocarros reservados num dado mês e a respectiva data
@@ -767,6 +755,16 @@ public class Empresa implements Serializable {
     }
 
     // TODO: falta criar um button que invoque a criação da pre-reserva!!
+
+    /**
+     * Método que cria uma nova pre-reserva com os parâmetros passados e adiciona à lista de pre-reservas existentes.
+     *
+     * @param cliente O cliente que está a fazer a pre-reserva.
+     * @param dataPartida A data de partida da viagem associada à pre-reserva.
+     * @param dataRegresso A data de regresso da viagem associada à pre-reserva.
+     * @param numPassageiros O número de passageiros da viagem associada à pre-reserva.
+     * @return A pre-reserva criada.
+     */
     public PreReserva fazerPreReserva(Cliente cliente,
                                       LocalDate dataPartida,
                                       LocalDate dataRegresso,
@@ -794,6 +792,7 @@ public class Empresa implements Serializable {
      * @param localOrigem    O local de origem da viagem
      * @param localDestino   O local de destino da viagem
      * @param distancia      A distância da viagem
+     * @param pagamento      O pagamento da viagem
      * @return A reserva criada
      * @throws IllegalArgumentException Caso não exista um autocarro ou motorista disponível
      */
@@ -1033,7 +1032,19 @@ public class Empresa implements Serializable {
         return reenbolse;
     }
 
-    private List<PreReserva> getPreReservasQuePodemPassarAReserva(LocalDate dataPartida, LocalDate dataRegresso, int lotacaoMax) {
+    /**
+     * Método que retorna uma lista de pre-reservas que cumprem os seguintes critérios:
+     * A data de partida da pre-reserva é posterior ou igual à data de partida passada como parâmetro.
+     * A data de regresso da pre-reserva é anterior ou igual à data de regresso passada como parâmetro.
+     * O número de passageiros da pre-reserva é menor ou igual à lotação máxima passada como parâmetro.
+     *
+     * @param dataPartida A data de partida a ser comparada com as datas de partida das pre-reservas.
+     * @param dataRegresso A data de regresso a ser comparada com as datas de regresso das pre-reservas.
+     * @param lotacaoMax A lotação máxima a ser comparada com o número de passageiros das pre-reservas.
+     * @return Uma lista de pre-reservas que cumprem os critérios descritos acima.
+     */
+
+     private List<PreReserva> getPreReservasQuePodemPassarAReserva(LocalDate dataPartida, LocalDate dataRegresso, int lotacaoMax) {
         return listaPreReservas.stream()
                 .filter(preReserva -> !preReserva.getDataPartida().isBefore(dataPartida))
                 .filter(preReserva -> !preReserva.getDataRegresso().isAfter(dataRegresso))
@@ -1190,7 +1201,6 @@ public class Empresa implements Serializable {
         return escolhido;
     }
 
-    // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
 
     /**
      * Método que realiza o login de um utilizador.
@@ -1276,17 +1286,6 @@ public class Empresa implements Serializable {
     private void setAUTOCARROS_AOR(String nomeDoFicheiro) {
         this.AUTOCARROS_AOR = nomeDoFicheiro;
     }
-
-// método que valida se o email inserido é válido
-    /*public boolean validarEmail(String email) {
-        int count = 0;
-        for (int i = 0; i < email.length(); i++) {
-            if (email.charAt(i) == '@') count++;
-        }
-        if (count == 1) {
-            return true;
-        } else return false;
-    }*/
 
     /**
      * Método que verifica se email inserido é válido.
@@ -1492,7 +1491,7 @@ public class Empresa implements Serializable {
     // só adiciona se não houver nenhuma instância com o mesmo email
 
     /**
-     * Métoque que regista um novo administrador.
+     * Método que que regista um novo administrador.
      *
      * @param email        O email do administrador.
      * @param nome         O nome do administrador.
@@ -1589,6 +1588,11 @@ public class Empresa implements Serializable {
         return false;
     }
 
+    /**
+     * Método que marca as notificações de um cliente como lidas, através do seu NIF.
+     *
+     * @param nif O NIF do cliente cujas notificações serão marcadas como lidas.
+     */
     public void marcarNotificacoesDeClientComoLidas(String nif) {
         List<Cliente> clientes = getTodoOsClientesPorNif(nif);
 
@@ -1600,6 +1604,12 @@ public class Empresa implements Serializable {
         }
     }
 
+    /**
+     * Método que retorna uma lista de clientes que possuem o NIF passado como parâmetro.
+     *
+     * @param nif O NIF a ser utilizado para pesquisa de clientes
+     * @return Uma lista de clientes que possuem o NIF passado como parâmetro
+     */
     public List<Cliente> getTodoOsClientesPorNif(String nif) {
         List<Cliente> list = new ArrayList<>();
         for (Utilizador it : getTodosUtilizadoresPorNif(nif)) {
@@ -1611,6 +1621,12 @@ public class Empresa implements Serializable {
 
     }
 
+    /**
+     * Método que retorna uma lista de utilizadores que possuem o NIF passado como parâmetro.
+     *
+     * @param nif O NIF a ser utilizado para pesquisa de utilizadores
+     * @return Uma lista de utilizadores que possuem o NIF passado como parâmetro
+     */
     private List<Utilizador> getTodosUtilizadoresPorNif(String nif) {
         List<Utilizador> list = new ArrayList<>();
         for (Utilizador it : listaUtilizadores) {

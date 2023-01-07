@@ -13,7 +13,6 @@ public class Multibanco extends Pagamento implements Serializable {
     /**
      *
      * @param data
-
      * @param entidade
      * @param referencia
      */
