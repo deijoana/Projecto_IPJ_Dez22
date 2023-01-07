@@ -2,6 +2,11 @@ package Projecto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+/**
+ * Classe que define objectos do tipo Multibanco
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 
 public class Multibanco extends Pagamento implements Serializable {
 
