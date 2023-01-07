@@ -3,13 +3,22 @@ package Projecto;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
-
+/**
+ * Classe que gere a Interface gráfica
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class GUI {
 
     Empresa empresa;
     JFrame f;
     JPanel cardsPanel;
     CardLayout layout;
+
+    /**
+     *
+     * @param empresa
+     */
     GUI(Empresa empresa) {
         this.empresa = empresa;
 

@@ -113,7 +113,7 @@ public class Cliente extends Utilizador implements Serializable {
      * @return Objecto do tipo Reembolso que representa o reembolso devido ao cliente
      */
     public Reembolso calcularReenbolsoDeCancelamentoDeReserva(double custo, LocalDate dataPartida, LocalDate dataDeCancelamente) {
-        return this.tipoSubscricao.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
+        return this.tipoSubscricao.calcularReembolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
     }
 
     @Override

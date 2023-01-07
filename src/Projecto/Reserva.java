@@ -23,13 +23,11 @@ public class Reserva implements Serializable {
     private String localOrigem;
     private String localDestino;
     private double distancia;
-    private String estadoReserva;
     private String id;
 
     private final Pagamento pagamento;
 
     /**
-     *
      * @param id
      * @param bus
      * @param driver
@@ -63,7 +61,6 @@ public class Reserva implements Serializable {
         this.localOrigem = localOrigem;
         this.localDestino = localDestino;
         this.distancia = distancia;
-        this.estadoReserva = "1"; // 1 significa válida e 2 significa inválida
         this.pagamento = pagamento;
         calcularCustoViagem();
     }
@@ -142,6 +139,7 @@ public class Reserva implements Serializable {
 
     /**
      * Método que calcula o custo da viagem.
+     *
      * @return void
      */
     public void calcularCustoViagem() {
@@ -150,6 +148,7 @@ public class Reserva implements Serializable {
 
     /**
      * Método que retorna a representação em String da reserva.
+     *
      * @return A representação em String da reserva.
      */
     @Override
@@ -181,25 +180,31 @@ public class Reserva implements Serializable {
 
         Reembolso reembolso = client.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
 
-        client.addNotificacao(generarNotificacaoDeCancelamento(reembolso));
+        client.addNotificacao(gerarNotificacaoDeCancelamento(reembolso));
 
         return reembolso;
     }
 
-    private String generarNotificacaoDeCancelamento(Reembolso reembolso) {
+    /**
+     * Método que gera uma notificação de cancelamento de reserva, a ser enviada ao cliente, com base no reembolso associado.
+     *
+     * @param reembolso O reembolso associado ao cancelamento de reserva
+     * @return A notificação de cancelamento de reserva a ser enviada ao cliente
+     */
+    private String gerarNotificacaoDeCancelamento(Reembolso reembolso) {
         if (reembolso.getValue() > 0.0 && pagamento != null) {
             if (pagamento.devePedirIBAN())
                 return "Foi-lhe enviado um email a solicitar IBAN para efeitos de reembolso no valor de %.2f, no contexto de cancelamento da sua reserva '%s'.".formatted(reembolso.getValue(), id);
             else
                 return "A sua reserva '%s' foi cancelada, e consequentemente foi-lhe reembolsado o valor de'%.2f'.".formatted(id, reembolso.getValue());
-        }  else
+        } else
             return "A sua reserva '%s' foi cancelada.".formatted(id);
     }
 
     /**
      * Método que verifica se uma reserva se sobrepõe a um intervalo de datas.
      *
-     * @param dataPartida O início do intervalo de datas.
+     * @param dataPartida  O início do intervalo de datas.
      * @param dataRegresso O fim do intervalo de datas.
      * @return true se a reserva se sobrepõe ao intervalo de datas, false caso contrário.
      */
@@ -210,15 +215,13 @@ public class Reserva implements Serializable {
                 (getDataPartida().isEqual(dataPartida) || getDataRegresso().isEqual(dataRegresso));
     }
 
+    /**
+     * Móetodo que retorna a lotação máxima do autocarro associado à reserva.
+     *
+     * @return A lotação máxima do autocarro associado à reserva.
+     */
     int getLotacaoMax() {
-      return bus.getLotacao();
+        return bus.getLotacao();
     }
 
-    public String getEstadoReserva() {
-        return this.estadoReserva;
-    }
-
-    public void setEstadoReserva(String estadoReserva) {
-        this.estadoReserva = estadoReserva;
-    }
 }

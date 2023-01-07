@@ -3,9 +3,11 @@ package Projecto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class GerirActionListener implements ActionListener {
     private int num;
     private GUI janela;
+
 
     GerirActionListener(int n, GUI janela) {
         this.num = n;

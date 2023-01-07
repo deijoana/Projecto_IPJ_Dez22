@@ -17,6 +17,7 @@ public class PainelSelecaoBus extends JPanel {
     JTextField anoT;
     JButton voltar, confirmar;
 
+
     PainelSelecaoBus(GUI janela, Empresa empresa) {
 
         this.empresa = empresa;
