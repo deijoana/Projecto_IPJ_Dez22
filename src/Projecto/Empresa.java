@@ -367,11 +367,9 @@ public class Empresa implements Serializable {
             return 3;
         }
 
-        if (!passwordNova.equals(confirmacaoPasswordNova)) {
-            return 4;
-        }
-
         loggeduser.setPalavraPasse(passwordNova);
+
+        escreveFicheiro();
         return 5;
     }
 
@@ -1041,40 +1039,11 @@ public class Empresa implements Serializable {
      * Método que permite cancelar todas as reservas de um cliente removido. Guarda as alterações no ficheiro de objectos.
      *
      * @param nif O NIF do cliente removido.
-     * @return void
      */
-  /*  public void cancelarReservaDeClienteRemovido(String nif) {
-
-        List<Utilizador> listaClientes = listaDeClientes();
-        Utilizador clienteRemovido = null;
-
-        for (Utilizador u : listaClientes) {
-            if (u.getNif().equals(nif)) {
-                clienteRemovido = u;
-
-            }
-        }
-        for (Reserva r : this.listaReservas) {
-            if (r.getClient().equals(clienteRemovido)) {
-                addReservaCancelada(r);
-                r.getClient().addNotificacao("A sua conta de cliente foi removida. As reservas confirmadas que poderiam existir foram canceladas. Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
-                removeReserva(r);
-            }
-        }
-        escreveFicheiro();
-    }*/
     public void cancelarReservaDeClienteRemovido(String nif) {
-
         List<Utilizador> listaClientes = listaDeClientes();
-
-        // Utilizador clienteRemovido = null;
-
         for (Utilizador u : listaClientes) {
             if (u.getNif().equals(nif)) {
-                // clienteRemovido = u;
-
-                // }
-                //}
                 for (Reserva r : this.listaReservas) {
                     if (r.getClient().equals(u)) {
                         // if (!r.getEstadoReserva().equals("2"))
@@ -1088,7 +1057,6 @@ public class Empresa implements Serializable {
             }
         }
         escreveFicheiro();
-
     }
 
 
@@ -1597,5 +1565,37 @@ public class Empresa implements Serializable {
         if (dataR.isEqual(dataP) || dataR.isAfter(dataP))
             return true;
         return false;
+    }
+
+    public void marcarNotificacoesDeClientComoLidas(String nif) {
+        List<Cliente> clientes = getTodoOsClientesPorNif(nif);
+
+        if (!clientes.isEmpty()){
+            for (Cliente cliente : clientes) {
+                cliente.marcarNotificacoesComoLidas();
+            }
+            escreveFicheiro();
+        }
+    }
+
+    public List<Cliente> getTodoOsClientesPorNif(String nif) {
+        List<Cliente> list = new ArrayList<>();
+        for (Utilizador it : getTodosUtilizadoresPorNif(nif)) {
+            if (it instanceof Cliente c) {
+                list.add(c);
+            }
+        }
+        return list;
+
+    }
+
+    private List<Utilizador> getTodosUtilizadoresPorNif(String nif) {
+        List<Utilizador> list = new ArrayList<>();
+        for (Utilizador it : listaUtilizadores) {
+            if (Objects.equals(nif, it.getNif())) {
+                list.add(it);
+            }
+        }
+        return list;
     }
 }

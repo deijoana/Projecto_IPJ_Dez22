@@ -1439,9 +1439,9 @@ public class PainelAdmin extends JPanel {
                 String palavraPasse = String.valueOf(passwordF.getPassword());
                 String passwordNova1L = String.valueOf(passwordNova1.getPassword());
                 String passwordNova2L = String.valueOf(passwordNova2.getPassword());
-                int resultado12 = empresa.alterarPassword(palavraPasse, passwordNova1L, passwordNova2L);
 
                 if (empresa.validarDados(palavraPasse) && empresa.validarDados(passwordNova1L) && empresa.validarDados(passwordNova2L)) {
+                    int resultado12 = empresa.alterarPassword(palavraPasse, passwordNova1L, passwordNova2L);
 
                     if (resultado12 == 5) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
@@ -1458,10 +1458,6 @@ public class PainelAdmin extends JPanel {
                     } else if (resultado12 == 3) {
                         JOptionPane.showMessageDialog(new JFrame("Insucesso"),
                                 "A password nova não pode ser igual à password antiga. Por favor, escolha uma password diferente.");
-                    } else if (resultado12 == 4) {
-                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
-                                "A nova password e a confirmação da nova password não coincidem.");
-
                     }
 
                 } else {
