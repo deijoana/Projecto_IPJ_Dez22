@@ -88,8 +88,10 @@ public class PainelMBConfirmarReserva extends JPanel {
 
                 try {
                     Cliente clienteO = (Cliente) empresa.getLoggeduser();
+
+                    Pagamento pagamentoMB = new Multibanco(LocalDate.now(), numEntidade, "" + numReferencia);
                     Reserva r = empresa.fazerReserva(clienteO, LocalDate.parse(dataPartida), LocalDate.parse(dataRegresso),
-                            Integer.valueOf(n_Passageiros), origem, destino, Double.valueOf(distPrevista));
+                            Integer.valueOf(n_Passageiros), origem, destino, Double.valueOf(distPrevista), pagamentoMB);
 
                     JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
                             "Reserva confirmada. O autocarro disponível é " + r.getBus());

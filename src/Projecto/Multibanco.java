@@ -8,19 +8,18 @@ public class Multibanco extends Pagamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private long entidade;
-    private long referencia;
+    private String entidade;
+    private String referencia;
 
     /**
      *
      * @param data
-     * @param valor
-     * @param confirmacaoPag
+
      * @param entidade
      * @param referencia
      */
-    public Multibanco(LocalDate data, double valor, boolean confirmacaoPag, long entidade, long referencia) {
-        super(data, valor, confirmacaoPag);
+    public Multibanco(LocalDate data, String entidade, String referencia) {
+        super(data);
         this.entidade = entidade;
         this.referencia = referencia;
     }

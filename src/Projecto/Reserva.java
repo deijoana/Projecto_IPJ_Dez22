@@ -26,6 +26,8 @@ public class Reserva implements Serializable {
     private String estadoReserva;
     private String id;
 
+    private final Pagamento pagamento;
+
     /**
      *
      * @param id
@@ -39,7 +41,17 @@ public class Reserva implements Serializable {
      * @param localDestino
      * @param distancia
      */
-    public Reserva(String id, Autocarro bus, Motorista driver, Cliente client, LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, String localOrigem, String localDestino, double distancia) {
+    public Reserva(String id,
+                   Autocarro bus,
+                   Motorista driver,
+                   Cliente client,
+                   LocalDate dataPartida,
+                   LocalDate dataRegresso,
+                   int numPassageiros,
+                   String localOrigem,
+                   String localDestino,
+                   double distancia,
+                   Pagamento pagamento) {
         this.id = id;
         this.bus = bus;
         this.driver = driver;
@@ -51,6 +63,7 @@ public class Reserva implements Serializable {
         this.localDestino = localDestino;
         this.distancia = distancia;
         this.estadoReserva = "1"; // 1 significa válida e 2 significa inválida
+        this.pagamento = pagamento;
         calcularCustoViagem();
     }
 

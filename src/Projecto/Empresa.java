@@ -779,7 +779,9 @@ public class Empresa implements Serializable {
                                 int numPassageiros,
                                 String localOrigem,
                                 String localDestino,
-                                double distancia) {
+                                double distancia,
+                                Pagamento pagamento
+                                ) {
 
         Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
         Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso);
@@ -787,7 +789,7 @@ public class Empresa implements Serializable {
         Reserva reservaCriada = null;
         if (autocarro != null && motorista != null) {
             System.out.printf("Encontrado Motorista %s e Autocarro %s disponivel para nova reserva%n", motorista.getNifMotorista(), autocarro.getMatricula());
-            reservaCriada = criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
+            reservaCriada = criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
 
         } else if (motorista != null && client.isPremium()) {
             System.out.println("Não foi encontrado autocarro disponivel para os criterios pretendidos!");
@@ -804,7 +806,7 @@ public class Empresa implements Serializable {
 
             reservaCriada = criarNovaReserva(
                     reservaExistente.getBus(),
-                    motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
+                    motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
 
 
         } else
@@ -893,7 +895,8 @@ public class Empresa implements Serializable {
                                      int numPassageiros,
                                      String localOrigem,
                                      String localDestino,
-                                     double distancia
+                                     double distancia,
+                                     Pagamento pagamento
     ) {
 
 
@@ -911,13 +914,12 @@ public class Empresa implements Serializable {
                 numPassageiros,
                 localOrigem,
                 localDestino,
-                distancia);
+                distancia,
+                pagamento);
 
         listaReservas.add(novaReserva);
-        // escreveFicheiro();
 
         return novaReserva;
-
     }
 
 
