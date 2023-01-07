@@ -367,11 +367,9 @@ public class Empresa implements Serializable {
             return 3;
         }
 
-        if (!passwordNova.equals(confirmacaoPasswordNova)) {
-            return 4;
-        }
-
         loggeduser.setPalavraPasse(passwordNova);
+
+        escreveFicheiro();
         return 5;
     }
 
