@@ -2,9 +2,7 @@ package Projecto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +18,7 @@ public class Cliente extends Utilizador implements Serializable {
 
     private TipoSubscricao tipoSubscricao;
     private String modoPagamento;
-    private final List<String> listaNotificacoes = new ArrayList<>();
+    private final Set<String> listaNotificacoes = new LinkedHashSet<>();
 
     /**
      *
@@ -91,10 +89,12 @@ public class Cliente extends Utilizador implements Serializable {
 
     /**
      * Método que adiciona uma String que descreve uma notificação à lista de notificações do cliente
+     *
      * @param notificacao String que representa uma notificação
+
      */
-    public void addNotificacao (String notificacao){
-        this.listaNotificacoes.add(notificacao);
+    public boolean addNotificacao (String notificacao){
+        return this.listaNotificacoes.add(notificacao);
     }
 
     /**
@@ -102,8 +102,9 @@ public class Cliente extends Utilizador implements Serializable {
      * @return Objecto do tipo List que guarda no formato String informação das notificações
      */
     public List<String> getListaNotificacoes() {
-        return this.listaNotificacoes;
+        return List.copyOf(this.listaNotificacoes);
     }
+
     /**
      * Método que calcula o reembolso devido a um cliente por cancelamento de reserva, de acordo com o tipo de subscrição que o cliente tem
      * @param custo representa o preço pago no momento da reserva

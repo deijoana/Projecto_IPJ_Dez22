@@ -435,7 +435,7 @@ public class PainelCliente extends JPanel {
                 if (text != null && !text.trim().isBlank()) {
 
                     try {
-                        empresa.addReservaCancelada(text);
+                        //empresa.addReservaCancelada(text);
                         Reembolso reembolso = empresa.cancelarReservaFromView(text.trim(), LocalDate.now());
 
 

@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -1140,9 +1143,8 @@ public class PainelAdmin extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String nif10 = nifT10.getText();
 
-
                 if (empresa.validarNIF(nif10)) {
-                     boolean clienteFoiRemovidoComSucesso = empresa.removerCliente(nif10);
+                    boolean clienteFoiRemovidoComSucesso = empresa.removerCliente(nif10);
                     if (clienteFoiRemovidoComSucesso) {
 
                         JOptionPane.showMessageDialog(new JFrame("Cliente removido com sucesso"),
@@ -1152,8 +1154,9 @@ public class PainelAdmin extends JPanel {
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif10);
                     }
                     nifT10.setText("");
-                } else
+                } else{
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
+                }
             }
         });
 
