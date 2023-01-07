@@ -52,6 +52,7 @@ public class Reserva implements Serializable {
                    String localDestino,
                    double distancia,
                    Pagamento pagamento) {
+
         this.id = id;
         this.bus = bus;
         this.driver = driver;
@@ -186,7 +187,7 @@ public class Reserva implements Serializable {
     }
 
     private String generarNotificacaoDeCancelamento(Reembolso reembolso) {
-        if (reembolso.getValue() > 0.0 ) {
+        if (reembolso.getValue() > 0.0 && pagamento != null) {
             if (pagamento.devePedirIBAN())
                 return "Foi-lhe enviado um email a solicitar IBAN para efeitos de reembolso no valor de %.2f, no contexto de cancelamento da sua reserva '%s'.".formatted(reembolso.getValue(), id);
             else
@@ -203,15 +204,14 @@ public class Reserva implements Serializable {
      * @return true se a reserva se sobrepõe ao intervalo de datas, false caso contrário.
      */
     public boolean isBetween(LocalDate dataPartida, LocalDate dataRegresso) {
-
-
-        if ((this.dataPartida.isBefore(dataPartida) && this.dataRegresso.isAfter(dataPartida)) ||
+        return (this.dataPartida.isBefore(dataPartida) && this.dataRegresso.isAfter(dataPartida)) ||
                 (dataPartida.isBefore(getDataPartida()) && dataRegresso.isAfter(getDataRegresso())) ||
                 (dataRegresso.isAfter(getDataPartida()) && dataRegresso.isBefore(getDataRegresso())) ||
-                (getDataPartida().isEqual(dataPartida) || getDataRegresso().isEqual(dataRegresso))) {
-            return true;
-        }
-        return false;
+                (getDataPartida().isEqual(dataPartida) || getDataRegresso().isEqual(dataRegresso));
+    }
+
+    int getLotacaoMax() {
+      return bus.getLotacao();
     }
 
     public String getEstadoReserva() {

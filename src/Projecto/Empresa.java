@@ -37,7 +37,7 @@ public class Empresa implements Serializable {
      * na altura de criar reserva, será usado para gerar o id da nova reserva; Vai incrementando o seu valor
      */
     private int reservasIdGenerator;
-    private List listaPreReservas;
+    private final List<PreReserva> listaPreReservas;
 
     /**
      * Guarda informação do utilizador que está logado
@@ -104,10 +104,6 @@ public class Empresa implements Serializable {
                 return null;
             }
         }
-        // código que substitui numa linha um ciclo for:each
-        //if (empresa.listaAutocarros.stream().anyMatch(autocarro -> autocarro.getMatricula().equals(matricula))) {
-        //  return null;
-        //}
 
         Autocarro novoAutocarro = new Autocarro(matricula, marca, modelo, lotacao);
         this.listaAutocarros.add(novoAutocarro);
@@ -770,6 +766,22 @@ public class Empresa implements Serializable {
         return clMaxReservas;
     }
 
+    // TODO: falta criar um button que invoque a criação da pre-reserva!!
+    public PreReserva fazerPreReserva(Cliente cliente,
+                                      LocalDate dataPartida,
+                                      LocalDate dataRegresso,
+                                      int numPassageiros
+    ) {
+        PreReserva preReserva = new PreReserva(cliente, dataPartida, dataRegresso, numPassageiros);
+
+        listaPreReservas.add(preReserva);
+
+        escreveFicheiro();
+
+        return preReserva;
+    }
+
+
     /**
      * Este método permite ao cliente efetuar uma reserva de um autocarro, verificando a disponibilidade do mesmo e de um motorista. Guarda as alterações no ficheiro de objectos.
      * Caso não exista um autocarro disponível para os critérios indicados, e o cliente for premium, o método tenta cancelar
@@ -785,7 +797,6 @@ public class Empresa implements Serializable {
      * @return A reserva criada
      * @throws IllegalArgumentException Caso não exista um autocarro ou motorista disponível
      */
-
     public Reserva fazerReserva(Cliente client,
                                 LocalDate dataPartida,
                                 LocalDate dataRegresso,
@@ -799,7 +810,7 @@ public class Empresa implements Serializable {
         Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
         Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso);
 
-        Reserva reservaCriada = null;
+        Reserva reservaCriada;
         if (autocarro != null && motorista != null) {
             System.out.printf("Encontrado Motorista %s e Autocarro %s disponivel para nova reserva%n", motorista.getNifMotorista(), autocarro.getMatricula());
             reservaCriada = criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
@@ -821,9 +832,9 @@ public class Empresa implements Serializable {
                     reservaExistente.getBus(),
                     motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
 
-
-        } else
+        } else {
             throw new IllegalArgumentException("Não existe autocarro ou motorista disponivel");
+        }
 
         escreveFicheiro();
         return reservaCriada;
@@ -913,6 +924,8 @@ public class Empresa implements Serializable {
                                      Pagamento pagamento
     ) {
 
+        if (pagamento == null)
+            throw new IllegalArgumentException("O pagamento presisa ser definido, para criar nova reserva");
 
         String idNovaReserva = generateNovoIdDeReserva();
 
@@ -973,7 +986,8 @@ public class Empresa implements Serializable {
      */
     private Reembolso cancelarReserva(String idReserva, LocalDate dataDeCancelamento) {
         Reserva reserva = getReserva(idReserva);
-        return cancelarReserva(reserva, dataDeCancelamento);
+        Reembolso reembolso = cancelarReserva(reserva, dataDeCancelamento);
+        return reembolso;
     }
 
     /**
@@ -1008,8 +1022,23 @@ public class Empresa implements Serializable {
         Reembolso reenbolse = reserva.cancelar(dataDeCancelamento);
         removeReserva(reserva);
         listaReservasCanceladas.add(reserva);
+
+        List<PreReserva> preReservas =
+                getPreReservasQuePodemPassarAReserva(reserva.getDataPartida(),
+                        reserva.getDataRegresso(),
+                        reserva.getLotacaoMax());
+        preReservas.forEach(PreReserva::notificaCliente);
+
         escreveFicheiro();
         return reenbolse;
+    }
+
+    private List<PreReserva> getPreReservasQuePodemPassarAReserva(LocalDate dataPartida, LocalDate dataRegresso, int lotacaoMax) {
+        return listaPreReservas.stream()
+                .filter(preReserva -> !preReserva.getDataPartida().isBefore(dataPartida))
+                .filter(preReserva -> !preReserva.getDataRegresso().isAfter(dataRegresso))
+                .filter(preReserva -> preReserva.getNumPassageiros() <= lotacaoMax)
+                .toList();
     }
 
     /**
