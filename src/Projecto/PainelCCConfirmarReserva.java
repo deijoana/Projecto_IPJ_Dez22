@@ -123,8 +123,11 @@ public class PainelCCConfirmarReserva extends JPanel {
 
                     try {
                         Cliente clienteO = (Cliente) empresa.getLoggeduser();
+
+                        Pagamento pagamentoCC = new CartaoCredito(LocalDate.now(), numCC, nomeCC, dataExpiracaoCC, cvc);
+
                         Reserva r = empresa.fazerReserva(clienteO, LocalDate.parse(dataPartida), LocalDate.parse(dataRegresso),
-                                Integer.valueOf(n_Passageiros), origem, destino, Double.valueOf(distPrevista));
+                                Integer.valueOf(n_Passageiros), origem, destino, Double.valueOf(distPrevista), pagamentoCC);
 
                         JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
                                 "Reserva confirmada. O autocarro disponível é " + r.getBus());

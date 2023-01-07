@@ -325,18 +325,29 @@ public class Empresa implements Serializable {
     //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
     //e se o tipo de Utilizador é cliente.
     public boolean removerCliente(String nif) {
-        // Será usado o nif como identificador do cliente a remover, dado que este nunca altera ao longo da vida
-        for (Utilizador client : this.listaUtilizadores) {
-            if (client.getNif().equals(nif) && client.tipoUtilizador.equals("Cliente")) {
 
-                this.listaNegraClientes.add(client); // adiciona o cliente a lista alternativa, porque este cliente mantém a possibilidade de fazer login
-                // this.listaUtilizadores.remove(client);
-                escreveFicheiro();
-                return true;
-            }
+        Cliente cliente = getTodoOsClientesPorNif(nif).stream().findFirst().orElse(null);
 
+        if (cliente == null) {
+            return false;
         }
-        return false;
+
+        LocalDate now = LocalDate.now();
+        List<Reserva> reservasDoCliente = getReservasDoCliente(cliente);
+
+        for (Reserva reserva : reservasDoCliente) {
+            cancelarReserva(reserva, now);
+        }
+
+        listaNegraClientes.add(cliente);
+
+        escreveFicheiro();
+
+        return true;
+    }
+
+    private List<Reserva> getReservasDoCliente(Cliente cliente) {
+        return listaReservas.stream().filter(r -> Objects.equals(cliente, r.getClient())).toList();
     }
 
     /**
@@ -779,7 +790,9 @@ public class Empresa implements Serializable {
                                 int numPassageiros,
                                 String localOrigem,
                                 String localDestino,
-                                double distancia) {
+                                double distancia,
+                                Pagamento pagamento
+                                ) {
 
         Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
         Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso);
@@ -787,7 +800,7 @@ public class Empresa implements Serializable {
         Reserva reservaCriada = null;
         if (autocarro != null && motorista != null) {
             System.out.printf("Encontrado Motorista %s e Autocarro %s disponivel para nova reserva%n", motorista.getNifMotorista(), autocarro.getMatricula());
-            reservaCriada = criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
+            reservaCriada = criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
 
         } else if (motorista != null && client.isPremium()) {
             System.out.println("Não foi encontrado autocarro disponivel para os criterios pretendidos!");
@@ -804,7 +817,7 @@ public class Empresa implements Serializable {
 
             reservaCriada = criarNovaReserva(
                     reservaExistente.getBus(),
-                    motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia);
+                    motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
 
 
         } else
@@ -893,7 +906,8 @@ public class Empresa implements Serializable {
                                      int numPassageiros,
                                      String localOrigem,
                                      String localDestino,
-                                     double distancia
+                                     double distancia,
+                                     Pagamento pagamento
     ) {
 
 
@@ -911,13 +925,12 @@ public class Empresa implements Serializable {
                 numPassageiros,
                 localOrigem,
                 localDestino,
-                distancia);
+                distancia,
+                pagamento);
 
         listaReservas.add(novaReserva);
-        // escreveFicheiro();
 
         return novaReserva;
-
     }
 
 
@@ -991,6 +1004,7 @@ public class Empresa implements Serializable {
     private Reembolso cancelarReserva(Reserva reserva, LocalDate dataDeCancelamento) {
         Reembolso reenbolse = reserva.cancelar(dataDeCancelamento);
         removeReserva(reserva);
+        listaReservasCanceladas.add(reserva);
         escreveFicheiro();
         return reenbolse;
     }
@@ -1035,29 +1049,6 @@ public class Empresa implements Serializable {
         return null;
     }
 
-    /**
-     * Método que permite cancelar todas as reservas de um cliente removido. Guarda as alterações no ficheiro de objectos.
-     *
-     * @param nif O NIF do cliente removido.
-     */
-    public void cancelarReservaDeClienteRemovido(String nif) {
-        List<Utilizador> listaClientes = listaDeClientes();
-        for (Utilizador u : listaClientes) {
-            if (u.getNif().equals(nif)) {
-                for (Reserva r : this.listaReservas) {
-                    if (r.getClient().equals(u)) {
-                        // if (!r.getEstadoReserva().equals("2"))
-                        addReservaCancelada(r);
-                        r.getClient().addNotificacao("A sua conta de cliente foi removida. As reservas confirmadas que poderiam existir foram canceladas. Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
-                        //removeReserva(r);
-                        r.setEstadoReserva("2");
-
-                    }
-                }
-            }
-        }
-        escreveFicheiro();
-    }
 
 
     /**

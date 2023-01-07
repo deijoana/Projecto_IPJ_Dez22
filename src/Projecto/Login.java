@@ -117,10 +117,9 @@ public class Login extends JPanel {
                                     "Notificacoes",
                                     JOptionPane.YES_NO_OPTION);
 
-                            if (JOptionPane.YES_OPTION == result)
+                            if (JOptionPane.YES_OPTION == result){
                                 empresa.marcarNotificacoesDeClientComoLidas(cliente.nif);
-                                cliente.marcarNotificacoesComoLidas();
-
+                            }
                         }
                     }
 

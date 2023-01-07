@@ -7,15 +7,14 @@ import java.time.LocalDate;
 public class CartaoCredito extends Pagamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private long numCartao;
-    private String nomeCartao;
-    private LocalDate dataValidade;
-    private int codigoSeg;
+    private final  String numCartao;
+    private final  String nomeCartao;
+    private final  String dataValidade;
+    private final  String codigoSeg;
 
 
-
-    public CartaoCredito(LocalDate data, double valor, boolean confirmacaoPag, long numCartao, String nomeCartao, LocalDate dataValidade, int codigoSeg) {
-        super(data, valor, confirmacaoPag);
+    public CartaoCredito(LocalDate data, String numCartao, String nomeCartao, String dataValidade, String codigoSeg) {
+        super(data);
         this.numCartao = numCartao;
         this.nomeCartao = nomeCartao;
         this.dataValidade = dataValidade;

@@ -75,8 +75,9 @@ public class PainelPaypalConfirmarReserva extends JPanel {
                 if (empresa.validarEmail(email) && empresa.validarDados(password)) {
                     try {
                         Cliente clienteO = (Cliente) empresa.getLoggeduser();
+                        Pagamento pagamentoPaypal = new PayPal(LocalDate.now(), email, password);
                         Reserva r = empresa.fazerReserva(clienteO, LocalDate.parse(dataPartida), LocalDate.parse(dataRegresso),
-                                Integer.valueOf(n_Passageiros), origem, destino, Double.valueOf(distPrevista));
+                                Integer.valueOf(n_Passageiros), origem, destino, Double.valueOf(distPrevista), pagamentoPaypal);
 
                         JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
                                 "Reserva confirmada. O autocarro disponível é " + r.getBus());

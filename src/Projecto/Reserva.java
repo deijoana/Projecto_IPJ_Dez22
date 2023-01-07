@@ -3,14 +3,13 @@ package Projecto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+* Classe que define objectos do tipo Reserva
+* @author Joana Ramalho
+* @author Tiago Sousa
+*/
 public class Reserva implements Serializable {
 
-    /**
-     *
-     * Classe que define objectos do tipo Reserva
-     * @author Joana Ramalho
-     * @author Tiago Sousa
-     */
 
     private static final long serialVersionUID = 1L;
     private Autocarro bus;
@@ -24,12 +23,10 @@ public class Reserva implements Serializable {
     private String localOrigem;
     private String localDestino;
     private double distancia;
-
     private String estadoReserva;
-
     private String id;
 
-    static int idCounter = 0;
+    private final Pagamento pagamento;
 
     /**
      *
@@ -44,7 +41,17 @@ public class Reserva implements Serializable {
      * @param localDestino
      * @param distancia
      */
-    public Reserva(String id, Autocarro bus, Motorista driver, Cliente client, LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros, String localOrigem, String localDestino, double distancia) {
+    public Reserva(String id,
+                   Autocarro bus,
+                   Motorista driver,
+                   Cliente client,
+                   LocalDate dataPartida,
+                   LocalDate dataRegresso,
+                   int numPassageiros,
+                   String localOrigem,
+                   String localDestino,
+                   double distancia,
+                   Pagamento pagamento) {
         this.id = id;
         this.bus = bus;
         this.driver = driver;
@@ -56,6 +63,7 @@ public class Reserva implements Serializable {
         this.localDestino = localDestino;
         this.distancia = distancia;
         this.estadoReserva = "1"; // 1 significa válida e 2 significa inválida
+        this.pagamento = pagamento;
         calcularCustoViagem();
     }
 
@@ -170,7 +178,21 @@ public class Reserva implements Serializable {
             throw new IllegalArgumentException("A data de partida tem de ser depois da data de cancelamento!");
         }
 
-        return client.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
+        Reembolso reembolso = client.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
+
+        client.addNotificacao(generarNotificacaoDeCancelamento(reembolso));
+
+        return reembolso;
+    }
+
+    private String generarNotificacaoDeCancelamento(Reembolso reembolso) {
+        if (reembolso.getValue() > 0.0 ) {
+            if (pagamento.devePedirIBAN())
+                return "Foi-lhe enviado um email a solicitar IBAN para efeitos de reembolso no valor de %.2f, no contexto de cancelamento da sua reserva '%s'.".formatted(reembolso.getValue(), id);
+            else
+                return "A sua reserva '%s' foi cancelada, e consequentemente foi-lhe reembolsado o valor de'%.2f'.".formatted(id, reembolso.getValue());
+        }  else
+            return "A sua reserva '%s' foi cancelada.".formatted(id);
     }
 
     /**

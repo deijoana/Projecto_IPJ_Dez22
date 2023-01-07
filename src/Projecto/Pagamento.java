@@ -3,24 +3,22 @@ package Projecto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Pagamento implements Serializable {
+public abstract class Pagamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     protected LocalDate data;
-    protected double valor;
-    protected boolean confirmacaoPag;
 
     /**
      *
      * @param data
-     * @param valor
-     * @param confirmacaoPag
+
      */
-    public Pagamento(LocalDate data, double valor, boolean confirmacaoPag) {
+    public Pagamento(LocalDate data) {
         this.data = data;
-        this.valor = valor;
-        this.confirmacaoPag = confirmacaoPag;
     }
 
+    public boolean devePedirIBAN() {
+        return false;
+    }
 }
