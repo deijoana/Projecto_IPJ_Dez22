@@ -11,8 +11,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- *
  * Classe onde estão armazenados todos os dados da aplicação bem como a maioria dos métodos que são chamados para aceder à informação necessária para a execução da aplicação
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -92,12 +92,12 @@ public class Empresa implements Serializable {
      * Método que adiciona um autocarro à lista de autocarros, se não existir nenhuma instância nessa lista com igual matrícula. Guarda as alterações no ficheiro de objectos.
      *
      * @param matricula representa a matrícula do autocarro a ser adicionado
-     * @param marca representa a marca do autocarro a ser adicionado
-     * @param modelo representa o modelo do autocarro a ser adicionado
-     * @param lotacao representa a lotação do autocarro a ser adicionado
+     * @param marca     representa a marca do autocarro a ser adicionado
+     * @param modelo    representa o modelo do autocarro a ser adicionado
+     * @param lotacao   representa a lotação do autocarro a ser adicionado
      * @return Objecto da classe Autocarro ou null se já houver correspondência para a matrícula na lista de autocarros
      */
-     public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao) {
+    public Autocarro adicionarAutocarro(String matricula, String marca, String modelo, int lotacao) {
 
         for (Autocarro a : this.listaAutocarros) {
             if (a.getMatricula().equals(matricula)) {
@@ -119,9 +119,9 @@ public class Empresa implements Serializable {
     /**
      * Método que edita os atributos do autocarro se houver correspondência para a matrícula dada como parâmetro. Guarda as alterações no ficheiro de objectos.
      *
-     * @param matricula representa a matrícula do autocarro a ser editado
-     * @param novaMarca representa a marca do autocarro a ser editado
-     * @param novoModelo representa o modelo do autocarro a ser editado
+     * @param matricula   representa a matrícula do autocarro a ser editado
+     * @param novaMarca   representa a marca do autocarro a ser editado
+     * @param novoModelo  representa o modelo do autocarro a ser editado
      * @param novaLotacao representa a lotação do autocarro a ser editado
      * @return true se houver correspondência para a matrícula e as informações do autocarro respectivo forem editadas. False se nenhuma correspondência for encontrada para a matrícula dada como parâmetro
      */
@@ -169,8 +169,8 @@ public class Empresa implements Serializable {
      * Método que adiciona um motorista à lista de motoristas, se não existir nenhuma instância nessa lista com um NIF igual. Guarda as alterações no ficheiro de objectos.
      *
      * @param email representa o email do motorista a ser adicionado
-     * @param nome representa o nome do motorista a ser adicionado
-     * @param nif representa o nif do motorista a ser adicionado
+     * @param nome  representa o nome do motorista a ser adicionado
+     * @param nif   representa o nif do motorista a ser adicionado
      * @return Objecto da classe motorista ou null se já houver correspondência para o nif na lista de motoristas
      */
     public Motorista adicionarMotorista(String email, String nome, String nif) {
@@ -190,8 +190,8 @@ public class Empresa implements Serializable {
      * Método que edita os atributos do motorista se houver correspondência para o nif dado como parâmetro. Guarda as alterações no ficheiro de objectos.
      *
      * @param email representa o email do motorista a ser editado
-     * @param nome representa o nome do motorista a ser editado
-     * @param nif representa o nif do motorista a ser editado
+     * @param nome  representa o nome do motorista a ser editado
+     * @param nif   representa o nif do motorista a ser editado
      * @return true se houver correspondência para o nif e as informações do motorista respectivo forem editadas. False se nenhuma correspondência for encontrada para o nif dado como parâmetro
      */
     public boolean editarMotorista(String email, String nome, String nif) {
@@ -291,11 +291,11 @@ public class Empresa implements Serializable {
     /**
      * Método que edita o cliente se o NIF introduzido tiver correspondência na lista de utilizadores o o Tipo de Utilizador for um Cliente.
      *
-     * @param email O novo email do cliente.
-     * @param nome O novo nome do cliente.
+     * @param email    O novo email do cliente.
+     * @param nome     O novo nome do cliente.
      * @param telefone O novo número de telefone do cliente.
-     * @param nif O NIF do cliente a ser editado.
-     * @param morada A nova morada do cliente.
+     * @param nif      O NIF do cliente a ser editado.
+     * @param morada   A nova morada do cliente.
      * @return {@code true} se o cliente foi editado com sucesso, {@code false} se o NIF não tiver correspondência.
      */
 
@@ -325,21 +325,22 @@ public class Empresa implements Serializable {
     //método para remover cliente usando o NIF -> percorremos a lista de utlizadores e verificamos se o NIF é igual
     //e se o tipo de Utilizador é cliente.
     public boolean removerCliente(String nif) {
+        List<Cliente> clientes = getTodoOsClientesPorNif(nif);
 
-        Cliente cliente = getTodoOsClientesPorNif(nif).stream().findFirst().orElse(null);
-
-        if (cliente == null) {
+        if (clientes.isEmpty()) {
             return false;
         }
 
-        LocalDate now = LocalDate.now();
-        List<Reserva> reservasDoCliente = getReservasDoCliente(cliente);
+        for (Cliente cliente : clientes) {
+            LocalDate now = LocalDate.now();
+            List<Reserva> reservasDoCliente = getReservasDoCliente(cliente);
 
-        for (Reserva reserva : reservasDoCliente) {
-            cancelarReserva(reserva, now);
+            for (Reserva reserva : reservasDoCliente) {
+                cancelarReserva(reserva, now);
+            }
+
+            listaNegraClientes.add(cliente);
         }
-
-        listaNegraClientes.add(cliente);
 
         escreveFicheiro();
 
@@ -353,15 +354,15 @@ public class Empresa implements Serializable {
     /**
      * Método que altera a password de um utilizador.
      *
-     * @param passwordAntiga A password atual do utilizador.
-     * @param passwordNova A nova password do utilizador.
+     * @param passwordAntiga          A password atual do utilizador.
+     * @param passwordNova            A nova password do utilizador.
      * @param confirmacaoPasswordNova A confirmação da nova password do utilizador.
      * @return O código de resultado da alteração da password:
-     *         1 - A password atual está incorreta.
-     *         2 - A nova password e a sua confirmação não são iguais.
-     *         3 - A nova password é igual à password atual.
-     *         4 - A confirmação da nova password está incorreta.
-     *         5 - A password foi alterada com sucesso.
+     * 1 - A password atual está incorreta.
+     * 2 - A nova password e a sua confirmação não são iguais.
+     * 3 - A nova password é igual à password atual.
+     * 4 - A confirmação da nova password está incorreta.
+     * 5 - A password foi alterada com sucesso.
      */
     public int alterarPassword(String passwordAntiga, String passwordNova, String confirmacaoPasswordNova) {
 
@@ -455,8 +456,8 @@ public class Empresa implements Serializable {
         for (Reserva r : this.listaReservas) {
             if (r.getClient().equals(this.loggeduser)) {
                 if (r.getDataPartida().isAfter(LocalDate.now())) {
-                   // if (r.getEstadoReserva().equals("1"))
-                        listaReserva.add(r);
+                    // if (r.getEstadoReserva().equals("1"))
+                    listaReserva.add(r);
                 }
             }
         }
@@ -474,12 +475,13 @@ public class Empresa implements Serializable {
     }
 
     public List<String> listaNotificacoes() {
-        List <String> listaNotes= new ArrayList<>();
+        List<String> listaNotes = new ArrayList<>();
 
-        if (this.loggeduser instanceof Cliente){
-        Cliente c = (Cliente) this.loggeduser;
-        listaNotes=c.getListaNotificacoes();}
-       return listaNotes;
+        if (this.loggeduser instanceof Cliente) {
+            Cliente c = (Cliente) this.loggeduser;
+            listaNotes = c.getListaNotificacoes();
+        }
+        return listaNotes;
     }
 
     /**
@@ -637,7 +639,7 @@ public class Empresa implements Serializable {
     }
 
     /**
-     *  Método que obtém o total de motoristas.
+     * Método que obtém o total de motoristas.
      *
      * @return O total de motoristas.
      */
@@ -773,13 +775,13 @@ public class Empresa implements Serializable {
      * Caso não exista um autocarro disponível para os critérios indicados, e o cliente for premium, o método tenta cancelar
      * uma reserva de um cliente normal, para depois criar a reserva do cliente premium.
      *
-     * @param client O cliente que está a fazer a reserva
-     * @param dataPartida A data de partida da viagem
-     * @param dataRegresso A data de regresso da viagem
+     * @param client         O cliente que está a fazer a reserva
+     * @param dataPartida    A data de partida da viagem
+     * @param dataRegresso   A data de regresso da viagem
      * @param numPassageiros O número de passageiros da viagem
-     * @param localOrigem O local de origem da viagem
-     * @param localDestino O local de destino da viagem
-     * @param distancia A distância da viagem
+     * @param localOrigem    O local de origem da viagem
+     * @param localDestino   O local de destino da viagem
+     * @param distancia      A distância da viagem
      * @return A reserva criada
      * @throws IllegalArgumentException Caso não exista um autocarro ou motorista disponível
      */
@@ -792,7 +794,7 @@ public class Empresa implements Serializable {
                                 String localDestino,
                                 double distancia,
                                 Pagamento pagamento
-                                ) {
+    ) {
 
         Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
         Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso);
@@ -832,8 +834,8 @@ public class Empresa implements Serializable {
     /**
      * Método que obtém uma reserva de um cliente normal que possa ser cancelada.
      *
-     * @param dataPartida a data de partida da nova reserva
-     * @param dataRegresso a data de regresso da nova reserva
+     * @param dataPartida    a data de partida da nova reserva
+     * @param dataRegresso   a data de regresso da nova reserva
      * @param numPassageiros o número de passageiros da nova reserva
      * @return a reserva encontrada ou null caso não exista reserva que possa ser cancelada
      */
@@ -850,8 +852,8 @@ public class Empresa implements Serializable {
     /**
      * Este método permite obter um autocarro disponível para uma determinada reserva.
      *
-     * @param dataPartida A data de partida da reserva.
-     * @param dataRegresso A data de regresso da reserva.
+     * @param dataPartida    A data de partida da reserva.
+     * @param dataRegresso   A data de regresso da reserva.
      * @param numPassageiros O número de passageiros da reserva.
      * @return O autocarro disponível para a reserva, se existir, ou {@code null} caso não exista.
      */
@@ -871,8 +873,8 @@ public class Empresa implements Serializable {
      * Verifica se não existem reservas para um determinado autocarro no período especificado.
      *
      * @param auto O autocarro a verificar
-     * @param d1 A data de início do período
-     * @param d2 A data de fim do período
+     * @param d1   A data de início do período
+     * @param d2   A data de fim do período
      * @return true se não existirem reservas para o autocarro no período, false caso contrário
      */
     boolean naoExistReservaNoPeriodoParaOAutocarro(Autocarro auto, LocalDate d1, LocalDate d2) {
@@ -887,15 +889,16 @@ public class Empresa implements Serializable {
 
     /**
      * Método que cria uma nova reserva de autocarro.
-     * @param bus O autocarro a ser reservado.
-     * @param driver O motorista responsável pelo autocarro.
-     * @param client O cliente que está a fazer a reserva.
-     * @param dataPartida A data de partida do autocarro.
-     * @param dataRegresso A data de regresso do autocarro.
+     *
+     * @param bus            O autocarro a ser reservado.
+     * @param driver         O motorista responsável pelo autocarro.
+     * @param client         O cliente que está a fazer a reserva.
+     * @param dataPartida    A data de partida do autocarro.
+     * @param dataRegresso   A data de regresso do autocarro.
      * @param numPassageiros O número de passageiros na reserva.
-     * @param localOrigem O local de origem da viagem.
-     * @param localDestino O local de destino da viagem.
-     * @param distancia A distância da viagem.
+     * @param localOrigem    O local de origem da viagem.
+     * @param localDestino   O local de destino da viagem.
+     * @param distancia      A distância da viagem.
      * @return A reserva criada.
      */
     private Reserva criarNovaReserva(Autocarro bus,
@@ -947,7 +950,7 @@ public class Empresa implements Serializable {
     /**
      * Método que cancela uma reserva de autocarro a partir da visão do cliente.
      *
-     * @param idReserva O ID da reserva a cancelar.
+     * @param idReserva          O ID da reserva a cancelar.
      * @param dataDeCancelamento A data de cancelamento da reserva.
      * @return O reembolso gerado pelo cancelamento da reserva.
      * @throws IllegalArgumentException Se o cliente não for quem criou a reserva.
@@ -964,7 +967,7 @@ public class Empresa implements Serializable {
     /**
      * Método que cancela uma reserva de autocarro.
      *
-     * @param idReserva O ID da reserva a cancelar.
+     * @param idReserva          O ID da reserva a cancelar.
      * @param dataDeCancelamento A data de cancelamento da reserva.
      * @return O reembolso gerado pelo cancelamento da reserva.
      */
@@ -997,7 +1000,7 @@ public class Empresa implements Serializable {
     /**
      * Método que cancela uma reserva de autocarro. Guarda as alterações no ficheiro de objectos.
      *
-     * @param reserva A reserva a cancelar.
+     * @param reserva            A reserva a cancelar.
      * @param dataDeCancelamento A data de cancelamento da reserva.
      * @return O reembolso gerado pelo cancelamento da reserva.
      */
@@ -1050,12 +1053,11 @@ public class Empresa implements Serializable {
     }
 
 
-
     /**
      * Método que calcula o custo de uma viagem de autocarro.
      *
      * @param numPassageiros O número de passageiros na viagem.
-     * @param distancia A distância da viagem.
+     * @param distancia      A distância da viagem.
      * @return O custo da viagem.
      */
     public double calcularCustoViagem(int numPassageiros, double distancia) {
@@ -1074,11 +1076,12 @@ public class Empresa implements Serializable {
      * Se as datas não coincidirem o autocarro é elegível e é adicionado a uma lista de autocarros disponíveis.
      * De seguida percorre a lista de autocarros disponíveis e seleciona aquele que tem a lotação mais ajustada ao número de passageiros da viagem.
      *
-     * @param dataPartida A data de partida da viagem.
-     * @param dataRegresso A data de regresso da viagem.
+     * @param dataPartida    A data de partida da viagem.
+     * @param dataRegresso   A data de regresso da viagem.
      * @param numPassageiros O número de passageiros na viagem.
      * @return O autocarro disponível e com a lotação mais ajustada à viagem, ou null se nenhum for encontrado.
      */
+
     public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
         Autocarro escolhido = null;
         List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
@@ -1128,7 +1131,7 @@ public class Empresa implements Serializable {
      * Se coincidir salta para o próximo motorista da lista de motoristas.
      * Se não coincidir, esse motorista está disponível para ser alocado a essa viagem.
      *
-     * @param dataPartida A data de partida da viagem.
+     * @param dataPartida  A data de partida da viagem.
      * @param dataRegresso A data de regresso da viagem.
      * @return O motorista disponível para a viagem, ou null se não houver nenhum.
      */
@@ -1159,11 +1162,12 @@ public class Empresa implements Serializable {
     }
 
     // método que devolve o utilizador que corresponde aos dados inseridos no painel de Login
+
     /**
      * Método que realiza o login de um utilizador.
      *
      * @param emailUtilizador O email do utilizador a fazer login.
-     * @param palavraPasse A palavra-passe do utilizador a fazer login.
+     * @param palavraPasse    A palavra-passe do utilizador a fazer login.
      * @return O utilizador que fez login, ou null se o login falhar.
      */
     public Utilizador fazerLogin(String emailUtilizador, String palavraPasse) {
@@ -1178,7 +1182,7 @@ public class Empresa implements Serializable {
     /**
      * Método que escreve um objeto num ficheiro.
      *
-     * @param nome O nome do ficheiro onde o objeto será escrito.
+     * @param nome    O nome do ficheiro onde o objeto será escrito.
      * @param objecto O objeto a ser escrito no ficheiro.
      */
     private static void escreveFicheiro(String nome, Object objecto) {
@@ -1234,6 +1238,7 @@ public class Empresa implements Serializable {
 
         return empresa;
     }
+
     /**
      * Método que define o nome do ficheiro onde onde as informações devem ser guardados.
      *
@@ -1293,7 +1298,7 @@ public class Empresa implements Serializable {
      * Método que Valida o índice selecionado nas ComboBoxes de subscrição e pagamento.
      *
      * @param subscricao índice selecionado na ComboBox de subscrição
-     * @param pagamento índice selecionado na ComboBox de pagamento
+     * @param pagamento  índice selecionado na ComboBox de pagamento
      * @return 1 se ambos os índices são válidos (diferentes de 0), 0 caso contrário
      */
     public int validarComboBoxIndex(int subscricao, int pagamento) {
@@ -1303,7 +1308,6 @@ public class Empresa implements Serializable {
         }
         return 1;
     }
-
 
 
     /**
@@ -1461,11 +1465,11 @@ public class Empresa implements Serializable {
     /**
      * Métoque que regista um novo administrador.
      *
-     * @param email O email do administrador.
-     * @param nome O nome do administrador.
-     * @param telefone O telefone do administrador.
-     * @param nif O NIF do administrador.
-     * @param morada A morada do administrador.
+     * @param email        O email do administrador.
+     * @param nome         O nome do administrador.
+     * @param telefone     O telefone do administrador.
+     * @param nif          O NIF do administrador.
+     * @param morada       A morada do administrador.
      * @param palavraPasse A palavra-passe do administrador.
      * @return O novo administrador se o registo for bem-sucedido, null caso contrário.
      */
@@ -1524,8 +1528,6 @@ public class Empresa implements Serializable {
     }
 
 
-
-
     /**
      * Método que verifica se um cliente pertence à lista negra.
      *
@@ -1545,7 +1547,7 @@ public class Empresa implements Serializable {
     /**
      * Método que valida se as datas de partida e de regresso são válidas.
      *
-     * @param dataPartida A data de partida.
+     * @param dataPartida  A data de partida.
      * @param dataRegresso A data de regresso.
      * @return true se as datas são válidas, false caso contrário.
      */
@@ -1561,7 +1563,7 @@ public class Empresa implements Serializable {
     public void marcarNotificacoesDeClientComoLidas(String nif) {
         List<Cliente> clientes = getTodoOsClientesPorNif(nif);
 
-        if (!clientes.isEmpty()){
+        if (!clientes.isEmpty()) {
             for (Cliente cliente : clientes) {
                 cliente.marcarNotificacoesComoLidas();
             }

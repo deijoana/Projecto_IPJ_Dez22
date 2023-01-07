@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -1141,7 +1144,7 @@ public class PainelAdmin extends JPanel {
                 String nif10 = nifT10.getText();
 
                 if (empresa.validarNIF(nif10)) {
-                     boolean clienteFoiRemovidoComSucesso = empresa.removerCliente(nif10);
+                    boolean clienteFoiRemovidoComSucesso = empresa.removerCliente(nif10);
                     if (clienteFoiRemovidoComSucesso) {
 
                         JOptionPane.showMessageDialog(new JFrame("Cliente removido com sucesso"),
