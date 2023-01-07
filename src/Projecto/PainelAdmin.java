@@ -1140,7 +1140,6 @@ public class PainelAdmin extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String nif10 = nifT10.getText();
 
-
                 if (empresa.validarNIF(nif10)) {
                      boolean clienteFoiRemovidoComSucesso = empresa.removerCliente(nif10);
                     if (clienteFoiRemovidoComSucesso) {
@@ -1152,8 +1151,9 @@ public class PainelAdmin extends JPanel {
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif10);
                     }
                     nifT10.setText("");
-                } else
+                } else{
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
+                }
             }
         });
 
