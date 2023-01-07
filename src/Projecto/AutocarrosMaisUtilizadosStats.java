@@ -18,7 +18,7 @@ public class AutocarrosMaisUtilizadosStats implements Formattable {
      */
     public AutocarrosMaisUtilizadosStats(int numeroUtilizacoes, List<Autocarro> autocarros) {
         this.numeroUtilizacoes = numeroUtilizacoes;
-        this.autocarros = new ArrayList<>();
+        this.autocarros = autocarros;
     }
 
     /**

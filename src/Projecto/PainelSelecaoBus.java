@@ -63,7 +63,7 @@ public class PainelSelecaoBus extends JPanel {
         anoT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                anoT.setText("xxxx");
+                anoT.setText("");
             }
         });
 

@@ -44,10 +44,10 @@ public class PainelReservaMensal extends JPanel {
         c.gridx = 3;
         c.gridy = 4;
         this.add(anoT, c);
-       anoT.addMouseListener(new MouseAdapter() {
+        anoT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                anoT.setText("xxxx");
+                anoT.setText("");
             }
         });
 
@@ -70,15 +70,15 @@ public class PainelReservaMensal extends JPanel {
                 String ano = anoT.getText();
 
                 String dados[] = {empresa.avaliarReservaMensal(ano, 1), empresa.avaliarReservaMensal(ano, 2), empresa.avaliarReservaMensal(ano, 3),
-                        empresa.avaliarReservaMensal(ano, 4),empresa.avaliarReservaMensal(ano, 5),empresa.avaliarReservaMensal(ano, 6),empresa.avaliarReservaMensal(ano ,7),
-                        empresa.avaliarReservaMensal(ano, 8),empresa.avaliarReservaMensal(ano, 9),empresa.avaliarReservaMensal(ano, 10),empresa.avaliarReservaMensal(ano, 11),empresa.avaliarReservaMensal(ano, 12)};
+                        empresa.avaliarReservaMensal(ano, 4), empresa.avaliarReservaMensal(ano, 5), empresa.avaliarReservaMensal(ano, 6), empresa.avaliarReservaMensal(ano, 7),
+                        empresa.avaliarReservaMensal(ano, 8), empresa.avaliarReservaMensal(ano, 9), empresa.avaliarReservaMensal(ano, 10), empresa.avaliarReservaMensal(ano, 11), empresa.avaliarReservaMensal(ano, 12)};
 
                 JList<String> resultado = new JList<String>(dados);
                 ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
 
                 if (empresa.validarAno(ano)) {
-                    if (model.getSize()==0){
-                        JOptionPane.showMessageDialog(new JFrame("Insucesso"), "O ano " + ano + " não teve nenhuma reserva" );
+                    if (model.getSize() == 0) {
+                        JOptionPane.showMessageDialog(new JFrame("Insucesso"), "O ano " + ano + " não teve nenhuma reserva");
                     } else {
                         //JOptionPane.showMessageDialog(new JFrame("sucesso"), "Mostrar lista");
                         JFrame local = new JFrame("Volume de reservas mensais (número e facturação) no ano " + ano);
@@ -102,7 +102,6 @@ public class PainelReservaMensal extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Reservas mensais"), "Insira um valor de ano válido");
             }
         });
-
 
 
     }
