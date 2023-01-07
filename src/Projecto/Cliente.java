@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -17,7 +20,7 @@ public class Cliente extends Utilizador implements Serializable {
 
     private TipoSubscricao tipoSubscricao;
     private String modoPagamento;
-    private List<String> listaNotificacoes;
+    private final List<String> listaNotificacoes = new ArrayList<>();
 
     /**
      *
@@ -36,7 +39,6 @@ public class Cliente extends Utilizador implements Serializable {
         super(nome, nif, morada, telefone, email, tipoUtilizador, palavraPasse);
         this.tipoSubscricao = tipoSubscricao;
         this.modoPagamento = modoPagamento;
-        this.listaNotificacoes = new ArrayList<>();
     }
 
     /**
@@ -113,5 +115,20 @@ public class Cliente extends Utilizador implements Serializable {
         return this.tipoSubscricao.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
     }
 
+    @Override
+    public boolean temNovaNotificacoesPorLer() {
+        return getNotificacoesNaoVazias().findAny().isPresent();
+    }
 
+    public String getSumarioDeNotificacoes() {
+        return getNotificacoesNaoVazias().collect(Collectors.joining("\n\t-"));
+    }
+
+    private Stream<String> getNotificacoesNaoVazias() {
+        return this.listaNotificacoes.stream().filter(Objects::nonNull).filter(s -> !s.isBlank());
+    }
+
+    public void marcarNotificacoesComoLidas() {
+        this.listaNotificacoes.clear();
+    }
 }

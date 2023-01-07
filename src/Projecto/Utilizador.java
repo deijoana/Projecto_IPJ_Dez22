@@ -137,4 +137,8 @@ public class Utilizador implements Serializable {
     public String toString() {
         return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + "\n";
     }
+
+    public boolean temNovaNotificacoesPorLer() {
+        return false;
+    }
 }

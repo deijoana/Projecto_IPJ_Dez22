@@ -100,21 +100,28 @@ public class Login extends JPanel {
                         janela.mudaEcra("PainelAdmin");
 
 
-                    } else if (logado instanceof Cliente && !empresa.clientePertenceAListaNegra(logado)) {
-
+                    } else if (logado instanceof Cliente cliente) {
+                        empresa.setLoggeduser(cliente); // guarda user logado
                         JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
-                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), "Notificações: ".formatted(((Cliente) logado).getListaNotificacoes()));
-                        empresa.setLoggeduser(logado); // guarda user logado
-                        janela.mudaEcra("PainelCliente");
 
+                        if (!empresa.clientePertenceAListaNegra(logado)) {
+                            janela.mudaEcra("PainelCliente");
+                        } else {
+                            janela.mudaEcra("PainelClienteRemoved");
+                        }
 
-                    } else if (logado instanceof Cliente && empresa.clientePertenceAListaNegra(logado)) {
+                        if (cliente.temNovaNotificacoesPorLer()) {
+                            int result =
+                                JOptionPane.showConfirmDialog(null,
+                                    cliente.getSumarioDeNotificacoes(),
+                                    "Notificacoes",
+                                    JOptionPane.YES_NO_OPTION);
 
-                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), logado.nome + " autenticado com sucesso");
-                        JOptionPane.showMessageDialog(new JFrame("Cliente loggado"), "Notificações: ".formatted(((Cliente) logado).getListaNotificacoes()));
-                        empresa.setLoggeduser(logado); // guarda user logado
-                        janela.mudaEcra("PainelClienteRemoved");
+                            if (JOptionPane.YES_OPTION == result)
+                                empresa.marcarNotificacoesDeClientComoLidas(cliente.nif);
+                                cliente.marcarNotificacoesComoLidas();
 
+                        }
                     }
 
                     emailT.setText("");
