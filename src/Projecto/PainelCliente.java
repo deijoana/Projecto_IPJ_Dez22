@@ -9,8 +9,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Stream;
 
 public class PainelCliente extends JPanel {
 
@@ -40,14 +42,12 @@ public class PainelCliente extends JPanel {
 
     JComboBox modoPagamentoC;
 
-    JList<Reserva> listagemReservas, listagemHistoricoReservas;
+    JList<Reserva> listagemReservas;
+    final JList<ReservaDetails> listagemHistoricoReservas = new JList<>();
     JList<String> listagemNotificacoes;
 
 
-
-
     /**
-     *
      * @param janela
      * @param empresa
      */
@@ -373,7 +373,6 @@ public class PainelCliente extends JPanel {
         c2.gridy = 0;
         panel2.add(inserirDados2, c2);
 
-        listagemHistoricoReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listagemHistoricoReservas().stream().toList()));
         c2.gridx = 1;
         c2.gridy = 1;
         panel2.add(listagemHistoricoReservas, c2);
@@ -387,7 +386,7 @@ public class PainelCliente extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 listagemReservas.setListData(new Vector<>(empresa.listaReservasCliente()));
-                listagemHistoricoReservas.setListData(new Vector<>(empresa.listagemHistoricoReservas()));
+                listagemHistoricoReservas.setListData(getReservaHistoricoDetails().toArray(new ReservaDetails[0]));
                 listagemNotificacoes.setListData(new Vector<String>(empresa.listaNotificacoes()));
             }
         });
@@ -498,8 +497,8 @@ public class PainelCliente extends JPanel {
         inserirDados8 = new JLabel("Aqui encontra as suas notificações:");
         inserirDados8.setFont(new Font("Arial", 1, 14));
         c8.insets = new Insets(0, 0, 20, 0);
-        c8.gridx=1;
-        c8.gridy=1;
+        c8.gridx = 1;
+        c8.gridy = 1;
         panel7.add(inserirDados8, c8);
 
         listagemNotificacoes = new JList<String>(new Vector<String>(empresa.listaNotificacoes()));
@@ -609,7 +608,7 @@ public class PainelCliente extends JPanel {
         c.gridy = 1;
         this.add(painelCl, c);  //Adicionar o componente Tabbed Pane ao painel PainelCl
 
-        welcome = new JLabel("Bem-vindo à sua área de cliente  " );
+        welcome = new JLabel("Bem-vindo à sua área de cliente  ");
         c.gridx = 0;
         c.gridy = 0;
         this.add(welcome, c);
@@ -648,7 +647,73 @@ public class PainelCliente extends JPanel {
     }
 
     public void refresh() {
-        listagemHistoricoReservas.setListData(empresa.listagemHistoricoReservas().toArray(new Reserva[0]));
+
+        List<ReservaDetails> reservaDetails = getReservaHistoricoDetails();
+        listagemHistoricoReservas.setListData(reservaDetails.toArray(new ReservaDetails[0]));
+        listagemHistoricoReservas.setCellRenderer(new ListCellRenderer<ReservaDetails>() {
+            @Override
+            public Component getListCellRendererComponent(JList<? extends ReservaDetails> list, ReservaDetails value, int index, boolean isSelected, boolean cellHasFocus) {
+                return new ReservaJListItem(value);
+            }
+        });
+
+
         listagemReservas.setListData(empresa.listaReservasCliente().toArray(new Reserva[0]));
+    }
+
+    private List<ReservaDetails> getReservaHistoricoDetails() {
+        List<ReservaDetails> reservaCancelada = empresa.listagemHistoricoReservasCanceladas().stream().map(it -> new ReservaDetails(it, ReservaDetails.Tipo.C)).toList();
+        List<ReservaDetails> reservas = empresa.listagemHistoricoReservas().stream().map(it -> new ReservaDetails(it, ReservaDetails.Tipo.E)).toList();
+        List<ReservaDetails> reservaDetails = Stream.concat(reservas.stream(), reservaCancelada.stream())
+                .sorted(Comparator.comparing(it -> it.reserva.getDataPartida())).toList();
+        return reservaDetails;
+    }
+}
+
+class ReservaDetails {
+    final Reserva reserva;
+    final Tipo tipo;
+
+    ReservaDetails(Reserva reserva, Tipo tipo) {
+        this.reserva = reserva;
+        this.tipo = tipo;
+    }
+
+    enum Tipo {
+        C("Cancelada", Color.orange),
+        E("Efectuada", Color.green);
+
+        final String label;
+        final Color color;
+
+        Tipo(String label, Color color) {
+            this.label = label;
+            this.color = color;
+        }
+    }
+}
+
+class ReservaJListItem extends JPanel {
+
+    private final JLabel lbName = new JLabel();
+    private final JLabel lbEstado = new JLabel();
+
+    public ReservaJListItem(ReservaDetails reservaDetails) {
+        setLayout(new BorderLayout(5, 5));
+
+        JPanel panelText = new JPanel(new GridLayout(0, 1));
+        panelText.add(lbName);
+        panelText.add(lbEstado);
+        //add(lbIcon, BorderLayout.WEST);
+        add(panelText, BorderLayout.CENTER);
+
+        lbName.setText(reservaDetails.reserva.toString());
+        lbEstado.setText("Estado: " + reservaDetails.tipo.label);
+
+
+        panelText.setForeground(reservaDetails.tipo.color);
+        panelText.setBackground(reservaDetails.tipo.color);
+        setBackground(reservaDetails.tipo.color);
+        setForeground(reservaDetails.tipo.color);
     }
 }

@@ -1649,4 +1649,10 @@ public class Empresa implements Serializable {
     public List<PreReserva> getListaPreReservas() {
         return listaPreReservas;
     }
+
+    public List<Reserva> listagemHistoricoReservasCanceladas() {
+        return listaReservasCanceladas.stream()
+                .filter(it -> Objects.equals(it.getClient(), this.loggeduser))
+                .toList();
+    }
 }
