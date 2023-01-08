@@ -647,4 +647,8 @@ public class PainelCliente extends JPanel {
         return validationError;
     }
 
+    public void refresh() {
+        listagemHistoricoReservas.setListData(empresa.listagemHistoricoReservas().toArray(new Reserva[0]));
+        listagemReservas.setListData(empresa.listaReservasCliente().toArray(new Reserva[0]));
+    }
 }

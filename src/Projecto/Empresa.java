@@ -864,7 +864,7 @@ public class Empresa implements Serializable {
                 .filter(reserva -> reserva.getClient().isNormal())
                 .filter(reserva -> reserva.getBus().getLotacao() >= numPassageiros)
                 .filter(reserva -> reserva.isBetween(dataPartidaPlusTwoDays, dataRegresso))
-                .min(Comparator.comparing(reserva -> reserva.getNumPassageiros()))
+                .min(Comparator.comparing(Reserva::getNumPassageiros))
                 .orElse(null);
     }
 

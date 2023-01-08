@@ -15,6 +15,9 @@ public class GUI {
     JPanel cardsPanel;
     CardLayout layout;
 
+    PainelCliente painelCliente;
+    Login painelLogin;
+
     /**
      *
      * @param empresa
@@ -32,10 +35,15 @@ public class GUI {
         // Definir o layout da janela como Card Layout e adicionar os diversos painéis a painel inicial, denominado cardsPanel
         layout = new CardLayout();
         cardsPanel = new JPanel(layout);
-        cardsPanel.add(new Login(this, empresa), "Login");
+
+
+        painelLogin = new Login(this, empresa);
+        painelCliente = new PainelCliente(this, empresa);
+
+        cardsPanel.add(painelLogin, "Login"); //
         cardsPanel.add(new PainelRegisto(this, empresa), "NovoRegisto");
         cardsPanel.add(new PainelAdmin(this, empresa), "PainelAdmin");
-        cardsPanel.add(new PainelCliente(this, empresa), "PainelCliente");
+        cardsPanel.add(painelCliente, "PainelCliente"); //
         cardsPanel.add(new PainelSelecaoBus(this, empresa),"PainelSelecaoBus");
         cardsPanel.add(new PainelReservaMensal(this, empresa),"PainelReservaMensal");
         cardsPanel.add(new PainelDiaMaisReservas(this, empresa),"PainelDiaMaisReservas");
@@ -59,6 +67,11 @@ public class GUI {
 
     // método que define que painel será visível
     public void mudaEcra(String ecra){
+
+        if ("PainelCliente".equals(ecra)){
+            painelCliente.refresh();
+        }
+
         layout.show (cardsPanel, ecra);
     }
 

@@ -209,7 +209,7 @@ public class Reserva implements Serializable {
      * @return true se a reserva se sobrepõe ao intervalo de datas, false caso contrário.
      */
     public boolean isBetween(LocalDate dataPartida, LocalDate dataRegresso) {
-        return (this.dataPartida.isBefore(dataPartida) && this.dataRegresso.isAfter(dataPartida)) ||
+        return (dataPartida.isBefore(dataPartida) && dataRegresso.isAfter(dataPartida)) ||
                 (dataPartida.isBefore(getDataPartida()) && dataRegresso.isAfter(getDataRegresso())) ||
                 (dataRegresso.isAfter(getDataPartida()) && dataRegresso.isBefore(getDataRegresso())) ||
                 (getDataPartida().isEqual(dataPartida) || getDataRegresso().isEqual(dataRegresso)) ||
