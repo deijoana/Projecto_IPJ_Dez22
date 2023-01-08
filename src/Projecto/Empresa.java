@@ -535,7 +535,6 @@ public class Empresa implements Serializable {
     public String avaliarReservaMensal(String ano, int mes) {
         int valorAno = Integer.parseInt(ano);
 
-        String listaReservaMensal = "";
         int count = 0;
         double volume = 0;
 
@@ -546,14 +545,7 @@ public class Empresa implements Serializable {
             }
         }
 
-      /*  if (count == 0 || volume == 0) {
-            listaReservaMensal = null;
-        } else
-            listaReservaMensal = "No mês " + mes + " do ano " + ano + " há registo de " + count + " reservas, perfazendo um total de " + volume + "€";
-*/
-        //   return listaReservaMensal;
-        escreveFicheiro();
-        return listaReservaMensal = "No " + mes + "º mês de " + ano + " há registo de " + count + " reservas, perfazendo um total de " + volume + "€";
+        return String.format("No %s mês de %s há registo de %d reservas, perfazendo um total de %.2f €", mes, ano, count, volume);
     }
 
     /**
