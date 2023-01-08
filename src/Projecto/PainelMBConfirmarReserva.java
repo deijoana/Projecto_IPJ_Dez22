@@ -45,7 +45,7 @@ public class PainelMBConfirmarReserva extends JPanel {
 
         inserirDados = new JLabel("Use os seguintes dados para pagar a sua reserva. Carregue em confirmar depois de concluir o pagamento:");
         inserirDados.setFont(new Font("Arial", 1, 14));
-        c.insets = new Insets(10, 0, 0, 0);
+        c.insets = new Insets(10, 0, 30, 0);
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 0;

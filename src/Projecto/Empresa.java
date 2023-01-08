@@ -759,9 +759,9 @@ public class Empresa implements Serializable {
     /**
      * Método que cria uma nova pre-reserva com os parâmetros passados e adiciona à lista de pre-reservas existentes.
      *
-     * @param cliente O cliente que está a fazer a pre-reserva.
-     * @param dataPartida A data de partida da viagem associada à pre-reserva.
-     * @param dataRegresso A data de regresso da viagem associada à pre-reserva.
+     * @param cliente        O cliente que está a fazer a pre-reserva.
+     * @param dataPartida    A data de partida da viagem associada à pre-reserva.
+     * @param dataRegresso   A data de regresso da viagem associada à pre-reserva.
      * @param numPassageiros O número de passageiros da viagem associada à pre-reserva.
      * @return A pre-reserva criada.
      */
@@ -805,39 +805,48 @@ public class Empresa implements Serializable {
                                 double distancia,
                                 Pagamento pagamento
     ) {
+        try {
+            Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
+            Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso);
 
-        Autocarro autocarro = getAutocarroLivre(dataPartida, dataRegresso, numPassageiros);
-        Motorista motorista = procurarDisponibilidadeMotorista(dataPartida, dataRegresso);
+            if (autocarro != null && motorista != null) {
+                System.out.printf("Encontrado Motorista %s e Autocarro %s disponivel para nova reserva%n", motorista.getNifMotorista(), autocarro.getMatricula());
+                return criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
+            }
 
-        Reserva reservaCriada;
-        if (autocarro != null && motorista != null) {
-            System.out.printf("Encontrado Motorista %s e Autocarro %s disponivel para nova reserva%n", motorista.getNifMotorista(), autocarro.getMatricula());
-            reservaCriada = criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
-
-        } else if (motorista != null && client.isPremium()) {
             System.out.println("Não foi encontrado autocarro disponivel para os criterios pretendidos!");
 
+            if (client.isPremium()) {
+                Reserva reservaExistente = getReservaDeClientNormalQuePossaSerCancelada(dataPartida, dataRegresso, numPassageiros);
 
-            Reserva reservaExistente = getReservaDeClientNormalQuePossaSerCancelada(dataPartida, dataRegresso, numPassageiros);
-            System.out.println("Existe uma reserva '%s' de um cliente Normal que pode ser cancelada".formatted(reservaExistente.getId()));
+                if (reservaExistente != null) {
 
-            Reembolso reembolso = cancelarReserva(reservaExistente.getId(), LocalDate.now());
+                    System.out.printf("Existe uma reserva '%s' de um cliente Normal que pode ser cancelada\n",
+                            reservaExistente.getId());
 
-            reservaExistente.getClient().addNotificacao(" A sua reserva " + reservaExistente.getId() + "foi cancelada. Se aplicável, receberá o reembolso devido pelo mesmo método com que efectuou o pagamento da reserva");
+                    autocarro = reservaExistente.getBus();
+                    motorista = reservaExistente.getDriver();
 
-            System.out.println("Reserva Cancelada!!!");
+                    cancelarReserva(reservaExistente.getId(), LocalDate.now());
 
-            reservaCriada = criarNovaReserva(
-                    reservaExistente.getBus(),
-                    motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
+                    reservaExistente.getClient().addNotificacao(" A sua reserva " + reservaExistente.getId() + "foi cancelada. Se aplicável, receberá o reembolso devido pelo mesmo método com que efectuou o pagamento da reserva");
 
-        } else {
-            throw new IllegalArgumentException("Não existe autocarro ou motorista disponivel");
+                    System.out.println("Reserva Cancelada!!!");
+
+                    return criarNovaReserva(
+                            autocarro,
+                            motorista,
+                            client,
+                            dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
+
+                }
+            }
+
+            throw new IllegalArgumentException("Não existe autocarro ou motorista disponivel, se pretender pode fazer fazer uma pre-reserva!");
+
+        } finally {
+            escreveFicheiro();
         }
-
-        escreveFicheiro();
-        return reservaCriada;
-
     }
 
 
@@ -1038,13 +1047,13 @@ public class Empresa implements Serializable {
      * A data de regresso da pre-reserva é anterior ou igual à data de regresso passada como parâmetro.
      * O número de passageiros da pre-reserva é menor ou igual à lotação máxima passada como parâmetro.
      *
-     * @param dataPartida A data de partida a ser comparada com as datas de partida das pre-reservas.
+     * @param dataPartida  A data de partida a ser comparada com as datas de partida das pre-reservas.
      * @param dataRegresso A data de regresso a ser comparada com as datas de regresso das pre-reservas.
-     * @param lotacaoMax A lotação máxima a ser comparada com o número de passageiros das pre-reservas.
+     * @param lotacaoMax   A lotação máxima a ser comparada com o número de passageiros das pre-reservas.
      * @return Uma lista de pre-reservas que cumprem os critérios descritos acima.
      */
 
-     private List<PreReserva> getPreReservasQuePodemPassarAReserva(LocalDate dataPartida, LocalDate dataRegresso, int lotacaoMax) {
+    private List<PreReserva> getPreReservasQuePodemPassarAReserva(LocalDate dataPartida, LocalDate dataRegresso, int lotacaoMax) {
         return listaPreReservas.stream()
                 .filter(preReserva -> !preReserva.getDataPartida().isBefore(dataPartida))
                 .filter(preReserva -> !preReserva.getDataRegresso().isAfter(dataRegresso))
@@ -1186,8 +1195,8 @@ public class Empresa implements Serializable {
                 if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) && r.getDriver().equals(m) ||
                         (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) && r.getDriver().equals(m) ||
                         (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) && r.getDriver().equals(m) ||
-                        (r.getDataPartida().isEqual(dataPartida) && r.getDriver().equals(m) || r.getDataRegresso().isEqual(dataRegresso)) && r.getDriver().equals(m)
-                ) {
+                        (r.getDataPartida().isEqual(dataPartida) && r.getDriver().equals(m) || r.getDataRegresso().isEqual(dataRegresso)) && r.getDriver().equals(m) ||
+                        (r.getDataPartida().isEqual(dataRegresso) && r.getDriver().equals(m) || r.getDataRegresso().isEqual(dataPartida)) && r.getDriver().equals(m)) {
                     saltaMotorista = true;
                 }
             }

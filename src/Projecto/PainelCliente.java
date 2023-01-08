@@ -388,6 +388,7 @@ public class PainelCliente extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 listagemReservas.setListData(new Vector<>(empresa.listaReservasCliente()));
                 listagemHistoricoReservas.setListData(new Vector<>(empresa.listagemHistoricoReservas()));
+                listagemNotificacoes.setListData(new Vector<String>(empresa.listaNotificacoes()));
             }
         });
 
@@ -495,7 +496,8 @@ public class PainelCliente extends JPanel {
         GridBagConstraints c8 = new GridBagConstraints();
 
         inserirDados8 = new JLabel("Aqui encontra as suas notificações:");
-        inserirDados8.setFont(new Font("Arial", 1, 12));
+        inserirDados8.setFont(new Font("Arial", 1, 14));
+        c8.insets = new Insets(0, 0, 20, 0);
         c8.gridx=1;
         c8.gridy=1;
         panel7.add(inserirDados8, c8);

@@ -212,11 +212,12 @@ public class Reserva implements Serializable {
         return (this.dataPartida.isBefore(dataPartida) && this.dataRegresso.isAfter(dataPartida)) ||
                 (dataPartida.isBefore(getDataPartida()) && dataRegresso.isAfter(getDataRegresso())) ||
                 (dataRegresso.isAfter(getDataPartida()) && dataRegresso.isBefore(getDataRegresso())) ||
-                (getDataPartida().isEqual(dataPartida) || getDataRegresso().isEqual(dataRegresso));
+                (getDataPartida().isEqual(dataPartida) || getDataRegresso().isEqual(dataRegresso)) ||
+                (getDataPartida().isEqual(dataRegresso) || getDataRegresso().isEqual(dataPartida));
     }
 
     /**
-     * Móetodo que retorna a lotação máxima do autocarro associado à reserva.
+     * Método que retorna a lotação máxima do autocarro associado à reserva.
      *
      * @return A lotação máxima do autocarro associado à reserva.
      */
