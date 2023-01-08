@@ -43,6 +43,7 @@ public class PainelPremium extends JPanel {
                 client.setTipoSubscricao(TipoSubscricao.NORMAL);
                 client.setModoPagamento("");
                 JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua subscrição Premium está cancelada. Para voltar a aceder aos benefícios pode voltar a subscrever o plano PREMIUM a qualquer momento");
+               empresa.escreveFicheiro();
                 janela.mudaEcra("PainelCliente");
             }
         });

@@ -44,6 +44,8 @@ public class PainelCliente extends JPanel {
     JList<String> listagemNotificacoes;
 
 
+
+
     /**
      *
      * @param janela
@@ -88,7 +90,7 @@ public class PainelCliente extends JPanel {
         dataPartidaT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dataPartidaT.setText("aaaa-mm-dd");
+                dataPartidaT.setText("");
             }
         });
 
@@ -108,7 +110,7 @@ public class PainelCliente extends JPanel {
         dataRegressoT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dataRegressoT.setText("aaaa-mm-dd");
+                dataRegressoT.setText("");
             }
         });
 
@@ -605,7 +607,7 @@ public class PainelCliente extends JPanel {
         c.gridy = 1;
         this.add(painelCl, c);  //Adicionar o componente Tabbed Pane ao painel PainelCl
 
-        welcome = new JLabel("Bem-vindo à sua área de cliente ");
+        welcome = new JLabel("Bem-vindo à sua área de cliente  " );
         c.gridx = 0;
         c.gridy = 0;
         this.add(welcome, c);
@@ -618,6 +620,7 @@ public class PainelCliente extends JPanel {
         c.gridy = 0;
         this.add(logout, c);
         logout.addActionListener(new GerirActionListener(2, this.janela));
+
 
     }
 

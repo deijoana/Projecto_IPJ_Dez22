@@ -84,7 +84,7 @@ public class Cliente extends Utilizador implements Serializable {
      */
     @Override
     public String toString() {
-        return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + ", " + tipoSubscricao;
+        return " " + nome.toUpperCase() + ", NIF: " + nif +  ", " + email + ", " + tipoSubscricao;
     }
 
     /**

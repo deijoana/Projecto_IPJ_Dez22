@@ -69,7 +69,7 @@ public class PainelPaypal extends JPanel {
                     client.setTipoSubscricao(TipoSubscricao.PREMIUM);
                     client.setModoPagamento("Paypal");
                     JOptionPane.showMessageDialog(new JFrame("sucesso"), "Subscreveu o plano Premium com sucesso. O valor da mensalidade (10€) será debitado da sua conta PayPal");
-
+                    empresa.escreveFicheiro();
                     emailT.setText("");
                     passwordF.setText("");
 

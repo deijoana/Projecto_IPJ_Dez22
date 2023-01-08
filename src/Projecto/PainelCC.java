@@ -109,6 +109,7 @@ public class PainelCC extends JPanel {
                     client.setTipoSubscricao(TipoSubscricao.PREMIUM);
                     client.setModoPagamento("Cartão de Crédito");
                     JOptionPane.showMessageDialog(new JFrame("sucesso"), "Subscreveu o plano Premium com sucesso. O valor da mensalidade (10€) será debitado da conta associada ao cartão de crédito inserido");
+                  empresa.escreveFicheiro();
                     janela.mudaEcra("PainelCliente");
                     numCCT.setText("");
                     nomeCCT.setText("");

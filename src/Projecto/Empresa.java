@@ -1240,7 +1240,7 @@ public class Empresa implements Serializable {
     /**
      * Método que escreve a informação deste objeto num ficheiro.
      */
-    private void escreveFicheiro() { // writeMySelfInFIle
+    void escreveFicheiro() { // writeMySelfInFIle
         escreveFicheiro(AUTOCARROS_AOR, this);
     }
 
@@ -1635,5 +1635,9 @@ public class Empresa implements Serializable {
             }
         }
         return list;
+    }
+
+    public List<PreReserva> getListaPreReservas() {
+        return listaPreReservas;
     }
 }

@@ -70,6 +70,7 @@ public class PainelMB extends JPanel {
                 Cliente client = (Cliente) empresa.getLoggeduser();
                 client.setTipoSubscricao(TipoSubscricao.PREMIUM);
                 client.setModoPagamento("Multibanco");
+                empresa.escreveFicheiro();
                 janela.mudaEcra("PainelCliente");
                 JOptionPane.showMessageDialog(new JFrame("Sucesso"), "Subscreveu o plano Premium com sucesso. O valor da mensalidade (10€) foi debitado da sua conta.");
             }

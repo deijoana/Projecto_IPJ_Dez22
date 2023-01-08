@@ -70,4 +70,11 @@ public class PreReserva implements Serializable {
         String s =  "Existe a possibilidade de criar uma reserva para as data %s e %s".formatted(dataPartida, dataRegresso);
         return this.cliente.addNotificacao(s);
     }
+
+    @Override
+    public String toString() {
+        return "Pré-reserva em nome de " +cliente.getNome().toUpperCase() +
+                " de " + dataPartida +
+                " a " + dataRegresso;
+    }
 }

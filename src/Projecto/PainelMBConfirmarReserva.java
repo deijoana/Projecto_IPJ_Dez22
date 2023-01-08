@@ -16,10 +16,9 @@ public class PainelMBConfirmarReserva extends JPanel {
     private int numReferencia;
     JLabel inserirDados, entidade, entidadeL, referencia, referenciaL;
 
-    JButton voltar, confirmar;
+    JButton voltar, confirmar, preReserva;
 
     /**
-     *
      * @param janela
      * @param empresa
      * @param dataPartida
@@ -77,6 +76,7 @@ public class PainelMBConfirmarReserva extends JPanel {
         this.add(referenciaL, c);
 
         confirmar = new JButton("Confirmar");
+        confirmar.setFont(new Font("Arial", 1, 14));
         c.insets = new Insets(20, 0, 0, 0);
         c.gridx = 2;
         c.gridy = 4;
@@ -95,7 +95,7 @@ public class PainelMBConfirmarReserva extends JPanel {
 
                     JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
                             "Reserva confirmada. O autocarro disponível é " + r.getBus());
-
+                    janela.mudaEcra("PainelCliente");
 
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
@@ -103,10 +103,32 @@ public class PainelMBConfirmarReserva extends JPanel {
             }
         });
 
-        confirmar.addActionListener(new ActionListener() {
+      /*  confirmar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 janela.mudaEcra("PainelCliente");
+            }
+        });
+*/
+        preReserva = new JButton("Fazer Pré-reserva");
+        preReserva.setFont(new Font("Arial", 1, 14));
+        c.gridx = 1;
+        c.gridy = 4;
+        this.add(preReserva, c);
+        preReserva.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Cliente clienteO = (Cliente) empresa.getLoggeduser();
+                    PreReserva p = empresa.fazerPreReserva(clienteO, LocalDate.parse(dataPartida), LocalDate.parse(dataRegresso),
+                            Integer.valueOf(n_Passageiros));
+                    JOptionPane.showMessageDialog(new JFrame("Pré-reserva confirmada"),
+                            "Pré-reserva confirmada. Se surgir alguma desistência será notificado(a) e poderá confirmar a reserva");
+                    janela.mudaEcra("PainelCliente");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame("Pré-reserva inválida"), ex.getMessage());
+                }
+
             }
         });
 

@@ -68,6 +68,6 @@ public class Motorista implements Serializable {
      */
     @Override
     public String toString() {
-        return  " " + nomeMotorista +", "+ emailMotorista + ",  NIF: "+nifMotorista + "\n\n";
+        return  " " + nomeMotorista.toUpperCase() +", "+ emailMotorista + ",  NIF: "+nifMotorista + "\n\n";
     }
 }

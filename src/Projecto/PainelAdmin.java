@@ -522,7 +522,7 @@ public class PainelAdmin extends JPanel {
         matriculaT5.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                matriculaT5.setText("##-##-##");
+                matriculaT5.setText("");
             }
         });
 
@@ -622,7 +622,7 @@ public class PainelAdmin extends JPanel {
         matriculaT6.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                matriculaT6.setText("##-##-##");
+                matriculaT6.setText("");
             }
         });
 
@@ -1364,6 +1364,36 @@ public class PainelAdmin extends JPanel {
         c11.gridx = 3;
         c11.gridy = 3;
         panel7.add(listaReservaEmEspera, c11);
+        listaReservaEmEspera.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JList<PreReserva> resultado= new JList<>(new Vector<>(empresa.getListaPreReservas().stream().toList()));
+                ListModel model = resultado.getModel();
+
+                if (model.getSize()==0){
+                    // if(resultado==null){
+                    JOptionPane.showMessageDialog(new JFrame("Lista de pré-reservas vazia"), "Não há nenhuma pré-reserva na lista");
+                } else {
+
+                JFrame local = new JFrame("Lista de Pré-eservas");
+                local.setSize(800, 600);
+
+                local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+                JPanel painelLocal = new JPanel();
+                // painelLocal.setBackground(Color.red);
+                painelLocal.setLayout(new GridBagLayout());
+                GridBagConstraints c1 = new GridBagConstraints();
+
+                c1.gridx = 1;
+                c1.gridy = 1;
+                painelLocal.add(resultado, c1);
+                local.add(painelLocal);
+                local.setVisible(true);
+            }
+            }
+        });
 
         volumeReservaMensal = new JButton("Volume de reservas mensais para um dado ano");
         volumeReservaMensal.setFont(new Font("Arial", 1, 12));
@@ -1474,7 +1504,8 @@ public class PainelAdmin extends JPanel {
         c.gridy = 1;
         this.add(painelAd, c);  //Adicionar o componente Tabbed Pane ao painel PainelAd
 
-        welcome = new JLabel("Bem-vindo à sua área de administrador ");
+
+        welcome = new JLabel("Bem-vindo à sua área de administrador  ");
         c.gridx = 0;
         c.gridy = 0;
         this.add(welcome, c);
@@ -1487,6 +1518,8 @@ public class PainelAdmin extends JPanel {
         c.gridy = 0;
         this.add(logout, c);
         logout.addActionListener(new GerirActionListener(2, this.janela));
+
+
     }
 
 

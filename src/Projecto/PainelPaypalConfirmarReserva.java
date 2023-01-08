@@ -11,7 +11,7 @@ public class PainelPaypalConfirmarReserva extends JPanel {
     GUI janela;
     private String dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
     JLabel inserirDados, email, palavraPasse;
-    JButton voltar, confirmar;
+    JButton voltar, confirmar, preReserva;
     JTextField emailT;
     JPasswordField passwordF;
 
@@ -91,6 +91,28 @@ public class PainelPaypalConfirmarReserva extends JPanel {
                     }
                 } else
                     JOptionPane.showMessageDialog(new JFrame("insucesso"), "Insira um email e/ou password válidos para concluir a reserva");
+            }
+        });
+
+        preReserva = new JButton("Fazer Pré-reserva");
+        preReserva.setFont(new Font("Arial", 1, 14));
+        c.gridx = 1;
+        c.gridy = 4;
+        this.add(preReserva,c);
+        preReserva.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Cliente clienteO = (Cliente) empresa.getLoggeduser();
+                    PreReserva p = empresa.fazerPreReserva(clienteO, LocalDate.parse(dataPartida), LocalDate.parse(dataRegresso),
+                            Integer.valueOf(n_Passageiros));
+                    JOptionPane.showMessageDialog(new JFrame("Pré-reserva confirmada"),
+                            "Pré-reserva confirmada. Se surgir alguma desistência será notificado(a) e poderá confirmar a reserva");
+                    janela.mudaEcra("PainelCliente");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame("Pré-reserva inválida"), ex.getMessage());
+                }
+
             }
         });
 

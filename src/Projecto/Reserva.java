@@ -153,7 +153,7 @@ public class Reserva implements Serializable {
      */
     @Override
     public String toString() {
-        return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + " desde " + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + custo + "€\n";
+        return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + " desde " + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + "%.2f".formatted(custo) + "€\n";
 
     }
 

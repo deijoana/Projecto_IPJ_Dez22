@@ -134,7 +134,7 @@ public class Utilizador implements Serializable {
      */
     @Override
     public String toString() {
-        return " " + nome + ", NIF: " + nif + ", " + morada + ", " + telefone + ", " + email + "\n";
+        return " " + nome.toUpperCase() + ", NIF: " + nif + " + email \n";
     }
 
     /**
