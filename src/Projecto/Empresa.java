@@ -1034,7 +1034,7 @@ public class Empresa implements Serializable {
      * @return O reembolso gerado pelo cancelamento da reserva.
      */
     private Reembolso cancelarReserva(Reserva reserva, LocalDate dataDeCancelamento) {
-        Reembolso reenbolse = reserva.cancelar(dataDeCancelamento);
+        Reembolso reembolso = reserva.cancelar(dataDeCancelamento);
         removeReserva(reserva);
         listaReservasCanceladas.add(reserva);
 
@@ -1045,7 +1045,7 @@ public class Empresa implements Serializable {
         preReservas.forEach(PreReserva::notificaCliente);
 
         escreveFicheiro();
-        return reenbolse;
+        return reembolso;
     }
 
     /**
@@ -1305,6 +1305,12 @@ public class Empresa implements Serializable {
         this.AUTOCARROS_AOR = nomeDoFicheiro;
     }
 
+    /**
+     * Método que verifica se email inserido é válido.
+     *
+     * @param email O email a validar.
+     * @return true se o email é válido, false caso contrário.
+     */
     /**
      * Método que verifica se email inserido é válido.
      *
