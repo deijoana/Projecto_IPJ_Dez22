@@ -3,8 +3,10 @@ package Projecto;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+
 /**
  * Classe que gere a Interface gráfica
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -19,8 +21,7 @@ public class GUI {
     Login painelLogin;
 
     /**
-     *
-     * @param empresa
+     * @param empresa representa o objecto empresa que guarda toda a informação para a execução do programa
      */
     GUI(Empresa empresa) {
         this.empresa = empresa;
@@ -44,37 +45,34 @@ public class GUI {
         cardsPanel.add(new PainelRegisto(this, empresa), "NovoRegisto");
         cardsPanel.add(new PainelAdmin(this, empresa), "PainelAdmin");
         cardsPanel.add(painelCliente, "PainelCliente"); //
-        cardsPanel.add(new PainelSelecaoBus(this, empresa),"PainelSelecaoBus");
-        cardsPanel.add(new PainelReservaMensal(this, empresa),"PainelReservaMensal");
-        cardsPanel.add(new PainelDiaMaisReservas(this, empresa),"PainelDiaMaisReservas");
-        cardsPanel.add(new PainelNormal(this, empresa),"PainelNormal");
-        cardsPanel.add(new PainelPremium(this, empresa),"PainelPremium");
-        cardsPanel.add(new PainelPaypal(this, empresa),"PainelPaypal");
-        cardsPanel.add(new PainelCC(this, empresa),"PainelCC");
-        cardsPanel.add(new PainelMB(this, empresa),"PainelMB");
-        //cardsPanel.add(new PainelConfirmarReserva(this, empresa), "PainelConfirmarReserva");
+        cardsPanel.add(new PainelSelecaoBus(this, empresa), "PainelSelecaoBus");
+        cardsPanel.add(new PainelReservaMensal(this, empresa), "PainelReservaMensal");
+        cardsPanel.add(new PainelDiaMaisReservas(this, empresa), "PainelDiaMaisReservas");
+        cardsPanel.add(new PainelNormal(this, empresa), "PainelNormal");
+        cardsPanel.add(new PainelPremium(this, empresa), "PainelPremium");
+        cardsPanel.add(new PainelPaypal(this, empresa), "PainelPaypal");
+        cardsPanel.add(new PainelCC(this, empresa), "PainelCC");
+        cardsPanel.add(new PainelMB(this, empresa), "PainelMB");
         cardsPanel.add(new PainelSelecaoReservasCanceladas(this, empresa), "PainelSelecaoReservasCanceladas");
         cardsPanel.add(new PainelClienteRemoved(this, empresa), "PainelClienteRemoved");
 
         f.getContentPane().add(cardsPanel);
 
-       layout.show(cardsPanel, "Login");
-
+        layout.show(cardsPanel, "Login");
 
 
         f.setVisible(true);
     }
 
     // método que define que painel será visível
-    public void mudaEcra(String ecra){
+    public void mudaEcra(String ecra) {
 
-        if ("PainelCliente".equals(ecra)){
+        if ("PainelCliente".equals(ecra)) {
             painelCliente.refresh();
         }
 
-        layout.show (cardsPanel, ecra);
+        layout.show(cardsPanel, ecra);
     }
-
 
 
 }

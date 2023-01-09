@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Classe que define o painel apresentado a um cliente Normal que pretenda mudar a subscrição para Premium
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelNormal extends JPanel {
 
     Empresa empresa;

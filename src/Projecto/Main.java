@@ -2,6 +2,12 @@ package Projecto;
 
 import java.io.IOException;
 
+/**
+ *
+ * Classe responsável por arrancar a execução do programa
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 

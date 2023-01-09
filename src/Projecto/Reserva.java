@@ -28,16 +28,16 @@ public class Reserva implements Serializable {
     private final Pagamento pagamento;
 
     /**
-     * @param id
-     * @param bus
-     * @param driver
-     * @param client
-     * @param dataPartida
-     * @param dataRegresso
-     * @param numPassageiros
-     * @param localOrigem
-     * @param localDestino
-     * @param distancia
+     * @param id representa o id (único) da reserva
+     * @param bus representa o autocarro associado à reserva
+     * @param driver representa o motorista associado à reserva
+     * @param client representa o cliente associado à reserva
+     * @param dataPartida representa a data de partida associada à reserva
+     * @param dataRegresso representa a data de regresso associada à reserva
+     * @param numPassageiros representa o número de passageiros associado à reserva
+     * @param localOrigem representa o local de origem associado à reserva
+     * @param localDestino representa o local de destino associado à reserva
+     * @param distancia representa a distância estimada percorrida, associada à reserva
      */
     public Reserva(String id,
                    Autocarro bus,
@@ -194,9 +194,9 @@ public class Reserva implements Serializable {
     private String gerarNotificacaoDeCancelamento(Reembolso reembolso) {
         if (reembolso.getValue() > 0.0 && pagamento != null) {
             if (pagamento.devePedirIBAN())
-                return "Foi-lhe enviado um email a solicitar IBAN para efeitos de reembolso no valor de %.2f, no contexto de cancelamento da sua reserva '%s'.".formatted(reembolso.getValue(), id);
+                return "Foi-lhe enviado um email a solicitar IBAN para efeitos de reembolso no valor de %.2f €, no contexto de cancelamento da sua reserva '%s'.".formatted(reembolso.getValue(), id);
             else
-                return "A sua reserva '%s' foi cancelada, e consequentemente foi-lhe reembolsado o valor de'%.2f'.".formatted(id, reembolso.getValue());
+                return "A sua reserva '%s' foi cancelada, e consequentemente foi-lhe reembolsado o valor de'%.2f'.".formatted(id, reembolso.getValue()) + "€";
         } else
             return "A sua reserva '%s' foi cancelada.".formatted(id);
     }

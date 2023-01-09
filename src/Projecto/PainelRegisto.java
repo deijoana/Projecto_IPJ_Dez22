@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Classe que define o painel de criar um registo de novo cliente
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelRegisto extends JPanel {
     Empresa empresa;
     JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, tipoSubscricaoL, pagamentoSubscricaoL;

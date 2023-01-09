@@ -3,8 +3,10 @@ package Projecto;
 import java.io.*;
 
 /**
- * Breve descrição do código
  *
+ * Classe que define objectos do tipo Cliente
+ * @author Joana Ramalho
+ * @author Tiago Sousa
  */
 public class FicheiroDeObjetos {
 
@@ -13,12 +15,13 @@ public class FicheiroDeObjetos {
     private ObjectInputStream iS;
     private ObjectOutputStream oS;
 
-    // Método para abrir um ficheiro para leitura
-    // Recebe:
-    // nomeDoFicheiro - nome do ficheiro
-    // Devolve:
-    // true se o ficheiro já existir, false no caso contrário
 
+
+    /**
+     * Método que abre leitura de um ficheiro de objectos cujo nome corresponde à string usada como parâmetro
+     * @param nomeDoFicheiro representa o nome do ficheiro de objectos
+     * @return true se o ficheiro já existir; false se ocorrer uma IOException
+     */
     public boolean abreLeitura(String nomeDoFicheiro) {
 
         try {
@@ -43,46 +46,54 @@ public class FicheiroDeObjetos {
         return new File(nomeDoFicheiro).exists();
     }
 
-    // Método para abrir um ficheiro para escrita
-    // Recebe:
-    // nomeDoFicheiro - nome do ficheiro
-
     public void abreEscrita(String nomeDoFicheiro) throws IOException {
 
         oS = new ObjectOutputStream(new FileOutputStream(nomeDoFicheiro));
 
     }
 
-    // Método para ler um objecto de um ficheiro
-    // Devolve:
-    // objecto lido
 
+
+    /**
+     * Método que lê o objecto do ficheiro de objectos
+     * @return o objecto lido
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Object leObjecto() throws IOException, ClassNotFoundException {
 
         return iS.readObject();
 
     }
 
-    // Método para escrever um objecto num ficheiro
-    // Recebe:
-    // o - objecto a escrever
 
+    /**
+     * Método que escreve o objecto do ficheiro de objectos
+     * @param o representa o objecto cujas informações são guardadas no ficheiro de objectos
+     * @throws IOException
+     */
     public void escreveObjecto(Object o) throws IOException {
 
         oS.writeObject(o);
 
     }
 
-    // Método para fechar um ficheiro aberto em modo leitura
 
+    /**
+     * Método que fecha a leitura de um ficheiro de objectos aberto em modo leitura
+     * @throws IOException
+     */
     public void fechaLeitura() throws IOException {
 
         iS.close();
 
     }
 
-    // Método para fechar um ficheiro aberto em modo escrita
 
+    /**
+     * Método que fecha a escrita de um ficheiro de objectos aberto em modo escrita
+     * @throws IOException
+     */
     public void fechaEscrita() throws IOException {
 
         oS.close();

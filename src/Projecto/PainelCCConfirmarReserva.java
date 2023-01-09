@@ -7,7 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-
+/**
+ * Classe que define o painel de pagamento por cartão de crédito ao fazer uma reserva
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelCCConfirmarReserva extends JPanel {
     Empresa empresa;
     GUI janela;

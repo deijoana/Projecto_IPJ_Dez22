@@ -7,7 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
-
+/**
+ * Classe que define o painel para saber qual o(s) autocarro(s) mais requisitados num dado mês de um dado ano
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelSelecaoBus extends JPanel {
 
     Empresa empresa;

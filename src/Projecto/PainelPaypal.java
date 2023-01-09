@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Classe que define o painel de pagamento por Paypal ao subscrever Premium
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelPaypal extends JPanel {
     Empresa empresa;
     GUI janela;

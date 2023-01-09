@@ -20,9 +20,9 @@ public class Motorista implements Serializable {
 
     /**
      *
-     * @param nomeMotorista
-     * @param emailMotorista
-     * @param nifMotorista
+     * @param nomeMotorista representa o nome do motorista
+     * @param emailMotorista representa o email do motorista
+     * @param nifMotorista representa o nif do motorista
      */
     public Motorista(String nomeMotorista, String emailMotorista, String nifMotorista) {
         this.nomeMotorista = nomeMotorista;
@@ -52,9 +52,9 @@ public class Motorista implements Serializable {
     }
 
     /**
-     * Método que permite definir o email do motorista.
+     * Método que permite obter o nif do motorista.
      *
-     * @return void
+     * @return String com o nif do motorista
      */
     public String getNifMotorista() {
         return nifMotorista;
@@ -64,7 +64,7 @@ public class Motorista implements Serializable {
     /**
      * Método que retorna a representação em String do motorista.
      *
-     * @return A representação em String do motorista.
+     * @return A representação em String do motorista, detalhando o seu nome, email e nif.
      */
     @Override
     public String toString() {

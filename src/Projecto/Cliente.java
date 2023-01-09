@@ -22,13 +22,13 @@ public class Cliente extends Utilizador implements Serializable {
 
     /**
      *
-     * @param nome representa o nome do cliente
-     * @param nif representa o nif do cliente
-     * @param morada representa a morada do cliente
-     * @param telefone representa o telefone do cliente
-     * @param email representa o email do cliente
-     * @param tipoUtilizador representa o tipo de utilizador, neste caso será cliente
-     * @param palavraPasse representa a palavra-passe do cliente para aceder à aplicação
+     * @param nome representa o nome do cliente, que herda de utilizador
+     * @param nif representa o nif do cliente, que herda de utilizador
+     * @param morada representa a morada do cliente, que herda de utilizador
+     * @param telefone representa o telefone do cliente, que herda de utilizador
+     * @param email representa o email do cliente, que herda de utilizador
+     * @param tipoUtilizador representa o tipo de utilizador, neste caso será cliente, que herda de utilizador
+     * @param palavraPasse representa a palavra-passe do cliente para aceder à aplicação, que herda de utilizador
      * @param tipoSubscricao representa o tipo de subscrição que o cliente tem: normal ou premium
      * @param modoPagamento representa o método escolhido pelo cliente para pagar a subscrição do pacote premium: paypal, cartão de crédito ou multibanco
      */
@@ -89,7 +89,6 @@ public class Cliente extends Utilizador implements Serializable {
 
     /**
      * Método que adiciona uma String que descreve uma notificação à lista de notificações do cliente
-     *
      * @param notificacao String que representa uma notificação
 
      */
@@ -116,19 +115,34 @@ public class Cliente extends Utilizador implements Serializable {
         return this.tipoSubscricao.calcularReembolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
     }
 
+    /**
+     * Método que verifica se o cliente tem alguma notificação por ler na lista de notificações
+     * @return true se houver alguma notificação na lista
+     */
     @Override
     public boolean temNovaNotificacoesPorLer() {
         return getNotificacoesNaoVazias().findAny().isPresent();
     }
 
+    /**
+     * Método que junta todas as Strings de notificações que estão na lista de notificações numa única String
+     * @return String que inclui a(s) notificação (ões) que existem na lista de notificações
+     */
     public String getSumarioDeNotificacoes() {
         return getNotificacoesNaoVazias().collect(Collectors.joining("\n\t-"));
     }
 
+    /**
+     * Método que filtra a lista de notificações, apresentando as notificações existentes na lista.
+     * @return Stream de strings que representa uma cópia das notificações existentes na lista
+     */
     private Stream<String> getNotificacoesNaoVazias() {
         return this.listaNotificacoes.stream().filter(Objects::nonNull).filter(s -> !s.isBlank());
     }
 
+    /**
+     * Método que limpa todas as notificações que estejam guardadas na lista de notificações
+     */
     public void marcarNotificacoesComoLidas() {
         this.listaNotificacoes.clear();
     }

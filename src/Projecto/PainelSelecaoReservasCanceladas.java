@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
-
+/**
+ * Classe que define o painel para listar as reservas canceladas num dado mês de um dado ano
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelSelecaoReservasCanceladas extends JPanel {
 
     Empresa empresa;

@@ -18,10 +18,10 @@ public class PreReserva implements Serializable {
 
     /**
      *
-     * @param cliente
-     * @param dataPartida
-     * @param dataRegresso
-     * @param numPassageiros
+     * @param cliente representa o cliente ao qual está associada a pré-reserva
+     * @param dataPartida representa a data de partida escolhida
+     * @param dataRegresso representa a data de regresso escolhida
+     * @param numPassageiros representa o número de passageiros
      */
     public PreReserva(Cliente cliente, LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
         this.cliente = cliente;
@@ -66,11 +66,19 @@ public class PreReserva implements Serializable {
         return dataPartida;
     }
 
+    /**
+     * Método que adiciona uma notificação à lista de notificações do cliente associado à pré-reserva
+     * @return true
+     */
     public boolean notificaCliente() {
         String s =  "Existe a possibilidade de criar uma reserva para as data %s e %s".formatted(dataPartida, dataRegresso);
         return this.cliente.addNotificacao(s);
     }
 
+    /**
+     * Método que descreve os objectos da classe PreReserva no formato de String
+     * @return string com informação detalhada da pré-reserva: o nome do cliente, a data de partida e a data de regresso
+     */
     @Override
     public String toString() {
         return "Pré-reserva em nome de " +cliente.getNome().toUpperCase() +

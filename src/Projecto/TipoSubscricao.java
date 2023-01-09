@@ -2,7 +2,12 @@ package Projecto;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-
+/**
+ *
+ * Enum que define qual o tipo de subscrição que um cliente pode ter associada à sua conta: Normal ou Premium
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public enum TipoSubscricao {
     NORMAL("Normal") {
 

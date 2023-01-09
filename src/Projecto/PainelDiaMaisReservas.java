@@ -7,7 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-
+/**
+ * Classe que define o painel para saber qual o dia de um dado ano com mais reservas
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelDiaMaisReservas extends JPanel {
 
     Empresa empresa;

@@ -5,7 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-
+/**
+ * Classe que define o painel de pagamento por multibanco ao fazer uma reserva
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelMBConfirmarReserva extends JPanel {
 
     Empresa empresa;

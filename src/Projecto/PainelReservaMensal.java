@@ -6,7 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * Classe que define o painel para saber qual o volume de reservas mensais de um dado ano
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelReservaMensal extends JPanel {
 
     Empresa empresa;

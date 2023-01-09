@@ -7,7 +7,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
-
+/**
+ * Classe que define o painel de cliente removido por administrador
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelClienteRemoved extends JPanel {
 
     Empresa empresa;

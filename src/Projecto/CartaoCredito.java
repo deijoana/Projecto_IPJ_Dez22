@@ -20,11 +20,11 @@ public class CartaoCredito extends Pagamento implements Serializable {
 
     /**
      *
-     * @param data
-     * @param numCartao
-     * @param nomeCartao
-     * @param dataValidade
-     * @param codigoSeg
+     * @param data representa a data (LocalDate), herdada da classe Pagamento, em que o pagamento é feito
+     * @param numCartao representa o número do cartão de crédito
+     * @param nomeCartao representa o nome associado ao carttão de crédito
+     * @param dataValidade representa a data de validade do cartão de crédito
+     * @param codigoSeg representa o código de segurança do cartão de crédito
      */
     public CartaoCredito(LocalDate data, String numCartao, String nomeCartao, String dataValidade, String codigoSeg) {
         super(data);

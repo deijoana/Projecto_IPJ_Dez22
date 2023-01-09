@@ -17,7 +17,7 @@ public abstract class Pagamento implements Serializable {
 
     /**
      *
-     * @param data
+     * @param data representa a data (LocalDate) em que o pagamento é feito
 
      */
     public Pagamento(LocalDate data) {
@@ -26,9 +26,8 @@ public abstract class Pagamento implements Serializable {
 
 
     /**
-     * Método que retorna sempre <code>true</code>, pois esta implementação de pagamento requer o fornecimento de um IBAN para efetuar o reembolso.
-     *
-     * @return Sempre <code>true</code>
+     * Método que retorna sempre falso, excepto quando chamado na sub-classe Multibanco
+     * @return false
      */
     public boolean devePedirIBAN() {
         return false;

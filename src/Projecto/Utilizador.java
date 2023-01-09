@@ -23,13 +23,13 @@ public class Utilizador implements Serializable {
 
     /**
      *
-     * @param nome
-     * @param nif
-     * @param morada
-     * @param telefone
-     * @param email
-     * @param tipoUtilizador
-     * @param palavraPasse
+     * @param nome representa o nome do utilizador
+     * @param nif representa o nif do utilizador
+     * @param morada representa a morada do utilizador
+     * @param telefone representa o telefone do utilizador
+     * @param email representa o email do utilizador
+     * @param tipoUtilizador representa o tipo de utilizador
+     * @param palavraPasse representa a palavra-passe do utilizador
      */
     public Utilizador(String nome, String nif, String morada,
                       String telefone, String email, String tipoUtilizador, String palavraPasse) {

@@ -44,6 +44,7 @@ public class Empresa implements Serializable {
      */
     private Utilizador loggeduser;
 
+
     public Empresa() {
         this.listaUtilizadores = new ArrayList<>();
         this.listaMotoristas = new ArrayList<>();

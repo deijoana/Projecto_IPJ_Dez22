@@ -14,7 +14,11 @@ import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-
+/**
+ * Classe que define o painel de administrador
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class PainelAdmin extends JPanel {
     Empresa empresa;
     GUI janela;
@@ -1519,7 +1523,7 @@ public class PainelAdmin extends JPanel {
         this.add(logout, c);
         logout.addActionListener(new GerirActionListener(2, this.janela));
 
-
+        painelAd.setSelectedIndex(5);
     }
 
 
