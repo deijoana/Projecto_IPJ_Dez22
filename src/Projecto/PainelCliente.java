@@ -1,6 +1,5 @@
 package Projecto;
 
-import Projecto.utils.Validations;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -633,13 +632,15 @@ public class PainelCliente extends JPanel {
 
     private List<String> validateNovaReservaInputFields() {
         java.util.List<String> validationError = new ArrayList<>();
-        if (!Validations.isValidateIsoDate(dataPartidaT.getText())) {
+        if (dataPartidaT.getText() == null || dataPartidaT.getText().isBlank() ||
+        !dataPartidaT.getText().trim().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")) {
             validationError.add("Data de partida não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
         }
-        if (!Validations.isValidateIsoDate(dataRegressoT.getText())) {
+        if (dataRegressoT.getText() == null || dataRegressoT.getText().isBlank() ||
+                !dataRegressoT.getText().trim().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$"))  {
             validationError.add("Data de regresso não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
         }
-        if (Validations.isNotBlank(origemT.getText())) {
+        if (origemT.getText() == null || origemT.getText().isBlank()) {
             validationError.add("Origem não pode ser vazia");
         }
         if (destinoT.getText() == null || destinoT.getText().isBlank())
