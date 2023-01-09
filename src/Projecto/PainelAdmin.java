@@ -190,11 +190,11 @@ public class PainelAdmin extends JPanel {
 
                 //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
 
-                Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1);
+
 
 
                 if (empresa.validarEmail(email1) && empresa.validarDados(nome1) && empresa.validarNIF(nif1) && empresa.validarDados(password1) && empresa.validarTelefone(telefone1)) {
-
+                    Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1);
                     if (novoAdministrador == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
                     }
@@ -294,10 +294,10 @@ public class PainelAdmin extends JPanel {
                 String nif2 = nifT2.getText();
                 String email2 = emailT2.getText();
 
-                Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2);
+
 
                 if (empresa.validarEmail(email2) && empresa.validarNIF(nif2) && empresa.validarDados(nome2)) {
-
+                    Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2);
                     if (novoMotorista == null) {
                         JOptionPane.showMessageDialog(new JFrame("Já existe um motorista com este NIF"),
                                 "Já existe um motorista com este NIF: " + nif2);
@@ -379,10 +379,10 @@ public class PainelAdmin extends JPanel {
                 String nif3 = nifT3.getText();
                 String email3 = emailT3.getText();
 
-                boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3);
+
 
                 if (empresa.validarEmail(email3) && empresa.validarNIF(nif3) && empresa.validarDados(nome3)) {
-
+                    boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3);
                     if (resultado1) {
                         JOptionPane.showMessageDialog(new JFrame("As informações do motorista associado ao nif indicado foram alteradas com sucesso"),
                                 "As informações do motorista associado ao nif " + nif3 + " foram alteradas com sucesso");
@@ -439,10 +439,10 @@ public class PainelAdmin extends JPanel {
 
                 String nif4 = nifT4.getText();
 
-                boolean resultado2 = empresa.removerMotorista(nif4);
+
 
                 if (empresa.validarNIF(nif4)) {
-
+                    boolean resultado2 = empresa.removerMotorista(nif4);
                     if (resultado2) {
                         JOptionPane.showMessageDialog(new JFrame("O motorista foi removido"), "O motorista foi removido");
 
@@ -577,8 +577,9 @@ public class PainelAdmin extends JPanel {
                 String matricula5 = matriculaT5.getText();
                 int lotacao5 = Integer.parseInt(lotacaoT5.getText());
 
-                Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5);
+
                 if (empresa.validarMatricula(matricula5) && empresa.validarDados(modelo5) && empresa.validarDados(marca5) && empresa.validarDados(String.valueOf(lotacao5))) {
+                    Autocarro autocarro = empresa.adicionarAutocarro(matricula5, marca5, modelo5, lotacao5);
                     if (autocarro == null) {
                         JOptionPane.showMessageDialog(new JFrame("Matricula ja existe"), "A matrícula " + matricula5 + " já existe");
                     } else {
@@ -678,8 +679,9 @@ public class PainelAdmin extends JPanel {
                 String matricula6 = matriculaT6.getText();
                 int lotacao6 = Integer.parseInt(lotacaoT6.getText());
 
-                boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6);
+
                 if (empresa.validarMatricula(matricula6) && empresa.validarDados(modelo6) && empresa.validarDados(marca6) && empresa.validarDados(String.valueOf(lotacao6))) {
+                    boolean resultado3 = empresa.editarAutocarro(matricula6, marca6, modelo6, lotacao6);
                     if (resultado3) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"),
                                 "As informações do autocarro associado à matrícula " + matricula6 + " foram alteradas com sucesso");
@@ -742,8 +744,9 @@ public class PainelAdmin extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 String matricula7 = matriculaT7.getText();
-                boolean resultado4 = empresa.removerAutocarro(matricula7);
+
                 if (empresa.validarMatricula(matricula7)) {
+                    boolean resultado4 = empresa.removerAutocarro(matricula7);
                     if (resultado4) {
                         empresa.cancelarReservaSemBus(matricula7);
                         JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
@@ -910,10 +913,10 @@ public class PainelAdmin extends JPanel {
 
                 // System.out.println(tipoSubscricao8 + " , " + pagamentoSubscricao8);
 
-                Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao, pagamentoSubscricao8, password8);
+
 
                 if (empresa.validarEmail(email8) && empresa.validarDados(nome8) && empresa.validarNIF(nif8) && empresa.validarDados(password8) && empresa.validarTelefone(telefone8)) {
-
+                    Utilizador novoCliente = empresa.registarCliente(email8, nome8, telefone8, nif8, morada8, tipoSubscricao, pagamentoSubscricao8, password8);
                     if (novoCliente == null) {
                         JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
                     }
@@ -1080,10 +1083,10 @@ public class PainelAdmin extends JPanel {
                 // String tipoSubscricao9 = tipoSubscricaoB9.getSelectedItem().toString();
                 // String pagamentoSubscricao9 = pagamentoSubscricaoB9.getSelectedItem().toString();
 
-                boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9);
+
 
                 if (empresa.validarEmail(email9) && empresa.validarDados(nome9) && empresa.validarNIF(nif9) && empresa.validarTelefone(telefone9)) {
-
+                    boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9);
                     if (resultado5) {
                         JOptionPane.showMessageDialog(new JFrame("Sucesso"),
                                 "As informações do cliente associado ao nif " + nif9 + " foram alteradas com sucesso");

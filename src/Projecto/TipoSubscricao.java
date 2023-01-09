@@ -77,7 +77,7 @@ public enum TipoSubscricao {
             if (value.title.equalsIgnoreCase(title))
                 return value;
         }
-        throw new IllegalArgumentException("O valor " + title + " não é um tipo de subscricao valido!");
+        throw new IllegalArgumentException("O valor " + title + " não é um tipo de subscrição válido!");
     }
 
 

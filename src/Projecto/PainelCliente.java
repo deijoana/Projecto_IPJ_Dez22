@@ -358,7 +358,7 @@ public class PainelCliente extends JPanel {
                     double custo = empresa.calcularCustoViagem(n_Passageiros, distanciaPrevista);
 
                     JOptionPane.showMessageDialog(new JFrame("Simulação de preço"),
-                            "Para os dados inseridos o custo da sua viagem será de: " + custo + " €");
+                            "Para os dados inseridos o custo da sua viagem será de: " + custo + "€");
 
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
@@ -463,7 +463,7 @@ public class PainelCliente extends JPanel {
 
                 } else {
                     JOptionPane.showMessageDialog(panel4,
-                            "Por favor insira um id de reserva valido!",
+                            "Por favor insira um id de reserva válido!",
                             "Aviso", JOptionPane.WARNING_MESSAGE);
 
                 }

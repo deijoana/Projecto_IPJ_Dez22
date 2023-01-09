@@ -160,7 +160,7 @@ public class PainelCCConfirmarReserva extends JPanel {
         preReserva = new JButton("Fazer Pré-reserva");
         preReserva.setFont(new Font("Arial", 1, 14));
         c.gridx = 1;
-        c.gridy = 4;
+        c.gridy = 6;
         this.add(preReserva,c);
         preReserva.addActionListener(new ActionListener() {
             @Override

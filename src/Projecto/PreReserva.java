@@ -71,7 +71,7 @@ public class PreReserva implements Serializable {
      * @return true
      */
     public boolean notificaCliente() {
-        String s =  "Existe a possibilidade de criar uma reserva para as data %s e %s".formatted(dataPartida, dataRegresso);
+        String s =  "Existe a possibilidade de criar uma reserva para as datas %s e %s".formatted(dataPartida, dataRegresso);
         return this.cliente.addNotificacao(s);
     }
 

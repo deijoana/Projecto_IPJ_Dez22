@@ -234,16 +234,16 @@ public class PainelClienteRemoved extends JPanel {
         c2.gridy = 0;
         panel2.add(inserirDados2, c2);
 
-        listagemHistoricoReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listagemHistoricoReservas().stream().toList()));
+       /* listagemHistoricoReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listagemHistoricoReservas().stream().toList()));
         c2.gridx = 1;
         c2.gridy = 1;
         panel2.add(listagemHistoricoReservas, c2);
-
+*/
         panel3 = new JPanel();
         painelCl.addTab("Consultar Reservas", panel3);
 
 
-        listagemReservas = new JList<String>(new Vector<String>(empresa.listaReservasCliente()));
+       /* listagemReservas = new JList<String>(new Vector<String>(empresa.listaReservasCliente()));
         painelCl.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -251,7 +251,7 @@ public class PainelClienteRemoved extends JPanel {
                 listagemHistoricoReservas.setListData(new Vector<>(empresa.listagemHistoricoReservas()));
             }
         });
-
+*/
         panel3.setLayout(new GridBagLayout());
         GridBagConstraints c3 = new GridBagConstraints();
 
@@ -262,11 +262,11 @@ public class PainelClienteRemoved extends JPanel {
         c3.gridy = 0;
         panel3.add(inserirDados3, c3);
 
-        // listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
+       /* // listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
         c3.gridx = 1;
         c3.gridy = 1;
         panel3.add(listagemReservas, c3);
-
+*/
 
        panel4 = new JPanel();
         painelCl.addTab("Cancelar Reserva", panel4);

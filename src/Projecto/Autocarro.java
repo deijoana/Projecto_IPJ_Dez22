@@ -75,6 +75,6 @@ public class Autocarro implements Serializable {
      */
     @Override
     public String toString() {
-        return "Autocarro: " + matricula + ", " + marca + ", " + modelo + ", " + lotacao + "\n";
+        return "Autocarro: " + matricula + ", " + marca + ", " + modelo + ", para " + lotacao + " pessoas\n";
     }
 }

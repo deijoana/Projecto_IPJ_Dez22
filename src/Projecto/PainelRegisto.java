@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Classe que define o painel de criar um registo de novo cliente
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -154,13 +156,12 @@ public class PainelRegisto extends JPanel {
                 String modoDePagamento = pagamentoSubscricaoB.getSelectedItem().toString();
                 int indicePagamento = pagamentoSubscricaoB.getSelectedIndex();
 
-                Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada,
-                        TipoSubscricao.parse(tipoDeSubscricao), modoDePagamento, password);
-
 
                 if (empresa.validarComboBoxIndex(indiceSubscricao, indicePagamento) == 1) {
 
                     if (empresa.validarEmail(email) && empresa.validarNIF(nif) && empresa.validarDados(password) && empresa.validarDados(nome) && empresa.validarTelefone(telefone)) {
+                        Utilizador novoRegisto = empresa.registarCliente(email, nome, telefone, nif, morada,
+                                TipoSubscricao.parse(tipoDeSubscricao), modoDePagamento, password);
                         // só valida os dados se as caixas respectivas estiverem preenchidas
                         if (novoRegisto == null) {
                             JOptionPane.showMessageDialog(new JFrame("autenticação inválida"), "Autenticação inválida. Já existe um registo para este email.");
@@ -195,7 +196,8 @@ public class PainelRegisto extends JPanel {
 
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Seleccione uma das opções disponíveis para tipo de subscrição e modo de pagamento");
-            }});
+            }
+        });
 
     }
 }

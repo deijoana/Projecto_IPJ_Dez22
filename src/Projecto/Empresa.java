@@ -820,7 +820,7 @@ public class Empresa implements Serializable {
                 return criarNovaReserva(autocarro, motorista, client, dataPartida, dataRegresso, numPassageiros, localOrigem, localDestino, distancia, pagamento);
             }
 
-            System.out.println("Não foi encontrado autocarro disponivel para os criterios pretendidos!");
+            System.out.println("Não foi encontrado autocarro disponivel para os critérios pretendidos!");
 
             if (client.isPremium()) {
                 Reserva reservaExistente = getReservaDeClientNormalQuePossaSerCancelada(dataPartida, dataRegresso, numPassageiros);
@@ -848,7 +848,7 @@ public class Empresa implements Serializable {
                 }
             }
 
-            throw new IllegalArgumentException("Não existe autocarro ou motorista disponivel, se pretender pode fazer fazer uma pre-reserva!");
+            throw new IllegalArgumentException("Não existe autocarro ou motorista disponivel, se pretender pode fazer fazer uma pré-reserva!");
 
         } finally {
             escreveFicheiro();
@@ -987,7 +987,7 @@ public class Empresa implements Serializable {
         Reserva reserva = getReserva(idReserva);
 
         if (!reserva.getClient().equals(loggeduser)) {
-            throw new IllegalArgumentException("O cliente pode apenas cancelar reservas criadas por si proprio");
+            throw new IllegalArgumentException("O cliente pode apenas cancelar reservas criadas por si próprio");
         }
         return cancelarReserva(reserva, dataDeCancelamento);
     }

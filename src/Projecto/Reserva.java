@@ -153,7 +153,7 @@ public class Reserva implements Serializable {
      */
     @Override
     public String toString() {
-        return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + " desde " + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + "%.2f".formatted(custo) + "€\n";
+        return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + ", desde " + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + "%.2f".formatted(custo) + "€\n";
 
     }
 
@@ -175,7 +175,7 @@ public class Reserva implements Serializable {
      */
     public Reembolso cancelar(LocalDate dataDeCancelamente) {
         if (dataDeCancelamente.isAfter(this.dataPartida)) {
-            throw new IllegalArgumentException("A data de partida tem de ser depois da data de cancelamento!");
+            throw new IllegalArgumentException("A data de partida tem de ser posterior à data de cancelamento!");
         }
 
         Reembolso reembolso = client.calcularReenbolsoDeCancelamentoDeReserva(custo, dataPartida, dataDeCancelamente);
