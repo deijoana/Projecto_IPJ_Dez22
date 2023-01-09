@@ -48,7 +48,7 @@ public class PainelCliente extends JPanel {
 
     JComboBox modoPagamentoC;
 
-    JList<Reserva> listagemReservas;
+    JList<String> listagemReservas;
     final JList<ReservaDetails> listagemHistoricoReservas = new JList<>();
     JList<String> listagemNotificacoes;
 
@@ -387,7 +387,7 @@ public class PainelCliente extends JPanel {
         painelCl.addTab("Consultar Reservas", panel3);
 
 
-        listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente()));
+        listagemReservas = new JList<String>(new Vector<String>(empresa.listaReservasCliente()));
         painelCl.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -628,9 +628,13 @@ public class PainelCliente extends JPanel {
         this.add(logout, c);
         logout.addActionListener(new GerirActionListener(2, this.janela));
 
-
+        painelCl.setSelectedIndex(6);
     }
 
+    /**
+     * Método que valida os dados inseridos nas JTextField da tab de "Fazer reserva de autocarro"
+     * @return lista de strings
+     */
     private List<String> validateNovaReservaInputFields() {
         java.util.List<String> validationError = new ArrayList<>();
         if (dataPartidaT.getText() == null || dataPartidaT.getText().isBlank() ||
@@ -654,6 +658,9 @@ public class PainelCliente extends JPanel {
         return validationError;
     }
 
+    /**
+     * Método responsável por actualizar a informação do painel sempre que volta a estar visível, permitindo mostrar o nome do utiliza
+     */
     public void refresh() {
         welcome.setText("Bem-vindo à sua área de cliente: " + empresa.getLoggeduser().getNome());
 
@@ -667,7 +674,7 @@ public class PainelCliente extends JPanel {
         });
 
 
-        listagemReservas.setListData(empresa.listaReservasCliente().toArray(new Reserva[0]));
+      //  listagemReservas.setListData((String[]) empresa.listaReservasCliente().<String>toArray());
     }
 
     private List<ReservaDetails> getReservaHistoricoDetails() {

@@ -424,26 +424,32 @@ public class Empresa implements Serializable {
     }
 
     /**
-     * Método que obtém a lista de reservas futuras de um cliente.
+     * Método que obtém a lista de reservas e pré-reservas futuras de um cliente.
      *
-     * @return A lista de reservas futuras do cliente.
+     * @return A lista de reservas e pré-reservas futuras do cliente.
      */
 
-    public List<Reserva> listaReservasCliente() {
-        // método que mostra todas as reservas futuras de um dado cliente
+    public List<String> listaReservasCliente() {
+        // método que mostra todas as reservas e pré-reservas futuras de um dado cliente
 
-        List<Reserva> listaReserva = new ArrayList<>();
+        List<String> listaReserva = new ArrayList<>();
 
         for (Reserva r : this.listaReservas) {
             if (r.getClient().equals(this.loggeduser)) {
                 if (r.getDataPartida().isAfter(LocalDate.now())) {
                     // if (r.getEstadoReserva().equals("1"))
-                    listaReserva.add(r);
+                    listaReserva.add(r.toString());
                 }
             }
         }
 
-        return listaReserva;
+        for (PreReserva p : this.listaPreReservas) {
+            if (p.getCliente().equals(this.loggeduser)) {
+                if (p.getDataPartida().isAfter(LocalDate.now())) {
+                    listaReserva.add(p.toString());
+                }
+
+
 
 
 
@@ -453,6 +459,8 @@ public class Empresa implements Serializable {
                 ).filter(user -> user.getDataPartida().isAfter(LocalDate.now()))
                 .toList();
 */
+            }
+        } return listaReserva;
     }
 
     /**
@@ -691,12 +699,12 @@ public class Empresa implements Serializable {
         return new AutocarrosMaisUtilizadosStats(maximo, buss);
     }
 
-    /**
+    /* /**
      * Método que obtém o cliente com mais reservas.
      *
      * @return O cliente com mais reservas.
      */
-    public Utilizador clienteComMaisReservas() {
+   /* public Utilizador clienteComMaisReservas() {
 
         Utilizador clMaxReservas = null;
 
@@ -720,7 +728,13 @@ public class Empresa implements Serializable {
         }
         return clMaxReservas;
     }
+*/
 
+    /**
+     * Método obtém uma lista com o(s) cliente(s) com mais reservas
+     *
+     * @return lista com informação do(s) cliente(s) com mais reservas
+     */
     public List<Utilizador> clienteComMaisReservasStats() {
 
         List<Utilizador> clMaxReservas = new ArrayList<>();
@@ -747,7 +761,6 @@ public class Empresa implements Serializable {
         return clMaxReservas;
     }
 
-    // TODO: falta criar um button que invoque a criação da pre-reserva!!
 
     /**
      * Método que cria uma nova pre-reserva com os parâmetros passados e adiciona à lista de pre-reservas existentes.
@@ -851,7 +864,8 @@ public class Empresa implements Serializable {
      * @param numPassageiros o número de passageiros da nova reserva
      * @return a reserva encontrada ou null caso não exista reserva que possa ser cancelada
      */
-    private Reserva getReservaDeClientNormalQuePossaSerCancelada(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
+    private Reserva getReservaDeClientNormalQuePossaSerCancelada(LocalDate dataPartida, LocalDate dataRegresso,
+                                                                 int numPassageiros) {
         LocalDate dataPartidaPlusTwoDays = dataPartida.plusDays(2);
         return this.listaReservas.stream()
                 .filter(reserva -> reserva.getClient().isNormal())
@@ -1046,7 +1060,8 @@ public class Empresa implements Serializable {
      * @return Uma lista de pre-reservas que cumprem os critérios descritos acima.
      */
 
-    private List<PreReserva> getPreReservasQuePodemPassarAReserva(LocalDate dataPartida, LocalDate dataRegresso, int lotacaoMax) {
+    private List<PreReserva> getPreReservasQuePodemPassarAReserva(LocalDate dataPartida, LocalDate dataRegresso,
+                                                                  int lotacaoMax) {
         return listaPreReservas.stream()
                 .filter(preReserva -> !preReserva.getDataPartida().isBefore(dataPartida))
                 .filter(preReserva -> !preReserva.getDataRegresso().isAfter(dataRegresso))
@@ -1124,7 +1139,8 @@ public class Empresa implements Serializable {
      * @return O autocarro disponível e com a lotação mais ajustada à viagem, ou null se nenhum for encontrado.
      */
 
-    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
+    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso,
+                                                      int numPassageiros) {
         Autocarro escolhido = null;
         List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
 
@@ -1639,10 +1655,20 @@ public class Empresa implements Serializable {
         return list;
     }
 
+    /**
+     * Método que obtém a lista de pré-reservas da empresa
+     *
+     * @return lista com as pré-reservas da empresa
+     */
     public List<PreReserva> getListaPreReservas() {
         return listaPreReservas;
     }
 
+    /**
+     * Método que filtra as reservas canceladas do cliente com sessão iniciada da lista de reservas canceladas da empresa
+     *
+     * @return lista de reservas canceladas
+     */
     public List<Reserva> listagemHistoricoReservasCanceladas() {
         return listaReservasCanceladas.stream()
                 .filter(it -> Objects.equals(it.getClient(), this.loggeduser))

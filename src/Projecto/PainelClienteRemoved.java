@@ -41,7 +41,8 @@ public class PainelClienteRemoved extends JPanel {
 
     JPasswordField passAntigaT, passNovaT, passNova2T;
 
-    JList<Reserva> listagemReservas, listagemHistoricoReservas;
+    JList<String> listagemReservas;
+        JList<Reserva>listagemHistoricoReservas;
     JList<String> listagemNotificacoes;
 
     /**
@@ -242,7 +243,7 @@ public class PainelClienteRemoved extends JPanel {
         painelCl.addTab("Consultar Reservas", panel3);
 
 
-        listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente()));
+        listagemReservas = new JList<String>(new Vector<String>(empresa.listaReservasCliente()));
         painelCl.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {

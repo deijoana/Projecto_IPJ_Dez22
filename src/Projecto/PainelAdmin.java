@@ -1380,7 +1380,7 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Lista de pré-reservas vazia"), "Não há nenhuma pré-reserva na lista");
                 } else {
 
-                JFrame local = new JFrame("Lista de Pré-eservas");
+                JFrame local = new JFrame("Lista de Pré-reservas");
                 local.setSize(800, 600);
 
                 local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
