@@ -23,7 +23,8 @@ public class PainelCliente extends JPanel {
 
     Empresa empresa;
 
-    JLabel welcome, inserirDados8;
+    final JLabel welcome = new JLabel("");
+    JLabel inserirDados8;
     JTabbedPane painelCl;
 
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
@@ -613,7 +614,7 @@ public class PainelCliente extends JPanel {
         c.gridy = 1;
         this.add(painelCl, c);  //Adicionar o componente Tabbed Pane ao painel PainelCl
 
-        welcome = new JLabel("Bem-vindo à sua área de cliente  ");
+
         c.gridx = 0;
         c.gridy = 0;
         this.add(welcome, c);
@@ -654,6 +655,7 @@ public class PainelCliente extends JPanel {
     }
 
     public void refresh() {
+        welcome.setText("Bem-vindo à sua área de cliente: " + empresa.getLoggeduser().getNome());
 
         List<ReservaDetails> reservaDetails = getReservaHistoricoDetails();
         listagemHistoricoReservas.setListData(reservaDetails.toArray(new ReservaDetails[0]));

@@ -22,7 +22,7 @@ import java.util.Vector;
 public class PainelAdmin extends JPanel {
     Empresa empresa;
     GUI janela;
-    JLabel welcome;
+    final JLabel welcome = new JLabel();
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC, listaClientes, listaMotoristas;
     JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, guardarRegisto12, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
@@ -1508,8 +1508,6 @@ public class PainelAdmin extends JPanel {
         c.gridy = 1;
         this.add(painelAd, c);  //Adicionar o componente Tabbed Pane ao painel PainelAd
 
-
-        welcome = new JLabel("Bem-vindo à sua área de administrador  ");
         c.gridx = 0;
         c.gridy = 0;
         this.add(welcome, c);
@@ -1526,5 +1524,7 @@ public class PainelAdmin extends JPanel {
         painelAd.setSelectedIndex(5);
     }
 
-
+    public void refresh() {
+        welcome.setText("Bem-vindo à sua área de administrador: " + empresa.getLoggeduser().getNome());
+    }
 }

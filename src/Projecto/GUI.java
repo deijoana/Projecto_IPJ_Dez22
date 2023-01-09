@@ -2,7 +2,6 @@ package Projecto;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 
 /**
  * Classe que gere a Interface gráfica
@@ -12,6 +11,8 @@ import java.time.LocalDate;
  */
 public class GUI {
 
+    private final PainelAdmin painelAdmin;
+    private final PainelClienteRemoved painelClienteRemoved;
     Empresa empresa;
     JFrame f;
     JPanel cardsPanel;
@@ -37,13 +38,14 @@ public class GUI {
         layout = new CardLayout();
         cardsPanel = new JPanel(layout);
 
-
+        painelClienteRemoved = new PainelClienteRemoved(this, empresa);
         painelLogin = new Login(this, empresa);
         painelCliente = new PainelCliente(this, empresa);
+        painelAdmin = new PainelAdmin(this, empresa);
 
         cardsPanel.add(painelLogin, "Login"); //
         cardsPanel.add(new PainelRegisto(this, empresa), "NovoRegisto");
-        cardsPanel.add(new PainelAdmin(this, empresa), "PainelAdmin");
+        cardsPanel.add(painelAdmin, "PainelAdmin");
         cardsPanel.add(painelCliente, "PainelCliente"); //
         cardsPanel.add(new PainelSelecaoBus(this, empresa), "PainelSelecaoBus");
         cardsPanel.add(new PainelReservaMensal(this, empresa), "PainelReservaMensal");
@@ -54,7 +56,7 @@ public class GUI {
         cardsPanel.add(new PainelCC(this, empresa), "PainelCC");
         cardsPanel.add(new PainelMB(this, empresa), "PainelMB");
         cardsPanel.add(new PainelSelecaoReservasCanceladas(this, empresa), "PainelSelecaoReservasCanceladas");
-        cardsPanel.add(new PainelClienteRemoved(this, empresa), "PainelClienteRemoved");
+        cardsPanel.add(painelClienteRemoved, "PainelClienteRemoved");
 
         f.getContentPane().add(cardsPanel);
 
@@ -66,9 +68,16 @@ public class GUI {
 
     // método que define que painel será visível
     public void mudaEcra(String ecra) {
-
         if ("PainelCliente".equals(ecra)) {
             painelCliente.refresh();
+        }
+
+        if ("PainelAdmin".equals(ecra)) {
+            painelAdmin.refresh();
+        }
+
+        if ("PainelClienteRemoved".equals(ecra)) {
+            painelClienteRemoved.refresh();
         }
 
         layout.show(cardsPanel, ecra);
