@@ -34,7 +34,8 @@ public class PainelCliente extends JPanel {
     JTextField idReservaT, dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
     JPasswordField passAntigaT, passNovaT, passNova2T;
     JComboBox modoPagamentoC;
-    JList<String> listagemReservas, listagemNotificacoes;
+
+    final JList<String> listagemReservas = new JList<>();
     final JList<ReservaDetails> listagemHistoricoReservas = new JList<>();
 
 
@@ -304,7 +305,7 @@ public class PainelCliente extends JPanel {
         painelCl.addTab("Consultar Reservas", panel3);
 
 
-        listagemReservas = new JList<String>(new Vector<String>(empresa.listaReservasCliente()));
+       // listagemReservas = new JList<String>(new Vector<String>(empresa.listaReservasCliente()));
         painelCl.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -578,6 +579,7 @@ public class PainelCliente extends JPanel {
     public void refresh() {
         welcome.setText("Bem-vindo à sua área de cliente: " + empresa.getLoggeduser().getNome());
 
+        listagemReservas.setListData(empresa.listaReservasCliente().toArray(new String[0]));
         List<ReservaDetails> reservaDetails = getReservaHistoricoDetails();
         listagemHistoricoReservas.setListData(reservaDetails.toArray(new ReservaDetails[0]));
         listagemHistoricoReservas.setCellRenderer(new ListCellRenderer<ReservaDetails>() {
