@@ -38,6 +38,8 @@ public class PainelCliente extends JPanel {
     final JList<String> listagemReservas = new JList<>();
     final JList<ReservaDetails> listagemHistoricoReservas = new JList<>();
 
+    private final JList<String> listagemNotificacoes = new JList<>();
+
 
     /**
      * @param janela
@@ -421,7 +423,6 @@ public class PainelCliente extends JPanel {
         c8.gridy = 1;
         panel7.add(inserirDados8, c8);
 
-        listagemNotificacoes = new JList<String>(new Vector<String>(empresa.listaNotificacoes()));
         c8.gridx = 1;
         c8.gridy = 2;
         panel7.add(listagemNotificacoes, c8);
@@ -579,15 +580,11 @@ public class PainelCliente extends JPanel {
     public void refresh() {
         welcome.setText("Bem-vindo à sua área de cliente: " + empresa.getLoggeduser().getNome());
 
+        listagemNotificacoes.setListData(empresa.listaNotificacoes().toArray(new String[0]));
         listagemReservas.setListData(empresa.listaReservasCliente().toArray(new String[0]));
         List<ReservaDetails> reservaDetails = getReservaHistoricoDetails();
         listagemHistoricoReservas.setListData(reservaDetails.toArray(new ReservaDetails[0]));
-        listagemHistoricoReservas.setCellRenderer(new ListCellRenderer<ReservaDetails>() {
-            @Override
-            public Component getListCellRendererComponent(JList<? extends ReservaDetails> list, ReservaDetails value, int index, boolean isSelected, boolean cellHasFocus) {
-                return new ReservaJListItem(value);
-            }
-        });
+        listagemHistoricoReservas.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> new ReservaJListItem(value));
 
 
         //  listagemReservas.setListData((String[]) empresa.listaReservasCliente().<String>toArray());

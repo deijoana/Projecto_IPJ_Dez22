@@ -503,7 +503,6 @@ public class Empresa implements Serializable {
         for (Reserva r : this.listaReservas) {
             if (r.getDataPartida().getYear() == valorAno && r.getDataPartida().getMonthValue() == valorMes) {
                 listaAutocarrosReservados.add(r.getBus().toString() + " de " + r.getDataPartida() + " a " + r.getDataRegresso());
-
             }
         }
 
