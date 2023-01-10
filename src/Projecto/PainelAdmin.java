@@ -746,14 +746,15 @@ public class PainelAdmin extends JPanel {
                 String matricula7 = matriculaT7.getText();
 
                 if (empresa.validarMatricula(matricula7)) {
-                    boolean resultado4 = empresa.removerAutocarro(matricula7);
-                    if (resultado4) {
-                        empresa.cancelarReservaSemBus(matricula7);
+
+                    try {
+                        empresa.removerAutocarroECancelaReservas(matricula7, LocalDate.now());
+                        matriculaT7.setText("##-##-##");
                         JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
-                    } else
-                        JOptionPane.showMessageDialog(new JFrame("Não foi encontrado nenhum autocarro com a matrícula indicada"),
-                                "Não foi encontrado nenhum autocarro com a matrícula indicada, insira novamente os dados");
-                    matriculaT7.setText("##-##-##");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(new JFrame("Error"), ex.getMessage());
+                    }
+
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira uma matrícula válida: ##-##-##");
 

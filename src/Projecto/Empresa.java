@@ -147,18 +147,39 @@ public class Empresa implements Serializable {
      * Método que remove o autocarro da lista de autocarros se houver correspondência para a matrícula dada como parâmetro. Guarda as alterações no ficheiro de objectos.
      *
      * @param matricula representa a matrícula do autocarro a ser removido
-     * @return true se houver correspondência para a matrícula e o autocarro respectivo for removido. False se nenhuma correspondência for encontrada para a matrícula dada como parâmetro
      */
-    public boolean removerAutocarro(String matricula) {
+    public void removerAutocarroECancelaReservas(String matricula, LocalDate data) {
+        List<Autocarro> autocarros = this.listaAutocarros.stream().filter(it -> Objects.equals(matricula, it.getMatricula())).toList();
 
-        for (Autocarro a : this.listaAutocarros) {
-            if (a.getMatricula().equals(matricula)) {
-                this.listaAutocarros.remove(a);
-                escreveFicheiro();
-                return true;
-            }
+        if (autocarros.isEmpty()) {
+            throw new IllegalArgumentException("Não existe autocarro na lista de autocarros desponiveis com a matricula " + matricula);
         }
-        return false;
+
+        // não podemos apagar autocarros que tenham viagens a decorrer de momento,
+        // isto é. em que date recebida como parametro esteja entre data de partida e data de chagara inclusive!!!
+
+        var algumDosAutocarrosARemoverPossuiViagemADecorrer = this.listaReservas
+                .stream()
+                .filter(reserva -> autocarros.contains(reserva.getBus()))
+                .anyMatch(reserva -> reserva.estaADecorrerEm(data));
+
+        if (algumDosAutocarrosARemoverPossuiViagemADecorrer) {
+            throw new IllegalStateException("O autocarro com a matricula %s não pode ser removide na data '%s', porque possui viagens a decorrer!");
+        }
+
+        for (Autocarro autocarro : autocarros) {
+            // Cancelamento das reservas do autocarro
+            listaReservas
+                    .stream()
+                    .filter(it -> Objects.equals(it.getBus(), autocarro))
+                    .filter(it -> it.getDataPartida().isAfter(data))
+                    .forEach(reserva -> this.cancelarReserva(reserva, data));
+
+            // remover autocarro da lista de autocarros disponiveis para fazer novas reservas
+            listaAutocarros.remove(autocarro);
+        }
+
+        escreveFicheiro();
     }
 
 
@@ -460,7 +481,8 @@ public class Empresa implements Serializable {
                 .toList();
 */
             }
-        } return listaReserva;
+        }
+        return listaReserva;
     }
 
     /**
@@ -1571,7 +1593,7 @@ public class Empresa implements Serializable {
                 addReservaCancelada(r);
                 removeReserva(r);
 
-                r.getClient().addNotificacao("A sua reserva " + r.getId() + "foi cancelada por indisponibilidade de autocarro. " +
+                r.getClient().addNotificacao("A sua reserva " + r.getId() + " foi cancelada por indisponibilidade de autocarro. " +
                         "Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
 
             }

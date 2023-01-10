@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Projecto IPJ Dez22:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Projecto_IPJ_Dez22_jar</output-path>
+    <root id="archive" name="Projecto IPJ Dez22.jar">
+      <element id="module-output" name="Projecto IPJ Dez22" />
+    </root>
+  </artifact>
+</component>

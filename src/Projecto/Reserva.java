@@ -153,7 +153,8 @@ public class Reserva implements Serializable {
      */
     @Override
     public String toString() {
-        return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + ", desde " + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas. Custo total: " + "%.2f".formatted(custo) + "€\n";
+        return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + ", desde "
+                + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas  no Autocarro " +bus.getMatricula()+ ". Custo total: " + "%.2f".formatted(custo) + "€\n";
 
     }
 
@@ -225,4 +226,9 @@ public class Reserva implements Serializable {
         return bus.getLotacao();
     }
 
+    public boolean estaADecorrerEm(LocalDate data) {
+        // esta decorrer de momento,
+        // isto é. em que date recebida como parametro esteja entre data de partida e data de chagara inclusive!!!
+        return (data.isAfter(dataPartida) || data.isEqual(dataPartida)) && (data.isBefore(dataRegresso) || data.isEqual(dataRegresso));
+    }
 }
