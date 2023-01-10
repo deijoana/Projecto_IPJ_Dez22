@@ -9,13 +9,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+
 /**
  * Classe que define o painel de administrador
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -25,49 +25,25 @@ public class PainelAdmin extends JPanel {
     final JLabel welcome = new JLabel();
     JTabbedPane painelAd, painelM, painelAutocarro, painelC;
     JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, addM, editM, removeM, addBus, editBus, removeBus, addC, editC, removeC, listaClientes, listaMotoristas;
-    JButton logout, guardarRegisto, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, guardarRegisto12, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
-
+    JButton logout, guardarRegisto1, guardarRegisto2, guardarRegisto3, guardarRegisto4, guardarRegisto5, guardarRegisto6, guardarRegisto7, guardarRegisto8, guardarRegisto9, guardarRegisto10, guardarRegisto12, totalCliente, totalMotorista, totalAutocarro, autocarroMReq, clienteMViagens, listaBusReservado, listaReservaCanc, listaReservaEmEspera, volumeReservaMensal, diaAnoMReserva;
     JList<Motorista> listagemMotoristas;
     JList<Utilizador> listagemClientes;
-
-    JList<Autocarro> listagemAutocarros;
-
     JScrollPane scrollPane1, scrollPane2;
-
-    JLabel inserirDados, nome, nif, morada, telefone, email, palavraPasse, matricula, marca, modelo, lotacao, tipoSubscricaoL, pagamentoSubscricaoL, passwordNova1L, passwordNova2L;
+    JLabel inserirDados, palavraPasse, passwordNova1L, passwordNova2L;
     JLabel inserirDados1, nome1, nif1, morada1, telefone1, email1, palavraPasse1;
-    JLabel inserirDados2, nome2, nif2, email2;
-    JLabel inserirDados3, nome3, nif3, email3;
-    JLabel inserirDados4, nif4;
+    JLabel inserirDados2, nome2, nif2, email2, inserirDados3, nome3, nif3, email3, inserirDados4, nif4;
     JLabel inserirDados5, matricula5, marca5, modelo5, lotacao5;
     JLabel inserirDados6, matricula6, marca6, modelo6, lotacao6;
-    JLabel inserirDados7, matricula7;
-    JLabel inserirDados8, nome8, nif8, telefone8, morada8, email8, palavraPasse8, pagamentoSubscricaoL8, tipoSubscricaoL8;
+    JLabel inserirDados8, nome8, nif8, telefone8, morada8, email8, palavraPasse8, tipoSubscricaoL8;
+    JLabel inserirDados9, nome9, nif9, telefone9, morada9, email9;
+    JLabel inserirDados7, matricula7, inserirDados10, nif10, inserirDados12;
+    JTextField emailT1, nomeT1, nifT1, moradaT1, telefoneT1, nomeT2, nifT2, emailT2, nomeT3, nifT3, emailT3, nifT4;
+    JTextField matriculaT5, marcaT5, modeloT5, lotacaoT5, matriculaT6, marcaT6, modeloT6, lotacaoT6, matriculaT7;
 
-    JLabel inserirDados9, nome9, nif9, telefone9, morada9, email9, palavraPasse9, pagamentoSubscricaoL9, tipoSubscricaoL9;
+    JTextField nomeT8, nifT8, telefoneT8, moradaT8, emailT8, nomeT9, nifT9, telefoneT9, moradaT9, emailT9, nifT10;
+    JPasswordField passwordF8, passwordF, passwordF1, passwordNova1, passwordNova2;
 
-    JLabel inserirDados10, nif10;
-
-    JLabel inserirDados12;
-
-    JTextField nomeT, nifT, moradaT, telefoneT, emailT, emailT1;
-    JTextField nomeT1, nifT1, moradaT1, telefoneT1;
-    JTextField nomeT2, nifT2, emailT2;
-    JTextField nomeT3, nifT3, emailT3;
-    JTextField nifT4;
-    JTextField matriculaT5, marcaT5, modeloT5, lotacaoT5;
-    JTextField matriculaT6, marcaT6, modeloT6, lotacaoT6;
-    JTextField matriculaT7;
-
-    JTextField nomeT8, nifT8, telefoneT8, moradaT8, emailT8;
-    JTextField nomeT9, nifT9, telefoneT9, moradaT9, emailT9;
-
-    JTextField nifT10;
-    JPasswordField passwordF8, passwordF9, passwordF, passwordF1, passwordNova1, passwordNova2;
-
-    JComboBox tipoSubscricaoB8, pagamentoSubscricaoB8, tipoSubscricaoB9, pagamentoSubscricaoB9, tipoSubscricaoB, pagamentoSubscricaoB;
-
-    HashMap<Autocarro, Reserva> autocarroReservado;
+    JComboBox tipoSubscricaoB8;
 
 
     PainelAdmin(GUI janela, Empresa empresa) {
@@ -188,11 +164,6 @@ public class PainelAdmin extends JPanel {
                 String telefone1 = telefoneT1.getText();
                 String morada1 = moradaT1.getText();
 
-                //   JOptionPane.showMessageDialog(new JFrame("Dados inválidos"),("*********" + emailT1.getText()));
-
-
-
-
                 if (empresa.validarEmail(email1) && empresa.validarDados(nome1) && empresa.validarNIF(nif1) && empresa.validarDados(password1) && empresa.validarTelefone(telefone1)) {
                     Utilizador novoAdministrador = empresa.registarAdministrador(email1, nome1, telefone1, nif1, morada1, password1);
                     if (novoAdministrador == null) {
@@ -222,7 +193,6 @@ public class PainelAdmin extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Insira um telefone válido segundo o formato: 003519xxxxxxxx");
                 else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um nome e/ou password válidos");
-
 
             }
         });
@@ -293,8 +263,6 @@ public class PainelAdmin extends JPanel {
                 String nome2 = nomeT2.getText();
                 String nif2 = nifT2.getText();
                 String email2 = emailT2.getText();
-
-
 
                 if (empresa.validarEmail(email2) && empresa.validarNIF(nif2) && empresa.validarDados(nome2)) {
                     Motorista novoMotorista = empresa.adicionarMotorista(email2, nome2, nif2);
@@ -379,8 +347,6 @@ public class PainelAdmin extends JPanel {
                 String nif3 = nifT3.getText();
                 String email3 = emailT3.getText();
 
-
-
                 if (empresa.validarEmail(email3) && empresa.validarNIF(nif3) && empresa.validarDados(nome3)) {
                     boolean resultado1 = empresa.editarMotorista(email3, nome3, nif3);
                     if (resultado1) {
@@ -439,8 +405,6 @@ public class PainelAdmin extends JPanel {
 
                 String nif4 = nifT4.getText();
 
-
-
                 if (empresa.validarNIF(nif4)) {
                     boolean resultado2 = empresa.removerMotorista(nif4);
                     if (resultado2) {
@@ -451,7 +415,6 @@ public class PainelAdmin extends JPanel {
                     nifT4.setText("");
                 } else
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
-
 
             }
         });
@@ -477,13 +440,8 @@ public class PainelAdmin extends JPanel {
         listaMotoristas.add(inserirDados, c13);
 
         listagemMotoristas = new JList<Motorista>(new Vector<Motorista>(empresa.getListaMotoristas()));
-
-    /*   if (empresa.getListaMotoristas().size()==0)
-           JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
-*/
         c13.gridx = 1;
         c13.gridy = 1;
-        //listagemMotoristas.setSelectedIndex(0);
         listaMotoristas.add(listagemMotoristas, c13);
 
         scrollPane1 = new JScrollPane(listagemMotoristas);
@@ -496,7 +454,7 @@ public class PainelAdmin extends JPanel {
         painelAd.addTab("Autocarros", panel3);
         panel3.setLayout(new GridLayout());
 
-        painelAutocarro = new JTabbedPane(); //tabbpane
+        painelAutocarro = new JTabbedPane();
         painelAutocarro.setFont(new Font("Arial", 1, 12));
 
         addBus = new JPanel();
@@ -869,7 +827,6 @@ public class PainelAdmin extends JPanel {
         addC.add(tipoSubscricaoL8, c8);
 
         String tiposSubscricao[] = {"Normal"};   // By default, o cliente adicionado por administrador será sempre normal
-        // String modosPagSubscricao[] = {"Paypal", "Cartão de Crédito", "Multibanco"};
         tipoSubscricaoB8 = new JComboBox<>(tiposSubscricao);
         c8.insets = new Insets(10, 0, 0, 20);
         c8.fill = GridBagConstraints.HORIZONTAL;
@@ -877,19 +834,6 @@ public class PainelAdmin extends JPanel {
         c8.gridy = 7;
         addC.add(tipoSubscricaoB8, c8);
 
-       /* pagamentoSubscricaoL8 = new JLabel("Modo de pagamento da subscrição");
-        pagamentoSubscricaoL8.setFont(new Font("Arial", 1, 12));
-        c8.insets = new Insets(10, 0, 0, 10);
-        c8.gridx = 1;
-        c8.gridy = 8;
-        addC.add(pagamentoSubscricaoL8, c8);
-        pagamentoSubscricaoB8 = new JComboBox<>(modosPagSubscricao);
-        c8.fill = GridBagConstraints.HORIZONTAL;
-        c8.insets = new Insets(10, 0, 0, 20);
-        c8.gridx = 2;
-        c8.gridy = 8;
-        addC.add(pagamentoSubscricaoB8, c8);
-*/
         guardarRegisto8 = new JButton("Guardar registo de novo cliente");
         c8.fill = GridBagConstraints.HORIZONTAL;
         c8.insets = new Insets(20, 0, 20, 20);
@@ -908,12 +852,8 @@ public class PainelAdmin extends JPanel {
                 String morada8 = moradaT8.getText();
                 String tipoSubscricao8 = tipoSubscricaoB8.getSelectedItem().toString();
                 String pagamentoSubscricao8 = null;  // O cliente adicionado por administrador é definido como normal, by default logo n tem modo de pagamento associado
-                // String pagamentoSubscricao8 = pagamentoSubscricaoB8.getSelectedItem().toString();
 
                 TipoSubscricao tipoSubscricao = TipoSubscricao.parse(tipoSubscricao8);
-
-                // System.out.println(tipoSubscricao8 + " , " + pagamentoSubscricao8);
-
 
 
                 if (empresa.validarEmail(email8) && empresa.validarDados(nome8) && empresa.validarNIF(nif8) && empresa.validarDados(password8) && empresa.validarTelefone(telefone8)) {
@@ -1029,42 +969,7 @@ public class PainelAdmin extends JPanel {
         c9.gridy = 5;
         editC.add(emailT9, c9);
 
-      /*  palavraPasse9 = new JLabel("Palavra Passe Inicial");
-        palavraPasse9.setFont(new Font("Arial", 1, 12));
-        c9.insets = new Insets(10, 0, 0, 0);
-        c9.gridx = 1;
-        c9.gridy = 6;
-        editC.add(palavraPasse9, c9);
-        passwordF9 = new JPasswordField(50);
-        c9.insets = new Insets(10, 0, 0, 0);
-        c9.gridx = 2;
-        c9.gridy = 6;
-        editC.add(passwordF9, c9);
-        tipoSubscricaoL9 = new JLabel("Tipo de subscrição");
-        tipoSubscricaoL9.setFont(new Font("Arial", 1, 12));
-        c9.insets = new Insets(10, 0, 0, 0);
-        c9.gridx = 1;
-        c9.gridy = 7;
-        editC.add(tipoSubscricaoL9, c9);
-        tipoSubscricaoB9 = new JComboBox<>(tiposSubscricao);
-        c9.insets = new Insets(10, 0, 0, 0);
-        c9.fill = GridBagConstraints.HORIZONTAL;
-        c9.gridx = 2;
-        c9.gridy = 7;
-        editC.add(tipoSubscricaoB9, c9);
-        pagamentoSubscricaoL9 = new JLabel("Modo de pagamento da subscrição");
-        pagamentoSubscricaoL9.setFont(new Font("Arial", 1, 12));
-        c9.insets = new Insets(10, 0, 0, 10);
-        c9.gridx = 1;
-        c9.gridy = 8;
-        editC.add(pagamentoSubscricaoL9, c9);
-        pagamentoSubscricaoB9 = new JComboBox<>(modosPagSubscricao);
-        c9.fill = GridBagConstraints.HORIZONTAL;
-        c9.insets = new Insets(10, 0, 0, 0);
-        c9.gridx = 2;
-        c9.gridy = 8;
-        editC.add(pagamentoSubscricaoB9, c9);
-*/
+
         guardarRegisto9 = new JButton("Guardar alterações");
         c9.fill = GridBagConstraints.HORIZONTAL;
         c9.insets = new Insets(20, 0, 20, 0);
@@ -1076,15 +981,10 @@ public class PainelAdmin extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 String email9 = emailT9.getText();
-                // String password9 = String.valueOf(passwordF9.getPassword());
                 String nome9 = nomeT9.getText();
                 String nif9 = nifT9.getText();
                 String telefone9 = telefoneT9.getText();
                 String morada9 = moradaT9.getText();
-                // String tipoSubscricao9 = tipoSubscricaoB9.getSelectedItem().toString();
-                // String pagamentoSubscricao9 = pagamentoSubscricaoB9.getSelectedItem().toString();
-
-
 
                 if (empresa.validarEmail(email9) && empresa.validarDados(nome9) && empresa.validarNIF(nif9) && empresa.validarTelefone(telefone9)) {
                     boolean resultado5 = empresa.editarCliente(email9, nome9, telefone9, nif9, morada9);
@@ -1096,7 +996,6 @@ public class PainelAdmin extends JPanel {
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif9);
 
                     emailT9.setText("");
-                    //  passwordF9.setText("");
                     nomeT9.setText("");
                     nifT9.setText("");
                     moradaT9.setText("");
@@ -1162,7 +1061,7 @@ public class PainelAdmin extends JPanel {
                                 "Nenhum registo de cliente encontrado associado ao nif " + nif10);
                     }
                     nifT10.setText("");
-                } else{
+                } else {
                     JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira um NIF válido (9 dígitos)");
                 }
             }
@@ -1191,50 +1090,12 @@ public class PainelAdmin extends JPanel {
         listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes()));
         c14.gridx = 1;
         c14.gridy = 1;
-        //listagemClientes.setSelectedIndex(0);
         listaClientes.add(listagemClientes, c14);
 
         scrollPane2 = new JScrollPane(listagemClientes);
         listaClientes.add(scrollPane2, c14);
 
         panel4.add(painelC);
-
-     /*   panel5 = new JPanel();
-        painelAd.addTab("Lista de Motoristas", panel5);
-        panel5.setLayout(new GridBagLayout());
-        GridBagConstraints c13 = new GridBagConstraints();
-        inserirDados = new JLabel("Lista dos motoristas da empresa");
-        inserirDados.setFont(new Font("Arial", 1, 12));
-        c13.insets = new Insets(0, 0, 0, 20);
-        c13.gridx = 0;
-        c13.gridy = 0;
-        panel5.add(inserirDados, c13);
-        listagemMotoristas = new JList<Motorista>(new Vector<Motorista>(empresa.getListaMotoristas()));
-    /*   if (empresa.getListaMotoristas().size()==0)
-           JOptionPane.showMessageDialog(new JFrame("Não há motoristas"), "Não há motoristas para listar");
-*/
-   /*     c13.gridx = 1;
-        c13.gridy = 1;
-        //listagemMotoristas.setSelectedIndex(0);
-        panel5.add(listagemMotoristas, c13);
-*/
-
-   /*     panel6 = new JPanel();
-        painelAd.addTab("Lista de Clientes", panel6);
-        panel6.setLayout(new GridBagLayout());
-        GridBagConstraints c14 = new GridBagConstraints();
-        inserirDados = new JLabel("Lista dos clientes da empresa");
-        inserirDados.setFont(new Font("Arial", 1, 12));
-        c14.insets = new Insets(0, 0, 0, 20);
-        c14.gridx = 0;
-        c14.gridy = 0;
-        panel6.add(inserirDados, c14);
-        listagemClientes = new JList<Utilizador>(new Vector<Utilizador>(empresa.listaDeClientes(empresa)));
-        c14.gridx = 1;
-        c14.gridy = 1;
-        //listagemClientes.setSelectedIndex(0);
-        panel6.add(listagemClientes, c14);
-*/
 
         panel7 = new JPanel();
         painelAd.addTab("Estatísticas", panel7);
@@ -1337,8 +1198,6 @@ public class PainelAdmin extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //   clienteMaxReservas=null;
-
                 List<Utilizador> clienteMaxReservas = empresa.clienteComMaisReservasStats();
                 JOptionPane.showMessageDialog(new JFrame("Cliente com mais reservas"),
                         "O cliente com mais reservas é: \n %s ".formatted(clienteMaxReservas));
@@ -1376,30 +1235,28 @@ public class PainelAdmin extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                JList<PreReserva> resultado= new JList<>(new Vector<>(empresa.getListaPreReservas().stream().toList()));
+                JList<PreReserva> resultado = new JList<>(new Vector<>(empresa.getListaPreReservas().stream().toList()));
                 ListModel model = resultado.getModel();
 
-                if (model.getSize()==0){
-                    // if(resultado==null){
+                if (model.getSize() == 0) {
                     JOptionPane.showMessageDialog(new JFrame("Lista de pré-reservas vazia"), "Não há nenhuma pré-reserva na lista");
                 } else {
 
-                JFrame local = new JFrame("Lista de Pré-reservas");
-                local.setSize(800, 600);
+                    JFrame local = new JFrame("Lista de Pré-reservas");
+                    local.setSize(800, 600);
 
-                local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                    local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-                JPanel painelLocal = new JPanel();
-                // painelLocal.setBackground(Color.red);
-                painelLocal.setLayout(new GridBagLayout());
-                GridBagConstraints c1 = new GridBagConstraints();
+                    JPanel painelLocal = new JPanel();
+                    painelLocal.setLayout(new GridBagLayout());
+                    GridBagConstraints c1 = new GridBagConstraints();
 
-                c1.gridx = 1;
-                c1.gridy = 1;
-                painelLocal.add(resultado, c1);
-                local.add(painelLocal);
-                local.setVisible(true);
-            }
+                    c1.gridx = 1;
+                    c1.gridy = 1;
+                    painelLocal.add(resultado, c1);
+                    local.add(painelLocal);
+                    local.setVisible(true);
+                }
             }
         });
 
@@ -1428,7 +1285,6 @@ public class PainelAdmin extends JPanel {
 
         inserirDados12 = new JLabel("Insira os dados pedidos para alterar a palavra-passe:");
         inserirDados12.setFont(new Font("Arial", 1, 12));
-        // c12.insets = new Insets(20, 0, 0, 0);
         c12.gridx = 0;
         c12.gridy = 0;
         c12.gridwidth = 2;

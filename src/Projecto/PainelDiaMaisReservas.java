@@ -7,8 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+
 /**
  * Classe que define o painel para saber qual o dia de um dado ano com mais reservas
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -16,8 +18,7 @@ public class PainelDiaMaisReservas extends JPanel {
 
     Empresa empresa;
     GUI janela;
-    JLabel inserirDados, anoL, mesL;
-
+    JLabel inserirDados, anoL;
     JTextField anoT;
     JButton voltar, confirmar;
 
@@ -34,7 +35,6 @@ public class PainelDiaMaisReservas extends JPanel {
         c.insets = new Insets(15, 0, 15, 0);
         c.gridx = 1;
         c.gridy = 1;
-        // c.gridwidth = 2;
         this.add(inserirDados, c);
 
         anoL = new JLabel("Ano");
@@ -79,10 +79,10 @@ public class PainelDiaMaisReservas extends JPanel {
 
                 if (empresa.validarAno(ano)) {
 
-                        if (diaMaisReservas ==null ){
+                    if (diaMaisReservas == null) {
 
                         JOptionPane.showMessageDialog(new JFrame("Insucesso"), "O ano " + ano + " não teve nenhuma reserva");
-                    } else{
+                    } else {
                         JOptionPane.showMessageDialog(new JFrame("sucesso"), "O dia do ano " + ano + " com mais reservas foi " + diaMaisReservas);
 
                     }

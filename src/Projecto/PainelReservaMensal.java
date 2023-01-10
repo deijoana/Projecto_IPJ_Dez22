@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 /**
  * Classe que define o painel para saber qual o volume de reservas mensais de um dado ano
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -15,8 +17,7 @@ public class PainelReservaMensal extends JPanel {
 
     Empresa empresa;
     GUI janela;
-    JLabel inserirDados, anoL, mesL;
-    JComboBox mesC;
+    JLabel inserirDados, anoL;
     JTextField anoT;
     JButton voltar, confirmar;
 
@@ -32,7 +33,6 @@ public class PainelReservaMensal extends JPanel {
         c.insets = new Insets(15, 0, 15, 0);
         c.gridx = 1;
         c.gridy = 1;
-        // c.gridwidth = 2;
         this.add(inserirDados, c);
 
         anoL = new JLabel("Ano");
@@ -84,14 +84,14 @@ public class PainelReservaMensal extends JPanel {
                     if (model.getSize() == 0) {
                         JOptionPane.showMessageDialog(new JFrame("Insucesso"), "O ano " + ano + " não teve nenhuma reserva");
                     } else {
-                        //JOptionPane.showMessageDialog(new JFrame("sucesso"), "Mostrar lista");
+
                         JFrame local = new JFrame("Volume de reservas mensais (número e facturação) no ano " + ano);
                         local.setSize(800, 600);
 
                         local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
                         JPanel painelLocal = new JPanel();
-                        // painelLocal.setBackground(Color.red);
+
                         painelLocal.setLayout(new GridBagLayout());
                         GridBagConstraints c1 = new GridBagConstraints();
 

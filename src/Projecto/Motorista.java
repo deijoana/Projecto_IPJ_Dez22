@@ -3,8 +3,8 @@ package Projecto;
 import java.io.Serializable;
 
 /**
- *
  * Classe que define objectos do tipo Motorista
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -19,10 +19,9 @@ public class Motorista implements Serializable {
 
 
     /**
-     *
-     * @param nomeMotorista representa o nome do motorista
+     * @param nomeMotorista  representa o nome do motorista
      * @param emailMotorista representa o email do motorista
-     * @param nifMotorista representa o nif do motorista
+     * @param nifMotorista   representa o nif do motorista
      */
     public Motorista(String nomeMotorista, String emailMotorista, String nifMotorista) {
         this.nomeMotorista = nomeMotorista;
@@ -68,6 +67,6 @@ public class Motorista implements Serializable {
      */
     @Override
     public String toString() {
-        return  " " + nomeMotorista.toUpperCase() +", "+ emailMotorista + ",  NIF: "+nifMotorista + "\n\n";
+        return " " + nomeMotorista.toUpperCase() + ", " + emailMotorista + ",  NIF: " + nifMotorista + "\n\n";
     }
 }

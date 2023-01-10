@@ -4,9 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
- *
  * Classe que define o painel de Login
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -117,12 +118,12 @@ public class Login extends JPanel {
 
                         if (cliente.temNovaNotificacoesPorLer()) {
                             int result =
-                                JOptionPane.showConfirmDialog(null,
-                                    cliente.getSumarioDeNotificacoes(),
-                                    "Notificacoes",
-                                    JOptionPane.YES_NO_OPTION);
+                                    JOptionPane.showConfirmDialog(null,
+                                            cliente.getSumarioDeNotificacoes(),
+                                            "Notificacoes",
+                                            JOptionPane.YES_NO_OPTION);
 
-                            if (JOptionPane.YES_OPTION == result){
+                            if (JOptionPane.YES_OPTION == result) {
                                 empresa.marcarNotificacoesDeClientComoLidas(cliente.nif);
                             }
                         }

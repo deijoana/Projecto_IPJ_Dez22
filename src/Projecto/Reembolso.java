@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /**
  * Classe que define objectos do tipo Reembolso
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */

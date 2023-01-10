@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 /**
  * Classe que define o painel de pagamento por cartão de crédito ao subscrever Premium
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -21,7 +23,6 @@ public class PainelCC extends JPanel {
 
 
     /**
-     *
      * @param janela
      * @param empresa
      */
@@ -75,7 +76,7 @@ public class PainelCC extends JPanel {
         dataExpiracaoCCT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-               dataExpiracaoCCT.setText("aaaa-mm-dd");
+                dataExpiracaoCCT.setText("aaaa-mm-dd");
             }
         });
 
@@ -113,7 +114,7 @@ public class PainelCC extends JPanel {
                     client.setTipoSubscricao(TipoSubscricao.PREMIUM);
                     client.setModoPagamento("Cartão de Crédito");
                     JOptionPane.showMessageDialog(new JFrame("sucesso"), "Subscreveu o plano Premium com sucesso. O valor da mensalidade (10€) será debitado da conta associada ao cartão de crédito inserido");
-                  empresa.escreveFicheiro();
+                    empresa.escreveFicheiro();
                     janela.mudaEcra("PainelCliente");
                     numCCT.setText("");
                     nomeCCT.setText("");

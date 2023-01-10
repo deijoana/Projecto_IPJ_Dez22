@@ -5,8 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+
 /**
  * Classe que define o painel de pagamento por multibanco ao fazer uma reserva
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -14,12 +16,10 @@ public class PainelMBConfirmarReserva extends JPanel {
 
     Empresa empresa;
     GUI janela;
-
     private String dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
     private static final String numEntidade = "11100";
     private int numReferencia;
     JLabel inserirDados, entidade, entidadeL, referencia, referenciaL;
-
     JButton voltar, confirmar, preReserva;
 
     /**
@@ -107,13 +107,6 @@ public class PainelMBConfirmarReserva extends JPanel {
             }
         });
 
-      /*  confirmar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                janela.mudaEcra("PainelCliente");
-            }
-        });
-*/
         preReserva = new JButton("Fazer Pré-reserva");
         preReserva.setFont(new Font("Arial", 1, 14));
         c.gridx = 1;

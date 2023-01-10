@@ -5,8 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+
 /**
  * Classe que define o painel de pagamento por Paypal ao fazer uma reserva
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -102,7 +104,7 @@ public class PainelPaypalConfirmarReserva extends JPanel {
         preReserva.setFont(new Font("Arial", 1, 14));
         c.gridx = 1;
         c.gridy = 4;
-        this.add(preReserva,c);
+        this.add(preReserva, c);
         preReserva.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

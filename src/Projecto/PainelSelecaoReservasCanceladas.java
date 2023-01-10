@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+
 /**
  * Classe que define o painel para listar as reservas canceladas num dado mês de um dado ano
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -30,7 +32,6 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
         c.insets = new Insets(15, 0, 15, 0);
         c.gridx = 1;
         c.gridy = 1;
-        // c.gridwidth = 2;
         this.add(inserirDados, c);
 
         mesL = new JLabel("Mês");
@@ -62,11 +63,11 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
         c.gridy = 4;
         this.add(anoT, c);
         anoT.addMouseListener(new MouseAdapter() {
-                                  @Override
-                                  public void mouseClicked(MouseEvent e) {
-                                      anoT.setText("");
-                                  }
-                              });
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                anoT.setText("");
+            }
+        });
 
 
         voltar = new JButton("Voltar");
@@ -90,10 +91,10 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
                 String ano = anoT.getText();
 
                 JList<Reserva> resultado = new JList<>(new Vector<>(empresa.listarReservasCanceladas(ano, mes)));
-               ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
+                ListModel model = resultado.getModel();  // resultado.isEmpty() não estava a ser aceite. Uso de ListModel e método getModel() permitiu verificar se a lista está vazia ou não
                 if (empresa.validarAno(ano)) {
-                   if (model.getSize()==0){
-                   // if(resultado==null){
+                    if (model.getSize() == 0) {
+                        // if(resultado==null){
                         JOptionPane.showMessageDialog(new JFrame("Lista de reservas canceladas"), "Não há nenhuma reserva cancelada no mês seleccionado");
                     } else {
                         JFrame local = new JFrame("Lista de Reservas Canceladas");
@@ -102,7 +103,7 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
                         local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
                         JPanel painelLocal = new JPanel();
-                        // painelLocal.setBackground(Color.red);
+
                         painelLocal.setLayout(new GridBagLayout());
                         GridBagConstraints c1 = new GridBagConstraints();
 
@@ -118,7 +119,6 @@ public class PainelSelecaoReservasCanceladas extends JPanel {
                 mesC.setSelectedIndex(0);
             }
         });
-
 
 
     }

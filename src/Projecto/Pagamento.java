@@ -2,8 +2,10 @@ package Projecto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
 /**
  * Classe que define objectos do tipo Pagamento
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -16,9 +18,7 @@ public abstract class Pagamento implements Serializable {
 
 
     /**
-     *
      * @param data representa a data (LocalDate) em que o pagamento é feito
-
      */
     public Pagamento(LocalDate data) {
         this.data = data;
@@ -27,6 +27,7 @@ public abstract class Pagamento implements Serializable {
 
     /**
      * Método que retorna sempre falso, excepto quando chamado na sub-classe Multibanco
+     *
      * @return false
      */
     public boolean devePedirIBAN() {

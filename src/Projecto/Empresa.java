@@ -144,19 +144,20 @@ public class Empresa implements Serializable {
 
 
     /**
-     * Método que remove o autocarro da lista de autocarros se houver correspondência para a matrícula dada como parâmetro. Guarda as alterações no ficheiro de objectos.
+     * Método que remove o autocarro da lista de autocarros se houver correspondência para a matrícula dada como parâmetro e cancela as reservas com o autocarro associada, se mão estiverem a decorrer no momento. Guarda as alterações no ficheiro de objectos.
      *
      * @param matricula representa a matrícula do autocarro a ser removido
+     * @param data      representa a data em que se pretende remover o autocarro
      */
     public void removerAutocarroECancelaReservas(String matricula, LocalDate data) {
         List<Autocarro> autocarros = this.listaAutocarros.stream().filter(it -> Objects.equals(matricula, it.getMatricula())).toList();
 
         if (autocarros.isEmpty()) {
-            throw new IllegalArgumentException("Não existe autocarro na lista de autocarros desponiveis com a matricula " + matricula);
+            throw new IllegalArgumentException("Não existe autocarro na lista de autocarros disponíveis com a matricula " + matricula);
         }
 
         // não podemos apagar autocarros que tenham viagens a decorrer de momento,
-        // isto é. em que date recebida como parametro esteja entre data de partida e data de chagara inclusive!!!
+        // isto é em que data recebida como parâmetro esteja entre data de partida e data de chegada inclusive!!!
 
         var algumDosAutocarrosARemoverPossuiViagemADecorrer = this.listaReservas
                 .stream()
@@ -164,7 +165,7 @@ public class Empresa implements Serializable {
                 .anyMatch(reserva -> reserva.estaADecorrerEm(data));
 
         if (algumDosAutocarrosARemoverPossuiViagemADecorrer) {
-            throw new IllegalStateException("O autocarro com a matricula %s não pode ser removide na data '%s', porque possui viagens a decorrer!");
+            throw new IllegalStateException("O autocarro com a matrícula %s não pode ser removido na data '%s', porque possui viagens a decorrer!");
         }
 
         for (Autocarro autocarro : autocarros) {
@@ -436,11 +437,6 @@ public class Empresa implements Serializable {
 
         return listaReserva;
 
-      /*return empresa.listaReservas.stream().filter(
-                        r -> r.getClient().equals(loggeduser)
-
-                ).filter(user -> user.getDataPartida().isBefore(LocalDate.now()))
-                .toList();*/
 
     }
 
@@ -458,7 +454,6 @@ public class Empresa implements Serializable {
         for (Reserva r : this.listaReservas) {
             if (r.getClient().equals(this.loggeduser)) {
                 if (r.getDataPartida().isAfter(LocalDate.now())) {
-                    // if (r.getEstadoReserva().equals("1"))
                     listaReserva.add(r.toString());
                 }
             }
@@ -470,16 +465,6 @@ public class Empresa implements Serializable {
                     listaReserva.add(p.toString());
                 }
 
-
-
-
-
-
-       /* return empresa.listaReservas.stream().filter(
-                        user -> user.getClient().equals(empresa.loggeduser)
-                ).filter(user -> user.getDataPartida().isAfter(LocalDate.now()))
-                .toList();
-*/
             }
         }
         return listaReserva;
@@ -521,9 +506,7 @@ public class Empresa implements Serializable {
 
             }
         }
-    /*    for (int i = 0; i < listaAutocarrosReservados.size(); i++) {
-            System.out.println(listaAutocarrosReservados.get(i));
-        }*/
+
         return listaAutocarrosReservados;
     }
 
@@ -721,36 +704,6 @@ public class Empresa implements Serializable {
         return new AutocarrosMaisUtilizadosStats(maximo, buss);
     }
 
-    /* /**
-     * Método que obtém o cliente com mais reservas.
-     *
-     * @return O cliente com mais reservas.
-     */
-   /* public Utilizador clienteComMaisReservas() {
-
-        Utilizador clMaxReservas = null;
-
-        int contador = 0;
-        int maximo = 0;
-
-        for (Utilizador c : this.listaUtilizadores) {
-            if (c instanceof Cliente) {
-
-                for (Reserva r : this.listaReservas) {
-                    if (r.getClient().equals(c)) {
-                        contador++;
-                    }
-                    if (contador > maximo) {
-                        maximo = contador;
-                        clMaxReservas = c;
-                    }
-                }
-                contador = 0;
-            }
-        }
-        return clMaxReservas;
-    }
-*/
 
     /**
      * Método obtém uma lista com o(s) cliente(s) com mais reservas
@@ -914,9 +867,6 @@ public class Empresa implements Serializable {
     }
 
 
-    // um autocarro esta livre entre duas dasta se e so se:
-    // não existe reserva para ele entre essas duas datas
-
     /**
      * Verifica se não existem reservas para um determinado autocarro no período especificado.
      *
@@ -1027,16 +977,6 @@ public class Empresa implements Serializable {
         return reembolso;
     }
 
-    /**
-     * Método que adiciona uma reserva cancelada à lista de reservas canceladas. Guarda as alterações no ficheiro de objectos.
-     *
-     * @param idReserva O ID da reserva cancelada.
-     */
-    public void addReservaCancelada(String idReserva) {
-        Reserva r = getReserva(idReserva);
-        this.listaReservasCanceladas.add(r);
-        escreveFicheiro();
-    }
 
     /**
      * Método que adiciona uma reserva cancelada à lista de reservas canceladas. Guarda as alterações no ficheiro de objectos.
@@ -1143,64 +1083,6 @@ public class Empresa implements Serializable {
         double custo;
         custo = distancia * 0.55 + 1.2 * numPassageiros;
         return custo;
-    }
-
-
-    /**
-     * Método que procura um autocarro disponível para uma viagem.
-     * Itera pela lista de autocarros e verifica primeiramente se tem lotação suficiente para a viagem especificada.
-     * Se não tiver salta para o autocarro seguinte da lista.
-     * De seguida itera pela lista de reservas e verifica se uma reserva coincide com a data de partida e data de regresso de uma viagem.
-     * Se coincidir a reserva não é elegível e salta para o autocarro seguinte da lista.
-     * Se as datas não coincidirem o autocarro é elegível e é adicionado a uma lista de autocarros disponíveis.
-     * De seguida percorre a lista de autocarros disponíveis e seleciona aquele que tem a lotação mais ajustada ao número de passageiros da viagem.
-     *
-     * @param dataPartida    A data de partida da viagem.
-     * @param dataRegresso   A data de regresso da viagem.
-     * @param numPassageiros O número de passageiros na viagem.
-     * @return O autocarro disponível e com a lotação mais ajustada à viagem, ou null se nenhum for encontrado.
-     */
-
-    public Autocarro procurarDisponibilidadeAutocarro(LocalDate dataPartida, LocalDate dataRegresso,
-                                                      int numPassageiros) {
-        Autocarro escolhido = null;
-        List<Autocarro> listaAutocarrosDisponiveis = new ArrayList<>();
-
-
-        for (Autocarro a : this.listaAutocarros) {
-            boolean saltaAutocarro = true; // salta para o proximo se verdadeiro
-            // autocarro elegivel, pois tem lotação suficiente
-            if (a.getLotacao() >= numPassageiros) {
-                saltaAutocarro = false;
-                for (Reserva r : this.listaReservas) {
-                    if (r.getBus() == a) {
-                        if ((r.getDataPartida().isBefore(dataPartida) && r.getDataRegresso().isAfter(dataPartida)) ||
-                                (dataPartida.isBefore(r.getDataPartida()) && dataRegresso.isAfter(r.getDataRegresso())) ||
-                                (dataRegresso.isAfter(r.getDataPartida()) && dataRegresso.isBefore(r.getDataRegresso())) ||
-                                (r.getDataPartida().isEqual(dataPartida) || r.getDataRegresso().isEqual(dataRegresso))) {
-                            // reserva não é elegivel
-                            saltaAutocarro = true;
-                        }
-                    }
-                }
-            }
-            if (!saltaAutocarro) { // não existe impedimento de escolher este autocarro, logo este serve
-                listaAutocarrosDisponiveis.add(a);
-                //escolhido = a;
-                //break;
-            } else {
-                saltaAutocarro = false; // este autocarro não serve pois há uma reserva naquelas datas
-            }
-        }
-        // assegura que o autocarro disponivel selecionado é que minimiza os lugares não usados na reserva
-        escolhido = listaAutocarrosDisponiveis.get(0);
-        for (Autocarro bus : listaAutocarrosDisponiveis) {
-            if (bus.getLotacao() < escolhido.getLotacao()) {
-                escolhido = bus;
-            }
-        }
-
-        return escolhido;
     }
 
 
@@ -1399,15 +1281,6 @@ public class Empresa implements Serializable {
 
     }
 
-    /*  public boolean validarPassword(String password){
-          String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
-          Pattern pat = Pattern.compile(passwordRegex);
-          if (password == null) {
-              return false;
-          }
-          return pat.matcher(password).matches();
-      }
-  */
 
     /**
      * Método que verifica se um número de telefone fornecido é válido ou não.
@@ -1522,20 +1395,6 @@ public class Empresa implements Serializable {
     }
 
 
-
-   /* public boolean validarDadoNumerico(String num) {
-   // método para validar se dados inseridos são numéricos. Não estava a executar bem
-        String numRegex = "^\\d+$";
-        Pattern pat = Pattern.compile(numRegex);
-        if (numRegex == null)
-            return false;
-        return pat.matcher(numRegex.trim()).matches();
-    }
-*/
-
-    // método que adiciona um novo administrador à lista de utilizadores ao fazer um novo registo
-    // só adiciona se não houver nenhuma instância com o mesmo email
-
     /**
      * Método que que regista um novo administrador.
      *
@@ -1580,27 +1439,6 @@ public class Empresa implements Serializable {
         return novoAdministrador;
     }
 
-    /**
-     * Método que permite cancelar uma reserva por indisponibilidade de autocarro. Guarda as alterações no ficheiro de objectos.
-     *
-     * @param matricula A matrícula do autocarro relacionado com a reserva.
-     * @return void
-     */
-    public void cancelarReservaSemBus(String matricula) {
-
-        for (Reserva r : this.listaReservas) {
-            if (r.getBus().getMatricula().equals(matricula)) {
-                addReservaCancelada(r);
-                removeReserva(r);
-
-                r.getClient().addNotificacao("A sua reserva " + r.getId() + " foi cancelada por indisponibilidade de autocarro. " +
-                        "Se aplicável, receberá o reembolso devido pelo mesmo método de pagamento usado no momento da reserva");
-
-            }
-            escreveFicheiro();
-        }
-    }
-
 
     /**
      * Método que verifica se um cliente pertence à lista negra.
@@ -1617,22 +1455,6 @@ public class Empresa implements Serializable {
         return false;
     }
 
-
-    /**
-     * Método que valida se as datas de partida e de regresso são válidas.
-     *
-     * @param dataPartida  A data de partida.
-     * @param dataRegresso A data de regresso.
-     * @return true se as datas são válidas, false caso contrário.
-     */
-    public boolean validarDatas(LocalDate dataPartida, LocalDate dataRegresso) {
-        LocalDate dataP = dataPartida;
-        LocalDate dataR = dataRegresso;
-
-        if (dataR.isEqual(dataP) || dataR.isAfter(dataP))
-            return true;
-        return false;
-    }
 
     /**
      * Método que marca as notificações de um cliente como lidas, através do seu NIF.

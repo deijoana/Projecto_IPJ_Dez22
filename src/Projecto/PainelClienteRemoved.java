@@ -7,46 +7,27 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
+
 /**
  * Classe que define o painel de cliente removido por administrador
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
 public class PainelClienteRemoved extends JPanel {
-
     Empresa empresa;
-
-    final JLabel welcome = new JLabel();
-    JLabel inserirDados8;
-    JTabbedPane painelCl;
-
-    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
-
-    JButton logout, pesquisar, guardarAlt, alterarSubs;
-
     GUI janela;
-
-    JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista;
-
-
-    JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2, inserirDados2;
-
-    JLabel idReserva;
-
-    JTextField idReservaT;
-
-    JButton cancelarReserva;
-
-    JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
-
+    final JLabel welcome = new JLabel();
+    JTabbedPane painelCl;
+    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
+    JButton logout;
+    JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista, inserirDados8;
+    JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2, inserirDados2, idReserva;
+    JTextField dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT, idReservaT;
     JPasswordField passAntigaT, passNovaT, passNova2T;
-
-    JList<String> listagemReservas;
-        JList<Reserva>listagemHistoricoReservas;
     JList<String> listagemNotificacoes;
 
     /**
-     *
      * @param janela
      * @param empresa
      */
@@ -89,7 +70,7 @@ public class PainelClienteRemoved extends JPanel {
         dataPartidaT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-               dataPartidaT.setText("aaaa-mm-dd");
+                dataPartidaT.setText("");
             }
         });
 
@@ -109,7 +90,7 @@ public class PainelClienteRemoved extends JPanel {
         dataRegressoT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dataRegressoT.setText("aaaa-mm-dd");
+                dataRegressoT.setText("");
             }
         });
 
@@ -166,62 +147,6 @@ public class PainelClienteRemoved extends JPanel {
         c1.gridy = 6;
         panel1.add(distPrevistaT, c1);
 
-       /* pesquisar = new JButton("Pesquisar");
-        c1.fill = GridBagConstraints.CENTER;
-        c1.insets = new Insets(40, 0, 20, 0);
-        c1.gridx = 1;
-        c1.gridy = 8;
-        panel1.add(pesquisar, c1);
-
-
-        pesquisar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LocalDate dataPartida = LocalDate.parse(dataPartidaT.getText());
-                LocalDate dataRegresso = LocalDate.parse(dataRegressoT.getText());
-                String origem = origemT.getText();
-                String destino = destinoT.getText();
-                int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
-                double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
-
-
-
-                if (empresa.validarDados(String.valueOf(dataPartida), empresa) && empresa.validarDados(String.valueOf(dataRegresso), empresa) && empresa.validarDados(origem, empresa) && empresa.validarDados(destino, empresa) && empresa.validarDados(String.valueOf(n_Passageiros), empresa) && empresa.validarDados(String.valueOf(distanciaPrevista), empresa)) {
-
-                    // if (autocarroO != null) {
-                    //Autocarro autocarroO = empresa.procurarDisponibilidadeAutocarro(dataPartida, dataRegresso, n_Passageiros, empresa);
-                    // Motorista motoristaO = empresa.procurarDisponibilidadeMotorista(dataPartida, dataRegresso, empresa);
-                    //if (motoristaO != null) {
-
-                    try {
-
-                        Cliente clienteO = (Cliente) empresa.getLoggeduser();
-                        Reserva r = empresa.fazerReserva(clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista);
-
-                        JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"), "Reserva confirmada. O autocarro disponível é " + r.getBus());
-
-                        dataPartidaT.setText("Formato aaaa-mm-dd");
-                        dataRegressoT.setText("Formato aaaa-mm-dd");
-                        origemT.setText("");
-                        destinoT.setText("");
-                        n_PassageirosT.setText("");
-                        distPrevistaT.setText("");
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
-                    }
-
-
-                } else if (!empresa.validarDados(String.valueOf(dataPartida), empresa) || !empresa.validarDados(String.valueOf(dataRegresso), empresa))
-
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira data de partida e/ou data de regresso válidas: aaaa-mm-dd");
-
-                else if (!empresa.validarDados(origem, empresa) || !empresa.validarDados(destino, empresa))
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira origem e/ou destino válidos");
-                else
-                    JOptionPane.showMessageDialog(new JFrame("Dados inválidos"), "Insira número de passageiros e/ou distância prevista percorrida válidos");
-            }
-        });
-*/
 
         panel2 = new JPanel();
         painelCl.addTab("Consultar Histórico", panel2);
@@ -234,24 +159,11 @@ public class PainelClienteRemoved extends JPanel {
         c2.gridy = 0;
         panel2.add(inserirDados2, c2);
 
-       /* listagemHistoricoReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listagemHistoricoReservas().stream().toList()));
-        c2.gridx = 1;
-        c2.gridy = 1;
-        panel2.add(listagemHistoricoReservas, c2);
-*/
+
         panel3 = new JPanel();
         painelCl.addTab("Consultar Reservas", panel3);
 
 
-       /* listagemReservas = new JList<String>(new Vector<String>(empresa.listaReservasCliente()));
-        painelCl.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                listagemReservas.setListData(new Vector<>(empresa.listaReservasCliente()));
-                listagemHistoricoReservas.setListData(new Vector<>(empresa.listagemHistoricoReservas()));
-            }
-        });
-*/
         panel3.setLayout(new GridBagLayout());
         GridBagConstraints c3 = new GridBagConstraints();
 
@@ -262,13 +174,8 @@ public class PainelClienteRemoved extends JPanel {
         c3.gridy = 0;
         panel3.add(inserirDados3, c3);
 
-       /* // listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
-        c3.gridx = 1;
-        c3.gridy = 1;
-        panel3.add(listagemReservas, c3);
-*/
 
-       panel4 = new JPanel();
+        panel4 = new JPanel();
         painelCl.addTab("Cancelar Reserva", panel4);
 
         panel4.setLayout(new GridBagLayout());
@@ -287,67 +194,11 @@ public class PainelClienteRemoved extends JPanel {
         c4.gridy = 4;
         panel4.add(idReservaT, c4);
 
-      /*  c4.insets = new Insets(30, 0, 0, 0);
-        c4.gridx = 1;
-        c4.gridy = 5;
-        cancelarReserva = new JButton("Cancelar");
-        cancelarReserva.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = idReservaT.getText();
-                if (text != null && !text.trim().isBlank()) {
-
-                    try {
-                        Reembolso reembolso = empresa.cancelarReservaFromView(text.trim(), LocalDate.now());
-                        empresa.addReservaCancelada(text);
-                        JOptionPane.showMessageDialog(panel4,
-                                "Reserva cancelada '%s', com sucesso! \n Tem direito a %s € de reembolso".formatted(text, reembolso),
-                                "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                        idReservaT.setText("");
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-
-                        JOptionPane.showMessageDialog(panel4,
-                                ex.getMessage(),
-                                "Error!!", JOptionPane.ERROR_MESSAGE);
-                    }
-
-
-                } else {
-                    JOptionPane.showMessageDialog(panel4,
-                            "Por favor insira um id de reserva valido!",
-                            "Aviso", JOptionPane.WARNING_MESSAGE);
-
-                }
-
-            }
-        });
-        panel4.add(cancelarReserva, c4);
-*/
 
         panel5 = new JPanel();
         painelCl.addTab("Alterar Subscrição", panel5);
         panel5.setLayout(new GridBagLayout());
         GridBagConstraints c7 = new GridBagConstraints();
-
-       /* alterarSubs = new JButton("Quero alterar a minha subscrição");
-        c7.gridx = 1;
-        c7.gridy = 1;
-        c7.fill = GridBagConstraints.HORIZONTAL;
-        panel5.add(alterarSubs, c7);
-
-        alterarSubs.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Cliente client = (Cliente) empresa.getLoggeduser();
-
-                if (client.getTipoSubscricao().equals(TipoSubscricao.NORMAL)) {
-                    janela.mudaEcra("PainelNormal");
-                } else janela.mudaEcra("PainelPremium");
-            }
-        });
-*/
 
         panel7 = new JPanel();
         painelCl.addTab("Notificações", panel7);
@@ -356,8 +207,8 @@ public class PainelClienteRemoved extends JPanel {
 
         inserirDados8 = new JLabel("Aqui encontra as suas notificações:");
         inserirDados8.setFont(new Font("Arial", 1, 12));
-        c8.gridx=1;
-        c8.gridy=1;
+        c8.gridx = 1;
+        c8.gridy = 1;
         panel7.add(inserirDados8, c8);
 
         listagemNotificacoes = new JList<String>(new Vector<String>(empresa.listaNotificacoes()));
@@ -376,7 +227,6 @@ public class PainelClienteRemoved extends JPanel {
         c6.gridx = 0;
         c6.gridy = 0;
         c6.insets = new Insets(0, 0, 50, 0);
-        //c6.gridwidth = 2;
         panel6.add(inserirDadosAltPass, c6);
 
 
@@ -418,54 +268,6 @@ public class PainelClienteRemoved extends JPanel {
         c6.gridx = 1;
         c6.gridy = 4;
         panel6.add(passNova2T, c6);
-
-      /*  guardarAlt = new JButton("Guardar alterações");
-        c6.insets = new Insets(30, 0, 0, 0);
-        c6.gridx = 1;
-        c6.gridy = 5;
-        panel6.add(guardarAlt, c6);
-
-
-        guardarAlt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String passAntiga = String.valueOf(passAntigaT.getPassword());
-                String passNova = String.valueOf(passNovaT.getPassword());
-                String passNova2 = String.valueOf(passNova2T.getPassword());
-
-                int resultado = empresa.alterarPassword(passAntiga, passNova, passNova2, empresa);
-
-                if (empresa.validarDados(passAntiga, empresa) && empresa.validarDados(passNova, empresa) && empresa.validarDados(passNova2, empresa)) {
-
-                    if (resultado == 5) {
-                        JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua password foi alterada com sucesso");
-                        passAntigaT.setText("");
-                        passNovaT.setText("");
-                        passNova2T.setText("");
-                        janela.mudaEcra("Login");
-                    } else if (resultado == 1) {
-                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
-                                "A password antiga está incorreta. Por favor, tente novamente.");
-                    } else if (resultado == 2) {
-                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
-                                "A password nova e a password de confirmação não são iguais. Por favor, tente novamente.");
-                    } else if (resultado == 3) {
-                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
-                                "A password nova não pode ser igual à password antiga. Por favor, escolha uma password diferente.");
-                    } else if (resultado == 4) {
-                        JOptionPane.showMessageDialog(new JFrame("Insucesso"),
-                                "A nova password e a confirmação da nova password não coincidem.");
-
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame("Insucesso"),
-                            "Preencha os campos vazios");
-                }
-            }
-        });
-*/
 
         c.gridx = 1;
         c.gridy = 1;

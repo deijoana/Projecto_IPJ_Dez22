@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
-* Classe que define objectos do tipo Reserva
-* @author Joana Ramalho
-* @author Tiago Sousa
-*/
+ * Classe que define objectos do tipo Reserva
+ *
+ * @author Joana Ramalho
+ * @author Tiago Sousa
+ */
 public class Reserva implements Serializable {
 
 
@@ -15,29 +16,23 @@ public class Reserva implements Serializable {
     private Autocarro bus;
     private Motorista driver;
     private Cliente client;
-    private double custo;
-
-    private LocalDate dataPartida;
-    private LocalDate dataRegresso;
+    private double custo, distancia;
+    private LocalDate dataPartida, dataRegresso;
     private int numPassageiros;
-    private String localOrigem;
-    private String localDestino;
-    private double distancia;
-    private String id;
-
+    private String localOrigem, localDestino, id;
     private final Pagamento pagamento;
 
     /**
-     * @param id representa o id (único) da reserva
-     * @param bus representa o autocarro associado à reserva
-     * @param driver representa o motorista associado à reserva
-     * @param client representa o cliente associado à reserva
-     * @param dataPartida representa a data de partida associada à reserva
-     * @param dataRegresso representa a data de regresso associada à reserva
+     * @param id             representa o id (único) da reserva
+     * @param bus            representa o autocarro associado à reserva
+     * @param driver         representa o motorista associado à reserva
+     * @param client         representa o cliente associado à reserva
+     * @param dataPartida    representa a data de partida associada à reserva
+     * @param dataRegresso   representa a data de regresso associada à reserva
      * @param numPassageiros representa o número de passageiros associado à reserva
-     * @param localOrigem representa o local de origem associado à reserva
-     * @param localDestino representa o local de destino associado à reserva
-     * @param distancia representa a distância estimada percorrida, associada à reserva
+     * @param localOrigem    representa o local de origem associado à reserva
+     * @param localDestino   representa o local de destino associado à reserva
+     * @param distancia      representa a distância estimada percorrida, associada à reserva
      */
     public Reserva(String id,
                    Autocarro bus,
@@ -154,7 +149,7 @@ public class Reserva implements Serializable {
     @Override
     public String toString() {
         return "Reserva: " + id + " de " + dataPartida + " a " + dataRegresso + ", desde "
-                + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas  no Autocarro " +bus.getMatricula()+ ". Custo total: " + "%.2f".formatted(custo) + "€\n";
+                + localOrigem + " até " + localDestino + " para " + numPassageiros + " pessoas  no autocarro " + bus.getMatricula() + ". Custo total: " + "%.2f".formatted(custo) + "€\n";
 
     }
 
@@ -226,9 +221,15 @@ public class Reserva implements Serializable {
         return bus.getLotacao();
     }
 
+    /**
+     * Método que verifica se uma data está compreendida entre a data de partida e de regresso da reserva
+     *
+     * @param data representa a data corrente
+     * @return true se a data corrente está compreendida entre as datas de partida e de regresso da reserva
+     */
     public boolean estaADecorrerEm(LocalDate data) {
         // esta decorrer de momento,
-        // isto é. em que date recebida como parametro esteja entre data de partida e data de chagara inclusive!!!
+        // isto é, em que data recebida como parâmetro esteja entre data de partida e data de chegada inclusive!!!
         return (data.isAfter(dataPartida) || data.isEqual(dataPartida)) && (data.isBefore(dataRegresso) || data.isEqual(dataRegresso));
     }
 }

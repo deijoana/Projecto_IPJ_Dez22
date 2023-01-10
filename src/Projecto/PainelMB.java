@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Classe que define o painel de pagamento por multibanco ao subscrever Premium
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -13,11 +15,9 @@ public class PainelMB extends JPanel {
 
     Empresa empresa;
     GUI janela;
-
     private static final String numEntidade = "11100";
     private int numReferencia;
     JLabel inserirDados, entidade, entidadeL, referencia, referenciaL;
-
     JButton voltar, confirmar;
 
     PainelMB(GUI janela, Empresa empresa) {

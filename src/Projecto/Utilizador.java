@@ -4,32 +4,25 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- *
  * Classe que define objectos do tipo Utilizador
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
 public class Utilizador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    protected String nome;
-    protected String nif;
-    protected String morada;
-    protected String telefone;
-    protected String email;
-    protected String tipoUtilizador;
-    protected String palavraPasse;
-    protected String id;
+
+    protected String nome, nif, morada, telefone, email, tipoUtilizador, palavraPasse, id;
 
     /**
-     *
-     * @param nome representa o nome do utilizador
-     * @param nif representa o nif do utilizador
-     * @param morada representa a morada do utilizador
-     * @param telefone representa o telefone do utilizador
-     * @param email representa o email do utilizador
+     * @param nome           representa o nome do utilizador
+     * @param nif            representa o nif do utilizador
+     * @param morada         representa a morada do utilizador
+     * @param telefone       representa o telefone do utilizador
+     * @param email          representa o email do utilizador
      * @param tipoUtilizador representa o tipo de utilizador
-     * @param palavraPasse representa a palavra-passe do utilizador
+     * @param palavraPasse   representa a palavra-passe do utilizador
      */
     public Utilizador(String nome, String nif, String morada,
                       String telefone, String email, String tipoUtilizador, String palavraPasse) {
@@ -42,7 +35,6 @@ public class Utilizador implements Serializable {
         this.palavraPasse = palavraPasse;
         this.id = UUID.randomUUID().toString(); // define um valor único para ID de cada utilizador
     }
-
 
 
     /**

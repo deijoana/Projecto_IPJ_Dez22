@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Classe que define o painel apresentado a um cliente Premium que pretenda mudar a subscrição para Normal
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -13,9 +15,7 @@ public class PainelPremium extends JPanel {
 
     Empresa empresa;
     GUI janela;
-
     JTextArea condicoesGerais;
-
     JButton confirmar, voltar;
 
 
@@ -47,7 +47,7 @@ public class PainelPremium extends JPanel {
                 client.setTipoSubscricao(TipoSubscricao.NORMAL);
                 client.setModoPagamento("");
                 JOptionPane.showMessageDialog(new JFrame("Sucesso"), "A sua subscrição Premium está cancelada. Para voltar a aceder aos benefícios pode voltar a subscrever o plano PREMIUM a qualquer momento");
-               empresa.escreveFicheiro();
+                empresa.escreveFicheiro();
                 janela.mudaEcra("PainelCliente");
             }
         });

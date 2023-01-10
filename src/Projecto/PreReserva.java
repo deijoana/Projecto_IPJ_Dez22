@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 /**
  * Classe que define objectos do tipo PreReserva
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -17,10 +18,9 @@ public class PreReserva implements Serializable {
     private final int numPassageiros;
 
     /**
-     *
-     * @param cliente representa o cliente ao qual está associada a pré-reserva
-     * @param dataPartida representa a data de partida escolhida
-     * @param dataRegresso representa a data de regresso escolhida
+     * @param cliente        representa o cliente ao qual está associada a pré-reserva
+     * @param dataPartida    representa a data de partida escolhida
+     * @param dataRegresso   representa a data de regresso escolhida
      * @param numPassageiros representa o número de passageiros
      */
     public PreReserva(Cliente cliente, LocalDate dataPartida, LocalDate dataRegresso, int numPassageiros) {
@@ -68,20 +68,22 @@ public class PreReserva implements Serializable {
 
     /**
      * Método que adiciona uma notificação à lista de notificações do cliente associado à pré-reserva
+     *
      * @return true
      */
     public boolean notificaCliente() {
-        String s =  "Existe a possibilidade de criar uma reserva para as datas %s e %s".formatted(dataPartida, dataRegresso);
+        String s = "Existe a possibilidade de criar uma reserva para as datas %s e %s".formatted(dataPartida, dataRegresso);
         return this.cliente.addNotificacao(s);
     }
 
     /**
      * Método que descreve os objectos da classe PreReserva no formato de String
+     *
      * @return string com informação detalhada da pré-reserva: o nome do cliente, a data de partida e a data de regresso
      */
     @Override
     public String toString() {
-        return "Pré-reserva em nome de " +cliente.getNome().toUpperCase() +
+        return "Pré-reserva em nome de " + cliente.getNome().toUpperCase() +
                 " de " + dataPartida +
                 " a " + dataRegresso;
     }

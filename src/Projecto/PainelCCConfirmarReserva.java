@@ -7,8 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+
 /**
  * Classe que define o painel de pagamento por cartão de crédito ao fazer uma reserva
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -23,7 +25,6 @@ public class PainelCCConfirmarReserva extends JPanel {
 
 
     /**
-     *
      * @param janela
      * @param empresa
      * @param dataPartida
@@ -90,7 +91,7 @@ public class PainelCCConfirmarReserva extends JPanel {
         dataExpiracaoCCT.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dataExpiracaoCCT.setText("aaaa-mm-dd");
+                dataExpiracaoCCT.setText("");
             }
         });
 
@@ -161,7 +162,7 @@ public class PainelCCConfirmarReserva extends JPanel {
         preReserva.setFont(new Font("Arial", 1, 14));
         c.gridx = 1;
         c.gridy = 6;
-        this.add(preReserva,c);
+        this.add(preReserva, c);
         preReserva.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

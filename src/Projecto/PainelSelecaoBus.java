@@ -7,8 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
+
 /**
  * Classe que define o painel para saber qual o(s) autocarro(s) mais requisitados num dado mês de um dado ano
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -34,7 +36,6 @@ public class PainelSelecaoBus extends JPanel {
         c.insets = new Insets(15, 0, 15, 0);
         c.gridx = 1;
         c.gridy = 1;
-        // c.gridwidth = 2;
         this.add(inserirDados, c);
 
         mesL = new JLabel("Mês");
@@ -98,14 +99,14 @@ public class PainelSelecaoBus extends JPanel {
                     if (model.getSize() == 0) {
                         JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Não há nenhum autocarro reservado no mês seleccionado");
                     } else {
-                        //JOptionPane.showMessageDialog(new JFrame("Lista de autocarros reservados"), "Mostrar lista");
+
                         JFrame local = new JFrame("Lista de Autocarros reservados e respectivas datas");
                         local.setSize(800, 600);
 
                         local.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
                         JPanel painelLocal = new JPanel();
-                        // painelLocal.setBackground(Color.red);
+
                         painelLocal.setLayout(new GridBagLayout());
                         GridBagConstraints c1 = new GridBagConstraints();
 

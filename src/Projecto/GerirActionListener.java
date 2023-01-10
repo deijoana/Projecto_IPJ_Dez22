@@ -2,9 +2,10 @@ package Projecto;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
- *
  * Classe que gere a mudança de painéis da interface gráfica mediante a informação de ActionListener usados ao longo do código
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -21,7 +22,7 @@ public class GerirActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-       // System.out.println(e);
+        // System.out.println(e);
         switch (num) {
             case 1:
                 janela.mudaEcra("NovoRegisto");

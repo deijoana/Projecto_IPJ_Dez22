@@ -12,8 +12,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Stream;
+
 /**
  * Classe que define o painel de cliente
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -22,35 +24,18 @@ import java.util.stream.Stream;
 public class PainelCliente extends JPanel {
 
     Empresa empresa;
-
-    final JLabel welcome = new JLabel("");
-    JLabel inserirDados8;
-    JTabbedPane painelCl;
-
-    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
-
-    JButton logout, pesquisar, guardarAlt, alterarSubs;
-
     GUI janela;
-
-    JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista, modoPagamentoL;
-
-
-    JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2, inserirDados2;
-
-    JLabel idReserva;
-
+    final JLabel welcome = new JLabel("");
+    JTabbedPane painelCl;
+    JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7;
+    JButton logout, pesquisar, guardarAlt, alterarSubs, cancelarReserva, calcularCustoReserva;
+    JLabel inserirDados, dataPartida, dataRegresso, origem, destino, n_Passageiros, distPrevista, modoPagamentoL, inserirDados8;
+    JLabel inserirDadosAltPass, inserirDados3, passAntiga, passNova, passNova2, inserirDados2, idReserva;
     JTextField idReservaT, dataPartidaT, dataRegressoT, origemT, destinoT, n_PassageirosT, distPrevistaT;
-
-    JButton cancelarReserva, calcularCustoReserva;
-
     JPasswordField passAntigaT, passNovaT, passNova2T;
-
     JComboBox modoPagamentoC;
-
-    JList<String> listagemReservas;
+    JList<String> listagemReservas, listagemNotificacoes;
     final JList<ReservaDetails> listagemHistoricoReservas = new JList<>();
-    JList<String> listagemNotificacoes;
 
 
     /**
@@ -198,7 +183,6 @@ public class PainelCliente extends JPanel {
         pesquisar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cliente clienteO = (Cliente) empresa.getLoggeduser();
 
                 java.util.List<String> validationError = validateNovaReservaInputFields();
                 if (!validationError.isEmpty()) {
@@ -206,7 +190,6 @@ public class PainelCliente extends JPanel {
                     return;
                 }
 
-                String modoPagam = modoPagamentoC.getSelectedItem().toString();
                 int indiceSubscricao = modoPagamentoC.getSelectedIndex();
 
                 if (empresa.validarComboBoxIndex(indiceSubscricao) == 1) {
@@ -264,72 +247,9 @@ public class PainelCliente extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Seleccione uma das opções disponíveis para o modo de pagamento");
 
 
-
-            /*    if (clienteO.getModoPagamento().equals("Paypal")) {
-                    janela.mudaEcra("PainelPaypal");
-                } else if (clienteO.getModoPagamento().equals("Multibanco")) {
-                    janela.cardsPanel.add(new PainelMBConfirmarReserva(
-                            janela,
-                            empresa,
-                            dataPartidaT.getText(),
-                            dataRegressoT.getText(),
-                            origemT.getText(),
-                            destinoT.getText(),
-                            n_PassageirosT.getText(),
-                            distPrevistaT.getText()
-                    ), "PagamentoReservaMultibanco");
-
-
-                } else if (clienteO.getModoPagamento().equals("Cartao de credito")) {
-                    janela.mudaEcra("PainelCC");
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame("Método de pagamento inválido"), "Método de pagamento inválido");
-                }*/
-
             }
         });
 
-
-/*        pesquisar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-                try {
-                    java.util.List<String> validationError = validateNovaReservaInputFields();
-                    if (!validationError.isEmpty()) {
-                        JOptionPane.showMessageDialog(new JFrame("Dados incorrectos"), String.join("\n", validationError));
-                        return;
-                    }
-
-
-                    LocalDate dataPartida = LocalDate.parse(dataPartidaT.getText());
-                    LocalDate dataRegresso = LocalDate.parse(dataRegressoT.getText());
-                    String origem = origemT.getText();
-                    String destino = destinoT.getText();
-                    int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
-                    double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
-
-
-                    Cliente clienteO = (Cliente) empresa.getLoggeduser();
-                    Reserva r = empresa.fazerReserva(clienteO, dataPartida, dataRegresso, n_Passageiros, origem, destino, distanciaPrevista);
-
-                    JOptionPane.showMessageDialog(new JFrame("Reserva confirmada"),
-                            "Reserva confirmada. O autocarro disponível é " + r.getBus());
-
-                    dataPartidaT.setText("Formato aaaa-mm-dd");
-                    dataRegressoT.setText("Formato aaaa-mm-dd");
-                    origemT.setText("");
-                    destinoT.setText("");
-                    n_PassageirosT.setText("");
-                    distPrevistaT.setText("");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame("Reserva inválida"), ex.getMessage());
-                }
-
-            }
-
-        });*/
 
         calcularCustoReserva = new JButton("Simular custo da viagem");
         c1.fill = GridBagConstraints.CENTER;
@@ -351,9 +271,6 @@ public class PainelCliente extends JPanel {
 
                     int n_Passageiros = Integer.parseInt(n_PassageirosT.getText());
                     double distanciaPrevista = Double.parseDouble(distPrevistaT.getText());
-
-
-                    //Cliente clienteO = (Cliente) empresa.getLoggeduser();
 
                     double custo = empresa.calcularCustoViagem(n_Passageiros, distanciaPrevista);
 
@@ -407,7 +324,7 @@ public class PainelCliente extends JPanel {
         c3.gridy = 0;
         panel3.add(inserirDados3, c3);
 
-        // listagemReservas = new JList<Reserva>(new Vector<Reserva>(empresa.listaReservasCliente(empresa)));
+
         c3.gridx = 1;
         c3.gridy = 1;
         panel3.add(listagemReservas, c3);
@@ -443,10 +360,7 @@ public class PainelCliente extends JPanel {
                 if (text != null && !text.trim().isBlank()) {
 
                     try {
-                        //empresa.addReservaCancelada(text);
                         Reembolso reembolso = empresa.cancelarReservaFromView(text.trim(), LocalDate.now());
-
-
                         JOptionPane.showMessageDialog(panel4,
                                 "Reserva cancelada '%s', com sucesso! \n Tem direito a %s € de reembolso".formatted(text, reembolso),
                                 "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -459,7 +373,6 @@ public class PainelCliente extends JPanel {
                                 ex.getMessage(),
                                 "Error!!", JOptionPane.ERROR_MESSAGE);
                     }
-
 
                 } else {
                     JOptionPane.showMessageDialog(panel4,
@@ -633,16 +546,17 @@ public class PainelCliente extends JPanel {
 
     /**
      * Método que valida os dados inseridos nas JTextField da tab de "Fazer reserva de autocarro"
+     *
      * @return lista de strings
      */
     private List<String> validateNovaReservaInputFields() {
         java.util.List<String> validationError = new ArrayList<>();
         if (dataPartidaT.getText() == null || dataPartidaT.getText().isBlank() ||
-        !dataPartidaT.getText().trim().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")) {
+                !dataPartidaT.getText().trim().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")) {
             validationError.add("Data de partida não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
         }
         if (dataRegressoT.getText() == null || dataRegressoT.getText().isBlank() ||
-                !dataRegressoT.getText().trim().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$"))  {
+                !dataRegressoT.getText().trim().matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")) {
             validationError.add("Data de regresso não pode ser vazia e tem de estar no formato 'YYYY-MM-DD'");
         }
         if (origemT.getText() == null || origemT.getText().isBlank()) {
@@ -659,7 +573,7 @@ public class PainelCliente extends JPanel {
     }
 
     /**
-     * Método responsável por actualizar a informação do painel sempre que volta a estar visível, permitindo mostrar o nome do utiliza
+     * Método responsável por actualizar a informação do painel sempre que volta a estar visível, permitindo mostrar o nome do utilizador
      */
     public void refresh() {
         welcome.setText("Bem-vindo à sua área de cliente: " + empresa.getLoggeduser().getNome());
@@ -674,7 +588,7 @@ public class PainelCliente extends JPanel {
         });
 
 
-      //  listagemReservas.setListData((String[]) empresa.listaReservasCliente().<String>toArray());
+        //  listagemReservas.setListData((String[]) empresa.listaReservasCliente().<String>toArray());
     }
 
     private List<ReservaDetails> getReservaHistoricoDetails() {
@@ -720,7 +634,6 @@ class ReservaJListItem extends JPanel {
         JPanel panelText = new JPanel(new GridLayout(0, 1));
         panelText.add(lbName);
         panelText.add(lbEstado);
-        //add(lbIcon, BorderLayout.WEST);
         add(panelText, BorderLayout.CENTER);
 
         lbName.setText(reservaDetails.reserva.toString());

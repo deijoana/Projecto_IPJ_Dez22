@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Classe que define o painel apresentado a um cliente Normal que pretenda mudar a subscrição para Premium
+ *
  * @author Joana Ramalho
  * @author Tiago Sousa
  */
@@ -13,9 +15,7 @@ public class PainelNormal extends JPanel {
 
     Empresa empresa;
     GUI janela;
-
     JTextArea condicoesGerais;
-
     JButton confirmar, voltar;
     JComboBox modoPagamento;
 
@@ -50,7 +50,6 @@ public class PainelNormal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String modoPagam = modoPagamento.getSelectedItem().toString();
                 int indiceSubscricao = modoPagamento.getSelectedIndex();
 
                 if (empresa.validarComboBoxIndex(indiceSubscricao) == 1) {
@@ -67,7 +66,7 @@ public class PainelNormal extends JPanel {
                             break;
                     }
                 } else
-                JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Seleccione uma das opções disponíveis para o modo de pagamento");
+                    JOptionPane.showMessageDialog(new JFrame("Falta dados"), "Seleccione uma das opções disponíveis para o modo de pagamento");
 
                 modoPagamento.setSelectedIndex(0);
             }
