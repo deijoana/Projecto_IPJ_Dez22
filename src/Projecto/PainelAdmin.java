@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -706,10 +705,11 @@ public class PainelAdmin extends JPanel {
                 if (empresa.validarMatricula(matricula7)) {
 
                     try {
-                        empresa.removerAutocarroECancelaReservas(matricula7, LocalDate.now());
+                        empresa.removerAutocarro(matricula7, LocalDate.now());
                         matriculaT7.setText("##-##-##");
                         JOptionPane.showMessageDialog(new JFrame("O autocarro foi removido"), "O autocarro foi removido");
                     } catch (Exception ex) {
+                        ex.printStackTrace();
                         JOptionPane.showMessageDialog(new JFrame("Error"), ex.getMessage());
                     }
 

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Classe onde estão armazenados todos os dados da aplicação bem como a maioria dos métodos que são chamados para aceder à informação necessária para a execução da aplicação
@@ -142,14 +143,13 @@ public class Empresa implements Serializable {
         return false;
     }
 
-
     /**
      * Método que remove o autocarro da lista de autocarros se houver correspondência para a matrícula dada como parâmetro e cancela as reservas com o autocarro associada, se mão estiverem a decorrer no momento. Guarda as alterações no ficheiro de objectos.
      *
      * @param matricula representa a matrícula do autocarro a ser removido
      * @param data      representa a data em que se pretende remover o autocarro
      */
-    public void removerAutocarroECancelaReservas(String matricula, LocalDate data) {
+    public void removerAutocarro(String matricula, LocalDate data) {
         List<Autocarro> autocarros = this.listaAutocarros.stream().filter(it -> Objects.equals(matricula, it.getMatricula())).toList();
 
         if (autocarros.isEmpty()) {
@@ -169,18 +169,26 @@ public class Empresa implements Serializable {
         }
 
         for (Autocarro autocarro : autocarros) {
-            // Cancelamento das reservas do autocarro
-            listaReservas
-                    .stream()
-                    .filter(it -> Objects.equals(it.getBus(), autocarro))
-                    .filter(it -> it.getDataPartida().isAfter(data))
-                    .forEach(reserva -> this.cancelarReserva(reserva, data));
-
-            // remover autocarro da lista de autocarros disponiveis para fazer novas reservas
-            listaAutocarros.remove(autocarro);
+            removeAutocarro(autocarro, data);
         }
 
         escreveFicheiro();
+    }
+
+    private void removeAutocarro(Autocarro autocarro, LocalDate data) {
+        // Cancelamento das reservas do autocarro
+        Set<Reserva> reservasQueTemDeSerCanceladas = listaReservas
+                .stream()
+                .filter(it -> Objects.equals(it.getBus(), autocarro))
+                .filter(it -> it.getDataPartida().isAfter(data))
+                .collect(Collectors.toSet());
+
+        for (Reserva reserva : reservasQueTemDeSerCanceladas) {
+            this.cancelarReserva(reserva, data);
+        }
+
+        // remover autocarro da lista de autocarros disponiveis para fazer novas reservas
+        listaAutocarros.remove(autocarro);
     }
 
 
@@ -960,6 +968,7 @@ public class Empresa implements Serializable {
         if (!reserva.getClient().equals(loggeduser)) {
             throw new IllegalArgumentException("O cliente pode apenas cancelar reservas criadas por si próprio");
         }
+        escreveFicheiro();
         return cancelarReserva(reserva, dataDeCancelamento);
     }
 
@@ -1005,7 +1014,7 @@ public class Empresa implements Serializable {
                         reserva.getLotacaoMax());
         preReservas.forEach(PreReserva::notificaCliente);
 
-        escreveFicheiro();
+        //escreveFicheiro();
         return reembolso;
     }
 
