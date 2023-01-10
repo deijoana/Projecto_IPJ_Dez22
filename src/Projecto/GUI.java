@@ -30,9 +30,9 @@ public class GUI {
         //Criar janela, torná-la visível e determinar que programa pára de executar ao fechar a janela
         f = new JFrame();
         f.setTitle("Empresa AoR Autocarros");
-
-        f.setSize(1600, 1000);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(1600, 1000);
+
 
         // Definir o layout da janela como Card Layout e adicionar os diversos painéis a painel inicial, denominado cardsPanel
         layout = new CardLayout();
